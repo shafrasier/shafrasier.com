@@ -5,7 +5,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  background: #f4f4f4; /* Background color similar to other pages */
+  background: #131313; /* Background color similar to other pages */
 }
 
 .back-button-container {
@@ -18,7 +18,7 @@ body {
   align-items: center;
   width: 50px;
   height: 50px;
-  background: #fff;
+  background: #c8c8c8;
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-decoration: none;
