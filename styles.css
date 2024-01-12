@@ -1,6 +1,6 @@
 body {
   font-family: "Jost", sans-serif;
-  background: #f4f4f4;
+  background: #131313;
   margin: 0;
   padding: 0;
   display: flex;
@@ -18,7 +18,7 @@ body {
 }
 
 .button {
-  background: white;
+  background: rgb(28, 28, 28);
   border: none;
   border-radius: 25px;
   padding: 15px 30px;
@@ -26,7 +26,7 @@ body {
   text-align: center;
   text-decoration: none;
   font-size: 18px;
-  color: #333;
+  color: #c8c8c8;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.1s ease-in-out;
   display: block;
