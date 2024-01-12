@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f4f4; /* Background color similar to other pages */
+}
+
+.back-button-container {
+  margin-top: 50px;
+}
+
+.back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: #333;
+  font-size: 24px;
+}
+
+.photo-grid {
+  display: grid;
+  padding-top: 60px;
+  grid-template-columns: repeat(1, 1fr); /* Creates a single column layout */
+  grid-gap: 4px; /* Adjust the gap size as needed */
+  width: 100%;
+  max-width: 300px; /* Set a max-width for the images */
+}
+
+.photo {
+  width: 100%; /* Each image will take the full width of the column */
+  padding-bottom: 40px;
+  height: auto;
+  display: block; /* Remove spacing under images */
+}
