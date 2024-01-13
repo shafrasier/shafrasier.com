@@ -10,8 +10,7 @@ body {
 }
 
 .back-button-container {
-  position: absolute; /* Make the back button stick to the top */
-  top: 100px; /* Space from the top */
+  margin-top: 100px; /* Space from the top */
   
 }
 
@@ -39,9 +38,8 @@ body {
 
 .content-container {
   width: 100%;
-  margin-top: 30%;
   text-align: center;
-  margin-top: 20px; /* Adjust this to reduce the space below the back button */
+  margin-top: 80px; /* Adjust this to reduce the space below the back button */
 }
 
 .sheets-link {
