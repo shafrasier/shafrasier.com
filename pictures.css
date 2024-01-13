@@ -26,11 +26,12 @@ body {
   font-size: 24px;
   border: none;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform and color */
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* Transition for transform and color */
 }
 
-.back-button:hover {
-  color: #131313; /* Change color on hover */
+.back-button:hover, .back-button:focus {
+  background: #ffffff; /* Change background color on hover/focus */
+  color: #131313; /* Change text/icon color on hover/focus for visibility */
   transform: scale(1.1); /* Make the button slightly larger on hover */
 }
 
