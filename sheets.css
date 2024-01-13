@@ -33,7 +33,7 @@ body {
 }
 
 .back-button:hover {
-  color: #131313; /* Change color on hover */
+  color: #ffffff; /* Change color on hover */
   transform: scale(1.1); /* Make the button slightly larger on hover */
 }
 
