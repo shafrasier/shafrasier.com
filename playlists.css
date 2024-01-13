@@ -8,11 +8,11 @@ body {
   align-items: center;
 }
 
-.home-button-container {
+.back-button-container {
   margin-top: 100px;
 }
 
-.home-button {
+.back-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +29,7 @@ body {
   transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform and color */
 }
 
-.home-button:hover {
+.back-button:hover {
   transform: scale(1.1); /* Make the button slightly larger on hover */
 }
 
