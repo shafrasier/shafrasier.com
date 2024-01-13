@@ -6,12 +6,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  height: 100vh; /* Fixed height to prevent scrolling */
+  overflow: hidden; /* Hide overflow */
 }
 
 .back-button-container {
-  position: absolute; /* Make the back button stick to the top */
-  top: 100px; /* Space from the top */
+  position: absolute;
+  top: 100px;
 }
 
 .back-button {
@@ -28,26 +29,31 @@ body {
   font-size: 24px;
   border: none;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform and color */
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform, background-color, and color */
 }
 
-.back-button:hover {
+.back-button:hover, .back-button:focus {
+  background: #ffffff; /* Change background color on hover/focus */
+  color: #131313; /* Change text/icon color on hover/focus for visibility */
   transform: scale(1.1); /* Make the button slightly larger on hover */
 }
 
 .content-container {
   width: 100%;
-  margin-top: 30%;
+  margin-top: 30%; /* Adjust to position content properly */
   text-align: center;
-  padding-top: 10vh; /* Adjust this value to bring the FIREBIRD link closer to the top */
+  padding-top: 10vh;
 }
 
 .firebird-link {
   font-size: 35px;
   color: #c8c8c8;
   text-decoration: none;
-  display: block; /* This makes each link start on a new line */
-  margin: 8px 0; /* This adds some space between the lines */
+  display: block;
+  margin: 8px 0;
+  transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
-/* Additional links would be styled similarly to .firebird-link */
+.firebird-link:hover, .firebird-link:focus {
+  color: #ffffff; /* Changes text color to white on hover or focus */
+}
