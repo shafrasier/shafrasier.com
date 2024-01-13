@@ -32,8 +32,9 @@ body {
   transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform and color */
 }
 
-.back-button:hover {
-  color: #ffffff; /* Change color on hover */
+.back-button:hover, .back-button:active {
+  background: #ffffff; /* Change background color on hover/active */
+  color: #131313; /* Change text/icon color so it's visible on white background */
   transform: scale(1.1); /* Make the button slightly larger on hover */
 }
 
