@@ -41,7 +41,7 @@ body {
 .content-container {
   width: 100%;
   text-align: center;
-  margin-top: 80px; /* Adjust this to reduce the space below the back button */
+  margin-top: 50px; /* Adjust this to reduce the space below the back button */
 }
 
 .sheets-link {
