@@ -12,6 +12,7 @@ body {
 .back-button-container {
   position: absolute; /* Make the back button stick to the top */
   top: 100px; /* Space from the top */
+  
 }
 
 .back-button {
@@ -22,10 +23,18 @@ body {
   height: 50px;
   background: #c8c8c8;
   border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   text-decoration: none;
   color: #333;
   font-size: 24px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform and color */
+}
+
+.back-button:hover {
+  color: #131313; /* Change color on hover */
+  transform: scale(1.1); /* Make the button slightly larger on hover */
 }
 
 .content-container {
