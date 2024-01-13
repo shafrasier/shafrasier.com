@@ -1,5 +1,5 @@
 body {
-  font-family: "Jost", sans-serif;
+  font-family: Futura, sans-serif;
   background: #131313;
   margin: 0;
   padding: 0;
@@ -12,8 +12,7 @@ body {
 }
 
 @font-face {
-  font-family: "Jost";
-  src: url("fonts/Jost-500-Medium.otf") format("opentype");
+  font-family: Futura;
   font-weight: 500;
   font-style: normal;
 }
