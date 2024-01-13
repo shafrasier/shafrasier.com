@@ -41,7 +41,7 @@ body {
   width: 100%;
   margin-top: 30%;
   text-align: center;
-  padding-top: 10vh; /* Adjust this value to bring the FIREBIRD link closer to the top */
+  margin-top: 20px; /* Adjust this to reduce the space below the back button */
 }
 
 .sheets-link {
@@ -49,7 +49,5 @@ body {
   color: #c8c8c8;
   text-decoration: none;
   display: block; /* This makes each link start on a new line */
-  margin-bottom: 20px; /* Space between FIREBIRD link and subsequent links */
+  margin-bottom: 20px; /* Space between 2020-24 link and subsequent links */
 }
-
-/* Additional links would be styled similarly to .firebird-link */
