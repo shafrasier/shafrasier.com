@@ -29,18 +29,17 @@ body {
   font-size: 18px;
   color: #c8c8c8;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.1s ease-in-out;
-  display: block;
+  transition: transform 0.3s ease, color 0.3s ease; /* Combine transition properties */
+  display: inline-block; /* Necessary for transform to work on inline elements like <a> */
   width: 40%;
   max-width: 300px; /* Adjust the maximum width as needed */
-  transition: transform 0.3s ease; /* Smooth transition for the transform */
-  display: inline-block; /* Necessary for transform to work on inline elements like <a> */
+}
+
+.button:hover, .button:active {
+  transform: scale(1.1); /* Enlarges the button to 110% of its size */
+  color: #ffffff; /* Changes text color to white on hover and active */
 }
 
 .button:active {
-  transform: scale(0.95);
-}
-
-.button:hover {
-  transform: scale(1.1); /* Enlarges the button to 110% of its size */
+  transform: scale(0.95); /* Slightly reduces the size when clicked */
 }
