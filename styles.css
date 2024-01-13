@@ -33,7 +33,14 @@ body {
   display: block;
   width: 40%;
   max-width: 300px; /* Adjust the maximum width as needed */
+  transition: transform 0.3s ease; /* Smooth transition for the transform */
+  display: inline-block; /* Necessary for transform to work on inline elements like <a> */
 }
+
 .button:active {
   transform: scale(0.95);
+}
+
+.button:hover {
+  transform: scale(1.1); /* Enlarges the button to 110% of its size */
 }
