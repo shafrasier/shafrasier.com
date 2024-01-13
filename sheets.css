@@ -50,4 +50,9 @@ body {
   text-decoration: none;
   display: block; /* This makes each link start on a new line */
   margin-bottom: 20px; /* Space between 2020-24 link and subsequent links */
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.sheets-link:hover, .sheets-link:focus {
+  color: #ffffff; /* Changes text color to white on hover or focus */
 }
