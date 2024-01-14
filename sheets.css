@@ -5,7 +5,7 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distributes space above and below content */
+  justify-content: center; /* Distributes space above and below content */
   align-items: center;
   min-height: 100vh;
   overflow: hidden;
@@ -13,7 +13,7 @@ body {
 
 .back-button-container {
   position: fixed; /* Fixing the position so it's always at the top */
-  top: 20px;
+  top: 8vh;
   left: 50%;
   transform: translateX(-50%); /* Center horizontally */
   z-index: 1000; /* Ensure it's above other content */
@@ -43,14 +43,14 @@ body {
 }
 
 .content-container {
-  flex-grow: 1; /* Allows the container to grow and fill space */
+  flex: 1; /* Allows the container to grow and fill space */
   display: flex;
   flex-direction: column;
   justify-content: center; /* Centers content vertically */
   align-items: center; /* Centers content horizontally */
   text-align: center;
   width: 100%;
-  padding: 20px 20px 80px; /* Padding on sides and more at bottom */
+  padding: 0 20px; /* Padding on sides */
 }
 
 .sheets-link {
@@ -67,17 +67,18 @@ body {
 
 @media (max-width: 768px) {
   .back-button-container {
-    top: 10px; /* Less space from the top on mobile */
+    top: 5vh; /* Less space from the top on mobile */
   }
 
   .content-container {
-    padding-top: 60px; /* Enough space so the content doesn't overlap the back button */
+    padding-top: 10vh; /* Enough space so the content doesn't overlap the back button */
+    padding-bottom: 10vh; /* Add padding at the bottom for spacing */
     justify-content: flex-start; /* Align content to start after the back button */
   }
 
   .sheets-link {
     font-size: 35px; /* Smaller font size for more space */
-    margin-bottom: 15px; /* Less space between links to avoid squishing */
+    margin-bottom: 5vh; /* Less space between links to avoid squishing */
   }
 }
 
@@ -93,9 +94,6 @@ body {
 
   .sheets-link {
     font-size: 28px; /* Smaller font size to ensure the text fits well */
-    margin-bottom: 10px; /* Reduce space between links further */
+    margin-bottom: 5vh; /* Reduce space between links further */
   }
 }
-
-
-
