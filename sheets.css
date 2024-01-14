@@ -74,7 +74,7 @@ body {
   
   .content-container {
     margin-top: 0; /* No additional margin on top */
-    padding-top: 50px; /* Adjust this based on the size of the back button */
+    padding-top: 80px; /* Adjust this based on the size of the back button */
   }
 }
 
