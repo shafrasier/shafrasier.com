@@ -57,7 +57,7 @@ body {
   font-size: 35px;
   color: #c8c8c8;
   text-decoration: none;
-  margin-bottom: 10px; /* Space between links */
+  margin-bottom: 20px; /* Space between links */
   transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
@@ -78,7 +78,7 @@ body {
 
   .sheets-link {
     font-size: 35px; /* Smaller font size for more space */
-    margin-bottom: 5vh; /* Less space between links to avoid squishing */
+    margin-bottom: 3vh; /* Less space between links to avoid squishing */
   }
 }
 
