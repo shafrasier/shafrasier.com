@@ -10,7 +10,11 @@ body {
 }
 
 .back-button-container {
-  margin-top: 100px;
+  position: fixed; /* Fixing the position so it's always at the top */
+  top: 8vh;
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
+  z-index: 1000; /* Ensure it's above other content */
 }
 
 .back-button {
