@@ -11,8 +11,12 @@ body {
 }
 
 .back-button-container {
-  margin-top: 100px; /* Space from the top */
-  
+  margin-top: 50px; /* Adjusted top margin */
+  position: fixed; /* Fixing the position so it's always at the top */
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
+  z-index: 1000; /* Ensure it's above other content */
 }
 
 .back-button {
@@ -39,20 +43,49 @@ body {
 }
 
 .content-container {
-  width: 100%;
+  flex: 1; /* Flex-grow to take available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center content */
+  align-items: center; /* Horizontally center content */
   text-align: center;
-  margin-top: 50px; /* Adjust this to reduce the space below the back button */
+  width: 100%;
+  padding: 20px; /* Add padding for breathing space */
+  margin-top: 50px; /* Space below the back button */
+  padding-top: 20px; /* Padding to not overlap with the fixed back button */
 }
 
 .sheets-link {
   font-size: 35px;
   color: #c8c8c8;
   text-decoration: none;
-  display: block; /* This makes each link start on a new line */
-  margin-bottom: 20px; /* Space between 2020-24 link and subsequent links */
+  margin-bottom: 20px; /* Space between links */
   transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
 .sheets-link:hover, .sheets-link:focus {
   color: #ffffff; /* Changes text color to white on hover or focus */
 }
+
+@media (max-width: 768px) { /* Adjusts styles for screens smaller than 768px */
+  .back-button-container {
+    margin-top: 20px; /* Reduced space from the top on mobile */
+  }
+  
+  .content-container {
+    margin-top: 0; /* No additional margin on top */
+    padding-top: 60px; /* Adjust this based on the size of the back button */
+  }
+}
+
+.sheets-link {
+  font-size: 35px;
+  color: #c8c8c8;
+  text-decoration: none;
+  display: block; /* Ensures each link starts on a new line */
+  margin-bottom: 20px; /* Provides space between the links */
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+
+
