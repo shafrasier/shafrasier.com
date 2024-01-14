@@ -42,7 +42,7 @@ body {
 }
 
 .list-container {
-  width: 90%;
+  width: 30%;
   padding-top: 16vh;
   text-align: center;
 }
@@ -56,6 +56,11 @@ body {
   transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
-.playlist-item:hover, .playlist-item:focus {
+.playlist-item span {
+  cursor: pointer;
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.playlist-item:hover span, .playlist-item:focus span {
   color: #ffffff; /* Changes text color to white on hover or focus */
 }
