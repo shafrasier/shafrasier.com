@@ -71,8 +71,8 @@ body {
   }
 
   .content-container {
-    padding-top: 14vh; /* Enough space so the content doesn't overlap the back button */
-    padding-bottom: 6vh; /* Add padding at the bottom for spacing */
+    padding-top: 16vh; /* Enough space so the content doesn't overlap the back button */
+    padding-bottom: 4vh; /* Add padding at the bottom for spacing */
     justify-content: flex-start; /* Align content to start after the back button */
   }
 
@@ -84,17 +84,17 @@ body {
 
 @media (max-height: 568px) { /* Adjust styles for screens with a shorter height */
   .back-button-container {
-    top: 5px; /* Even less space from the top */
+    top: 5vh; /* Even less space from the top */
   }
 
   .content-container {
-    padding-top: 14vh; /* Adjust to prevent overlap with the back button */
-    padding-bottom: 6vh;
+    padding-top: 16vh; /* Adjust to prevent overlap with the back button */
+    padding-bottom: 4vh;
     margin-top: 0; /* Remove extra margin at the top */
   }
 
   .sheets-link {
     font-size: 28px; /* Smaller font size to ensure the text fits well */
-    margin-bottom: 5vh; /* Reduce space between links further */
+    margin-bottom: 3vh; /* Reduce space between links further */
   }
 }
