@@ -71,8 +71,8 @@ body {
   }
 
   .content-container {
-    padding-top: 10vh; /* Enough space so the content doesn't overlap the back button */
-    padding-bottom: 10vh; /* Add padding at the bottom for spacing */
+    padding-top: 12vh; /* Enough space so the content doesn't overlap the back button */
+    padding-bottom: 8vh; /* Add padding at the bottom for spacing */
     justify-content: flex-start; /* Align content to start after the back button */
   }
 
@@ -88,7 +88,8 @@ body {
   }
 
   .content-container {
-    padding-top: 50px; /* Adjust to prevent overlap with the back button */
+    padding-top: 12vh; /* Adjust to prevent overlap with the back button */
+    padding-bottom: 8vh;
     margin-top: 0; /* Remove extra margin at the top */
   }
 
