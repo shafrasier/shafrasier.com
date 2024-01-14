@@ -34,11 +34,12 @@ body {
   max-width: 300px; /* Adjust the maximum width as needed */
 }
 
-.button:hover, .button:active {
+.button:hover {
   transform: scale(1.1); /* Enlarges the button to 110% of its size */
   color: #ffffff; /* Changes text color to white on hover and active */
 }
 
 .button:active {
   transform: scale(0.95); /* Slightly reduces the size when clicked */
+  color: #ffffff;
 }
