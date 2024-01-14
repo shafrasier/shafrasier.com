@@ -5,13 +5,13 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* Distributes space above and below content */
   align-items: center;
   min-height: 100vh;
   overflow: hidden;
 }
 
 .back-button-container {
-  margin-top: 50px; /* Adjusted top margin */
   position: fixed; /* Fixing the position so it's always at the top */
   top: 20px;
   left: 50%;
@@ -43,16 +43,14 @@ body {
 }
 
 .content-container {
-  flex: 1; /* Flex-grow to take available space */
+  flex-grow: 1; /* Allows the container to grow and fill space */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Vertically center content */
-  align-items: center; /* Horizontally center content */
+  justify-content: center; /* Centers content vertically */
+  align-items: center; /* Centers content horizontally */
   text-align: center;
   width: 100%;
-  padding: 20px; /* Add padding for breathing space */
-  margin-top: 30px; /* Space below the back button */
-  padding-top: 20px; /* Padding to not overlap with the fixed back button */
+  padding: 20px 20px 80px; /* Padding on sides and more at bottom */
 }
 
 .sheets-link {
@@ -78,7 +76,7 @@ body {
   }
 
   .sheets-link {
-    font-size: 28px; /* Smaller font size for more space */
+    font-size: 35px; /* Smaller font size for more space */
     margin-bottom: 15px; /* Less space between links to avoid squishing */
   }
 }
@@ -94,7 +92,7 @@ body {
   }
 
   .sheets-link {
-    font-size: 24px; /* Smaller font size to ensure the text fits well */
+    font-size: 28px; /* Smaller font size to ensure the text fits well */
     margin-bottom: 10px; /* Reduce space between links further */
   }
 }
