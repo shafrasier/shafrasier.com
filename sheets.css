@@ -69,12 +69,12 @@ body {
 
 @media (max-width: 768px) { /* Adjusts styles for screens smaller than 768px */
   .back-button-container {
-    margin-top: 50px; /* Reduced space from the top on mobile */
+    margin-top: 35px; /* Reduced space from the top on mobile */
   }
   
   .content-container {
     margin-top: 0; /* No additional margin on top */
-    padding-top: 80px; /* Adjust this based on the size of the back button */
+    padding-top: 50px; /* Adjust this based on the size of the back button */
   }
 }
 
