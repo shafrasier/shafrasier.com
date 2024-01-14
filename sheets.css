@@ -13,7 +13,7 @@ body {
 .back-button-container {
   margin-top: 50px; /* Adjusted top margin */
   position: fixed; /* Fixing the position so it's always at the top */
-  top: 0;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%); /* Center horizontally */
   z-index: 1000; /* Ensure it's above other content */
@@ -69,12 +69,12 @@ body {
 
 @media (max-width: 768px) { /* Adjusts styles for screens smaller than 768px */
   .back-button-container {
-    margin-top: 20px; /* Reduced space from the top on mobile */
+    margin-top: 50px; /* Reduced space from the top on mobile */
   }
   
   .content-container {
     margin-top: 0; /* No additional margin on top */
-    padding-top: 60px; /* Adjust this based on the size of the back button */
+    padding-top: 50px; /* Adjust this based on the size of the back button */
   }
 }
 
