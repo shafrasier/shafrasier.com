@@ -57,7 +57,7 @@ body {
   font-size: 35px;
   color: #c8c8c8;
   text-decoration: none;
-  margin-bottom: 20px; /* Space between links */
+  margin-bottom: 10px; /* Space between links */
   transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
