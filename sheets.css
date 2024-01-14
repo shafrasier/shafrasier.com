@@ -11,7 +11,7 @@ body {
 }
 
 .back-button-container {
-  margin-top: 80px; /* Adjusted top margin */
+  margin-top: 50px; /* Adjusted top margin */
   position: fixed; /* Fixing the position so it's always at the top */
   top: 0;
   left: 50%;
