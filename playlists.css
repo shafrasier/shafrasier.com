@@ -82,12 +82,12 @@ body {
   color: #ffffff; /* Changes text color to white on hover or focus */
 }
 
-@keyframes pullUp {
+@keyframes pullDown {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-100vh); } /* Pulls the page up out of view */
+  100% { transform: translateY(100vh); } /* Pulls the page down out of view */
 }
 
-.pullingUp {
-  animation: pullUp 0.5s ease forwards; /* Adjust duration as needed */
+.pullingDown {
+  animation: pullDown 0.5s ease forwards; /* Adjust duration as needed */
 }
 
