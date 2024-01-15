@@ -7,9 +7,10 @@
     <title>PLAYLISTS</title>
   </head>
   <body>
-    <div class="back-button-container">
-      <a href="index.html" class="back-button"><i class="fa-solid fa-arrow-up" style="color: #131313;"></i></a>
-      <!-- This is the unicode for the upward arrow -->
+      <div class="back-button-container">
+      <a href="javascript:void(0);" class="back-button" id="backToTopButton">
+        <i class="fa-solid fa-arrow-up" style="color: #131313;"></i>
+      </a>
     </div>
 
     <div class="list-container">
@@ -39,5 +40,17 @@
       <a href="https://music.apple.com/us/playlist/ship/pl.u-55D6Pp3i6o1rD3" class="playlist-item">SHIP</a>
       <a href="https://music.apple.com/us/playlist/woods/pl.u-zPyL1DRFeg4qpD" class="playlist-item">WOODS</a>
     </div>
+    <script>
+      document.getElementById('backToTopButton').addEventListener('click', function() {
+        // Check if the user is already at the top of the page
+        if (window.scrollY === 0) {
+          // User is at the top of the page, navigate to the home page
+          window.location.href = 'index.html'; // Change 'index.html' to your home page URL
+        } else {
+          // Scroll to the top of the page
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+      });
+    </script>
   </body>
 </html>
