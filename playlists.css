@@ -44,6 +44,7 @@ body {
 .list-container {
   width: 30%;
   padding-top: 16vh;
+  padding-bottom: 5vh;
   text-align: center;
 }
 
