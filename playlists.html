@@ -41,13 +41,16 @@
       <a href="https://music.apple.com/us/playlist/woods/pl.u-zPyL1DRFeg4qpD" class="playlist-item">WOODS</a>
     </div>
     <script>
-      document.getElementById('backToTopButton').addEventListener('click', function() {
-        // Check if the user is already at the top of the page
+          document.getElementById('backToTopButton').addEventListener('click', function() {
         if (window.scrollY === 0) {
-          // User is at the top of the page, navigate to the home page
-          window.location.href = 'https://www.shafrasier.com/index.html'; // Change 'index.html' to your home page URL
+          // Add the pullingUp class to body to start the animation
+          document.body.classList.add('pullingUp');
+      
+          // Wait for the animation to finish before redirecting
+          setTimeout(function() {
+            window.location.href = 'index.html'; // Redirect to the home page
+          }, 500); // This should match the duration of the animation
         } else {
-          // Scroll to the top of the page
           window.scrollTo({top: 0, behavior: 'smooth'});
         }
       });
