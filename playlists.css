@@ -78,7 +78,16 @@ body {
   width: fit-content;
 }
 
-
 .playlist-item:hover, .playlist-item:focus {
   color: #ffffff; /* Changes text color to white on hover or focus */
 }
+
+@keyframes pullUp {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100vh); } /* Pulls the page up out of view */
+}
+
+.pullingUp {
+  animation: pullUp 0.5s ease forwards; /* Adjust duration as needed */
+}
+
