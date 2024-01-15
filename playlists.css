@@ -16,8 +16,8 @@ body {
   left: 0;
   right: 0;
   height: 100px;
-  background: linear-gradient(rgba(19, 19, 19, 0), #131313)
-  z-index: 999
+  background: linear-gradient(rgba(19, 19, 19, 0), #131313);
+  z-index: -1
 }
   
 .back-button-container {
