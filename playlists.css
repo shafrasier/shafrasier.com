@@ -9,6 +9,17 @@ body {
   overflow-y: auto; /* Ensures the page is scrollable */
 }
 
+.back-button-container::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  height: 100px
+  background: linear-gradient(rgba(19, 19, 19, 0), #131313)
+  z-index: 999
+}
+  
 .back-button-container {
   position: fixed; /* Fixing the position so it's always at the top */
   top: 8vh;
@@ -17,6 +28,17 @@ body {
   z-index: 1000; /* Ensure it's above other content */
 }
 
+.back-button-container::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  height: 100px
+  background: linear-gradient(rgba(19, 19, 19, 0), #131313)
+  z-index: 999
+}
+  
 .back-button {
   display: flex;
   justify-content: center;
