@@ -43,3 +43,21 @@ body {
   transform: scale(0.95); /* Slightly reduces the size when clicked */
   color: #ffffff;
 }
+
+.page-exit-active {
+  animation: pageExit 0.5s ease forwards;
+}
+
+@keyframes pageExit {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100vh); } /* Move the page down */
+}
+
+.home-page-exit-active {
+  animation: slideUpExit 0.5s ease forwards;
+}
+
+@keyframes slideUpExit {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100vh); } /* Slide the page up out of view */
+}
