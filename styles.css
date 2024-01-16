@@ -49,8 +49,8 @@ body {
   100% { transform: translateY(100vh); } /* Move the page down */
 }
 
-.home-page-exit-active {
-  animation: slideUpExit 0.5s ease forwards;
+.back-button-exit-active {
+    animation: pageExit 0.5s ease forwards;
 }
 
 @keyframes slideUpExit {
@@ -58,12 +58,6 @@ body {
   100% { transform: translateY(-100vh); }
 }
 
-@keyframes testAnimation {
-    0% { background-color: red; }
-    100% { background-color: blue; }
+.home-page-exit-active {
+  animation: slideUpExit 0.5s ease forwards;
 }
-
-.back-button-exit-active {
-    animation: testAnimation 0.5s ease forwards;
-}
-
