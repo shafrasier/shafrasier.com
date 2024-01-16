@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="writing.css" />
     <script src="https://kit.fontawesome.com/033ca96877.js" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
     <title>WRITING</title>
   </head>
   <body>
@@ -12,25 +13,8 @@
         <i class="fa-solid fa-arrow-up" style="color: #131313;"></i>
       </a>
     </div>
-
-
     <div class="content-container">
-      <a href="your-link.html" class="firebird-link">under construction</a>
+      <a href="" class="firebird-link">under construction</a>
     </div>
-    <script>
-       document.getElementById('backToTopButton').addEventListener('click', function() {
-      if (window.scrollY === 0) {
-        // Add the pullingDown class to body to start the animation
-        document.body.classList.add('pullingDown');
-    
-        // Wait for the animation to finish before redirecting
-        setTimeout(function() {
-          window.location.href = 'index.html'; // Redirect to the home page
-        }, 500); // This should match the duration of the animation
-      } else {
-        window.scrollTo({top: 0, behavior: 'smooth'});
-      }
-    });
-    </script>
   </body>
 </html>
