@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Event listener for the back button
   var backButton = document.querySelector('.back-button');
   if (backButton) {
     backButton.addEventListener('click', function() {
