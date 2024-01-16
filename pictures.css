@@ -50,3 +50,12 @@ body {
   height: auto;
   display: block; /* Remove spacing under images */
 }
+
+@keyframes pullDown {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100vh); } /* Pulls the page down out of view */
+}
+
+.pullingDown {
+  animation: pullDown 0.5s ease forwards; /* Adjust duration as needed */
+}
