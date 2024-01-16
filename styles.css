@@ -61,3 +61,7 @@ body {
   0% { transform: translateY(0); }
   100% { transform: translateY(-100vh); } /* Slide the page up out of view */
 }
+
+.back-button-exit-active {
+  animation: slideUpExit 0.5s ease forwards;
+}
