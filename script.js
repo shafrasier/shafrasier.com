@@ -1,5 +1,7 @@
+console.log("Script loaded");
+
 document.addEventListener('DOMContentLoaded', function() {
-  console.log("DOM fully loaded and parsed");
+    console.log("DOM fully loaded and parsed");
 
   // Event listener for the back button
   var backButton = document.querySelector('.back-button');
