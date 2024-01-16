@@ -1,5 +1,5 @@
 // Event listener for back button
-document.querySelector('.back-button').addEventListener('click', function() {
+document.querySelector('back-button').addEventListener('click', function() {
   if (window.scrollY === 0) {
     // Redirect to the home page if already at the top of the page
     window.location.href = 'index.html'; // Replace 'index.html' with the actual home page URL
@@ -10,7 +10,7 @@ document.querySelector('.back-button').addEventListener('click', function() {
 });
 
 // Event listeners for other buttons
-document.querySelectorAll('.button').forEach(button => {
+document.querySelectorAll('button').forEach(button => {
   button.addEventListener('click', function() {
     var destinationURL = this.getAttribute('data-destination-url');
     document.body.classList.add('home-page-exit-active'); // Add exit animation
