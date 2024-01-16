@@ -1,13 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Event listener for the back button
   var backButton = document.querySelector('.back-button');
   if (backButton) {
     backButton.addEventListener('click', function() {
       if (window.scrollY === 0) {
-        // Redirect to the home page if already at the top of the page
-        window.location.href = 'index.html'; // Replace 'index.html' with the actual home page URL
+        // Add the slide-up exit animation class
+        document.body.classList.add('back-button-exit-active');
+
+        // Wait for the animation to finish before redirecting
+        setTimeout(function() {
+          window.location.href = 'index.html'; // Replace with the home page URL
+        }, 500); // This should match the duration of the animation
       } else {
-        // Scroll to the top of the page
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
