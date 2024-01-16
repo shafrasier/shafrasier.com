@@ -18,19 +18,19 @@
       <a href="your-link.html" class="firebird-link">under construction</a>
     </div>
     <script>
-      document.getElementById('backToTopButton').addEventListener('click', function() {
+       document.getElementById('backToTopButton').addEventListener('click', function() {
       if (window.scrollY === 0) {
-    // Add the pullingDown class to body to start the animation
-    document.body.classList.add('pullingDown');
-
-    // Wait for the animation to finish before redirecting
-    setTimeout(function() {
-      window.location.href = 'index.html'; // Redirect to the home page
-    }, 500); // This should match the duration of the animation
-  } else {
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
-});
+        // Add the pullingDown class to body to start the animation
+        document.body.classList.add('pullingDown');
+    
+        // Wait for the animation to finish before redirecting
+        setTimeout(function() {
+          window.location.href = 'index.html'; // Redirect to the home page
+        }, 500); // This should match the duration of the animation
+      } else {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      }
+    });
     </script>
   </body>
 </html>
