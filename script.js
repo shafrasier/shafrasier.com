@@ -31,6 +31,15 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+
+  // Make external links open in a new tab
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (links[i].hostname !== window.location.hostname && links[i].href.startsWith('http')) {
+      links[i].target = '_blank';
+      links[i].rel = 'noopener noreferrer';
+    }
+  }
 });
 
 // Handle the pageshow event for BFCache pages
