@@ -85,3 +85,7 @@ body {
   transform: scale(0.95); /* Scale down icon on click */
   filter: brightness(0.8); /* Slightly darken the icon on click */
 }
+
+.social-icons-container {
+  margin-top: 10px; /* Adjust this value to match the spacing between your buttons */
+}
