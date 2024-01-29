@@ -61,3 +61,27 @@ body {
 .home-page-exit-active {
   animation: slideUpExit 0.5s ease forwards;
 }
+
+.social-icon {
+  display: inline-block; /* Align side by side */
+  margin: 0 10px; /* Spacing between icons */
+  width: 40px; /* Width of the icons */
+  height: 40px; /* Height of the icons */
+}
+
+.social-icon img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px; /* Rounded corners like app icons */
+  transition: transform 0.3s ease, filter 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.social-icon:hover img {
+  transform: scale(1.1); /* Scale up icon on hover */
+  filter: brightness(1.2); /* Slightly brighten the icon on hover */
+}
+
+.social-icon:active img {
+  transform: scale(0.95); /* Scale down icon on click */
+  filter: brightness(0.8); /* Slightly darken the icon on click */
+}
