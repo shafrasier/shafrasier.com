@@ -67,7 +67,7 @@ body {
   margin: 0 10px; /* Spacing between icons */
   width: 40px; /* Width of the icons */
   height: 40px; /* Height of the icons */
-  padding: 2px; /* Padding to make the logo appear smaller */
+  padding: 1px; /* Padding to make the logo appear smaller */
   box-sizing: border-box; /* Ensures padding doesn't increase the size */
   border-radius: 10px; /* Rounded corners like app icons */
   background-color: #282828; /* Background color of icons */
