@@ -67,10 +67,10 @@ body {
   margin: 0 10px; /* Spacing between icons */
   width: 40px; /* Width of the icons */
   height: 40px; /* Height of the icons */
-  padding: 5px; /* Padding to make the logo appear smaller */
+  padding: 2px; /* Padding to make the logo appear smaller */
   box-sizing: border-box; /* Ensures padding doesn't increase the size */
   border-radius: 10px; /* Rounded corners like app icons */
-  background-color: #c8c8c8; /* Background color of icons */
+  background-color: #282828; /* Background color of icons */
 }
 
 .social-icon img {
