@@ -54,6 +54,15 @@ body {
   transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
+.heading {
+  font-size: 35px;
+  color: #c8c8c8;
+  text-decoration: none;
+  display: block;
+  margin: 8px 0;
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
 .firebird-link:hover, .firebird-link:focus {
   color: #ffffff; /* Changes text color to white on hover or focus */
 }
