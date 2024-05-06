@@ -6,15 +6,35 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh; /* Fixed height to prevent scrolling */
-  overflow: hidden; /* Hide overflow */
+  overflow-y: auto; /* Ensures the page is scrollable */
 }
 
+.back-button-container::before {
+  content: '';
+  position: fixed;
+  top: 0; /* Start the gradient from the top of the screen */
+  left: 0;
+  right: 0;
+  height: calc(8vh + 50px); /* Gradient extends from the top of the screen to the bottom of the back button */
+  background: linear-gradient(
+    to bottom, 
+    #131313 0%, /* Fully opaque at the top */
+    rgba(19, 19, 19, 0) 100% /* Fully transparent at the bottom */
+  );
+  z-index: -1; /* Below the back button */
+}
+  
 .back-button-container {
-  position: absolute;
-  top: 100px;
+  position: fixed; /* Fixing the position so it's always at the top */
+  top: 8vh;
+  left: 0; /* Start from the left */
+  right: 0; /* Stretch to the right */
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+  z-index: 1000; /* Ensure it's above other content */
+  height: 50px;
 }
-
+  
 .back-button {
   display: flex;
   justify-content: center;
@@ -29,38 +49,43 @@ body {
   font-size: 24px;
   border: none;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform, background-color, and color */
+  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform and color */
+  position: relative;
+  z-index: 2;
 }
 
-.back-button:hover, .back-button:focus {
-  background: #ffffff; /* Change background color on hover/focus */
-  color: #131313; /* Change text/icon color on hover/focus for visibility */
+
+.back-button:hover, .back-button:active {
+  background: #ffffff; /* Change background color on hover/active */
+  color: #131313; /* Change text/icon color so it's visible on white background */
   transform: scale(1.1); /* Make the button slightly larger on hover */
 }
 
-.content-container {
-  width: 100%;
-  margin-top: 30%; /* Adjust to position content properly */
+.list-container {
+  width: 50%;
+  padding-top: 16vh;
+  padding-bottom: 5vh;
   text-align: center;
-  padding-top: 10vh;
 }
 
 .firebird-link {
-  font-size: 35px;
+  display: block;
+  margin: 10px auto;
+  font-size: 24px;
   color: #c8c8c8;
   text-decoration: none;
-  display: block;
-  margin: 8px 0;
   transition: color 0.3s ease; /* Smooth transition for color change */
+  width: fit-content;
 }
 
 .heading {
-  font-size: 35px;
+  display: block;
+  margin: 10px auto;
+  font-size: 24px;
   color: #c8c8c8;
   text-decoration: none;
-  display: block;
-  margin: 8px 0;
   transition: color 0.3s ease; /* Smooth transition for color change */
+  width: fit-content;
 }
 
 .firebird-link:hover, .firebird-link:focus {
