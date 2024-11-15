@@ -52,13 +52,14 @@ body {
   padding-bottom: 20px;
 }
 
-/* Headings */
+/* Adjust Header Styles */
 .heading {
   margin: 20px 0 10px;
   font-size: 24px;
   color: #c8c8c8;
   text-transform: uppercase;
   letter-spacing: 1.2px;
+  font-weight: 400; /* Set a lighter font weight */
 }
 
 /* Links */
