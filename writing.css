@@ -43,6 +43,20 @@ body {
   transform: scale(1.1);
 }
 
+/* Exit Animation */
+@keyframes pageExit {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100vh); /* Slide page down */
+  }
+}
+
+.back-button-exit-active {
+  animation: pageExit 0.5s ease forwards; /* Add the page exit animation */
+}
+
 /* Content Container */
 .content-container {
   margin-top: calc(8vh + 70px); /* Add extra margin to push content below the back button */
@@ -59,30 +73,4 @@ body {
   color: #c8c8c8;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  font-weight: 400; /* Set a lighter font weight */
-}
-
-/* Links */
-.firebird-link {
-  display: block;
-  margin: 10px 0;
-  font-size: 18px;
-  color: #c8c8c8;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.firebird-link:hover {
-  color: #ffffff;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  .firebird-link {
-    font-size: 16px;
-  }
-
-  .heading {
-    font-size: 20px;
-  }
-}
+  font-weight: 400; /*
