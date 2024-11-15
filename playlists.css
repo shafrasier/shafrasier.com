@@ -61,10 +61,11 @@ body {
   transform: scale(1.1); /* Make the button slightly larger on hover */
 }
 
+/* List Container */
 .list-container {
-  width: 50%;
-  padding-top: 16vh;
-  padding-bottom: 5vh;
+  width: 90%;
+  max-width: 800px;
+  margin-top: calc(8vh + 60px); /* Ensure proper spacing below the back button */
   text-align: center;
 }
 
@@ -84,9 +85,10 @@ body {
 
 /* Dropdown Styles */
 .dropdown {
+  margin: 20px auto; /* Center the dropdown horizontally */
   position: relative;
-  display: inline-block;
-  margin-bottom: 20px;
+  text-align: center;
+  width: 80%; /* Keep dropdown button width proportional to the container */
 }
 
 .dropdown-button {
@@ -95,30 +97,32 @@ body {
   font-size: 18px;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px; /* Rounded corners */
   cursor: pointer;
   text-transform: uppercase;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: 100%;
 }
 
 .dropdown-button:hover {
   background-color: #ffffff;
+  transform: scale(1.05); /* Slight scaling effect */
 }
 
 .dropdown-content {
   display: none; /* Initially hidden */
-  position: absolute;
+  position: relative;
   background-color: #131313;
-  min-width: 200px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  padding: 10px;
+  margin-top: 10px; /* Add space below the button */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 10px 0;
 }
 
 .dropdown-content a {
   display: block;
   color: #c8c8c8;
-  padding: 10px;
+  padding: 10px 20px;
   text-decoration: none;
   font-size: 16px;
   transition: background 0.3s ease;
@@ -127,10 +131,6 @@ body {
 .dropdown-content a:hover {
   background-color: #333;
   color: #ffffff;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block; /* Show dropdown on hover */
 }
 
 @keyframes pageExit {
