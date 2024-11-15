@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
   dropdownButtons.forEach(button => {
     button.addEventListener('click', () => {
       const dropdownContent = button.nextElementSibling;
+
+      // Toggle visibility of the dropdown
       dropdownContent.style.display =
         dropdownContent.style.display === 'block' ? 'none' : 'block';
     });
