@@ -10,7 +10,7 @@ body {
   overflow-y: auto;
 }
 
-/* Back Button */
+/* Back Button Container */
 .back-button-container {
   position: fixed;
   top: 8vh;
@@ -45,7 +45,7 @@ body {
 
 /* Content Container */
 .content-container {
-  margin-top: calc(8vh + 60px); /* Ensure enough space below the back button */
+  margin-top: calc(8vh + 70px); /* Add extra margin to push content below the back button */
   width: 90%;
   max-width: 800px;
   text-align: center;
