@@ -73,4 +73,30 @@ body {
   color: #c8c8c8;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  font-weight: 400; /*
+  font-weight: 400; /* Set a lighter font weight */
+}
+
+/* Links */
+.firebird-link {
+  display: block;
+  margin: 10px 0;
+  font-size: 18px;
+  color: #c8c8c8;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.firebird-link:hover {
+  color: #ffffff;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .firebird-link {
+    font-size: 16px;
+  }
+
+  .heading {
+    font-size: 20px;
+  }
+}
