@@ -1,40 +1,27 @@
+/* General Styles */
 body {
-  font-family: Futura, sans-serif;
+  font-family: 'Futura', sans-serif;
   background: #131313;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* Ensures the page is scrollable */
+  overflow-y: auto;
 }
 
-.back-button-container::before {
-  content: '';
+/* Back Button */
+.back-button-container {
   position: fixed;
-  top: 0; /* Start the gradient from the top of the screen */
+  top: 8vh;
   left: 0;
   right: 0;
-  height: calc(8vh + 50px); /* Gradient extends from the top of the screen to the bottom of the back button */
-  background: linear-gradient(
-    to bottom, 
-    #131313 0%, /* Fully opaque at the top */
-    rgba(19, 19, 19, 0) 100% /* Fully transparent at the bottom */
-  );
-  z-index: -1; /* Below the back button */
-}
-  
-.back-button-container {
-  position: fixed; /* Fixing the position so it's always at the top */
-  top: 8vh;
-  left: 0; /* Start from the left */
-  right: 0; /* Stretch to the right */
   display: flex;
-  justify-content: center; /* Center the button horizontally */
-  z-index: 1000; /* Ensure it's above other content */
+  justify-content: center;
+  z-index: 1000;
   height: 50px;
 }
-  
+
 .back-button {
   display: flex;
   justify-content: center;
@@ -43,60 +30,58 @@ body {
   height: 50px;
   background: #c8c8c8;
   border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-decoration: none;
-  color: #333;
+  color: #131313;
   font-size: 24px;
-  border: none;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform and color */
-  position: relative;
-  z-index: 2;
+  transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
 }
 
-
-.back-button:hover, .back-button:active {
-  background: #ffffff; /* Change background color on hover/active */
-  color: #131313; /* Change text/icon color so it's visible on white background */
-  transform: scale(1.1); /* Make the button slightly larger on hover */
+.back-button:hover {
+  background: #ffffff;
+  transform: scale(1.1);
 }
 
-.list-container {
-  width: 50%;
-  padding-top: 16vh;
-  padding-bottom: 5vh;
+/* Content Container */
+.content-container {
+  margin-top: calc(8vh + 60px); /* Ensure enough space below the back button */
+  width: 90%;
+  max-width: 800px;
   text-align: center;
+  padding-bottom: 20px;
 }
 
+/* Headings */
+.heading {
+  margin: 20px 0 10px;
+  font-size: 24px;
+  color: #c8c8c8;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+/* Links */
 .firebird-link {
   display: block;
-  margin: 10px auto;
-  font-size: 24px;
+  margin: 10px 0;
+  font-size: 18px;
   color: #c8c8c8;
   text-decoration: none;
-  transition: color 0.3s ease; /* Smooth transition for color change */
-  width: fit-content;
+  transition: color 0.3s ease;
 }
 
-.heading {
-  display: block;
-  margin: 10px auto;
-  font-size: 24px;
-  color: #c8c8c8;
-  text-decoration: none;
-  transition: color 0.3s ease; /* Smooth transition for color change */
-  width: fit-content;
+.firebird-link:hover {
+  color: #ffffff;
 }
 
-.firebird-link:hover, .firebird-link:focus {
-  color: #ffffff; /* Changes text color to white on hover or focus */
-}
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .firebird-link {
+    font-size: 16px;
+  }
 
-@keyframes pageExit {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(100vh); } /* Move the page down */
-}
-
-.back-button-exit-active {
-    animation: pageExit 0.5s ease forwards;
+  .heading {
+    font-size: 20px;
+  }
 }
