@@ -48,3 +48,15 @@ window.addEventListener('pageshow', function(event) {
     document.body.classList.remove('back-button-exit-active', 'home-page-exit-active');
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdownButtons = document.querySelectorAll('.dropdown-button');
+
+  dropdownButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const dropdownContent = button.nextElementSibling;
+      dropdownContent.style.display =
+        dropdownContent.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+});
