@@ -69,22 +69,13 @@ body {
   text-align: center;
 }
 
-.playlist-item {
-  display: block;
-  margin: 10px auto;
-  font-size: 24px;
-  color: #c8c8c8;
-  text-decoration: none;
-  transition: color 0.3s ease; /* Smooth transition for color change */
-  width: fit-content;
-}
-
 .playlist-item:hover, .playlist-item:focus {
   color: #ffffff; /* Changes text color to white on hover or focus */
 }
 
 /* Dropdown Button (AMBIENT) */
 .dropdown-button {
+  font-family: 'Futura', sans-serif;
   background: rgb(28, 28, 28);
   border: none;
   border-radius: 25px; /* Rounded corners */
@@ -124,7 +115,7 @@ body {
   display: block;
   color: #c8c8c8;
   text-decoration: none;
-  font-size: 18px; /* Matches playlist titles */
+  font-size: 20px; /* Matches playlist titles */
   padding: 10px 0;
   transition: color 0.3s ease;
 }
