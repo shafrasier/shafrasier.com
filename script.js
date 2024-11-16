@@ -50,24 +50,28 @@ window.addEventListener('pageshow', function(event) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Select all dropdown buttons
-  const dropdownButtons = document.querySelectorAll('.dropdown-button');
+  const dropdowns = document.querySelectorAll('.dropdown');
 
-  dropdownButtons.forEach(button => {
-    // Add a click event listener to each dropdown button
+  dropdowns.forEach(dropdown => {
+    const button = dropdown.querySelector('.dropdown-button');
+    const content = dropdown.querySelector('.dropdown-content');
+
     button.addEventListener('click', () => {
-      const dropdownContent = button.nextElementSibling; // Get the associated dropdown content
+      // Close any other open dropdowns
+      document.querySelectorAll('.dropdown').forEach(d => {
+        if (d !== dropdown) {
+          d.classList.remove('open');
+          d.querySelector('.dropdown-content').style.maxHeight = '0';
+        }
+      });
 
-      // Toggle the 'open' class on the parent dropdown
-      button.parentElement.classList.toggle('open');
-
-      // If the dropdown is opening, set its max-height to its scrollHeight for smooth expansion
-      if (button.parentElement.classList.contains('open')) {
-        const contentHeight = dropdownContent.scrollHeight; // Calculate the content's full height
-        dropdownContent.style.maxHeight = `${contentHeight}px`;
+      // Toggle this dropdown
+      dropdown.classList.toggle('open');
+      if (dropdown.classList.contains('open')) {
+        const contentHeight = content.scrollHeight; // Get actual content height
+        content.style.maxHeight = `${contentHeight}px`;
       } else {
-        // If the dropdown is closing, set its max-height to 0 for smooth collapse
-        dropdownContent.style.maxHeight = '0';
+        content.style.maxHeight = '0';
       }
     });
   });
