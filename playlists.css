@@ -101,6 +101,15 @@ body {
   color: #ffffff;
 }
 
+.dropdown-button:focus {
+  outline: none; /* Remove focus outline */
+}
+
+.dropdown.open .dropdown-button {
+  transform: none; /* Reset any hover or active scaling */
+  color: #c8c8c8; /* Reset to default color */
+}
+
 /* Dropdown Content */
 .dropdown-content {
   overflow: hidden;
