@@ -85,28 +85,27 @@ body {
   font-size: 24px; /* Match playlist title size */
   color: #c8c8c8;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, color 0.3s ease;
-  width: 50%; /* Slightly smaller width */
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for scaling and color */
+  width: 50%;
   max-width: 300px;
   cursor: pointer;
 }
 
+/* Hover Effect: Makes the button bigger on hover */
 .dropdown-button:hover {
   transform: scale(1.1); /* Enlarges the button slightly */
   color: #ffffff;
 }
 
-.dropdown-button:active {
-  transform: scale(0.95); /* Slightly reduces the size when clicked */
-  color: #ffffff;
-}
-
-.dropdown-button:focus {
-  outline: none; /* Remove focus outline */
-}
-
+/* When the dropdown is open, keep the button big */
 .dropdown.open .dropdown-button {
-  transform: none; /* Reset any hover or active scaling */
+  transform: scale(1.1); /* Stay enlarged */
+  color: #ffffff; /* Keep the hover effect color */
+}
+
+/* When the button is not hovered and the dropdown is closed, reset size and color */
+.dropdown-button:active {
+  transform: scale(1); /* Reset to normal size */
   color: #c8c8c8; /* Reset to default color */
 }
 
