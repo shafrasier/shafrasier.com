@@ -57,21 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const content = dropdown.querySelector('.dropdown-content');
 
     button.addEventListener('click', () => {
-      // Toggle dropdown visibility
       const isOpen = dropdown.classList.contains('open');
 
-      // Close all dropdowns
+      // Close all other dropdowns
       document.querySelectorAll('.dropdown').forEach(d => {
-        d.classList.remove('open');
-        d.querySelector('.dropdown-content').style.maxHeight = '0';
+        if (d !== dropdown) {
+          d.classList.remove('open');
+          d.querySelector('.dropdown-content').style.maxHeight = '0';
+        }
       });
 
-      // If this dropdown was not already open, open it
+      // Toggle the current dropdown
       if (!isOpen) {
         dropdown.classList.add('open');
         content.style.maxHeight = `${content.scrollHeight}px`;
       } else {
-        // If already open, close it and reset button state
+        dropdown.classList.remove('open');
         content.style.maxHeight = '0';
       }
     });
