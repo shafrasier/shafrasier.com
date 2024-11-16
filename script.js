@@ -50,15 +50,25 @@ window.addEventListener('pageshow', function(event) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Select all dropdown buttons
   const dropdownButtons = document.querySelectorAll('.dropdown-button');
 
   dropdownButtons.forEach(button => {
+    // Add a click event listener to each dropdown button
     button.addEventListener('click', () => {
-      const dropdownContent = button.nextElementSibling;
+      const dropdownContent = button.nextElementSibling; // Get the associated dropdown content
 
-      // Toggle visibility of the dropdown
-      dropdownContent.style.display =
-        dropdownContent.style.display === 'block' ? 'none' : 'block';
+      // Toggle the 'open' class on the parent dropdown
+      button.parentElement.classList.toggle('open');
+
+      // If the dropdown is opening, set its max-height to its scrollHeight for smooth expansion
+      if (button.parentElement.classList.contains('open')) {
+        const contentHeight = dropdownContent.scrollHeight; // Calculate the content's full height
+        dropdownContent.style.maxHeight = `${contentHeight}px`;
+      } else {
+        // If the dropdown is closing, set its max-height to 0 for smooth collapse
+        dropdownContent.style.maxHeight = '0';
+      }
     });
   });
 });
