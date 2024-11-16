@@ -83,26 +83,20 @@ body {
   color: #ffffff; /* Changes text color to white on hover or focus */
 }
 
-/* Dropdown Styles */
-.dropdown {
-  margin: 20px auto; /* Center the dropdown horizontally */
-  position: relative;
-  text-align: center;
-}
-
+/* Dropdown Button (AMBIENT) */
 .dropdown-button {
   background: rgb(28, 28, 28);
   border: none;
-  border-radius: 20px; /* Slightly smaller than home screen buttons */
-  padding: 12px 25px; /* Reduced padding for a smaller look */
+  border-radius: 25px; /* Rounded corners */
+  padding: 15px 30px;
   margin: 10px;
   text-align: center;
-  font-size: 16px; /* Smaller font size */
+  font-size: 24px; /* Match playlist title size */
   color: #c8c8c8;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, color 0.3s ease;
-  width: 50%; /* Slightly narrower width */
-  max-width: 250px; /* Adjusted maximum width */
+  width: 50%; /* Slightly smaller width */
+  max-width: 300px;
   cursor: pointer;
 }
 
@@ -118,35 +112,30 @@ body {
 
 /* Dropdown Content */
 .dropdown-content {
-  display: none; /* Initially hidden */
+  overflow: hidden;
+  max-height: 0; /* Hidden by default */
   background: #131313;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  border-radius: 15px;
-  padding: 10px 0;
-  position: relative;
-  width: 50%;
-  max-width: 250px; /* Matches the button width */
+  border-radius: 0; /* No borders around items */
+  transition: max-height 0.3s ease; /* Smooth drop-down effect */
   margin: 10px auto;
 }
 
-.dropdown-item {
+.playlist-item {
   display: block;
   color: #c8c8c8;
-  padding: 10px;
   text-decoration: none;
-  font-size: 16px; /* Matches the dropdown button's font size */
-  border-radius: 10px;
-  transition: transform 0.2s ease, background 0.3s ease;
+  font-size: 18px; /* Matches playlist titles */
+  padding: 10px 0;
+  transition: color 0.3s ease;
 }
 
-.dropdown-item:hover {
-  background-color: #282828;
+.playlist-item:hover {
   color: #ffffff;
 }
 
-/* Dropdown Interaction */
-.dropdown:hover .dropdown-content {
-  display: block; /* Show dropdown content on hover */
+/* Dropdown Open State */
+.dropdown.open .dropdown-content {
+  max-height: 500px; /* Adjust depending on the content */
 }
 
 @keyframes pageExit {
