@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
   // Remove any exit animations when the DOM is fully loaded
   document.body.classList.remove('back-button-exit-active', 'home-page-exit-active');
 
@@ -59,21 +59,28 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const isOpen = dropdown.classList.contains('open');
 
-      // Close all other dropdowns
-      document.querySelectorAll('.dropdown').forEach(d => {
-        if (d !== dropdown) {
-          d.classList.remove('open');
-          d.querySelector('.dropdown-content').style.maxHeight = '0';
-        }
-      });
-
-      // Toggle the current dropdown
-      if (!isOpen) {
-        dropdown.classList.add('open');
-        content.style.maxHeight = `${content.scrollHeight}px`;
-      } else {
+      if (isOpen) {
+        // Close this dropdown and reset its styles
         dropdown.classList.remove('open');
         content.style.maxHeight = '0';
+        button.style.transform = 'scale(1)'; // Reset size
+        button.style.color = '#c8c8c8'; // Reset color
+      } else {
+        // Close all other dropdowns
+        document.querySelectorAll('.dropdown').forEach(d => {
+          if (d !== dropdown) {
+            d.classList.remove('open');
+            d.querySelector('.dropdown-content').style.maxHeight = '0';
+            d.querySelector('.dropdown-button').style.transform = 'scale(1)';
+            d.querySelector('.dropdown-button').style.color = '#c8c8c8';
+          }
+        });
+
+        // Open this dropdown
+        dropdown.classList.add('open');
+        content.style.maxHeight = `${content.scrollHeight}px`;
+        button.style.transform = 'scale(1.1)'; // Keep it big
+        button.style.color = '#ffffff'; // Keep it highlighted
       }
     });
   });
