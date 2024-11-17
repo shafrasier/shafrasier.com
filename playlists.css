@@ -137,6 +137,51 @@ body {
   max-height: 500px; /* Adjust depending on the content */
 }
 
+/* Small Dropdown Button (ELECTRONIC) */
+.small-dropdown-button {
+  font-family: 'Futura', sans-serif;
+  background: rgb(28, 28, 28);
+  border: none;
+  border-radius: 20px; /* Slightly smaller corners */
+  padding: 10px 25px; /* Smaller padding */
+  margin: 5px 0;
+  text-align: center;
+  font-size: 20px; /* Same size as playlist titles */
+  color: #c8c8c8;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, color 0.3s ease;
+  width: 80%; /* Smaller width */
+  max-width: 250px;
+  cursor: pointer;
+}
+
+/* Hover Effect for Small Dropdown Button */
+.small-dropdown-button:hover {
+  transform: scale(1.1); /* Slight enlargement */
+  color: #ffffff;
+}
+
+/* When a Small Dropdown is Open */
+.small-dropdown.open .small-dropdown-button {
+  transform: scale(1.1); /* Keep it enlarged */
+  color: #ffffff;
+}
+
+/* Small Dropdown Content */
+.small-dropdown-content {
+  overflow: hidden;
+  max-height: 0; /* Hidden by default */
+  background: #131313;
+  transition: max-height 0.3s ease; /* Smooth drop-down effect */
+  margin: 5px auto;
+  border-radius: 10px;
+}
+
+/* Open Small Dropdown */
+.small-dropdown.open .small-dropdown-content {
+  max-height: 300px; /* Adjust based on content */
+}
+
 @keyframes pageExit {
   0% { transform: translateY(0); }
   100% { transform: translateY(100vh); } /* Move the page down */
