@@ -85,3 +85,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdowns = document.querySelectorAll('.dropdown');
+  const smallDropdowns = document.querySelectorAll('.small-dropdown');
+
+  // Handle Big Dropdowns
+  dropdowns.forEach(dropdown => {
+    const button = dropdown.querySelector('.dropdown-button');
+    const content = dropdown.querySelector('.dropdown-content');
+
+    button.addEventListener('click', () => {
+      const isOpen = dropdown.classList.contains('open');
+
+      // Close all big dropdowns
+      document.querySelectorAll('.dropdown').forEach(d => {
+        d.classList.remove('open');
+        d.querySelector('.dropdown-content').style.maxHeight = '0';
+      });
+
+      // Toggle current dropdown
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        content.style.maxHeight = `${content.scrollHeight}px`;
+      } else {
+        dropdown.classList.remove('open');
+        content.style.maxHeight = '0';
+      }
+    });
+  });
+
+  // Handle Small Dropdowns
+  smallDropdowns.forEach(smallDropdown => {
+    const button = smallDropdown.querySelector('.small-dropdown-button');
+    const content = smallDropdown.querySelector('.small-dropdown-content');
+
+    button.addEventListener('click', () => {
+      const isOpen = smallDropdown.classList.contains('open');
+
+      // Close other small dropdowns within the same big dropdown
+      const parentDropdown = smallDropdown.closest('.dropdown-content');
+      parentDropdown.querySelectorAll('.small-dropdown').forEach(sd => {
+        if (sd !== smallDropdown) {
+          sd.classList.remove('open');
+          sd.querySelector('.small-dropdown-content').style.maxHeight = '0';
+        }
+      });
+
+      // Toggle current small dropdown
+      if (!isOpen) {
+        smallDropdown.classList.add('open');
+        content.style.maxHeight = `${content.scrollHeight}px`;
+      } else {
+        smallDropdown.classList.remove('open');
+        content.style.maxHeight = '0';
+      }
+    });
+  });
+});
