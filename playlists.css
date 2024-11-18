@@ -113,8 +113,9 @@ body {
   color: #c8c8c8;
 }
 
+/* Dropdown Content */
 .dropdown-content {
-  overflow: hidden; /* Prevents clipping */
+  overflow: hidden; /* Prevent clipping */
   max-height: 0; /* Collapsed by default */
   background: #131313;
   transition: max-height 0.3s ease; /* Smooth drop-down effect */
@@ -150,6 +151,7 @@ body {
   color: #ffffff;
 }
 
+/* Ensure Small Dropdowns Reset Properly */
 .small-dropdown-content {
   overflow: hidden;
   max-height: 0; /* Collapsed by default */
@@ -157,7 +159,6 @@ body {
   transition: max-height 0.3s ease; /* Smooth drop-down effect */
   margin: 5px auto;
   border-radius: 10px;
-  display: block; /* Allow block expansion */
 }
 
 /* Separator for Last Playlist Item */
