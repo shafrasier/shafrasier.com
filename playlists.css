@@ -18,12 +18,12 @@ body {
   height: calc(8vh + 50px); /* Gradient extends from the top of the screen to the bottom of the back button */
   background: linear-gradient(
     to bottom, 
-    #131313 0%, /* Fully opaque at the top */
-    rgba(19, 19, 19, 0) 100% /* Fully transparent at the bottom */
+    #131313 0%, 
+    rgba(19, 19, 19, 0) 100%
   );
   z-index: -1; /* Below the back button */
 }
-  
+
 .back-button-container {
   position: fixed; /* Fixing the position so it's always at the top */
   top: 8vh;
@@ -34,7 +34,7 @@ body {
   z-index: 1000; /* Ensure it's above other content */
   height: 50px;
 }
-  
+
 .back-button {
   display: flex;
   justify-content: center;
@@ -43,7 +43,7 @@ body {
   height: 50px;
   background: #c8c8c8;
   border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-decoration: none;
   color: #333;
   font-size: 24px;
@@ -54,69 +54,17 @@ body {
   z-index: 2;
 }
 
-
 .back-button:hover, .back-button:active {
   background: #ffffff; /* Change background color on hover/active */
   color: #131313; /* Change text/icon color so it's visible on white background */
   transform: scale(1.1); /* Make the button slightly larger on hover */
 }
 
-/* List Container */
 .list-container {
   width: 90%;
   max-width: 800px;
   margin-top: calc(8vh + 60px); /* Ensure proper spacing below the back button */
   text-align: center;
-}
-
-.playlist-item:hover, .playlist-item:focus {
-  color: #ffffff; /* Changes text color to white on hover or focus */
-}
-
-/* Dropdown Button (AMBIENT) */
-.dropdown-button {
-  font-family: 'Futura', sans-serif;
-  background: rgb(28, 28, 28);
-  border: none;
-  border-radius: 25px; /* Rounded corners */
-  padding: 15px 30px;
-  margin: 10px;
-  text-align: center;
-  font-size: 24px; /* Match playlist title size */
-  color: #c8c8c8;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for scaling and color */
-  width: 50%;
-  max-width: 300px;
-  cursor: pointer;
-}
-
-/* Hover Effect: Makes the button bigger on hover */
-.dropdown-button:hover {
-  transform: scale(1.1); /* Enlarges the button slightly */
-  color: #ffffff;
-}
-
-/* When the dropdown is open, keep the button big */
-.dropdown.open .dropdown-button {
-  transform: scale(1.1); /* Stay enlarged */
-  color: #ffffff; /* Keep the hover effect color */
-}
-
-/* When the button is not hovered and the dropdown is closed, reset size and color */
-.dropdown-button:active {
-  transform: scale(1); /* Reset to normal size */
-  color: #c8c8c8; /* Reset to default color */
-}
-
-/* Dropdown Content */
-.dropdown-content {
-  overflow: hidden;
-  max-height: 0; /* Hidden by default */
-  background: #131313;
-  border-radius: 0; /* No borders around items */
-  transition: max-height 0.3s ease; /* Smooth drop-down effect */
-  margin: 10px auto;
 }
 
 .playlist-item {
@@ -132,12 +80,48 @@ body {
   color: #ffffff;
 }
 
-/* Dropdown Open State */
-.dropdown.open .dropdown-content {
-  max-height: 500px; /* Adjust depending on the content */
+/* Dropdown Button */
+.dropdown-button {
+  font-family: 'Futura', sans-serif;
+  background: rgb(28, 28, 28);
+  border: none;
+  border-radius: 25px; /* Rounded corners */
+  padding: 15px 30px;
+  margin: 10px;
+  text-align: center;
+  font-size: 24px; /* Matches playlist title size */
+  color: #c8c8c8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for scaling and color */
+  width: 50%;
+  max-width: 300px;
+  cursor: pointer;
 }
 
-/* Small Dropdown Button (ELECTRONIC) */
+.dropdown-button:hover {
+  transform: scale(1.1); /* Enlarges the button slightly */
+  color: #ffffff;
+}
+
+.dropdown.open .dropdown-button {
+  transform: scale(1.1); /* Stay enlarged */
+  color: #ffffff; /* Keep the hover effect color */
+}
+
+.dropdown-button:active {
+  transform: scale(1);
+  color: #c8c8c8; /* Reset to default color */
+}
+
+.dropdown-content {
+  overflow: hidden;
+  max-height: 0; /* Hidden by default */
+  background: #131313;
+  transition: max-height 0.3s ease; /* Smooth drop-down effect */
+  margin: 10px auto;
+}
+
+/* Small Dropdown Button */
 .small-dropdown-button {
   font-family: 'Futura', sans-serif;
   background: rgb(28, 28, 28);
@@ -155,19 +139,16 @@ body {
   cursor: pointer;
 }
 
-/* Hover Effect for Small Dropdown Button */
 .small-dropdown-button:hover {
   transform: scale(1.1); /* Slight enlargement */
   color: #ffffff;
 }
 
-/* When a Small Dropdown is Open */
 .small-dropdown.open .small-dropdown-button {
   transform: scale(1.1); /* Keep it enlarged */
   color: #ffffff;
 }
 
-/* Small Dropdown Content */
 .small-dropdown-content {
   overflow: hidden;
   max-height: 0; /* Hidden by default */
@@ -177,9 +158,23 @@ body {
   border-radius: 10px;
 }
 
-/* Open Small Dropdown */
+/* Separator for Last Playlist Item */
+.small-dropdown-content .playlist-item:last-child::after {
+  content: '';
+  display: block;
+  width: 70%;
+  height: 3px;
+  margin: 10px auto;
+  background: rgb(28, 28, 28); /* Matches button color */
+  border-radius: 5px; /* Rounded ends */
+}
+
+.dropdown.open .dropdown-content {
+  max-height: 500px; /* Adjust depending on the content */
+}
+
 .small-dropdown.open .small-dropdown-content {
-  max-height: 300px; /* Adjust based on content */
+  max-height: 300px; /* Adjust as needed */
 }
 
 @keyframes pageExit {
