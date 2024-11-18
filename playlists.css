@@ -65,6 +65,7 @@ body {
   max-width: 800px;
   margin-top: calc(8vh + 60px);
   text-align: center;
+  position: relative;
 }
 
 .playlist-item {
@@ -121,6 +122,7 @@ body {
   transition: max-height 0.3s ease; /* Smooth drop-down effect */
   margin: 10px auto;
   display: block; /* Allow block expansion */
+  position: relative;
 }
 
 /* Small Dropdown Button */
@@ -159,6 +161,7 @@ body {
   transition: max-height 0.3s ease; /* Smooth drop-down effect */
   margin: 5px auto;
   border-radius: 10px;
+  display: block;
 }
 
 /* Separator for Last Playlist Item */
@@ -178,4 +181,9 @@ body {
 
 .small-dropdown.open .small-dropdown-content {
   max-height: none; /* Remove restriction on height */
+}
+
+/* Ensure that all siblings below an open dropdown are pushed down */
+.dropdown.open {
+  margin-bottom: 20px; /* Add spacing to accommodate the expanded dropdown */
 }
