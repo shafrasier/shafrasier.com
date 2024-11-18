@@ -1,92 +1,45 @@
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
   // Remove any exit animations when the DOM is fully loaded
   document.body.classList.remove('back-button-exit-active', 'home-page-exit-active');
 
-  // Event listener for the back button
-  var backButton = document.querySelector('.back-button');
+  // Handle Back Button
+  const backButton = document.querySelector('.back-button');
   if (backButton) {
-    backButton.addEventListener('click', function() {
+    backButton.addEventListener('click', () => {
       if (window.scrollY === 0) {
         document.body.classList.add('back-button-exit-active');
-        // Wait for the animation to finish before redirecting
-        setTimeout(function() {
+        setTimeout(() => {
           window.location.href = 'index.html'; // Replace with the home page URL
-        }, 500); // This should match the duration of the animation
+        }, 500); // Matches the duration of the animation
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
   }
 
-  // Event listeners for other buttons
+  // Handle Navigation Buttons
   document.querySelectorAll('.button').forEach(button => {
-    button.addEventListener('click', function() {
-      var destinationURL = this.getAttribute('data-destination-url');
+    button.addEventListener('click', () => {
+      const destinationURL = button.getAttribute('data-destination-url');
       if (destinationURL) {
         document.body.classList.add('home-page-exit-active');
-        // Redirect after the animation
-        setTimeout(function() {
+        setTimeout(() => {
           window.location.href = destinationURL;
-        }, 500); // Ensure this matches the animation duration
+        }, 500); // Matches the animation duration
       }
     });
   });
 
   // Make external links open in a new tab
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (links[i].hostname !== window.location.hostname && links[i].href.startsWith('http')) {
-      links[i].target = '_blank';
-      links[i].rel = 'noopener noreferrer';
+  const links = document.querySelectorAll('a');
+  links.forEach(link => {
+    if (link.hostname !== window.location.hostname && link.href.startsWith('http')) {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
     }
-  }
-});
-
-// Handle the pageshow event for BFCache pages
-window.addEventListener('pageshow', function(event) {
-  if (event.persisted) {
-    document.body.classList.remove('back-button-exit-active', 'home-page-exit-active');
-  }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  const dropdowns = document.querySelectorAll('.dropdown');
-
-  dropdowns.forEach(dropdown => {
-    const button = dropdown.querySelector('.dropdown-button');
-    const content = dropdown.querySelector('.dropdown-content');
-
-    button.addEventListener('click', () => {
-      const isOpen = dropdown.classList.contains('open');
-
-      if (isOpen) {
-        // Close this dropdown and reset its styles
-        dropdown.classList.remove('open');
-        content.style.maxHeight = '0';
-        button.style.transform = 'scale(1)'; // Reset size
-        button.style.color = '#c8c8c8'; // Reset color
-      } else {
-        // Close all other dropdowns
-        document.querySelectorAll('.dropdown').forEach(d => {
-          if (d !== dropdown) {
-            d.classList.remove('open');
-            d.querySelector('.dropdown-content').style.maxHeight = '0';
-            d.querySelector('.dropdown-button').style.transform = 'scale(1)';
-            d.querySelector('.dropdown-button').style.color = '#c8c8c8';
-          }
-        });
-
-        // Open this dropdown
-        dropdown.classList.add('open');
-        content.style.maxHeight = `${content.scrollHeight}px`;
-        button.style.transform = 'scale(1.1)'; // Keep it big
-        button.style.color = '#ffffff'; // Keep it highlighted
-      }
-    });
   });
-});
 
-document.addEventListener('DOMContentLoaded', () => {
+  // Handle Big and Small Dropdowns
   const dropdowns = document.querySelectorAll('.dropdown');
   const smallDropdowns = document.querySelectorAll('.small-dropdown');
 
@@ -99,18 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = dropdown.classList.contains('open');
 
       // Close all big dropdowns
-      document.querySelectorAll('.dropdown').forEach(d => {
+      dropdowns.forEach(d => {
         d.classList.remove('open');
         d.querySelector('.dropdown-content').style.maxHeight = '0';
+        d.querySelector('.dropdown-button').style.transform = 'scale(1)';
+        d.querySelector('.dropdown-button').style.color = '#c8c8c8';
       });
 
-      // Toggle current dropdown
+      // Toggle the clicked dropdown
       if (!isOpen) {
         dropdown.classList.add('open');
         content.style.maxHeight = `${content.scrollHeight}px`;
-      } else {
-        dropdown.classList.remove('open');
-        content.style.maxHeight = '0';
+        button.style.transform = 'scale(1.1)';
+        button.style.color = '#ffffff';
       }
     });
   });
@@ -123,22 +77,28 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const isOpen = smallDropdown.classList.contains('open');
 
-      // Close other small dropdowns within the same big dropdown
+      // Close other small dropdowns in the same big dropdown
       const parentDropdown = smallDropdown.closest('.dropdown-content');
       parentDropdown.querySelectorAll('.small-dropdown').forEach(sd => {
         if (sd !== smallDropdown) {
           sd.classList.remove('open');
           sd.querySelector('.small-dropdown-content').style.maxHeight = '0';
+          sd.querySelector('.small-dropdown-button').style.transform = 'scale(1)';
+          sd.querySelector('.small-dropdown-button').style.color = '#c8c8c8';
         }
       });
 
-      // Toggle current small dropdown
+      // Toggle the current small dropdown
       if (!isOpen) {
         smallDropdown.classList.add('open');
         content.style.maxHeight = `${content.scrollHeight}px`;
+        button.style.transform = 'scale(1.1)';
+        button.style.color = '#ffffff';
       } else {
         smallDropdown.classList.remove('open');
         content.style.maxHeight = '0';
+        button.style.transform = 'scale(1)';
+        button.style.color = '#c8c8c8';
       }
     });
   });
