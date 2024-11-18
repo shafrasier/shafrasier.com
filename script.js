@@ -39,11 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const dropdowns = document.querySelectorAll('.dropdown');
-  const smallDropdowns = document.querySelectorAll('.small-dropdown');
-
   // Handle Big Dropdowns
+  const dropdowns = document.querySelectorAll('.dropdown');
   dropdowns.forEach(dropdown => {
     const button = dropdown.querySelector('.dropdown-button');
     const content = dropdown.querySelector('.dropdown-content');
@@ -74,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Handle Small Dropdowns
+  const smallDropdowns = document.querySelectorAll('.small-dropdown');
   smallDropdowns.forEach(smallDropdown => {
     const button = smallDropdown.querySelector('.small-dropdown-button');
     const content = smallDropdown.querySelector('.small-dropdown-content');
