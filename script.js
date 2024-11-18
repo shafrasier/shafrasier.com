@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
- document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const dropdowns = document.querySelectorAll('.dropdown');
   const smallDropdowns = document.querySelectorAll('.small-dropdown');
 
@@ -95,7 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
       // Toggle current small dropdown
       if (!isOpen) {
         smallDropdown.classList.add('open');
-        content.style.maxHeight = `${content.scrollHeight}px`;
+
+        // Fix smooth animation for the first-time open
+        content.style.maxHeight = '0'; // Reset height
+        setTimeout(() => {
+          content.style.maxHeight = `${content.scrollHeight}px`;
+        }, 0); // Trigger recalculation
       } else {
         smallDropdown.classList.remove('open');
         content.style.maxHeight = '0';
