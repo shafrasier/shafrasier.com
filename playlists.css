@@ -12,26 +12,26 @@ body {
 .back-button-container::before {
   content: '';
   position: fixed;
-  top: 0; /* Start the gradient from the top of the screen */
+  top: 0;
   left: 0;
   right: 0;
-  height: calc(8vh + 50px); /* Gradient extends from the top of the screen to the bottom of the back button */
+  height: calc(8vh + 50px);
   background: linear-gradient(
     to bottom, 
     #131313 0%, 
     rgba(19, 19, 19, 0) 100%
   );
-  z-index: -1; /* Below the back button */
+  z-index: -1;
 }
 
 .back-button-container {
-  position: fixed; /* Fixing the position so it's always at the top */
+  position: fixed;
   top: 8vh;
-  left: 0; /* Start from the left */
-  right: 0; /* Stretch to the right */
+  left: 0;
+  right: 0;
   display: flex;
-  justify-content: center; /* Center the button horizontally */
-  z-index: 1000; /* Ensure it's above other content */
+  justify-content: center;
+  z-index: 1000;
   height: 50px;
 }
 
@@ -49,21 +49,21 @@ body {
   font-size: 24px;
   border: none;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* Transition for transform and color */
+  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
   position: relative;
   z-index: 2;
 }
 
 .back-button:hover, .back-button:active {
-  background: #ffffff; /* Change background color on hover/active */
-  color: #131313; /* Change text/icon color so it's visible on white background */
-  transform: scale(1.1); /* Make the button slightly larger on hover */
+  background: #ffffff;
+  color: #131313;
+  transform: scale(1.1);
 }
 
 .list-container {
   width: 90%;
   max-width: 800px;
-  margin-top: calc(8vh + 60px); /* Ensure proper spacing below the back button */
+  margin-top: calc(8vh + 60px);
   text-align: center;
 }
 
@@ -71,7 +71,7 @@ body {
   display: block;
   color: #c8c8c8;
   text-decoration: none;
-  font-size: 20px; /* Matches playlist titles */
+  font-size: 20px;
   padding: 10px 0;
   transition: color 0.3s ease;
 }
@@ -85,39 +85,39 @@ body {
   font-family: 'Futura', sans-serif;
   background: rgb(28, 28, 28);
   border: none;
-  border-radius: 25px; /* Rounded corners */
+  border-radius: 25px;
   padding: 15px 30px;
   margin: 10px;
   text-align: center;
-  font-size: 24px; /* Matches playlist title size */
+  font-size: 24px;
   color: #c8c8c8;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for scaling and color */
+  transition: transform 0.3s ease, color 0.3s ease;
   width: 50%;
   max-width: 300px;
   cursor: pointer;
 }
 
 .dropdown-button:hover {
-  transform: scale(1.1); /* Enlarges the button slightly */
+  transform: scale(1.1);
   color: #ffffff;
 }
 
 .dropdown.open .dropdown-button {
-  transform: scale(1.1); /* Stay enlarged */
-  color: #ffffff; /* Keep the hover effect color */
+  transform: scale(1.1);
+  color: #ffffff;
 }
 
 .dropdown-button:active {
   transform: scale(1);
-  color: #c8c8c8; /* Reset to default color */
+  color: #c8c8c8;
 }
 
 .dropdown-content {
   overflow: hidden;
-  max-height: 0; /* Hidden by default */
+  max-height: 0;
   background: #131313;
-  transition: max-height 0.3s ease; /* Smooth drop-down effect */
+  transition: max-height 0.3s ease;
   margin: 10px auto;
 }
 
@@ -126,34 +126,34 @@ body {
   font-family: 'Futura', sans-serif;
   background: rgb(28, 28, 28);
   border: none;
-  border-radius: 20px; /* Slightly smaller corners */
-  padding: 10px 25px; /* Smaller padding */
+  border-radius: 20px;
+  padding: 10px 25px;
   margin: 5px 0;
   text-align: center;
-  font-size: 20px; /* Same size as playlist titles */
+  font-size: 20px;
   color: #c8c8c8;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, color 0.3s ease;
-  width: 80%; /* Smaller width */
+  width: 80%;
   max-width: 250px;
   cursor: pointer;
 }
 
 .small-dropdown-button:hover {
-  transform: scale(1.1); /* Slight enlargement */
+  transform: scale(1.1);
   color: #ffffff;
 }
 
 .small-dropdown.open .small-dropdown-button {
-  transform: scale(1.1); /* Keep it enlarged */
+  transform: scale(1.1);
   color: #ffffff;
 }
 
 .small-dropdown-content {
   overflow: hidden;
-  max-height: 0; /* Hidden by default */
+  max-height: 0;
   background: #131313;
-  transition: max-height 0.3s ease; /* Smooth drop-down effect */
+  transition: max-height 0.3s ease;
   margin: 5px auto;
   border-radius: 10px;
 }
@@ -162,11 +162,11 @@ body {
 .small-dropdown-content .playlist-item:last-child::after {
   content: '';
   display: block;
-  width: 70%;
-  height: 3px;
+  width: 60%; /* Less wide than the button */
+  height: 2px;
   margin: 10px auto;
-  background: rgb(28, 28, 28); /* Matches button color */
-  border-radius: 5px; /* Rounded ends */
+  background: #c8c8c8; /* Matches text color */
+  border-radius: 5px;
 }
 
 .dropdown.open .dropdown-content {
@@ -175,13 +175,4 @@ body {
 
 .small-dropdown.open .small-dropdown-content {
   max-height: 300px; /* Adjust as needed */
-}
-
-@keyframes pageExit {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(100vh); } /* Move the page down */
-}
-
-.back-button-exit-active {
-    animation: pageExit 0.5s ease forwards;
 }
