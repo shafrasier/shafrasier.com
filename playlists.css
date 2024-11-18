@@ -162,7 +162,7 @@ body {
 .small-dropdown-content .playlist-item:last-child::after {
   content: '';
   display: block;
-  width: 60%; /* Less wide than the button */
+  width: 20%; /* Less wide than the button */
   height: 2px;
   margin: 10px auto;
   background: #c8c8c8; /* Matches text color */
