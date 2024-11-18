@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Handle Big and Small Dropdowns
+ document.addEventListener('DOMContentLoaded', () => {
   const dropdowns = document.querySelectorAll('.dropdown');
   const smallDropdowns = document.querySelectorAll('.small-dropdown');
 
@@ -51,20 +51,24 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const isOpen = dropdown.classList.contains('open');
 
-      // Close all big dropdowns
+      // Close all big dropdowns and reset small dropdowns inside them
       dropdowns.forEach(d => {
         d.classList.remove('open');
         d.querySelector('.dropdown-content').style.maxHeight = '0';
-        d.querySelector('.dropdown-button').style.transform = 'scale(1)';
-        d.querySelector('.dropdown-button').style.color = '#c8c8c8';
+
+        // Reset any small dropdowns inside this big dropdown
+        const childSmallDropdowns = d.querySelectorAll('.small-dropdown');
+        childSmallDropdowns.forEach(sd => {
+          sd.classList.remove('open');
+          const sdContent = sd.querySelector('.small-dropdown-content');
+          if (sdContent) sdContent.style.maxHeight = '0';
+        });
       });
 
-      // Toggle the clicked dropdown
+      // Toggle the current big dropdown
       if (!isOpen) {
         dropdown.classList.add('open');
         content.style.maxHeight = `${content.scrollHeight}px`;
-        button.style.transform = 'scale(1.1)';
-        button.style.color = '#ffffff';
       }
     });
   });
@@ -77,28 +81,24 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const isOpen = smallDropdown.classList.contains('open');
 
-      // Close other small dropdowns in the same big dropdown
+      // Close other small dropdowns within the same big dropdown
       const parentDropdown = smallDropdown.closest('.dropdown-content');
-      parentDropdown.querySelectorAll('.small-dropdown').forEach(sd => {
+      const siblingSmallDropdowns = parentDropdown.querySelectorAll('.small-dropdown');
+      siblingSmallDropdowns.forEach(sd => {
         if (sd !== smallDropdown) {
           sd.classList.remove('open');
-          sd.querySelector('.small-dropdown-content').style.maxHeight = '0';
-          sd.querySelector('.small-dropdown-button').style.transform = 'scale(1)';
-          sd.querySelector('.small-dropdown-button').style.color = '#c8c8c8';
+          const sdContent = sd.querySelector('.small-dropdown-content');
+          if (sdContent) sdContent.style.maxHeight = '0';
         }
       });
 
-      // Toggle the current small dropdown
+      // Toggle current small dropdown
       if (!isOpen) {
         smallDropdown.classList.add('open');
         content.style.maxHeight = `${content.scrollHeight}px`;
-        button.style.transform = 'scale(1.1)';
-        button.style.color = '#ffffff';
       } else {
         smallDropdown.classList.remove('open');
         content.style.maxHeight = '0';
-        button.style.transform = 'scale(1)';
-        button.style.color = '#c8c8c8';
       }
     });
   });
