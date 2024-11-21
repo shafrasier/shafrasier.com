@@ -112,8 +112,8 @@ body {
 
 /* Dropdown Content */
 .dropdown-content {
-  overflow: hidden; /* Prevent clipping */
-  max-height: 0; /* Collapsed by default */
+  overflow: hidden;
+  max-height: 0;
   background: #131313;
   transition: max-height 0.3s ease; /* Smooth drop-down effect */
   margin: 10px auto;
@@ -133,7 +133,7 @@ body {
   color: #c8c8c8;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, color 0.3s ease;
-  width: 90%; /* Adjust width for mobile */
+  width: 90%;
   max-width: 250px;
   cursor: pointer;
 }
@@ -148,25 +148,24 @@ body {
   color: #ffffff;
 }
 
-/* Ensure Small Dropdowns Reset Properly */
+/* Small Dropdown Content */
 .small-dropdown-content {
   overflow: hidden;
-  max-height: 0; /* Collapsed by default */
+  max-height: 0;
   background: #131313;
-  transition: max-height 0.3s ease; /* Smooth drop-down effect */
+  transition: max-height 0.3s ease;
   margin: 5px auto;
   border-radius: 10px;
-  display: block;
 }
 
 /* Separator for Last Playlist Item */
 .small-dropdown-content .playlist-item:last-child::after {
   content: '';
   display: block;
-  width: 20%; /* Less wide than the button */
+  width: 20%;
   height: 2px;
   margin: 10px auto;
-  background: #c8c8c8; /* Matches text color */
+  background: #c8c8c8;
   border-radius: 5px;
 }
 
@@ -178,13 +177,8 @@ body {
   max-height: none; /* Remove restriction on height */
 }
 
-/* Dynamic Margin Fix for Overlap */
-.dropdown.open {
-  margin-bottom: 20px; /* Add spacing to prevent overlap */
-}
-
 @media (max-width: 768px) {
-  .dropdown-content {
-    overflow-y: visible; /* Ensure content is visible on smaller screens */
+  .small-dropdown-button {
+    width: 85%;
   }
 }
