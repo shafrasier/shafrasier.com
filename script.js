@@ -76,13 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const button = smallDropdown.querySelector('.small-dropdown-button');
     const content = smallDropdown.querySelector('.small-dropdown-content');
 
-    button.addEventListener('click', (e) => {
-      e.stopPropagation();
+    button.addEventListener('click', () => {
       const isOpen = smallDropdown.classList.contains('open');
+      const parentDropdownContent = smallDropdown.closest('.dropdown-content');
 
       // Close other small dropdowns within the same big dropdown
-      const parentDropdown = smallDropdown.closest('.dropdown-content');
-      const siblingSmallDropdowns = parentDropdown.querySelectorAll('.small-dropdown');
+      const siblingSmallDropdowns = parentDropdownContent.querySelectorAll('.small-dropdown');
       siblingSmallDropdowns.forEach(sd => {
         if (sd !== smallDropdown) {
           sd.classList.remove('open');
@@ -99,10 +98,22 @@ document.addEventListener('DOMContentLoaded', () => {
         content.style.maxHeight = '0'; // Reset height
         setTimeout(() => {
           content.style.maxHeight = `${content.scrollHeight}px`;
+
+          // Adjust parent dropdown's height dynamically
+          if (parentDropdownContent) {
+            parentDropdownContent.style.maxHeight = `${parentDropdownContent.scrollHeight}px`;
+          }
         }, 0); // Trigger recalculation
       } else {
         smallDropdown.classList.remove('open');
         content.style.maxHeight = '0';
+
+        // Adjust parent dropdown's height dynamically
+        if (parentDropdownContent) {
+          setTimeout(() => {
+            parentDropdownContent.style.maxHeight = `${parentDropdownContent.scrollHeight}px`;
+          }, 300); // Wait for small dropdown to collapse
+        }
       }
     });
   });
