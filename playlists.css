@@ -1,3 +1,4 @@
+/* General Styles */
 body {
   font-family: Futura, sans-serif;
   background: #131313;
@@ -6,22 +7,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* Ensures the page is scrollable */
-}
-
-.back-button-container::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: calc(8vh + 50px);
-  background: linear-gradient(
-    to bottom, 
-    #131313 0%, 
-    rgba(19, 19, 19, 0) 100%
-  );
-  z-index: -1;
+  overflow-y: auto;
 }
 
 .back-button-container {
@@ -54,7 +40,8 @@ body {
   z-index: 2;
 }
 
-.back-button:hover, .back-button:active {
+.back-button:hover,
+.back-button:active {
   background: #ffffff;
   color: #131313;
   transform: scale(1.1);
@@ -68,6 +55,7 @@ body {
   position: relative;
 }
 
+/* Playlist Item */
 .playlist-item {
   display: block;
   color: #c8c8c8;
@@ -81,7 +69,7 @@ body {
   color: #ffffff;
 }
 
-/* Dropdown Button */
+/* Big Dropdown Button */
 .dropdown-button {
   font-family: 'Futura', sans-serif;
   background: rgb(28, 28, 28);
@@ -109,19 +97,13 @@ body {
   color: #ffffff;
 }
 
-.dropdown-button:active {
-  transform: scale(1);
-  color: #c8c8c8;
-}
-
 /* Dropdown Content */
 .dropdown-content {
-  overflow: hidden; /* Prevent clipping */
-  max-height: 0; /* Collapsed by default */
+  overflow: hidden;
+  max-height: 0;
   background: #131313;
-  transition: max-height 0.3s ease; /* Smooth drop-down effect */
+  transition: max-height 0.3s ease;
   margin: 10px auto;
-  display: block; /* Allow block expansion */
   position: relative;
 }
 
@@ -153,37 +135,36 @@ body {
   color: #ffffff;
 }
 
-/* Ensure Small Dropdowns Reset Properly */
+/* Small Dropdown Content */
 .small-dropdown-content {
   overflow: hidden;
-  max-height: 0; /* Collapsed by default */
+  max-height: 0;
   background: #131313;
-  transition: max-height 0.3s ease; /* Smooth drop-down effect */
+  transition: max-height 0.3s ease;
   margin: 5px auto;
   border-radius: 10px;
-  display: block;
 }
 
-/* Separator for Last Playlist Item */
+/* Separator */
 .small-dropdown-content .playlist-item:last-child::after {
   content: '';
   display: block;
-  width: 20%; /* Less wide than the button */
+  width: 20%; /* Smaller than the button width */
   height: 2px;
   margin: 10px auto;
   background: #c8c8c8; /* Matches text color */
   border-radius: 5px;
 }
 
+/* Adjust for Open Dropdowns */
 .dropdown.open .dropdown-content {
-  max-height: none; /* Remove restriction on height */
+  max-height: none; /* Allow full expansion */
 }
 
 .small-dropdown.open .small-dropdown-content {
-  max-height: none; /* Remove restriction on height */
+  max-height: none; /* Allow full expansion */
 }
 
-/* Ensure that all siblings below an open dropdown are pushed down */
 .dropdown.open {
-  margin-bottom: 20px; /* Add spacing to accommodate the expanded dropdown */
+  margin-bottom: 20px; /* Space for expanded dropdown */
 }
