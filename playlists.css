@@ -133,7 +133,7 @@ body {
   color: #c8c8c8;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, color 0.3s ease;
-  width: 90%;
+  width: 70%;
   max-width: 250px;
   cursor: pointer;
 }
@@ -179,6 +179,6 @@ body {
 
 @media (max-width: 768px) {
   .small-dropdown-button {
-    width: 85%;
+    width: 40%;
   }
 }
