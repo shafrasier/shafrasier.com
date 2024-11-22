@@ -10,34 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('back-button-exit-active');
         setTimeout(() => {
           window.location.href = 'index.html'; // Replace with the home page URL
-        }, 500); // Matches the duration of the animation
+        }, 500);
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
   }
-
-  // Handle Navigation Buttons
-  document.querySelectorAll('.button').forEach(button => {
-    button.addEventListener('click', () => {
-      const destinationURL = button.getAttribute('data-destination-url');
-      if (destinationURL) {
-        document.body.classList.add('home-page-exit-active');
-        setTimeout(() => {
-          window.location.href = destinationURL;
-        }, 500); // Matches the animation duration
-      }
-    });
-  });
-
-  // Make external links open in a new tab
-  const links = document.querySelectorAll('a');
-  links.forEach(link => {
-    if (link.hostname !== window.location.hostname && link.href.startsWith('http')) {
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-    }
-  });
 
   // Handle Big Dropdowns
   const dropdowns = document.querySelectorAll('.dropdown');
@@ -53,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         d.classList.remove('open');
         d.querySelector('.dropdown-content').style.maxHeight = '0';
 
-        // Reset any small dropdowns inside this big dropdown
+        // Reset small dropdowns inside
         const childSmallDropdowns = d.querySelectorAll('.small-dropdown');
         childSmallDropdowns.forEach(sd => {
           sd.classList.remove('open');
@@ -62,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      // Toggle the current big dropdown
+      // Toggle current dropdown
       if (!isOpen) {
         dropdown.classList.add('open');
         content.style.maxHeight = `${content.scrollHeight}px`;
@@ -80,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = smallDropdown.classList.contains('open');
       const parentDropdownContent = smallDropdown.closest('.dropdown-content');
 
-      // Close other small dropdowns within the same big dropdown
+      // Close sibling small dropdowns within the same big dropdown
       const siblingSmallDropdowns = parentDropdownContent.querySelectorAll('.small-dropdown');
       siblingSmallDropdowns.forEach(sd => {
         if (sd !== smallDropdown) {
@@ -94,25 +72,25 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isOpen) {
         smallDropdown.classList.add('open');
 
-        // Fix smooth animation for the first-time open
+        // Fix smooth animation for first open
         content.style.maxHeight = '0'; // Reset height
         setTimeout(() => {
           content.style.maxHeight = `${content.scrollHeight}px`;
 
-          // Adjust parent dropdown's height dynamically
+          // Adjust parent dropdown's height
           if (parentDropdownContent) {
             parentDropdownContent.style.maxHeight = `${parentDropdownContent.scrollHeight}px`;
           }
-        }, 0); // Trigger recalculation
+        }, 0);
       } else {
         smallDropdown.classList.remove('open');
         content.style.maxHeight = '0';
 
-        // Adjust parent dropdown's height dynamically
+        // Adjust parent dropdown's height after collapse
         if (parentDropdownContent) {
           setTimeout(() => {
             parentDropdownContent.style.maxHeight = `${parentDropdownContent.scrollHeight}px`;
-          }, 300); // Wait for small dropdown to collapse
+          }, 300);
         }
       }
     });
