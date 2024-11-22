@@ -182,3 +182,12 @@ body {
     width: 40%;
   }
 }
+
+@keyframes pageExit {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100vh); } /* Move the page down */
+}
+
+.back-button-exit-active {
+    animation: pageExit 0.5s ease forwards;
+}
