@@ -15,15 +15,10 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: calc(8vh + 50px); /* Matches the back button area height */
-  background: linear-gradient(
-    to bottom,
-    rgba(19, 19, 19, 1) 0%, /* Fully opaque black at the top */
-    rgba(19, 19, 19, 0.8) 50%, /* Slightly transparent midway */
-    rgba(19, 19, 19, 0) 100% /* Fully transparent at the bottom */
-  );
-  z-index: 999; /* Ensure the shadow appears above everything else */
-  pointer-events: none; /* Prevent interference with user interactions */
+  height: calc(8vh + 50px);
+  background: linear-gradient(to bottom, #131313 0%, rgba(19, 19, 19, 0) 100%);
+  z-index: -1;
+}
 
 .back-button-container {
   position: fixed;
