@@ -184,11 +184,11 @@ body {
 
 @media (max-width: 768px) {
   .dropdown-button {
-    width: 90%;
+    width: 70%;
   }
 
   .small-dropdown-button {
-    width: 40%;
+    width: 50%;
   }
 
   .list-container {
