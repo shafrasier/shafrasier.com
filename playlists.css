@@ -23,8 +23,8 @@ body {
 .back-button-container {
   position: fixed;
   top: 8vh;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   z-index: 1000;
@@ -84,7 +84,7 @@ body {
   border: none;
   border-radius: 25px;
   padding: 15px 30px;
-  margin: 10px;
+  margin: 10px auto;
   text-align: center;
   font-size: 24px;
   color: #c8c8c8;
@@ -115,7 +115,7 @@ body {
   overflow: hidden;
   max-height: 0;
   background: #131313;
-  transition: max-height 0.3s ease; /* Smooth drop-down effect */
+  transition: max-height 0.3s ease;
   margin: 10px auto;
   position: relative;
 }
@@ -127,7 +127,7 @@ body {
   border: none;
   border-radius: 20px;
   padding: 10px 25px;
-  margin: 5px 0;
+  margin: 5px auto;
   text-align: center;
   font-size: 20px;
   color: #c8c8c8;
@@ -170,24 +170,32 @@ body {
 }
 
 .dropdown.open .dropdown-content {
-  max-height: none; /* Remove restriction on height */
+  max-height: none;
 }
 
 .small-dropdown.open .small-dropdown-content {
-  max-height: none; /* Remove restriction on height */
+  max-height: none;
 }
 
 @media (max-width: 768px) {
+  .dropdown-button {
+    width: 90%;
+  }
+
   .small-dropdown-button {
     width: 40%;
+  }
+
+  .list-container {
+    padding: 0 10px;
   }
 }
 
 @keyframes pageExit {
   0% { transform: translateY(0); }
-  100% { transform: translateY(100vh); } /* Move the page down */
+  100% { transform: translateY(100vh); }
 }
 
 .back-button-exit-active {
-    animation: pageExit 0.5s ease forwards;
+  animation: pageExit 0.5s ease forwards;
 }
