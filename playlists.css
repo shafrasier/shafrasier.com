@@ -15,9 +15,9 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: calc(8vh + 50px);
-  background: linear-gradient(to bottom, #131313 0%, rgba(19, 19, 19, 0) 100%);
-  z-index: -1;
+  height: calc(8vh + 50px); /* Adjust height as needed */
+  background: linear-gradient(to bottom, #131313 0%, rgba(19, 19, 19, 0.5) 100%);
+  z-index: -1; /* Ensures the shadow stays behind the button */
 }
 
 .back-button-container {
