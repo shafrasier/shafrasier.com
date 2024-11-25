@@ -12,16 +12,16 @@ body {
 .back-button-container::before {
   content: '';
   position: fixed;
-  top: 0; /* Start the gradient from the top of the screen */
+  top: 0;
   left: 0;
-  right: 0;
-  height: calc(8vh + 50px); /* Gradient extends from the top of the screen to the bottom of the back button */
+  width: 100%; /* Ensures the shadow spans the full width of the screen */
+  height: 15vh; /* Extends slightly below the back button */
   background: linear-gradient(
-    to bottom, 
-    #131313 0%, /* Fully opaque at the top */
-    rgba(19, 19, 19, 0) 100% /* Fully transparent at the bottom */
+    to bottom,
+    rgba(0, 0, 0, 0.8) 0%, /* Strong shadow effect at the top */
+    rgba(0, 0, 0, 0) 100% /* Transparent at the bottom */
   );
-  z-index: -1; /* Below the back button */
+  z-index: 0; /* Ensures it stays behind the back button but above the background */
 }
 
 .back-button-container {
