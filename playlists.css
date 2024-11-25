@@ -11,18 +11,18 @@ body {
 
 .back-button-container::before {
   content: '';
-  position: fixed;
-  top: 0; /* Start at the very top of the screen */
-  left: 0; /* Align to the left edge of the screen */
-  right: 0; /* Align to the right edge of the screen */
-  height: 15vh; /* Extend the shadow down below the back button */
+  position: fixed; /* Position the shadow relative to the viewport */
+  top: 0; /* Start at the very top of the viewport */
+  left: 0; /* Align to the left edge of the viewport */
+  width: 100vw; /* Full viewport width */
+  height: 8vh; /* Height above the back button */
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.8) 0%, /* Strong shadow at the top */
-    rgba(0, 0, 0, 0) 100% /* Gradual fade to transparent */
+    rgba(19, 19, 19, 0.8) 0%, /* Darker shadow at the top */
+    rgba(19, 19, 19, 0) 100% /* Transparent fade */
   );
-  z-index: -1; /* Ensures the shadow is behind the back button */
-  pointer-events: none; /* Prevents interference with user interactions */
+  z-index: -1; /* Ensure it stays behind the back button */
+  pointer-events: none; /* Prevent interaction issues */
 }
 
 .back-button-container {
