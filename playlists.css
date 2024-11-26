@@ -11,17 +11,17 @@ body {
 
 .back-button-container::before {
   content: '';
-  position: fixed; /* Fixed position so it doesn't move with scrolling */
+  position: fixed; /* Ensure it covers the whole viewport */
   top: 0; /* Start at the very top of the viewport */
   left: 0; /* Start at the left edge of the viewport */
-  width: 100vw; /* Full width of the viewport */
-  height: 100vh; /* Full height of the viewport */
+  width: 100%; /* Full width of the screen */
+  height: 100%; /* Full height of the screen */
   background: linear-gradient(
     to bottom,
     rgba(19, 19, 19, 0.8) 0%, /* Shadow starts dark at the top */
     rgba(19, 19, 19, 0) 80% /* Fades out to transparent */
   );
-  z-index: -1; /* Ensure it is behind all other elements */
+  z-index: -1; /* Ensure it is behind other elements */
   pointer-events: none; /* Prevent interaction with the pseudo-element */
 }
 
