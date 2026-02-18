@@ -196,10 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Hashed passwords - original values not stored in code
-  // Maps hashed input -> hashed data-password attribute (or null for default)
+  // Maps hashed input -> { key: data-password to match, message: custom message }
   const DIARY_PASSWORD_HASHES = {
-    '-aa463p': null,       // reveals items without data-password
-    '1psb0g': '1psb0g'     // reveals items with matching hash
+    '-aa463p': { key: null, message: 'hi tommy <3' },
+    '1psb0g': { key: '1psb0g', message: 'for you, meira' }
   };
 
   if (diaryPasswordInput) {
@@ -207,9 +207,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const input = e.target.value;
       const hashedInput = hashPassword(input);
       if (DIARY_PASSWORD_HASHES.hasOwnProperty(hashedInput)) {
-        revealHiddenPlaylists(DIARY_PASSWORD_HASHES[hashedInput]);
+        const { key, message } = DIARY_PASSWORD_HASHES[hashedInput];
+        revealHiddenPlaylists(key);
         diaryPasswordInput.value = '';
-        diaryPasswordInput.placeholder = 'Hidden playlists revealed!';
+        diaryPasswordInput.placeholder = message;
         setTimeout(() => {
           diaryPasswordInput.placeholder = 'have a password?';
         }, 3000);
