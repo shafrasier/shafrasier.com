@@ -44,68 +44,26 @@ body:not(.light-mode) {
   pointer-events: none;
 }
 
-/* Floating Buttons (Islands) - Liquid Glass Style */
+/* Floating Buttons (Islands) - Matching playlist nav buttons */
 .floating-button {
   position: absolute;
-  /* Liquid Glass: translucent background with blur */
+  /* Glass panel style - same as playlist-nav-btn */
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  /* Subtle border for glass edge definition */
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 25px;
-  padding: 20px 40px;
+  padding: 20px 50px;
   text-align: center;
   text-decoration: none;
-  font-size: 24px;
-  color: #2a2a2a;
-  /* Soft shadow for depth */
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-  transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
-              box-shadow 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
-              color 0.3s ease,
-              background 0.3s ease,
-              border-color 0.3s ease;
+  font-family: Futura, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--color-text, #c8c8c8);
+  transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
   pointer-events: auto;
   will-change: transform;
-}
-
-/* Spotlight effect - beam from directly above the button */
-.floating-button {
-  position: relative;
-}
-
-.floating-button::before {
-  content: '';
-  position: absolute;
-  top: -250px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 180px;
-  height: 280px;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-  /* Beam coming down from above and touching the button */
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0.45) 20%,
-    rgba(255, 255, 255, 0.3) 45%,
-    rgba(255, 255, 255, 0.15) 70%,
-    rgba(255, 255, 255, 0.08) 90%,
-    transparent 100%
-  );
-  filter: blur(25px);
-  mix-blend-mode: screen;
-}
-
-/* All buttons get the same beam-from-above effect */
-.floating-button:hover::before {
-  opacity: 1;
 }
 
 /* Individual button positions (will be animated) */
@@ -124,26 +82,30 @@ body:not(.light-mode) {
   left: 30%;
 }
 
-/* Hover State - Liquid Glass lift with enhanced glow */
+/* Hover State - Same as playlist nav buttons */
 .floating-button:hover {
-  transform: translateY(-8px) scale(1.05);
+  transform: translateY(-4px) scale(1.05);
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.4);
-  box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.15),
-    0 0 60px rgba(255, 255, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-  color: #000000;
+  color: var(--color-text-active, #ffffff);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
-/* Active State - Pressed glass effect */
+/* Active State */
 .floating-button:active {
-  transform: translateY(-4px) scale(1.02);
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.12),
-    inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Light mode styles */
+body.light-mode .floating-button {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--color-text, #2a2a2a);
+}
+
+body.light-mode .floating-button:hover {
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--color-text-active, #000000);
 }
 
 /* Name Container - Centered, Subtle */

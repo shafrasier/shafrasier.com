@@ -358,11 +358,12 @@ body.light-mode .playlist-nav-btn:hover {
   color: var(--color-text-active, #ffffff);
 }
 
-/* Info popup */
+/* Info popup - positioned relative to the header */
 .diary-info-popup {
   position: absolute;
   top: 50%;
-  left: calc(50% + 80px);
+  left: 100%;
+  margin-left: 15px;
   transform: translateY(-50%);
   background: var(--glass-bg, rgba(255, 255, 255, 0.08));
   border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
@@ -375,6 +376,7 @@ body.light-mode .playlist-nav-btn:hover {
   z-index: 100;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  white-space: normal;
 }
 
 .diary-info-popup.visible {
