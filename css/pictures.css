@@ -1,0 +1,33 @@
+/* ===================================
+   PICTURES PAGE SPECIFIC STYLES
+   =================================== */
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: #131313;
+}
+
+.back-button-container {
+  margin-top: 50px;
+}
+
+.photo-grid {
+  display: grid;
+  padding-top: 60px;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 4px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.photo {
+  width: 100%;
+  padding-bottom: 40px;
+  height: auto;
+  display: block;
+}

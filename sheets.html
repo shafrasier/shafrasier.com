@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="sheets.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/sheets.css" />
     <title>SHEETS</title>
     <script src="https://kit.fontawesome.com/033ca96877.js" crossorigin="anonymous"></script>
   </head>
@@ -22,6 +23,18 @@
       <a href="https://docs.google.com/spreadsheets/d/18j8hrELW_qQGok8WdlLAad1IW382HKSkBle9b-bZabs/edit#gid=0" class="sheets-link">1960--69</a>
       <a href="https://docs.google.com/spreadsheets/d/1EUMO6yHI7IqN6tWhFc8Ty1iA3AbVpbvkpWX_YDfnlHI/edit#gid=0" class="sheets-link">1950--59</a>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+      <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <svg class="sun-icon" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 1v3m0 16v3M4.22 4.22l2.12 2.12m11.32 11.32l2.12 2.12M1 12h3m16 0h3M4.22 19.78l2.12-2.12m11.32-11.32l2.12-2.12"/>
+      </svg>
+    </button>
+
+    <script src="js/script.js"></script>
   </body>
 </html>

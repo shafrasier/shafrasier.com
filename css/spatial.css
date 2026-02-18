@@ -1,0 +1,494 @@
+/* ===================================
+   SPATIAL DESIGN - FLOATING ISLANDS
+   =================================== */
+
+* {
+  cursor: none; /* Hide default cursor for custom one */
+}
+
+body {
+  font-family: Futura, sans-serif;
+  background: #f5f5f5; /* Light mode default */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Dark mode background */
+body:not(.light-mode) {
+  background: #131313;
+}
+
+/* Three.js Canvas Background */
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Floating Container */
+.floating-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Floating Buttons (Islands) - Liquid Glass Style */
+.floating-button {
+  position: absolute;
+  /* Liquid Glass: translucent background with blur */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  /* Subtle border for glass edge definition */
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 25px;
+  padding: 20px 40px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 24px;
+  color: #2a2a2a;
+  /* Soft shadow for depth */
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+              box-shadow 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+              color 0.3s ease,
+              background 0.3s ease,
+              border-color 0.3s ease;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+/* Spotlight effect - beam from screen corner to button */
+.floating-button {
+  position: relative;
+}
+
+.floating-button::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  transition: opacity 0.7s ease, width 0.7s ease, height 0.7s ease, left 0.7s ease, right 0.7s ease;
+  pointer-events: none;
+  z-index: 100;
+  filter: blur(40px);
+  mix-blend-mode: screen;
+}
+
+/* Spotlight from top-left corner for left-side buttons */
+#sheets-btn::before,
+#writing-btn::before {
+  left: 0;
+  background: radial-gradient(circle at 0% 0%,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.22) 10%,
+    rgba(255, 255, 255, 0.12) 25%,
+    rgba(255, 255, 255, 0.05) 45%,
+    transparent 65%);
+}
+
+/* Spotlight from top-right corner for right-side buttons */
+#playlists-btn::before {
+  left: auto;
+  right: 0;
+  background: radial-gradient(circle at 100% 0%,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.22) 10%,
+    rgba(255, 255, 255, 0.12) 25%,
+    rgba(255, 255, 255, 0.05) 45%,
+    transparent 65%);
+}
+
+.floating-button:hover::before {
+  opacity: 1;
+  width: 100vw;
+  height: 120vh;
+}
+
+/* Individual button positions (will be animated) */
+#sheets-btn {
+  top: 20%;
+  left: 15%;
+}
+
+#playlists-btn {
+  top: 35%;
+  left: 60%;
+}
+
+#writing-btn {
+  top: 55%;
+  left: 30%;
+}
+
+/* Hover State - Liquid Glass lift with enhanced glow */
+.floating-button:hover {
+  transform: translateY(-8px) scale(1.05);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.15),
+    0 0 60px rgba(255, 255, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  color: #000000;
+}
+
+/* Active State - Pressed glass effect */
+.floating-button:active {
+  transform: translateY(-4px) scale(1.02);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Name Container - Centered, Subtle */
+.name-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  text-align: center;
+  opacity: 0.4;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.name-container:hover {
+  opacity: 0.7;
+}
+
+.name {
+  font-size: 3rem;
+  font-weight: 300;
+  color: #c8c8c8;
+  margin: 0;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Custom Cursor - Just the dot */
+.custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.cursor-inner {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+.cursor-outer {
+  display: none;
+}
+
+/* Social Icons */
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background-color: rgb(28, 28, 28);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  pointer-events: auto;
+}
+
+.social-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Invert LinkedIn and Instagram to white in dark mode */
+#linkedin-logo img,
+#instagram-logo img {
+  filter: invert(1) brightness(1);
+}
+
+/* Size adjustments for each logo */
+#linkedin-logo img {
+  width: 70%;
+  height: 70%;
+}
+
+#instagram-logo img {
+  width: 110%;
+  height: 110%;
+}
+
+#substack-logo img {
+  width: 110%;
+  height: 110%;
+  filter: none;
+}
+
+/* Hover effects for LinkedIn and Instagram */
+#linkedin-logo:hover img,
+#instagram-logo:hover img {
+  transform: scale(1.1);
+  filter: invert(1) brightness(1.2);
+}
+
+#linkedin-logo:active img,
+#instagram-logo:active img {
+  transform: scale(0.95);
+  filter: invert(1) brightness(0.8);
+}
+
+/* Hover effects for Substack (no invert) */
+#substack-logo:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+#substack-logo:active img {
+  transform: scale(0.95);
+  filter: brightness(0.8);
+}
+
+.social-icons-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  gap: 15px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Dark Mode Button Overrides (when toggled from light default) */
+body:not(.light-mode) .floating-button {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #c8c8c8;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+body:not(.light-mode) .floating-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+body:not(.light-mode) .floating-button:active {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Light Mode Overrides */
+body.light-mode {
+  background: #f5f5f5;
+}
+
+body.light-mode .social-icon {
+  background-color: #e8e8e8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Light mode - show original dark icons for LinkedIn and Instagram */
+body.light-mode #linkedin-logo img,
+body.light-mode #instagram-logo img {
+  filter: none !important;
+}
+
+body.light-mode #linkedin-logo:hover img,
+body.light-mode #instagram-logo:hover img {
+  filter: brightness(1.2) !important;
+}
+
+body.light-mode #linkedin-logo:active img,
+body.light-mode #instagram-logo:active img {
+  filter: brightness(0.8) !important;
+}
+
+/* Invert Substack in light mode (it's white, needs to be dark) */
+body.light-mode #substack-logo img {
+  filter: invert(1) !important;
+}
+
+body.light-mode #substack-logo:hover img {
+  filter: invert(1) brightness(1.2) !important;
+}
+
+body.light-mode #substack-logo:active img {
+  filter: invert(1) brightness(0.8) !important;
+}
+
+/* Light mode already uses Liquid Glass styling - enhance it */
+body.light-mode .floating-button {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #2a2a2a;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode .floating-button:hover {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.12),
+    0 0 60px rgba(255, 255, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+  color: #000000;
+}
+
+/* Spotlight in light mode - golden beam from corner */
+body.light-mode #sheets-btn::before,
+body.light-mode #writing-btn::before {
+  background: radial-gradient(circle at 0% 0%,
+    rgba(255, 220, 100, 0.5) 0%,
+    rgba(255, 230, 130, 0.35) 10%,
+    rgba(255, 235, 160, 0.2) 25%,
+    rgba(255, 240, 190, 0.08) 45%,
+    transparent 65%);
+}
+
+body.light-mode #playlists-btn::before {
+  background: radial-gradient(circle at 100% 0%,
+    rgba(255, 220, 100, 0.5) 0%,
+    rgba(255, 230, 130, 0.35) 10%,
+    rgba(255, 235, 160, 0.2) 25%,
+    rgba(255, 240, 190, 0.08) 45%,
+    transparent 65%);
+}
+
+body.light-mode .name {
+  color: #2a2a2a;
+}
+
+body.light-mode .cursor-inner {
+  background: #000000;
+}
+
+body.light-mode .cursor-outer {
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Section Content Overlays */
+.section-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  pointer-events: auto;
+  padding: 80px 40px 40px;
+  overflow-y: auto;
+}
+
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #c8c8c8;
+}
+
+.section-inner h1 {
+  font-size: 3rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.section-content .back-button {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 100;
+}
+
+/* Light mode section content */
+body.light-mode .section-inner {
+  color: #2a2a2a;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .floating-button {
+    font-size: 18px;
+    padding: 15px 30px;
+  }
+
+  .name {
+    font-size: 2rem;
+  }
+
+  /* Stack buttons vertically on mobile */
+  #sheets-btn {
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #playlists-btn {
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #writing-btn {
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Disable custom cursor on mobile */
+  * {
+    cursor: auto !important;
+  }
+
+  .custom-cursor {
+    display: none;
+  }
+
+  /* Disable floating animations on mobile for better positioning */
+  .floating-button {
+    animation: none !important;
+  }
+}

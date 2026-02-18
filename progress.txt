@@ -1,0 +1,162 @@
+# Portfolio Progress
+Last Updated: February 5, 2025
+
+## Current State
+
+### Completed
+- ✅ 5 pages built and functional: Home, Sheets, Playlists, Writing, Pictures
+- ✅ Dark theme implemented (#131313 background)
+- ✅ Light theme implemented (#f5f5f5 background) with toggle
+- ✅ Theme persistence via localStorage
+- ✅ Page transitions working (slide up/down, 0.5s)
+- ✅ Button interactions (hover scale 1.1, active scale 0.95)
+- ✅ Dropdown system functional (big and small dropdowns, 300ms transitions)
+- ✅ Nested dropdowns working (HIP-HOP/trap, ROCK/alternative)
+- ✅ Social media links integrated (LinkedIn, Instagram, Substack)
+- ✅ Back button navigation working
+- ✅ Responsive layout (mobile 768px, short screens 568px breakpoints)
+- ✅ External links open in new tab automatically
+- ✅ Scroll-to-top behavior on back button (two-click navigation)
+- ✅ Spatial/experimental homepage (index-spatial.html) with Three.js + GSAP
+
+### Tech Stack
+- HTML5, CSS3, Vanilla JavaScript
+- Futura font (500 weight)
+- Font Awesome (icons via CDN)
+- Three.js (spatial page only)
+- GSAP (spatial page only)
+- No frameworks, no build tools
+- Files organized: css/, js/, pictures/, fonts/ directories
+
+### Design System Formalized
+- Colors: #131313 (bg), rgb(28,28,28) (button bg), #c8c8c8 (text), #ffffff (active)
+- Spacing: 5px, 8px, 10px, 15px, 20px, 25px, 30px, 40px, 50px, 60px, 70px, 80px
+- Border radius: 5px, 10px, 20px, 25px, 50%
+- Animations: 0.2s (fast), 0.3s (elements), 0.4s (floating), 0.5s (pages), 0.7s (spotlight)
+- Components: Buttons, floating buttons, social icons, big dropdowns, small dropdowns, back button, theme toggle
+
+### Documentation Created
+- ✅ CLAUDE.md - Development guidelines and project rules
+- ✅ DESIGN_SYSTEM.md - Complete design token reference
+- ✅ TECH_STACK.md - Technical constraints and capabilities
+- ✅ APP_FLOW.md - User journey documentation
+- ✅ PRD.md - Product requirements document
+
+## Recently Completed (This Session)
+- Created comprehensive documentation suite
+- Fixed spatial homepage button visibility issues
+- Fixed GSAP console warnings (missing .name-container element)
+- Updated button positioning in spatial.css
+
+## In Progress
+- Documentation complete, ready for design audit phase
+
+## Planned Next
+- Conduct full design audit using DESIGN.md guidelines
+- Implement Phase 1 design improvements
+- Consider making index-spatial.html the main homepage
+- Add Pictures page link to home navigation (or keep hidden intentionally)
+- Review and improve accessibility
+
+## Known Issues
+
+### Functional Issues
+- [ ] Pictures page back button uses direct href instead of JavaScript animation
+- [ ] Pictures page images have generic alt text ("Description of photo X")
+- [ ] Playlists page has one link with leading space in href (POND link)
+
+### Animation/Performance
+- [x] Console warnings fixed in spatial.js (name-container guards added)
+- [ ] GSAP warnings may appear briefly in console history (cached from before fix)
+
+### Accessibility Issues
+- [ ] Social icons missing aria-labels
+- [ ] Back buttons missing aria-labels (only have Font Awesome icons)
+- [ ] Dropdown buttons missing aria-expanded attribute
+- [ ] No skip-to-content link
+- [ ] Focus states rely on browser defaults (could be more visible)
+
+### Responsive Issues
+- [ ] Spatial page buttons may drift off-screen on very narrow viewports during GSAP animation
+- [ ] No explicit tablet breakpoint (jumps from mobile to desktop)
+
+## Design Debt
+
+### Spacing Inconsistencies
+- [ ] Pictures page back-button uses margin-top (50px) instead of fixed position like other pages
+- [ ] Sheets page links use margin-bottom: 20px, could use consistent spacing token
+- [ ] Content container margin-top calculations vary across pages (8vh + 60px, 8vh + 70px)
+
+### Typography
+- [ ] Font Awesome icons vs. SVG icons inconsistency (back button vs. theme toggle)
+- [ ] Sheets links use 35px, playlists use 24px/20px - could be more systematic
+
+### Component Consistency
+- [ ] Pictures page back button implementation differs from other pages
+- [ ] Playlists gradient overlay is unique to that page - could be systematic
+
+### Color Usage
+- [ ] rgb(28, 28, 28) and #1c1c1c are the same but written differently across files
+- [ ] Light mode overrides scattered across multiple CSS files (could consolidate)
+
+## Technical Debt
+
+### Code Organization
+- [ ] Duplicate social icon styles in home.css and spatial.css
+- [ ] Light mode CSS scattered across multiple files
+- [ ] No CSS custom properties (would enable easier theming)
+
+### HTML
+- [ ] Missing meta description on all pages
+- [ ] Missing Open Graph tags for social sharing
+- [ ] Missing favicon link in <head> (file exists but not linked)
+
+### JavaScript
+- [ ] script.js handles multiple concerns (navigation, dropdowns, theme) - could modularize
+- [ ] No error handling for missing elements
+
+## File Structure
+```
+/
+├── index.html              # Main home page
+├── index-spatial.html      # Experimental spatial home page
+├── sheets.html             # Music spreadsheets by decade
+├── playlists.html          # Apple Music playlists by genre
+├── writing.html            # Published articles
+├── pictures.html           # Photo gallery (hidden)
+│
+├── css/
+│   ├── global.css          # Shared styles, theme, animations
+│   ├── home.css            # Home page styles
+│   ├── spatial.css         # Spatial page styles
+│   ├── sheets.css          # Sheets page styles
+│   ├── playlists.css       # Playlists page styles
+│   ├── writing.css         # Writing page styles
+│   └── pictures.css        # Pictures page styles
+│
+├── js/
+│   ├── script.js           # Shared navigation, dropdowns, theme
+│   └── spatial.js          # Three.js ocean + GSAP animations
+│
+├── fonts/                  # Jost font files
+├── pictures/               # Images and icons
+│
+├── CLAUDE.md               # Development guidelines
+├── DESIGN_SYSTEM.md        # Design tokens
+├── TECH_STACK.md           # Technical constraints
+├── APP_FLOW.md             # User journeys
+├── PRD.md                  # Product requirements
+└── progress.txt            # This file
+```
+
+## Notes
+- Main branch: main
+- Current worktree: eloquent-merkle
+- Animations are critical to UX - must maintain smoothness at 60fps
+- Vanilla JS constraint is intentional - no frameworks
+- Dark theme is the primary experience, light mode is secondary
+- Pictures page is intentionally hidden (no link from home)
+- Spatial homepage is experimental - may become main homepage
+
+## Session History
+- Feb 5, 2025: Created documentation suite (DESIGN_SYSTEM.md, TECH_STACK.md, APP_FLOW.md, PRD.md, progress.txt), fixed spatial page issues
