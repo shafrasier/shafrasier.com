@@ -184,17 +184,30 @@ document.addEventListener('DOMContentLoaded', () => {
   // DIARY PASSWORD PROTECTION
   // ===================================
 
-  // Multiple passwords supported - items without data-password use default
-  const DIARY_PASSWORDS = {
-    'tommysupreme': null,  // null means reveal items without data-password attribute
-    'meira': 'meira'       // reveals items with data-password="meira"
+  // Simple hash function for password obfuscation
+  function hashPassword(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return hash.toString(36);
+  }
+
+  // Hashed passwords - original values not stored in code
+  // Maps hashed input -> hashed data-password attribute (or null for default)
+  const DIARY_PASSWORD_HASHES = {
+    '-js7s87c': null,      // reveals items without data-password
+    '2xljj': '2xljj'       // reveals items with matching hash
   };
 
   if (diaryPasswordInput) {
     diaryPasswordInput.addEventListener('input', (e) => {
       const input = e.target.value;
-      if (DIARY_PASSWORDS.hasOwnProperty(input)) {
-        revealHiddenPlaylists(DIARY_PASSWORDS[input]);
+      const hashedInput = hashPassword(input);
+      if (DIARY_PASSWORD_HASHES.hasOwnProperty(hashedInput)) {
+        revealHiddenPlaylists(DIARY_PASSWORD_HASHES[hashedInput]);
         diaryPasswordInput.value = '';
         diaryPasswordInput.placeholder = 'Hidden playlists revealed!';
         setTimeout(() => {
@@ -204,13 +217,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function revealHiddenPlaylists(passwordKey) {
-    // Reveal hidden items matching the password key
+  function revealHiddenPlaylists(hashedKey) {
+    // Reveal hidden items matching the hashed password key
     const hiddenItems = document.querySelectorAll('.diary-hidden-item');
     hiddenItems.forEach(item => {
-      const itemPassword = item.dataset.password || null;
-      // Reveal if password matches (null matches items without data-password)
-      if (itemPassword === passwordKey) {
+      const itemHash = item.dataset.password || null;
+      // Reveal if hash matches (null matches items without data-password)
+      if (itemHash === hashedKey) {
         item.style.display = 'flex';
         // Add animation
         if (typeof gsap !== 'undefined') {
