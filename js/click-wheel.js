@@ -202,19 +202,47 @@ document.addEventListener('DOMContentLoaded', () => {
     '1psb0g': { key: '1psb0g', message: 'unlocked' }
   };
 
+  const diaryPasswordMessage = document.getElementById('diaryPasswordMessage');
+
   if (diaryPasswordInput) {
+    // Add glow when typing
     diaryPasswordInput.addEventListener('input', (e) => {
       const input = e.target.value;
+
+      // Toggle typing class for glow effect
+      if (input.length > 0) {
+        diaryPasswordInput.classList.add('typing');
+      } else {
+        diaryPasswordInput.classList.remove('typing');
+      }
+
       const hashedInput = hashPassword(input);
       if (DIARY_PASSWORD_HASHES.hasOwnProperty(hashedInput)) {
         const { key, message } = DIARY_PASSWORD_HASHES[hashedInput];
         revealHiddenPlaylists(key);
         diaryPasswordInput.value = '';
-        diaryPasswordInput.placeholder = message;
+        diaryPasswordInput.classList.remove('typing');
+
+        // Flash effect
+        diaryPasswordInput.classList.add('accepted');
         setTimeout(() => {
-          diaryPasswordInput.placeholder = 'have a password?';
-        }, 3000);
+          diaryPasswordInput.classList.remove('accepted');
+        }, 600);
+
+        // Show message below field
+        if (diaryPasswordMessage) {
+          diaryPasswordMessage.textContent = message;
+          diaryPasswordMessage.classList.add('visible');
+          setTimeout(() => {
+            diaryPasswordMessage.classList.remove('visible');
+          }, 10000);
+        }
       }
+    });
+
+    // Remove glow on blur
+    diaryPasswordInput.addEventListener('blur', () => {
+      diaryPasswordInput.classList.remove('typing');
     });
   }
 
