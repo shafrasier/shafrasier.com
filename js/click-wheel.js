@@ -56,28 +56,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!targetView) return;
 
-    // Determine swivel direction based on which view we're going to
-    // Landing = center, Genre = slight right, Misc = center, Diary = slight left
-    let transformOrigin = 'center';
-    let exitTransform = '';
-    let enterTransform = '';
+    // Calculate animation values based on direction
+    let exitX = 0, exitY = 0, enterX = 0, enterY = 0;
+    let exitRotateY = 0, enterRotateY = 0;
+    const hasAnimation = direction !== 'center';
 
     if (direction === 'right') {
-      exitTransform = 'translateX(-30px) rotateY(5deg)';
-      enterTransform = 'translateX(30px) rotateY(-5deg)';
+      exitX = -30; enterX = 30;
+      exitRotateY = 5; enterRotateY = -5;
     } else if (direction === 'left') {
-      exitTransform = 'translateX(30px) rotateY(-5deg)';
-      enterTransform = 'translateX(-30px) rotateY(5deg)';
+      exitX = 30; enterX = -30;
+      exitRotateY = -5; enterRotateY = 5;
+    } else if (direction === 'up') {
+      exitY = 30; enterY = -30;
+    } else if (direction === 'down') {
+      exitY = -30; enterY = 30;
     }
 
-    // Fade out current view with swivel
+    // Fade out current view with slide
     views.forEach(view => {
       if (view && view.classList.contains('active')) {
-        if (typeof gsap !== 'undefined' && exitTransform) {
+        if (typeof gsap !== 'undefined' && hasAnimation) {
           gsap.to(view, {
             opacity: 0,
-            x: direction === 'right' ? -30 : direction === 'left' ? 30 : 0,
-            rotateY: direction === 'right' ? 5 : direction === 'left' ? -5 : 0,
+            x: exitX,
+            y: exitY,
+            rotateY: exitRotateY,
             duration: 0.3,
             ease: 'power2.in',
             onComplete: () => {
@@ -92,18 +96,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Fade in target view with swivel from opposite direction
+    // Fade in target view with slide from opposite direction
     setTimeout(() => {
-      if (typeof gsap !== 'undefined' && enterTransform) {
+      if (typeof gsap !== 'undefined' && hasAnimation) {
         gsap.set(targetView, {
           opacity: 0,
-          x: direction === 'right' ? 30 : direction === 'left' ? -30 : 0,
-          rotateY: direction === 'right' ? -5 : direction === 'left' ? 5 : 0
+          x: enterX,
+          y: enterY,
+          rotateY: enterRotateY
         });
         targetView.classList.add('active');
         gsap.to(targetView, {
           opacity: 1,
           x: 0,
+          y: 0,
           rotateY: 0,
           duration: 0.4,
           ease: 'power2.out'
@@ -111,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         targetView.classList.add('active');
       }
-    }, (direction !== 'center') ? 250 : 0);
+    }, hasAnimation ? 250 : 0);
 
     currentPlaylistView = viewId;
   }
@@ -156,11 +162,14 @@ document.addEventListener('DOMContentLoaded', () => {
   playlistNavBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const targetView = btn.dataset.playlistView;
-      let direction = 'center';
+      let direction = 'right'; // Default slide direction
 
-      // Determine swivel direction
-      if (targetView === 'genre-view') direction = 'right';
-      else if (targetView === 'diary-view') direction = 'left';
+      // Determine swivel direction based on layout position
+      // GENRE is on left, MOMENTS in center, DIARY on right, MORE below
+      if (targetView === 'genre-view') direction = 'left';
+      else if (targetView === 'moments-view') direction = 'up';
+      else if (targetView === 'diary-view') direction = 'right';
+      else if (targetView === 'misc-view') direction = 'down';
 
       showPlaylistsView(targetView, direction);
     });
@@ -170,11 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
   playlistsBackBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const backTo = btn.dataset.backTo;
-      let direction = 'center';
+      let direction = 'left'; // Default reverse direction
 
       // Reverse direction when going back
-      if (currentPlaylistView === 'genre-view') direction = 'left';
-      else if (currentPlaylistView === 'diary-view') direction = 'right';
+      if (currentPlaylistView === 'genre-view') direction = 'right';
+      else if (currentPlaylistView === 'moments-view') direction = 'down';
+      else if (currentPlaylistView === 'diary-view') direction = 'left';
+      else if (currentPlaylistView === 'misc-view') direction = 'up';
 
       showPlaylistsView(backTo, direction);
     });
