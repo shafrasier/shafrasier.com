@@ -206,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Fade out social icons only (keep theme toggle visible)
       gsap.to('.social-icons-container', {
         opacity: 0,
+        pointerEvents: 'none',
         duration: 0.5,
         ease: 'power2.in'
       });
@@ -325,6 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     timeline.to('.social-icons-container', {
       opacity: 1,
+      pointerEvents: 'auto',
       duration: 0.6,
       ease: 'power2.out'
     }, 0.4);

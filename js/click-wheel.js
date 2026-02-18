@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         targetView.classList.add('active');
       }
-    }, direction ? 250 : 0);
+    }, (direction !== 'center') ? 250 : 0);
 
     currentPlaylistView = viewId;
   }
@@ -293,6 +293,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // ===================================
+  // DIARY INFO POPUP
+  // ===================================
+  const diaryInfoBtn = document.getElementById('diaryInfoBtn');
+  const diaryInfoPopup = document.getElementById('diaryInfoPopup');
+
+  if (diaryInfoBtn && diaryInfoPopup) {
+    diaryInfoBtn.addEventListener('click', () => {
+      diaryInfoPopup.classList.toggle('visible');
+    });
+
+    // Close popup when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!diaryInfoBtn.contains(e.target) && !diaryInfoPopup.contains(e.target)) {
+        diaryInfoPopup.classList.remove('visible');
+      }
+    });
+  }
 
   // ===================================
   // VIEW SWITCHING (ORIGINAL)

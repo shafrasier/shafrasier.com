@@ -312,15 +312,83 @@ body.light-mode .playlist-nav-btn:hover {
   100% { box-shadow: none; }
 }
 
+/* DIARY header with title and info button */
+.diary-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
 /* DIARY title */
 .diary-title {
   font-family: Futura, sans-serif;
-  font-size: 14px;
+  font-size: 28px;
   font-weight: 500;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.15em;
   color: var(--color-text-muted, #888888);
   text-align: center;
-  margin-bottom: 20px;
+  margin: 0;
+}
+
+/* Info button */
+.diary-info-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--color-text-muted, #888888);
+  background: transparent;
+  color: var(--color-text-muted, #888888);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  font-style: italic;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.diary-info-btn:hover {
+  border-color: var(--color-text-active, #ffffff);
+  color: var(--color-text-active, #ffffff);
+}
+
+/* Info popup */
+.diary-info-popup {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 80px);
+  transform: translateY(-50%);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
+  border-radius: 12px;
+  padding: 16px 20px;
+  max-width: 280px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.diary-info-popup.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.diary-info-popup p {
+  font-family: Futura, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text, #c8c8c8);
+  margin: 0;
+  line-height: 1.5;
 }
 
 /* Password message below field */
