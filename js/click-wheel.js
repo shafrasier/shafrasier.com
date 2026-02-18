@@ -198,8 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hashed passwords - original values not stored in code
   // Maps hashed input -> hashed data-password attribute (or null for default)
   const DIARY_PASSWORD_HASHES = {
-    '-js7s87c': null,      // reveals items without data-password
-    '2xljj': '2xljj'       // reveals items with matching hash
+    '-aa463p': null,       // reveals items without data-password
+    '1psb0g': '1psb0g'     // reveals items with matching hash
   };
 
   if (diaryPasswordInput) {
