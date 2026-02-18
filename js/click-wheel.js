@@ -4,7 +4,11 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // Elements
+  const playlistsLanding = document.getElementById('playlists-landing');
   const genreView = document.getElementById('genre-view');
+  const miscView = document.getElementById('misc-view');
+  const momentsView = document.getElementById('moments-view');
+  const diaryView = document.getElementById('diary-view');
   const wheelView = document.getElementById('wheel-view');
   const genreFolders = document.querySelectorAll('.genre-folder:not(.sequences-folder)');
   const backToHome = document.getElementById('backToHome');
@@ -19,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const wheelCenter = document.getElementById('wheelCenter');
   const wheelIndicator = document.getElementById('wheelIndicator');
   const searchBar = document.getElementById('playlistSearch');
+  const diaryPasswordInput = document.getElementById('diaryPassword');
+  const playlistNavBtns = document.querySelectorAll('.playlist-nav-btn');
+  const playlistsBackBtns = document.querySelectorAll('.playlists-back');
 
   // State
   let currentGenre = null;
@@ -26,14 +33,238 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentIndex = 0;
   let currentSubgenre = null;
   let isAnimating = false;
+  let currentPlaylistView = 'playlists-landing';
+  let previousGenreView = 'genre-view'; // Track which view to return to from wheel
 
   // ===================================
-  // VIEW SWITCHING
+  // PLAYLISTS NAVIGATION WITH CAMERA SWIVEL
+  // ===================================
+
+  // Camera reference from spatial.js
+  let camera = null;
+
+  // Try to get camera reference
+  function getCamera() {
+    // The camera is set up in spatial.js - we need to access it
+    // For now, we'll use CSS transforms for the swivel effect
+    return null;
+  }
+
+  function showPlaylistsView(viewId, direction = 'center') {
+    const views = [playlistsLanding, genreView, miscView, momentsView, diaryView, wheelView];
+    const targetView = document.getElementById(viewId);
+
+    if (!targetView) return;
+
+    // Determine swivel direction based on which view we're going to
+    // Landing = center, Genre = slight right, Misc = center, Diary = slight left
+    let transformOrigin = 'center';
+    let exitTransform = '';
+    let enterTransform = '';
+
+    if (direction === 'right') {
+      exitTransform = 'translateX(-30px) rotateY(5deg)';
+      enterTransform = 'translateX(30px) rotateY(-5deg)';
+    } else if (direction === 'left') {
+      exitTransform = 'translateX(30px) rotateY(-5deg)';
+      enterTransform = 'translateX(-30px) rotateY(5deg)';
+    }
+
+    // Fade out current view with swivel
+    views.forEach(view => {
+      if (view && view.classList.contains('active')) {
+        if (typeof gsap !== 'undefined' && exitTransform) {
+          gsap.to(view, {
+            opacity: 0,
+            x: direction === 'right' ? -30 : direction === 'left' ? 30 : 0,
+            rotateY: direction === 'right' ? 5 : direction === 'left' ? -5 : 0,
+            duration: 0.3,
+            ease: 'power2.in',
+            onComplete: () => {
+              view.classList.remove('active');
+              view.style.transform = '';
+              view.style.opacity = '';
+            }
+          });
+        } else {
+          view.classList.remove('active');
+        }
+      }
+    });
+
+    // Fade in target view with swivel from opposite direction
+    setTimeout(() => {
+      if (typeof gsap !== 'undefined' && enterTransform) {
+        gsap.set(targetView, {
+          opacity: 0,
+          x: direction === 'right' ? 30 : direction === 'left' ? -30 : 0,
+          rotateY: direction === 'right' ? -5 : direction === 'left' ? 5 : 0
+        });
+        targetView.classList.add('active');
+        gsap.to(targetView, {
+          opacity: 1,
+          x: 0,
+          rotateY: 0,
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+      } else {
+        targetView.classList.add('active');
+      }
+    }, direction ? 250 : 0);
+
+    currentPlaylistView = viewId;
+  }
+
+  // ===================================
+  // FLOATING ANIMATION FOR PLAYLIST NAV BUTTONS
+  // ===================================
+
+  // Apply floating animation to playlist nav buttons (constrained, no rotation)
+  if (typeof gsap !== 'undefined') {
+    playlistNavBtns.forEach((btn, index) => {
+      // Gentle, constrained movement - no rotation to keep buttons level
+      const floatY = 8 + Math.random() * 6; // Subtle vertical movement
+      const floatX = 10 + Math.random() * 8; // Subtle horizontal movement
+      const durationY = 3 + Math.random() * 1.5;
+      const durationX = 3.5 + Math.random() * 2;
+      const delay = index * 0.4;
+
+      // Vertical float - gentle bobbing
+      gsap.to(btn, {
+        y: `+=${floatY}`,
+        duration: durationY,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: delay
+      });
+
+      // Horizontal drift - subtle
+      gsap.to(btn, {
+        x: `+=${floatX}`,
+        duration: durationX,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: delay + 0.3
+      });
+    });
+  }
+
+  // Playlist nav button clicks
+  playlistNavBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetView = btn.dataset.playlistView;
+      let direction = 'center';
+
+      // Determine swivel direction
+      if (targetView === 'genre-view') direction = 'right';
+      else if (targetView === 'diary-view') direction = 'left';
+
+      showPlaylistsView(targetView, direction);
+    });
+  });
+
+  // Back buttons within playlists views
+  playlistsBackBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const backTo = btn.dataset.backTo;
+      let direction = 'center';
+
+      // Reverse direction when going back
+      if (currentPlaylistView === 'genre-view') direction = 'left';
+      else if (currentPlaylistView === 'diary-view') direction = 'right';
+
+      showPlaylistsView(backTo, direction);
+    });
+  });
+
+  // ===================================
+  // DIARY PASSWORD PROTECTION
+  // ===================================
+
+  // Multiple passwords supported - items without data-password use default
+  const DIARY_PASSWORDS = {
+    'tommysupreme': null,  // null means reveal items without data-password attribute
+    'meira': 'meira'       // reveals items with data-password="meira"
+  };
+
+  if (diaryPasswordInput) {
+    diaryPasswordInput.addEventListener('input', (e) => {
+      const input = e.target.value;
+      if (DIARY_PASSWORDS.hasOwnProperty(input)) {
+        revealHiddenPlaylists(DIARY_PASSWORDS[input]);
+        diaryPasswordInput.value = '';
+        diaryPasswordInput.placeholder = 'Hidden playlists revealed!';
+        setTimeout(() => {
+          diaryPasswordInput.placeholder = 'have a password?';
+        }, 3000);
+      }
+    });
+  }
+
+  function revealHiddenPlaylists(passwordKey) {
+    // Reveal hidden items matching the password key
+    const hiddenItems = document.querySelectorAll('.diary-hidden-item');
+    hiddenItems.forEach(item => {
+      const itemPassword = item.dataset.password || null;
+      // Reveal if password matches (null matches items without data-password)
+      if (itemPassword === passwordKey) {
+        item.style.display = 'flex';
+        // Add animation
+        if (typeof gsap !== 'undefined') {
+          gsap.from(item, {
+            opacity: 0,
+            y: -10,
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+        }
+      }
+    });
+  }
+
+  // ===================================
+  // DIARY PLAYLIST CLICK HANDLING
+  // ===================================
+
+  const diaryPlaylistItems = document.querySelectorAll('.diary-playlist-item');
+  diaryPlaylistItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const url = item.dataset.playlistUrl;
+      if (url && url !== '#') {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    });
+  });
+
+  // ===================================
+  // DIARY YEAR TOGGLE (COLLAPSE/EXPAND)
+  // ===================================
+  const diaryYearToggles = document.querySelectorAll('.diary-year-toggle');
+  diaryYearToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const yearSection = toggle.closest('.diary-year-section');
+      if (yearSection) {
+        yearSection.classList.toggle('expanded');
+      }
+    });
+  });
+
+  // ===================================
+  // VIEW SWITCHING (ORIGINAL)
   // ===================================
 
   function showGenreView() {
     wheelView.classList.remove('active');
-    genreView.classList.add('active');
+    // Return to whichever genre grid we came from
+    const returnView = document.getElementById(previousGenreView);
+    if (returnView) {
+      returnView.classList.add('active');
+    } else {
+      genreView.classList.add('active');
+    }
     currentGenre = null;
     currentSubgenre = null;
   }
@@ -55,8 +286,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Build subgenre pills if applicable
     buildSubgenrePills(genreData);
 
-    // Switch views
-    genreView.classList.remove('active');
+    // Hide all playlists views and show wheel
+    if (playlistsLanding) playlistsLanding.classList.remove('active');
+    if (genreView) genreView.classList.remove('active');
+    if (miscView) miscView.classList.remove('active');
+    if (diaryView) diaryView.classList.remove('active');
     wheelView.classList.add('active');
 
     // Display first playlist
@@ -335,6 +569,12 @@ document.addEventListener('DOMContentLoaded', () => {
     folder.addEventListener('click', () => {
       const genre = folder.dataset.genre;
       if (genre) {
+        // Track which view we came from (genre-view or misc-view)
+        if (miscView && miscView.classList.contains('active')) {
+          previousGenreView = 'misc-view';
+        } else {
+          previousGenreView = 'genre-view';
+        }
         showWheelView(genre);
       }
     });

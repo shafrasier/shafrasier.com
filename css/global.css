@@ -131,6 +131,13 @@ body.light-mode {
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Jost';
+  src: url('../fonts/Jost-400-Book.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* Page Exit Animations */
 @keyframes pageExit {
   0% { transform: translateY(0); }

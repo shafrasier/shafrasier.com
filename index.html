@@ -47,13 +47,27 @@
 
   <!-- PLAYLISTS SECTION -->
   <div id="playlists-content" class="section-content" style="display: none; opacity: 0;">
-    <!-- Genre Grid View -->
-    <div id="genre-view" class="playlists-view active">
+    <!-- Playlists Landing View - floating buttons -->
+    <div id="playlists-landing" class="playlists-view active">
       <button class="back-button section-back" onclick="returnToHome()">
         <i class="fa-solid fa-xmark" style="color: #131313;"></i>
       </button>
+      <div class="playlists-nav-container">
+        <div class="playlists-nav-row">
+          <button class="playlist-nav-btn" data-playlist-view="genre-view">GENRE</button>
+          <button class="playlist-nav-btn" data-playlist-view="moments-view">MOMENTS</button>
+          <button class="playlist-nav-btn" data-playlist-view="diary-view">DIARY</button>
+        </div>
+        <button class="playlist-nav-btn more-btn" data-playlist-view="misc-view">MORE</button>
+      </div>
+    </div>
+
+    <!-- Genre Grid View -->
+    <div id="genre-view" class="playlists-view">
+      <button class="back-button playlists-back" data-back-to="playlists-landing">
+        <i class="fa-solid fa-arrow-left" style="color: #131313;"></i>
+      </button>
       <div class="genre-grid">
-        <button class="genre-folder" data-genre="car"><span class="folder-label">CAR</span></button>
         <button class="genre-folder" data-genre="ambient"><span class="folder-label">AMBIENT</span></button>
         <button class="genre-folder" data-genre="blues"><span class="folder-label">BLUES</span></button>
         <button class="genre-folder" data-genre="chillout"><span class="folder-label">CHILLOUT</span></button>
@@ -71,13 +85,287 @@
         <button class="genre-folder" data-genre="rnb"><span class="folder-label">R&B</span></button>
         <button class="genre-folder" data-genre="rock"><span class="folder-label">ROCK</span></button>
         <button class="genre-folder" data-genre="world"><span class="folder-label">WORLD</span></button>
-        <button class="genre-folder" data-genre="misc"><span class="folder-label">MISC</span></button>
-        <button class="genre-folder sequences-folder" disabled><span class="folder-label">SEQUENCES</span><span class="coming-soon">soon</span></button>
       </div>
       <div class="search-container">
         <input type="text" class="search-bar glass-panel" placeholder="Search playlists..." id="playlistSearch">
       </div>
     </div>
+
+    <!-- More View (CAR + MISC playlists) -->
+    <div id="misc-view" class="playlists-view">
+      <button class="back-button playlists-back" data-back-to="playlists-landing">
+        <i class="fa-solid fa-arrow-left" style="color: #131313;"></i>
+      </button>
+      <div class="genre-grid misc-grid">
+        <button class="genre-folder" data-genre="car"><span class="folder-label">CAR</span></button>
+        <button class="genre-folder" data-genre="misc"><span class="folder-label">MISC</span></button>
+      </div>
+    </div>
+
+    <!-- Moments View (date-specific playlists) -->
+    <div id="moments-view" class="playlists-view">
+      <button class="back-button playlists-back" data-back-to="playlists-landing">
+        <i class="fa-solid fa-arrow-left" style="color: #131313;"></i>
+      </button>
+      <div class="moments-container">
+        <div class="moments-list">
+          <a href="#" class="moment-item" target="_blank">
+            <span class="moment-date">Feb 14, 2026</span>
+            <span class="moment-title">Valentine's Day 2026</span>
+          </a>
+          <a href="#" class="moment-item" target="_blank">
+            <span class="moment-date">Jan 1, 2026</span>
+            <span class="moment-title">New Year's Day 2026</span>
+          </a>
+          <a href="#" class="moment-item" target="_blank">
+            <span class="moment-date">Dec 25, 2025</span>
+            <span class="moment-title">Christmas 2025</span>
+          </a>
+          <a href="#" class="moment-item" target="_blank">
+            <span class="moment-date">Nov 28, 2025</span>
+            <span class="moment-title">Thanksgiving 2025</span>
+          </a>
+          <a href="#" class="moment-item" target="_blank">
+            <span class="moment-date">Aug 15, 2025</span>
+            <span class="moment-title">Summer Road Trip</span>
+          </a>
+          <a href="#" class="moment-item" target="_blank">
+            <span class="moment-date">Jul 4, 2025</span>
+            <span class="moment-title">Fourth of July 2025</span>
+          </a>
+          <p class="moments-placeholder-note">More moments coming soon...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diary View (Sequenced playlists) -->
+    <div id="diary-view" class="playlists-view">
+      <button class="back-button playlists-back" data-back-to="playlists-landing">
+        <i class="fa-solid fa-arrow-left" style="color: #131313;"></i>
+      </button>
+      <div class="diary-container">
+        <div class="diary-password-container">
+          <input type="password" class="diary-password-input" id="diaryPassword" placeholder="have a password?">
+          <span class="password-placeholder-overlay">have a password<span class="alt-font">?</span></span>
+        </div>
+
+        <!-- 2026 -->
+        <div class="diary-year-section expanded">
+          <h3 class="diary-year diary-year-toggle">2026 <i class="fa-solid fa-chevron-down diary-year-icon"></i></h3>
+          <div class="diary-playlist-list diary-year-content">
+            <div class="diary-playlist-item diary-hidden-item" data-playlist-url="https://music.apple.com/us/playlist/3-babysbreath/pl.u-MDAeDlWtAKXkeV" style="display: none;">
+              <span class="diary-playlist-number">3.</span>
+              <span class="diary-playlist-name">Babysbreath</span>
+              <span class="diary-playlist-date">2.17.26</span>
+              <div class="diary-artwork-preview" style="background-image: url('https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/d6/ad/b2/d6adb278-54ce-1463-d659-7a326f6a35f1/image/300x300bb.jpg');"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="https://music.apple.com/us/playlist/2-love-takes-miles/pl.u-55DP5LqT6o1rD3">
+              <span class="diary-playlist-number">2.</span>
+              <span class="diary-playlist-name">Love takes miles</span>
+              <span class="diary-playlist-date">1.23.26</span>
+              <div class="diary-artwork-preview" style="background-image: url('https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/61/6f/ce/616fce01-25f9-6240-d11d-8c170d4fe543/image/300x300bb.jpg');"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="https://music.apple.com/us/playlist/1-dreaming-big/pl.u-55DP577t6o1rD3">
+              <span class="diary-playlist-number">1.</span>
+              <span class="diary-playlist-name">Dreaming big</span>
+              <span class="diary-playlist-date">1.5.26</span>
+              <div class="diary-artwork-preview" style="background-image: url('https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/90/65/d1/9065d1ef-6b92-1aef-fad1-69de08550c56/image/300x300bb.jpg');"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2025 -->
+        <div class="diary-year-section">
+          <h3 class="diary-year diary-year-toggle">2025 <i class="fa-solid fa-chevron-down diary-year-icon"></i></h3>
+          <div class="diary-playlist-list diary-year-content">
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">27.</span>
+              <span class="diary-playlist-name">Freedom from want</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">26.</span>
+              <span class="diary-playlist-name">Western promises</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">25.</span>
+              <span class="diary-playlist-name">Ten moments</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">24.</span>
+              <span class="diary-playlist-name">Requiem for dying leaves</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">23.</span>
+              <span class="diary-playlist-name">Rooster's crow</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">22.</span>
+              <span class="diary-playlist-name">Back to school</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">21.</span>
+              <span class="diary-playlist-name">Birthday boy</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">20.</span>
+              <span class="diary-playlist-name">Getting innocuous</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">19.</span>
+              <span class="diary-playlist-name">The weather report</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">18.</span>
+              <span class="diary-playlist-name">Nobody dies on Beth's farm</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">17.</span>
+              <span class="diary-playlist-name">The downtown lights</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">16.</span>
+              <span class="diary-playlist-name">Hello hallo</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">15.</span>
+              <span class="diary-playlist-name">Sha dreams of sushi</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">14.</span>
+              <span class="diary-playlist-name">Big city life</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">13.</span>
+              <span class="diary-playlist-name">Corner of the world</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">12.</span>
+              <span class="diary-playlist-name">Postcards from the edge</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item diary-hidden-item" data-playlist-url="#" data-password="meira" style="display: none;">
+              <span class="diary-playlist-number">11.</span>
+              <span class="diary-playlist-name">Simple again</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">10.</span>
+              <span class="diary-playlist-name">Year eight</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">9.</span>
+              <span class="diary-playlist-name">Million years</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">8.</span>
+              <span class="diary-playlist-name">Twenty-five candles stacked sideways over a stream</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">7.</span>
+              <span class="diary-playlist-name">Cozy rock</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">6.</span>
+              <span class="diary-playlist-name">Rivers north of here</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">5.</span>
+              <span class="diary-playlist-name">Fujifilming</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">4.</span>
+              <span class="diary-playlist-name">Jam jam jamón</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">3.</span>
+              <span class="diary-playlist-name">There's a river in my head</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">2.</span>
+              <span class="diary-playlist-name">Past presents</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="#">
+              <span class="diary-playlist-number">1.</span>
+              <span class="diary-playlist-name">When a star falls</span>
+              <span class="diary-playlist-date">2025</span>
+              <div class="diary-artwork-preview"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2024 -->
+        <div class="diary-year-section">
+          <h3 class="diary-year diary-year-toggle">2024 <i class="fa-solid fa-chevron-down diary-year-icon"></i></h3>
+          <div class="diary-playlist-list diary-year-content">
+            <div class="diary-playlist-item diary-hidden-item" data-playlist-url="https://music.apple.com/us/playlist/2-reflections-in-a-world-of-blue/pl.u-zPyL46Rteg4qpD" data-password="meira" style="display: none;">
+              <span class="diary-playlist-number">2.</span>
+              <span class="diary-playlist-name">Reflections in a world of blue</span>
+              <span class="diary-playlist-date">2024</span>
+              <div class="diary-artwork-preview" style="background-image: url('https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/d5/77/91/d57791a4-cb6d-dfbe-2a6a-b716953318cf/image/300x300bb.jpg');"></div>
+            </div>
+            <div class="diary-playlist-item" data-playlist-url="https://music.apple.com/us/playlist/1-only-in-dreams/pl.u-pMyly8LhWLyNZ2">
+              <span class="diary-playlist-number">1.</span>
+              <span class="diary-playlist-name">Only in dreams</span>
+              <span class="diary-playlist-date">2024</span>
+              <div class="diary-artwork-preview" style="background-image: url('https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/57/71/28/57712839-1e36-f3ab-fc7e-2708d372a4d0/image/300x300bb.jpg');"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden playlists section removed - hidden items are now inline with diary-hidden-item class -->
+      </div>
+    </div>
+
     <!-- Click Wheel View -->
     <div id="wheel-view" class="playlists-view">
       <div class="wheel-back-container">
@@ -119,30 +407,63 @@
       <!-- SHA-STACK -->
       <section class="publication-section">
         <div class="publication-header" data-toggle="substack-content-inner">
-          <h2 class="heading">Sha-Stack</h2>
+          <h2 class="heading"><a href="https://shafrasier.substack.com" class="publication-name-link" target="_blank">Sha-Stack</a></h2>
           <i class="fa-solid fa-chevron-down dropdown-icon"></i>
         </div>
-        <div class="publication-content expanded" id="substack-content-inner">
-          <a href="https://shafrasier.substack.com/p/hearing-the-future-in-marty-supreme" class="article-link" target="_blank">Hearing the future in Marty Supreme</a>
-          <a href="https://shafrasier.substack.com/p/the-music-we-were-thankful-for-in" class="article-link" target="_blank">The music we were thankful for in 2025</a>
-          <a href="https://shafrasier.substack.com/p/manning-fireworks-and-the-way-love" class="article-link" target="_blank">Manning Fireworks and the way love goes</a>
-          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-six" class="article-link" target="_blank">The 50 best albums of 2024 part six</a>
-          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-five" class="article-link" target="_blank">The 50 best albums of 2024 part five</a>
-          <a href="https://shafrasier.substack.com/p/january-in-flames-film-and-farewells" class="article-link" target="_blank">January in flames, film, and farewells</a>
-          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-four" class="article-link" target="_blank">The 50 best albums of 2024 part four</a>
-          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-three" class="article-link" target="_blank">The 50 best albums of 2024 part three</a>
-          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-two" class="article-link" target="_blank">The 50 best albums of 2024 part two</a>
-          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-one" class="article-link" target="_blank">The 50 best albums of 2024 part one</a>
+        <div class="publication-content" id="substack-content-inner">
+          <a href="https://shafrasier.substack.com/p/hearing-the-future-in-marty-supreme" class="article-link" target="_blank">
+            <span class="article-title">Hearing the future in Marty Supreme</span>
+            <span class="article-date">Feb 2025</span>
+          </a>
+          <a href="https://shafrasier.substack.com/p/the-music-we-were-thankful-for-in" class="article-link" target="_blank">
+            <span class="article-title">The music we were thankful for in 2025</span>
+            <span class="article-date">Nov 2025</span>
+          </a>
+          <a href="https://shafrasier.substack.com/p/manning-fireworks-and-the-way-love" class="article-link" target="_blank">
+            <span class="article-title">Manning Fireworks and the way love goes</span>
+            <span class="article-date">Feb 2025</span>
+          </a>
+          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-six" class="article-link" target="_blank">
+            <span class="article-title">The 50 best albums of 2024 part six</span>
+            <span class="article-date">Jan 2025</span>
+          </a>
+          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-five" class="article-link" target="_blank">
+            <span class="article-title">The 50 best albums of 2024 part five</span>
+            <span class="article-date">Jan 2025</span>
+          </a>
+          <a href="https://shafrasier.substack.com/p/january-in-flames-film-and-farewells" class="article-link" target="_blank">
+            <span class="article-title">January in flames, film, and farewells</span>
+            <span class="article-date">Jan 2025</span>
+          </a>
+          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-four" class="article-link" target="_blank">
+            <span class="article-title">The 50 best albums of 2024 part four</span>
+            <span class="article-date">Jan 2025</span>
+          </a>
+          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-three" class="article-link" target="_blank">
+            <span class="article-title">The 50 best albums of 2024 part three</span>
+            <span class="article-date">Dec 2024</span>
+          </a>
+          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-two" class="article-link" target="_blank">
+            <span class="article-title">The 50 best albums of 2024 part two</span>
+            <span class="article-date">Dec 2024</span>
+          </a>
+          <a href="https://shafrasier.substack.com/p/the-50-best-albums-of-2024-part-one" class="article-link" target="_blank">
+            <span class="article-title">The 50 best albums of 2024 part one</span>
+            <span class="article-date">Dec 2024</span>
+          </a>
         </div>
       </section>
       <!-- PASTE -->
       <section class="publication-section">
         <div class="publication-header" data-toggle="paste-content-inner">
-          <h2 class="heading">Paste</h2>
+          <h2 class="heading"><a href="https://www.pastemagazine.com" class="publication-name-link" target="_blank">Paste</a></h2>
           <i class="fa-solid fa-chevron-down dropdown-icon"></i>
         </div>
-        <div class="publication-content expanded" id="paste-content-inner">
-          <a href="https://www.pastemagazine.com/music/scene-report/the-return-of-electroclash" class="article-link" target="_blank">The Return of Electroclash</a>
+        <div class="publication-content" id="paste-content-inner">
+          <a href="https://www.pastemagazine.com/music/scene-report/the-return-of-electroclash" class="article-link" target="_blank">
+            <span class="article-title">The Return of Electroclash</span>
+            <span class="article-date">Mar 2024</span>
+          </a>
         </div>
       </section>
       <!-- FIREBIRD -->
@@ -151,17 +472,47 @@
           <h2 class="heading"><a href="https://firebirdmagazine.com" class="publication-name-link" target="_blank">Firebird</a></h2>
           <i class="fa-solid fa-chevron-down dropdown-icon"></i>
         </div>
-        <div class="publication-content expanded" id="firebird-content-inner">
-          <a href="https://firebirdmagazine.com/reviews/dragon-new-warm-mountain-i-believe-in-you" class="article-link" target="_blank">Dragon New Warm Mountain I Believe In You is a celestial, American fairytale.</a>
-          <a href="https://firebirdmagazine.com/interviews/jongarret" class="article-link" target="_blank">Jon Garrett reflects on the evolution of music criticism in the 21st century.</a>
-          <a href="https://firebirdmagazine.com/concerts/patterson-hood-folk" class="article-link" target="_blank">A shelter from the storm through story and song.</a>
-          <a href="https://firebirdmagazine.com/festivals/gov-ball-2023/who-to-see" class="article-link" target="_blank">Who to see at Governors Ball 2023.</a>
-          <a href="https://firebirdmagazine.com/festivals/gov-ball-2022/who-to-see" class="article-link" target="_blank">Who to see at Governors Ball 2022.</a>
-          <a href="https://firebirdmagazine.com/festivals/gov-ball-2022/almost-monday" class="article-link" target="_blank">Hey New York, it's almost monday!</a>
-          <a href="https://firebirdmagazine.com/lists/best-of-2022" class="article-link" target="_blank">Firebird's Top 20 Albums of 2022.</a>
-          <a href="https://firebirdmagazine.com/lists/firebirds-best-albums-of-2021" class="article-link" target="_blank">Firebird's Best Albums of 2021.</a>
-          <a href="https://firebirdmagazine.com/lists/new-music-highlights-2022" class="article-link" target="_blank">New Music Highlights: January-June 2022.</a>
-          <a href="https://firebirdmagazine.com/lists/new-music-highlights-2021" class="article-link" target="_blank">New Music Highlights: January-May 2021.</a>
+        <div class="publication-content" id="firebird-content-inner">
+          <a href="https://firebirdmagazine.com/reviews/dragon-new-warm-mountain-i-believe-in-you" class="article-link" target="_blank">
+            <span class="article-title">Dragon New Warm Mountain I Believe In You is a celestial, American fairytale.</span>
+            <span class="article-date">Feb 2022</span>
+          </a>
+          <a href="https://firebirdmagazine.com/interviews/jongarret" class="article-link" target="_blank">
+            <span class="article-title">Jon Garrett reflects on the evolution of music criticism in the 21st century.</span>
+            <span class="article-date">Mar 2022</span>
+          </a>
+          <a href="https://firebirdmagazine.com/concerts/patterson-hood-folk" class="article-link" target="_blank">
+            <span class="article-title">A shelter from the storm through story and song.</span>
+            <span class="article-date">Apr 2022</span>
+          </a>
+          <a href="https://firebirdmagazine.com/festivals/gov-ball-2023/who-to-see" class="article-link" target="_blank">
+            <span class="article-title">Who to see at Governors Ball 2023.</span>
+            <span class="article-date">Jun 2023</span>
+          </a>
+          <a href="https://firebirdmagazine.com/festivals/gov-ball-2022/who-to-see" class="article-link" target="_blank">
+            <span class="article-title">Who to see at Governors Ball 2022.</span>
+            <span class="article-date">Jun 2022</span>
+          </a>
+          <a href="https://firebirdmagazine.com/festivals/gov-ball-2022/almost-monday" class="article-link" target="_blank">
+            <span class="article-title">Hey New York, it's almost monday!</span>
+            <span class="article-date">Jun 2022</span>
+          </a>
+          <a href="https://firebirdmagazine.com/lists/best-of-2022" class="article-link" target="_blank">
+            <span class="article-title">Firebird's Top 20 Albums of 2022.</span>
+            <span class="article-date">Dec 2022</span>
+          </a>
+          <a href="https://firebirdmagazine.com/lists/firebirds-best-albums-of-2021" class="article-link" target="_blank">
+            <span class="article-title">Firebird's Best Albums of 2021.</span>
+            <span class="article-date">Dec 2021</span>
+          </a>
+          <a href="https://firebirdmagazine.com/lists/new-music-highlights-2022" class="article-link" target="_blank">
+            <span class="article-title">New Music Highlights: January-June 2022.</span>
+            <span class="article-date">Jul 2022</span>
+          </a>
+          <a href="https://firebirdmagazine.com/lists/new-music-highlights-2021" class="article-link" target="_blank">
+            <span class="article-title">New Music Highlights: January-May 2021.</span>
+            <span class="article-date">May 2021</span>
+          </a>
         </div>
       </section>
     </div>

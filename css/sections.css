@@ -140,6 +140,74 @@ body.light-mode .sheets-link:focus::after {
   display: flex;
 }
 
+/* Playlists Landing Navigation */
+.playlists-nav-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  min-height: 60vh;
+  margin-top: 60px;
+}
+
+/* Top row: GENRE, MOMENTS, DIARY in horizontal layout */
+.playlists-nav-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+/* MORE button below the row */
+.playlist-nav-btn.more-btn {
+  margin-top: 10px;
+}
+
+.playlist-nav-btn {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 25px;
+  padding: 20px 50px;
+  font-family: Futura, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--color-text, #c8c8c8);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.playlist-nav-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--color-text-active, #ffffff);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode .playlist-nav-btn {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--color-text, #2a2a2a);
+}
+
+body.light-mode .playlist-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--color-text-active, #000000);
+}
+
+/* Playlists back button */
+.playlists-back {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 100;
+}
+
 /* Back button positioning handled by .section-back in global.css */
 
 .genre-grid {
@@ -150,6 +218,349 @@ body.light-mode .sheets-link:focus::after {
   width: 100%;
   margin-top: 60px;
   padding: 0 20px;
+}
+
+.misc-grid {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 400px;
+}
+
+/* ===================================
+   DIARY VIEW - Sequenced Playlists
+   =================================== */
+
+.diary-container {
+  max-width: 700px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px 0 100px;
+}
+
+.diary-password-container {
+  margin-bottom: 40px;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.diary-password-input {
+  width: 100%;
+  max-width: 350px;
+  padding: 14px 24px;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
+  border-radius: 50px;
+  color: var(--color-text, #c8c8c8);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  text-align: center;
+}
+
+/* Hide native placeholder */
+.diary-password-input::placeholder {
+  color: transparent;
+}
+
+/* Custom placeholder overlay with mixed fonts */
+.password-placeholder-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-text-muted, #888888);
+  font-family: inherit;
+  font-size: 14px;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+/* Question mark in system font for cleaner glyph */
+.password-placeholder-overlay .alt-font {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* Hide overlay when input has value or is focused */
+.diary-password-input:focus + .password-placeholder-overlay,
+.diary-password-input:not(:placeholder-shown) + .password-placeholder-overlay {
+  opacity: 0;
+}
+
+.diary-password-input:focus {
+  border-color: var(--glass-border-focus, rgba(255, 255, 255, 0.4));
+}
+
+.diary-year-section {
+  margin-bottom: 30px;
+}
+
+.diary-year {
+  font-family: Futura, sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--color-text-muted, #888888);
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
+}
+
+/* Diary year toggle styling */
+.diary-year-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 0.3s ease,
+              transform 0.3s ease,
+              text-shadow 0.3s ease;
+}
+
+.diary-year-toggle:hover {
+  color: var(--color-text-active, #ffffff);
+  transform: translateX(4px);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.diary-year-toggle:hover .diary-year-icon {
+  color: var(--color-text-active, #ffffff);
+}
+
+.diary-year-icon {
+  font-size: 16px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Collapsed state (default for non-expanded sections) */
+.diary-year-section:not(.expanded) .diary-year-icon {
+  transform: rotate(-90deg);
+}
+
+.diary-year-section:not(.expanded) .diary-year-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-top: 0;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Expanded state */
+.diary-year-section.expanded .diary-year-content {
+  max-height: 2000px;
+  opacity: 1;
+  margin-top: 20px;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.diary-year-section.expanded .diary-year-icon {
+  transform: rotate(0deg);
+}
+
+.diary-playlist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.diary-playlist-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.diary-playlist-item:hover {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  transform: translateX(4px);
+}
+
+.diary-playlist-number {
+  font-family: Futura, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-muted, #888888);
+  width: 35px;
+  flex-shrink: 0;
+}
+
+.diary-playlist-name {
+  flex: 1;
+  font-size: 16px;
+  color: var(--color-text, #c8c8c8);
+  transition: color 0.3s ease;
+}
+
+.diary-playlist-item:hover .diary-playlist-name {
+  color: var(--color-text-active, #ffffff);
+}
+
+.diary-playlist-date {
+  font-size: 14px;
+  color: var(--color-text-muted, #888888);
+  margin-left: 20px;
+  flex-shrink: 0;
+}
+
+.diary-artwork-preview {
+  position: absolute;
+  left: -180px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.diary-playlist-item:hover .diary-artwork-preview {
+  opacity: 1;
+}
+
+/* Hidden playlists styling */
+.diary-hidden-section {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 2px solid var(--color-text-muted, #888888);
+}
+
+.diary-hidden-label {
+  color: var(--color-text-active, #ffffff);
+}
+
+.diary-hidden-section .diary-playlist-item {
+  opacity: 0.9;
+}
+
+/* Light mode diary */
+body.light-mode .diary-password-input {
+  background: var(--glass-bg, rgba(0, 0, 0, 0.05));
+  border-color: var(--glass-border, rgba(0, 0, 0, 0.1));
+  color: var(--color-text, #2a2a2a);
+}
+
+body.light-mode .diary-year {
+  color: var(--color-text-muted, #666666);
+  border-bottom-color: var(--glass-border, rgba(0, 0, 0, 0.1));
+}
+
+body.light-mode .diary-year-toggle:hover {
+  color: var(--color-text-active, #000000);
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+body.light-mode .diary-year-toggle:hover .diary-year-icon {
+  color: var(--color-text-active, #000000);
+}
+
+body.light-mode .diary-playlist-name {
+  color: var(--color-text, #2a2a2a);
+}
+
+body.light-mode .diary-playlist-item:hover .diary-playlist-name {
+  color: var(--color-text-active, #000000);
+}
+
+body.light-mode .diary-playlist-item:hover {
+  background: var(--glass-bg, rgba(0, 0, 0, 0.05));
+}
+
+/* ===================================
+   MOMENTS VIEW - Date-specific playlists
+   =================================== */
+
+.moments-container {
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 40px 0 100px;
+}
+
+.moments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.moment-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  text-decoration: none;
+  transition: all 0.3s ease;
+  gap: 24px;
+}
+
+.moment-item:hover {
+  background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
+  transform: translateX(4px);
+  border-color: var(--glass-border-focus, rgba(255, 255, 255, 0.2));
+}
+
+.moment-date {
+  font-family: Futura, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted, #888888);
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.moment-title {
+  font-size: 16px;
+  color: var(--color-text, #c8c8c8);
+  flex: 1;
+  transition: color 0.3s ease;
+}
+
+.moment-item:hover .moment-title {
+  color: var(--color-text-active, #ffffff);
+}
+
+.moments-placeholder-note {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 14px;
+  color: var(--color-text-muted, #888888);
+  font-style: italic;
+}
+
+/* Light mode moments */
+body.light-mode .moment-item {
+  background: var(--glass-bg, rgba(0, 0, 0, 0.05));
+  border-color: var(--glass-border, rgba(0, 0, 0, 0.1));
+}
+
+body.light-mode .moment-item:hover {
+  background: var(--glass-bg-hover, rgba(0, 0, 0, 0.08));
+}
+
+body.light-mode .moment-title {
+  color: var(--color-text, #2a2a2a);
+}
+
+body.light-mode .moment-item:hover .moment-title {
+  color: var(--color-text-active, #000000);
 }
 
 .genre-folder {
@@ -466,6 +877,11 @@ body.light-mode .sheets-link:focus::after {
   width: 90%;
   margin: 0 auto;
   padding: 80px 0 100px;
+  /* Center vertically when collapsed (only headers visible) */
+  min-height: calc(100vh - 180px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .publication-section {
@@ -482,11 +898,13 @@ body.light-mode .sheets-link:focus::after {
   border: none;
   border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease,
+              transform 0.3s ease;
 }
 
 .publication-header:hover {
   border-bottom-color: var(--color-text-active, #ffffff);
+  transform: translateX(4px);
 }
 
 .publication-header .heading {
@@ -496,11 +914,13 @@ body.light-mode .sheets-link:focus::after {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease,
+              text-shadow 0.3s ease;
 }
 
 .publication-header:hover .heading {
   color: var(--color-text-active, #ffffff);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .publication-header .heading a,
@@ -535,25 +955,45 @@ body.light-mode .sheets-link:focus::after {
 .publication-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.4s ease;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s ease;
   padding: 0;
+  opacity: 0;
 }
 
 .publication-content.expanded {
-  max-height: 2000px;
+  max-height: 800px;
   padding: 24px 0 0 0;
+  opacity: 1;
 }
 
 .article-link {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 12px 16px;
   margin: 8px 0;
   font-size: 16px;
   color: var(--color-text, #c8c8c8);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease,
+              background 0.3s ease,
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 8px;
   line-height: 1.5;
+  gap: 20px;
+}
+
+.article-title {
+  flex: 1;
+}
+
+.article-date {
+  font-size: 14px;
+  color: var(--color-text-muted, #888888);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .article-link:visited {
@@ -564,6 +1004,10 @@ body.light-mode .sheets-link:focus::after {
   color: var(--color-text-active, #ffffff);
   background: var(--glass-bg, rgba(255, 255, 255, 0.08));
   transform: translateX(4px);
+}
+
+.article-link:hover .article-date {
+  color: var(--color-text, #c8c8c8);
 }
 
 .article-link:active {
@@ -646,6 +1090,7 @@ body.light-mode .publication-header {
 
 body.light-mode .publication-header:hover {
   border-bottom-color: var(--color-text-active, #000000);
+  transform: translateX(4px);
 }
 
 body.light-mode .publication-header .heading {
@@ -654,6 +1099,7 @@ body.light-mode .publication-header .heading {
 
 body.light-mode .publication-header:hover .heading {
   color: var(--color-text-active, #000000);
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 body.light-mode .article-link {
@@ -678,6 +1124,16 @@ body.light-mode .article-link:active {
    =================================== */
 
 @media (max-width: 768px) {
+  /* Playlists nav - vertical on mobile */
+  .playlists-nav-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .playlist-nav-btn.more-btn {
+    margin-top: 0;
+  }
+
   /* Sheets - Vertical Timeline on mobile */
   .sheets-section {
     flex-direction: column;

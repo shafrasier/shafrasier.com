@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('light-mode');
   }
 
-  const waveGeometry = new THREE.PlaneGeometry(200, 200, 60, 60);
+  // Create a single large ocean - no visible looping needed
+  const waveGeometry = new THREE.PlaneGeometry(400, 400, 100, 100);
   const waveMaterial = new THREE.MeshBasicMaterial({
     color: currentLightMode ? 0xb0b0b0 : 0x2a2a2a,
     wireframe: true,
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const ocean = new THREE.Mesh(waveGeometry, waveMaterial);
   ocean.rotation.x = -Math.PI / 2.2; // Tilt to show perspective to horizon
   ocean.position.y = -2;
-  ocean.position.z = -30;
+  ocean.position.z = -50;
   scene.add(ocean);
 
   // Store original positions for wave animation
@@ -58,12 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(animate);
     time += 0.01;
 
-    // Animate waves
+    // Animate waves - single ocean, no scrolling needed
+    // The wave animation creates the movement illusion
     for (let i = 0; i < positions.count; i++) {
       const x = originalPositions[i * 3];
       const y = originalPositions[i * 3 + 1];
 
-      // Create rolling wave effect
+      // Create rolling wave effect that moves toward viewer
       const wave1 = Math.sin(x * 0.05 + time) * 0.3;
       const wave2 = Math.sin(y * 0.08 + time * 1.2) * 0.2;
       const wave3 = Math.sin((x + y) * 0.04 + time * 0.8) * 0.25;
@@ -71,12 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
       positions.array[i * 3 + 2] = wave1 + wave2 + wave3;
     }
     positions.needsUpdate = true;
-
-    // Slowly move ocean forward for endless expanse feeling
-    ocean.position.z += 0.015;
-    if (ocean.position.z > -10) {
-      ocean.position.z = -30;
-    }
 
     renderer.render(scene, camera);
   }
@@ -110,42 +106,33 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===================================
   const floatingButtons = document.querySelectorAll('.floating-button');
 
-  // Add organic floating motion to each button
+  // Gentle floating motion for main nav buttons (similar to playlist menu buttons)
   floatingButtons.forEach((button, index) => {
-    // Random float parameters for organic movement
-    const floatY = 15 + Math.random() * 10;
-    const floatX = 10 + Math.random() * 10;
-    const duration = 3 + Math.random() * 2;
-    const delay = index * 0.3;
+    // Subtle, constrained movement - no rotation to keep buttons level
+    const floatY = 8 + Math.random() * 6; // Subtle vertical movement
+    const floatX = 10 + Math.random() * 8; // Subtle horizontal movement
+    const durationY = 3 + Math.random() * 1.5;
+    const durationX = 3.5 + Math.random() * 2;
+    const delay = index * 0.4;
 
-    // Vertical float
+    // Vertical float - gentle bobbing
     gsap.to(button, {
       y: `+=${floatY}`,
-      duration: duration,
+      duration: durationY,
       ease: 'sine.inOut',
       yoyo: true,
       repeat: -1,
       delay: delay
     });
 
-    // Horizontal drift
+    // Horizontal drift - subtle
     gsap.to(button, {
       x: `+=${floatX}`,
-      duration: duration * 1.3,
+      duration: durationX,
       ease: 'sine.inOut',
       yoyo: true,
       repeat: -1,
-      delay: delay + 0.5
-    });
-
-    // Subtle rotation
-    gsap.to(button, {
-      rotation: Math.random() * 2 - 1,
-      duration: duration * 1.5,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-      delay: delay
+      delay: delay + 0.3
     });
   });
 
@@ -216,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // Fade out UI elements
-      gsap.to('.social-icons-container, .theme-toggle', {
+      // Fade out social icons only (keep theme toggle visible)
+      gsap.to('.social-icons-container', {
         opacity: 0,
         duration: 0.5,
         ease: 'power2.in'
@@ -282,13 +269,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeline = gsap.timeline();
     const floatingContainer = document.querySelector('.floating-container');
 
-    // Reset playlists view to genre grid when returning home
+    // Reset playlists view to landing when returning home
+    const playlistsLanding = document.getElementById('playlists-landing');
     const genreView = document.getElementById('genre-view');
+    const miscView = document.getElementById('misc-view');
+    const momentsView = document.getElementById('moments-view');
+    const diaryView = document.getElementById('diary-view');
     const wheelView = document.getElementById('wheel-view');
-    if (genreView && wheelView) {
-      wheelView.classList.remove('active');
-      genreView.classList.add('active');
-    }
+
+    // Hide all sub-views
+    if (wheelView) wheelView.classList.remove('active');
+    if (genreView) genreView.classList.remove('active');
+    if (miscView) miscView.classList.remove('active');
+    if (momentsView) momentsView.classList.remove('active');
+    if (diaryView) diaryView.classList.remove('active');
+    // Show landing view
+    if (playlistsLanding) playlistsLanding.classList.add('active');
 
     // Step 1: Fade out section content AND start camera zoom simultaneously
     document.querySelectorAll('.section-content').forEach(section => {
@@ -327,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ease: 'power2.out'
     }, 0.4);
 
-    timeline.to('.social-icons-container, .theme-toggle', {
+    timeline.to('.social-icons-container', {
       opacity: 1,
       duration: 0.6,
       ease: 'power2.out'
@@ -342,12 +338,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const writingHeaders = document.querySelectorAll('.writing-section .publication-header');
 
   writingHeaders.forEach(header => {
-    // Start with all sections expanded
+    // Start with all sections COLLAPSED by default
     const contentId = header.dataset.toggle;
     const content = document.getElementById(contentId);
     if (content) {
-      content.classList.add('expanded');
-      header.classList.add('expanded');
+      content.classList.remove('expanded');
+      header.classList.remove('expanded');
     }
 
     header.addEventListener('click', (e) => {
