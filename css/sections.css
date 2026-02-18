@@ -317,12 +317,11 @@ body.light-mode .playlist-nav-btn:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
   margin-bottom: 20px;
   position: relative;
 }
 
-/* DIARY title */
+/* DIARY title - centered, with info button positioned absolutely */
 .diary-title {
   font-family: Futura, sans-serif;
   font-size: 28px;
@@ -333,8 +332,10 @@ body.light-mode .playlist-nav-btn:hover {
   margin: 0;
 }
 
-/* Info button */
+/* Info button - positioned absolutely to the right of title */
 .diary-info-btn {
+  position: absolute;
+  left: calc(50% + 60px);
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -358,18 +359,17 @@ body.light-mode .playlist-nav-btn:hover {
   color: var(--color-text-active, #ffffff);
 }
 
-/* Info popup - positioned relative to the header */
+/* Info popup - positioned to the right of the info button */
 .diary-info-popup {
   position: absolute;
   top: 50%;
-  left: 100%;
-  margin-left: 15px;
+  left: calc(50% + 100px);
   transform: translateY(-50%);
   background: var(--glass-bg, rgba(255, 255, 255, 0.08));
   border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
   border-radius: 12px;
-  padding: 16px 20px;
-  max-width: 280px;
+  padding: 16px 24px;
+  width: 280px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
