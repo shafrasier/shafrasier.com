@@ -210,7 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Maps hashed input -> { key: data-password to match, message: custom message }
   const DIARY_PASSWORD_HASHES = {
     '-aa463p': { key: null, message: 'hi tommy <3' },
-    '1psb0g': { key: '1psb0g', message: 'unlocked' }
+    '1psb0g': { key: '1psb0g', message: 'unlocked' },
+    '-icrpc7': { key: 'all', message: 'all unlocked' }
   };
 
   const diaryPasswordMessage = document.getElementById('diaryPasswordMessage');
@@ -262,8 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const hiddenItems = document.querySelectorAll('.diary-hidden-item');
     hiddenItems.forEach(item => {
       const itemHash = item.dataset.password || null;
-      // Reveal if hash matches (null matches items without data-password)
-      if (itemHash === hashedKey) {
+      // 'all' key reveals everything, otherwise match specific key
+      if (hashedKey === 'all' || itemHash === hashedKey) {
         item.style.display = 'flex';
         // Add animation
         if (typeof gsap !== 'undefined') {
@@ -320,6 +321,25 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
       if (!diaryInfoBtn.contains(e.target) && !diaryInfoPopup.contains(e.target)) {
         diaryInfoPopup.classList.remove('visible');
+      }
+    });
+  }
+
+  // ===================================
+  // SHEETS INFO POPUP
+  // ===================================
+  const sheetsInfoBtn = document.getElementById('sheetsInfoBtn');
+  const sheetsInfoPopup = document.getElementById('sheetsInfoPopup');
+
+  if (sheetsInfoBtn && sheetsInfoPopup) {
+    sheetsInfoBtn.addEventListener('click', () => {
+      sheetsInfoPopup.classList.toggle('visible');
+    });
+
+    // Close popup when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!sheetsInfoBtn.contains(e.target) && !sheetsInfoPopup.contains(e.target)) {
+        sheetsInfoPopup.classList.remove('visible');
       }
     });
   }

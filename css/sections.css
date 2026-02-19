@@ -12,24 +12,120 @@
   justify-content: center;
 }
 
+.sheets-container {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sheets-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.sheets-title {
+  font-family: Futura, sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--color-text-muted, #888888);
+  text-align: center;
+  margin: 0;
+}
+
+/* Info button - positioned absolutely to the right of title */
+.sheets-info-btn {
+  position: absolute;
+  left: calc(50% + 70px);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--color-text-muted, #888888);
+  background: transparent;
+  color: var(--color-text-muted, #888888);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  font-style: italic;
+  cursor: none;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.sheets-info-btn:hover {
+  border-color: var(--color-text-active, #ffffff);
+  color: var(--color-text-active, #ffffff);
+  transform: scale(1.15);
+}
+
+/* Info popup - positioned to the right of the info button */
+.sheets-info-popup {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 110px);
+  transform: translateY(-50%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px 24px;
+  width: 280px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  white-space: normal;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.sheets-info-popup.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sheets-info-popup p {
+  font-family: Futura, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text, #c8c8c8);
+  margin: 0;
+  line-height: 1.5;
+}
+
 .sheets-section {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 0;
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   padding: 20px 60px;
+  position: relative;
 }
 
 /* Timeline line - connects all dots */
 .sheets-section::before {
   content: '';
   position: absolute;
-  top: calc(50% + 20px);
+  bottom: 39px;
   left: 0;
   right: 0;
   height: 2px;
@@ -120,6 +216,35 @@ body.light-mode .sheets-link:focus::after {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
+body.light-mode .sheets-info-btn {
+  border-color: var(--color-text-muted, #666666);
+  color: var(--color-text-muted, #666666);
+}
+
+body.light-mode .sheets-info-btn:hover {
+  border-color: var(--color-text-active, #000000);
+  color: var(--color-text-active, #000000);
+  transform: scale(1.15);
+}
+
+body.light-mode .sheets-info-popup {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.35) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode .sheets-info-popup p {
+  color: var(--color-text, #2a2a2a);
+}
+
 /* ===================================
    PLAYLISTS SECTION
    =================================== */
@@ -177,7 +302,7 @@ body.light-mode .sheets-link:focus::after {
   font-weight: 500;
   letter-spacing: 0.1em;
   color: var(--color-text, #c8c8c8);
-  cursor: pointer;
+  cursor: none;
   transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
@@ -345,7 +470,7 @@ body.light-mode .playlist-nav-btn:hover {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 14px;
   font-style: italic;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -357,6 +482,7 @@ body.light-mode .playlist-nav-btn:hover {
 .diary-info-btn:hover {
   border-color: var(--color-text-active, #ffffff);
   color: var(--color-text-active, #ffffff);
+  transform: scale(1.15);
 }
 
 /* Info popup - positioned to the right of the info button */
@@ -365,18 +491,27 @@ body.light-mode .playlist-nav-btn:hover {
   top: 50%;
   left: calc(50% + 100px);
   transform: translateY(-50%);
-  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
-  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
-  border-radius: 12px;
-  padding: 16px 24px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px 24px;
   width: 280px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   z-index: 100;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   white-space: normal;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .diary-info-popup.visible {
@@ -427,7 +562,7 @@ body.light-mode .playlist-nav-btn:hover {
 
 /* Diary year toggle styling */
 .diary-year-toggle {
-  cursor: pointer;
+  cursor: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -495,7 +630,7 @@ body.light-mode .playlist-nav-btn:hover {
   align-items: center;
   padding: 14px 16px;
   border-radius: 8px;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.3s ease;
   position: relative;
 }
@@ -601,6 +736,35 @@ body.light-mode .diary-playlist-item:hover {
   background: var(--glass-bg, rgba(0, 0, 0, 0.05));
 }
 
+body.light-mode .diary-info-btn {
+  border-color: var(--color-text-muted, #666666);
+  color: var(--color-text-muted, #666666);
+}
+
+body.light-mode .diary-info-btn:hover {
+  border-color: var(--color-text-active, #000000);
+  color: var(--color-text-active, #000000);
+  transform: scale(1.15);
+}
+
+body.light-mode .diary-info-popup {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.35) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode .diary-info-popup p {
+  color: var(--color-text, #2a2a2a);
+}
+
 /* ===================================
    MOMENTS VIEW - Date-specific playlists
    =================================== */
@@ -691,7 +855,7 @@ body.light-mode .moment-item:hover .moment-title {
   background: var(--glass-bg, rgba(255, 255, 255, 0.08));
   border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
   border-radius: 16px;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -716,7 +880,7 @@ body.light-mode .moment-item:hover .moment-title {
 
 .sequences-folder {
   opacity: 0.4;
-  cursor: not-allowed;
+  cursor: none;
 }
 
 .coming-soon {
@@ -893,7 +1057,7 @@ body.light-mode .moment-item:hover .moment-title {
   border-radius: 50px;
   color: var(--color-text, #c8c8c8);
   font-size: 14px;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.3s ease;
 }
 
@@ -932,7 +1096,7 @@ body.light-mode .moment-item:hover .moment-title {
   background: linear-gradient(145deg, rgba(80, 80, 80, 0.9) 0%, rgba(50, 50, 50, 0.95) 100%);
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
+  cursor: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -954,7 +1118,7 @@ body.light-mode .moment-item:hover .moment-title {
   height: 50px;
   background: transparent;
   border: none;
-  cursor: pointer;
+  cursor: none;
   color: rgba(255, 255, 255, 0.5);
   font-size: 20px;
   display: flex;
@@ -1016,7 +1180,7 @@ body.light-mode .moment-item:hover .moment-title {
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
-  cursor: pointer;
+  cursor: none;
   transition: border-color 0.3s ease,
               transform 0.3s ease;
 }
@@ -1254,16 +1418,41 @@ body.light-mode .article-link:active {
   }
 
   /* Sheets - Vertical Timeline on mobile */
+  .sheets-container {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    padding: 80px 20px;
+  }
+
+  .sheets-header {
+    margin-bottom: 30px;
+  }
+
+  .sheets-info-btn {
+    left: calc(50% + 55px);
+  }
+
+  .sheets-info-popup {
+    left: auto;
+    right: -20px;
+    top: 100%;
+    transform: translateY(10px);
+    width: 250px;
+  }
+
   .sheets-section {
     flex-direction: column;
-    top: 50%;
-    padding: 60px 20px 40px;
+    padding: 20px 20px 40px;
     gap: 0;
+    position: relative;
   }
 
   .sheets-section::before {
     /* Vertical line for mobile */
-    top: 60px;
+    top: 20px;
     bottom: 40px;
     left: calc(50% - 60px);
     right: auto;

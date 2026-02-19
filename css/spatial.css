@@ -47,7 +47,7 @@ body:not(.light-mode) {
 /* Floating Buttons (Islands) - Matching playlist nav buttons */
 .floating-button {
   position: absolute;
-  /* Glass panel style - same as playlist-nav-btn */
+  /* Glass panel style - very transparent */
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -61,52 +61,51 @@ body:not(.light-mode) {
   font-weight: 500;
   letter-spacing: 0.1em;
   color: var(--color-text, #c8c8c8);
-  transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  /* Smooth, slow transition for all properties */
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+    background 0.5s ease,
+    border-color 0.5s ease,
+    color 0.5s ease,
+    box-shadow 0.6s ease;
   pointer-events: auto;
-  will-change: transform;
+  will-change: transform, box-shadow;
+  /* Start with invisible shadow for smooth transition */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0);
 }
 
 /* Individual button positions (will be animated) */
 #sheets-btn {
-  top: 20%;
-  left: 15%;
+  top: 30%;
+  left: 35%;
 }
 
 #playlists-btn {
-  top: 35%;
-  left: 60%;
+  top: 38%;
+  left: 50%;
 }
 
 #writing-btn {
-  top: 55%;
-  left: 30%;
+  top: 50%;
+  left: 40%;
 }
 
-/* Hover State - Same as playlist nav buttons */
+/* Hover State - smooth scale up with gradual shadow */
 .floating-button:hover {
-  transform: translateY(-4px) scale(1.05);
+  transform: translateY(-5px) scale(1.08);
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.4);
   color: var(--color-text-active, #ffffff);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
 }
 
-/* Active State */
+/* Active State - slight deflate on click */
 .floating-button:active {
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-/* Light mode styles */
-body.light-mode .floating-button {
-  background: rgba(255, 255, 255, 0.4);
-  border-color: rgba(255, 255, 255, 0.5);
-  color: var(--color-text, #2a2a2a);
-}
-
-body.light-mode .floating-button:hover {
-  background: rgba(255, 255, 255, 0.55);
-  color: var(--color-text-active, #000000);
-}
+/* Light mode base styles defined later in file */
 
 /* Name Container - Centered, Subtle */
 .name-container {
@@ -155,7 +154,7 @@ body.light-mode .floating-button:hover {
   display: none;
 }
 
-/* Social Icons */
+/* Social Icons - Liquid Glass Style */
 .social-icon {
   display: flex;
   align-items: center;
@@ -165,9 +164,24 @@ body.light-mode .floating-button:hover {
   padding: 8px;
   box-sizing: border-box;
   border-radius: 50%;
-  background-color: rgb(28, 28, 28);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.4s ease,
+    background 0.3s ease,
+    border-color 0.3s ease;
   pointer-events: auto;
 }
 
@@ -225,6 +239,35 @@ body.light-mode .floating-button:hover {
   filter: brightness(0.8);
 }
 
+.social-icon:hover {
+  transform: scale(1.1);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.social-icon:active {
+  transform: scale(0.95);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+}
+
 .social-icons-container {
   position: fixed;
   bottom: 20px;
@@ -237,31 +280,54 @@ body.light-mode .floating-button:hover {
 
 /* Dark Mode Button Overrides (when toggled from light default) */
 body:not(.light-mode) .floating-button {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
-  color: #c8c8c8;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    0 6px 20px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+  color: #c8c8c8;
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+    background 0.5s ease,
+    border-color 0.5s ease,
+    color 0.5s ease,
+    box-shadow 0.6s ease;
 }
 
 body:not(.light-mode) .floating-button:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.2);
   box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.5),
-    0 0 60px rgba(255, 255, 255, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    0 20px 50px rgba(0, 0, 0, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
 }
 
 body:not(.light-mode) .floating-button:active {
-  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px) scale(1.03);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.15);
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.4),
-    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    0 8px 25px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.25);
 }
 
 /* Light Mode Overrides */
@@ -270,8 +336,44 @@ body.light-mode {
 }
 
 body.light-mode .social-icon {
-  background-color: #e8e8e8;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.25) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode .social-icon:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.35) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.04);
+}
+
+body.light-mode .social-icon:active {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
 }
 
 /* Light mode - show original dark icons for LinkedIn and Instagram */
@@ -303,39 +405,56 @@ body.light-mode #substack-logo:active img {
   filter: invert(1) brightness(0.8) !important;
 }
 
-/* Light mode already uses Liquid Glass styling - enhance it */
+/* Light mode - transparent glass with smooth shadow transition */
 body.light-mode .floating-button {
-  background: rgba(255, 255, 255, 0.4);
-  border-color: rgba(255, 255, 255, 0.5);
-  color: #2a2a2a;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+    0 6px 20px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
+  color: #2a2a2a;
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+    background 0.5s ease,
+    border-color 0.5s ease,
+    color 0.5s ease,
+    box-shadow 0.6s ease;
 }
 
 body.light-mode .floating-button:hover {
-  background: rgba(255, 255, 255, 0.55);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
   border-color: rgba(255, 255, 255, 0.7);
   box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.12),
-    0 0 60px rgba(255, 255, 255, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+    0 20px 50px rgba(0, 0, 0, 0.12),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.04);
   color: #000000;
 }
 
-/* Spotlight in light mode - golden beam from above */
-body.light-mode .floating-button::before {
+body.light-mode .floating-button:active {
+  transform: translateY(-2px) scale(1.03);
   background: linear-gradient(
-    180deg,
-    rgba(255, 200, 50, 0.7) 0%,
-    rgba(255, 215, 80, 0.5) 20%,
-    rgba(255, 225, 110, 0.35) 45%,
-    rgba(255, 235, 150, 0.18) 70%,
-    rgba(255, 240, 180, 0.08) 90%,
-    transparent 100%
+    135deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.25) 100%
   );
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
 }
 
 body.light-mode .name {

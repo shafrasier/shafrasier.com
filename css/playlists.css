@@ -67,11 +67,26 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
-  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-md, 16px);
-  cursor: pointer;
-  transition: all var(--transition-fluid, 0.6s cubic-bezier(0.23, 1, 0.32, 1));
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+  cursor: none;
+  transition:
+    transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
 }
@@ -85,7 +100,7 @@ body {
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.15) 0%,
     transparent 50%
   );
   opacity: 0;
@@ -94,8 +109,17 @@ body {
 
 .genre-folder:hover {
   transform: scale(1.05) translateY(-4px);
-  background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
-  box-shadow: var(--shadow-lg, 0 12px 40px rgba(0, 0, 0, 0.5));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .genre-folder:hover::before {
@@ -104,6 +128,10 @@ body {
 
 .genre-folder:active {
   transform: scale(0.98);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.15);
 }
 
 .folder-label {
@@ -122,7 +150,7 @@ body {
 /* Sequences folder (disabled) */
 .sequences-folder {
   opacity: 0.4;
-  cursor: not-allowed;
+  cursor: none;
 }
 
 .sequences-folder:hover {
@@ -427,17 +455,42 @@ body {
 
 .subgenre-pill {
   padding: 10px 20px;
-  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
-  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
   color: var(--color-text, #c8c8c8);
   font-size: var(--font-size-sm, 14px);
-  cursor: pointer;
-  transition: all 0.3s ease;
+  cursor: none;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    color 0.3s ease;
 }
 
 .subgenre-pill:hover {
-  background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.12);
   color: var(--color-text-active, #ffffff);
 }
 
@@ -445,6 +498,7 @@ body {
   background: var(--color-text-active, #ffffff);
   color: var(--color-bg, #131313);
   border-color: transparent;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
 }
 
 /* ===================================
@@ -489,7 +543,7 @@ body {
   box-shadow:
     0 4px 15px rgba(0, 0, 0, 0.3),
     inset 0 1px 5px rgba(255, 255, 255, 0.1);
-  cursor: pointer;
+  cursor: none;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -520,7 +574,7 @@ body {
   height: 50px;
   background: transparent;
   border: none;
-  cursor: pointer;
+  cursor: none;
   color: rgba(255, 255, 255, 0.5);
   font-size: 20px;
   transition: all 0.2s ease;
@@ -564,13 +618,38 @@ body.light-mode {
 }
 
 body.light-mode .genre-folder {
-  background: rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.08);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.25) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
 }
 
 body.light-mode .genre-folder:hover {
-  background: rgba(0, 0, 0, 0.06);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.35) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.04);
+}
+
+body.light-mode .genre-folder:active {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
 }
 
 body.light-mode .folder-label {
@@ -644,18 +723,38 @@ body.light-mode .current-genre-label {
 }
 
 body.light-mode .subgenre-pill {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.25) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.02);
   color: var(--color-text, #2a2a2a);
 }
 
 body.light-mode .subgenre-pill:hover {
-  background: rgba(0, 0, 0, 0.08);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.35) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
 }
 
 body.light-mode .subgenre-pill.active {
   background: var(--color-text-active, #000000);
   color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* ===================================

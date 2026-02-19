@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let time = 0;
   function animate() {
     requestAnimationFrame(animate);
-    time += 0.01;
+    time += 0.015;
 
     // Animate waves - single ocean, no scrolling needed
     // The wave animation creates the movement illusion
@@ -65,12 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const x = originalPositions[i * 3];
       const y = originalPositions[i * 3 + 1];
 
-      // Create rolling wave effect that moves toward viewer
-      const wave1 = Math.sin(x * 0.05 + time) * 0.3;
-      const wave2 = Math.sin(y * 0.08 + time * 1.2) * 0.2;
-      const wave3 = Math.sin((x + y) * 0.04 + time * 0.8) * 0.25;
+      // Depth factor: more amplitude in front (positive y), less at horizon (negative y)
+      // y ranges from -200 to +200 (half of 400 plane size)
+      const depthFactor = Math.max(0.3, (y + 200) / 400);
 
-      positions.array[i * 3 + 2] = wave1 + wave2 + wave3;
+      // Create rolling wave effect that moves toward viewer
+      const wave1 = Math.sin(x * 0.05 + time) * 0.5;
+      const wave2 = Math.sin(y * 0.08 + time * 1.2) * 0.35;
+      const wave3 = Math.sin((x + y) * 0.04 + time * 0.8) * 0.4;
+
+      // Apply depth-based scaling - waves taller in front
+      const baseWave = wave1 + wave2 + wave3;
+      positions.array[i * 3 + 2] = baseWave * (1 + depthFactor * 1.5);
     }
     positions.needsUpdate = true;
 
