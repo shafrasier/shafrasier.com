@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         targetView.classList.add('active');
       }
-    }, hasAnimation ? 250 : 0);
+    }, (typeof gsap !== 'undefined' && hasAnimation) ? 250 : 0);
 
     currentPlaylistView = viewId;
   }

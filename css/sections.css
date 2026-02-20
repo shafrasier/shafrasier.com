@@ -335,6 +335,29 @@ body.light-mode .playlist-nav-btn:hover {
 
 /* Back button positioning handled by .section-back in global.css */
 
+/* Genre view header */
+.genre-view-header {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: -30px;
+}
+
+.genre-view-title {
+  font-size: var(--font-size-lg, 24px);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-active, #ffffff);
+  margin: 0;
+}
+
+.genre-view-disclaimer {
+  font-size: var(--font-size-caption, 11px);
+  color: var(--color-text-muted, #999999);
+  margin: 6px 0 0;
+  letter-spacing: 0.05em;
+}
+
 .genre-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1395,6 +1418,14 @@ body.light-mode .moment-item:hover .moment-title {
 /* ===================================
    LIGHT MODE OVERRIDES
    =================================== */
+
+body.light-mode .genre-view-title {
+  color: var(--color-text-active, #000000);
+}
+
+body.light-mode .genre-view-disclaimer {
+  color: var(--color-text-muted, #888888);
+}
 
 body.light-mode .genre-folder {
   background: var(--glass-bg, rgba(0, 0, 0, 0.05));
