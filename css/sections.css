@@ -41,6 +41,13 @@
 }
 
 /* Info button - positioned absolutely to the right of title */
+/* TODO: Unhide info buttons once real text is provided */
+.sheets-info-btn,
+.diary-info-btn,
+.publication-info-btn {
+  display: none;
+}
+
 .sheets-info-btn {
   position: absolute;
   left: calc(50% + 70px);
