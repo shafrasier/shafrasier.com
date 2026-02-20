@@ -81,7 +81,7 @@ body {
     0 4px 15px rgba(0, 0, 0, 0.2),
     inset 0 1px 1px rgba(255, 255, 255, 0.08),
     inset 0 -1px 1px rgba(0, 0, 0, 0.15);
-  cursor: none;
+  cursor: pointer;
   transition:
     transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
     background 0.3s ease,
@@ -150,7 +150,7 @@ body {
 /* Sequences folder (disabled) */
 .sequences-folder {
   opacity: 0.4;
-  cursor: none;
+  cursor: not-allowed;
 }
 
 .sequences-folder:hover {
@@ -172,7 +172,7 @@ body {
 
 .search-container {
   position: fixed;
-  bottom: 30px;
+  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
@@ -197,7 +197,7 @@ body {
 }
 
 .search-bar::placeholder {
-  color: var(--color-text-muted, #888888);
+  color: var(--color-text-muted, #999999);
 }
 
 .search-bar:focus {
@@ -243,7 +243,7 @@ body {
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-text-muted, #888888);
+  color: var(--color-text-muted, #999999);
 }
 
 /* Playlist Display Area */
@@ -274,7 +274,7 @@ body {
 .genre-tag {
   font-style: italic;
   font-size: 14px;
-  color: var(--color-text-muted, #888888);
+  color: var(--color-text-muted, #999999);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -285,10 +285,10 @@ body {
 }
 
 .genre-desc-text {
-  font-size: 13px;
-  color: var(--color-text-muted, #666666);
-  margin-top: 8px;
-  line-height: 1.6;
+  font-size: var(--font-size-footnote, 13px);
+  color: var(--color-text-muted, #999999);
+  margin-top: var(--space-4, 8px);
+  line-height: var(--line-height-relaxed, 1.6);
   opacity: 0.8;
 }
 
@@ -314,7 +314,7 @@ body {
   opacity: 1;
 }
 
-/* Artwork placeholder gradient */
+/* Artwork placeholder gradient — visible when image hasn't loaded */
 .artwork-container::before {
   content: '';
   position: absolute;
@@ -322,12 +322,27 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(100, 100, 100, 0.3) 0%,
-    rgba(50, 50, 50, 0.3) 100%
-  );
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 60%),
+    linear-gradient(
+      135deg,
+      rgba(60, 60, 60, 0.5) 0%,
+      rgba(30, 30, 30, 0.6) 50%,
+      rgba(45, 45, 45, 0.5) 100%
+    );
   z-index: 0;
+}
+
+/* Light mode placeholder */
+body.light-mode .artwork-container::before {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 60%),
+    linear-gradient(
+      135deg,
+      rgba(200, 200, 200, 0.5) 0%,
+      rgba(230, 230, 230, 0.6) 50%,
+      rgba(210, 210, 210, 0.5) 100%
+    );
 }
 
 .playlist-name {
@@ -471,7 +486,7 @@ body {
     inset 0 -1px 1px rgba(0, 0, 0, 0.1);
   color: var(--color-text, #c8c8c8);
   font-size: var(--font-size-sm, 14px);
-  cursor: none;
+  cursor: pointer;
   transition:
     background 0.3s ease,
     border-color 0.3s ease,
@@ -507,7 +522,7 @@ body {
 
 .click-wheel {
   position: fixed;
-  bottom: -120px;
+  bottom: calc(-120px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   width: 280px;
@@ -543,7 +558,7 @@ body {
   box-shadow:
     0 4px 15px rgba(0, 0, 0, 0.3),
     inset 0 1px 5px rgba(255, 255, 255, 0.1);
-  cursor: none;
+  cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -574,7 +589,7 @@ body {
   height: 50px;
   background: transparent;
   border: none;
-  cursor: none;
+  cursor: pointer;
   color: rgba(255, 255, 255, 0.5);
   font-size: 20px;
   transition: all 0.2s ease;
@@ -788,7 +803,7 @@ body.light-mode .subgenre-pill.active {
   .click-wheel {
     width: 240px;
     height: 240px;
-    bottom: -80px;
+    bottom: calc(-80px + env(safe-area-inset-bottom, 0px));
   }
 
   .wheel-center {
@@ -805,12 +820,12 @@ body.light-mode .subgenre-pill.active {
 @media (max-width: 480px) {
   .genre-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: var(--space-6, 12px);
     padding: 0 10px;
   }
 
   .folder-label {
-    font-size: 10px;
+    font-size: var(--font-size-caption, 11px); /* Minimum 11px for legibility */
   }
 
   .search-bar {
@@ -831,7 +846,7 @@ body.light-mode .subgenre-pill.active {
   .click-wheel {
     width: 220px;
     height: 220px;
-    bottom: -70px;
+    bottom: calc(-70px + env(safe-area-inset-bottom, 0px));
   }
 
   .wheel-center {

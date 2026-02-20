@@ -30,7 +30,7 @@
   <!-- SHEETS SECTION -->
   <div id="sheets-content" class="section-content" style="display: none; opacity: 0;">
     <button class="back-button section-back" onclick="returnToHome()">
-      <i class="fa-solid fa-xmark" style="color: #131313;"></i>
+      <i class="fa-solid fa-xmark" ></i>
     </button>
     <div class="sheets-container">
       <div class="sheets-header">
@@ -59,12 +59,14 @@
     <!-- Playlists Landing View - floating buttons -->
     <div id="playlists-landing" class="playlists-view active">
       <button class="back-button section-back" onclick="returnToHome()">
-        <i class="fa-solid fa-xmark" style="color: #131313;"></i>
+        <i class="fa-solid fa-xmark" ></i>
       </button>
       <div class="playlists-nav-container">
         <div class="playlists-nav-row">
           <button class="playlist-nav-btn" data-playlist-view="genre-view">GENRE</button>
+          <!-- MOMENTS button hidden until content is ready
           <button class="playlist-nav-btn" data-playlist-view="moments-view">MOMENTS</button>
+          -->
           <button class="playlist-nav-btn" data-playlist-view="diary-view">DIARY</button>
         </div>
         <button class="playlist-nav-btn more-btn" data-playlist-view="misc-view">MORE</button>
@@ -74,7 +76,7 @@
     <!-- Genre Grid View -->
     <div id="genre-view" class="playlists-view">
       <button class="back-button playlists-back" data-back-to="playlists-landing">
-        <i class="fa-solid fa-arrow-left" style="color: #131313;"></i>
+        <i class="fa-solid fa-arrow-left" ></i>
       </button>
       <div class="genre-grid">
         <button class="genre-folder" data-genre="ambient"><span class="folder-label">AMBIENT</span></button>
@@ -103,7 +105,7 @@
     <!-- More View (CAR + MISC playlists) -->
     <div id="misc-view" class="playlists-view">
       <button class="back-button playlists-back" data-back-to="playlists-landing">
-        <i class="fa-solid fa-arrow-left" style="color: #131313;"></i>
+        <i class="fa-solid fa-arrow-left" ></i>
       </button>
       <div class="genre-grid misc-grid">
         <button class="genre-folder" data-genre="car"><span class="folder-label">CAR</span></button>
@@ -114,7 +116,7 @@
     <!-- Moments View (date-specific playlists) -->
     <div id="moments-view" class="playlists-view">
       <button class="back-button playlists-back" data-back-to="playlists-landing">
-        <i class="fa-solid fa-arrow-left" style="color: #131313;"></i>
+        <i class="fa-solid fa-arrow-left" ></i>
       </button>
       <div class="moments-container">
         <div class="moments-list">
@@ -150,7 +152,7 @@
     <!-- Diary View (Sequenced playlists) -->
     <div id="diary-view" class="playlists-view">
       <button class="back-button playlists-back" data-back-to="playlists-landing">
-        <i class="fa-solid fa-arrow-left" style="color: #131313;"></i>
+        <i class="fa-solid fa-arrow-left" ></i>
       </button>
       <div class="diary-container">
         <div class="diary-header">
@@ -387,7 +389,7 @@
     <div id="wheel-view" class="playlists-view">
       <div class="wheel-back-container">
         <button class="back-button" id="backToGenres">
-          <i class="fa-solid fa-arrow-up" style="color: #131313;"></i>
+          <i class="fa-solid fa-arrow-up" ></i>
         </button>
       </div>
       <div class="wheel-header">
@@ -418,14 +420,20 @@
   <!-- WRITING SECTION -->
   <div id="writing-content" class="section-content" style="display: none; opacity: 0;">
     <button class="back-button section-back" onclick="returnToHome()">
-      <i class="fa-solid fa-xmark" style="color: #131313;"></i>
+      <i class="fa-solid fa-xmark" ></i>
     </button>
     <div class="section-inner writing-section">
       <!-- SHA-STACK -->
       <section class="publication-section">
         <div class="publication-header" data-toggle="substack-content-inner">
           <h2 class="heading"><a href="https://shafrasier.substack.com" class="publication-name-link" target="_blank">Sha-Stack</a></h2>
-          <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+          <div class="publication-header-right">
+            <button class="publication-info-btn" data-popup="substack-info-popup">i</button>
+            <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="publication-info-popup" id="substack-info-popup">
+            <p>Placeholder text for Sha-Stack info.</p>
+          </div>
         </div>
         <div class="publication-content" id="substack-content-inner">
           <a href="https://shafrasier.substack.com/p/hearing-the-future-in-marty-supreme" class="article-link" target="_blank">
@@ -474,7 +482,13 @@
       <section class="publication-section">
         <div class="publication-header" data-toggle="paste-content-inner">
           <h2 class="heading"><a href="https://www.pastemagazine.com" class="publication-name-link" target="_blank">Paste</a></h2>
-          <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+          <div class="publication-header-right">
+            <button class="publication-info-btn" data-popup="paste-info-popup">i</button>
+            <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="publication-info-popup" id="paste-info-popup">
+            <p>Placeholder text for Paste info.</p>
+          </div>
         </div>
         <div class="publication-content" id="paste-content-inner">
           <a href="https://www.pastemagazine.com/music/scene-report/the-return-of-electroclash" class="article-link" target="_blank">
@@ -487,7 +501,13 @@
       <section class="publication-section">
         <div class="publication-header" data-toggle="firebird-content-inner">
           <h2 class="heading"><a href="https://firebirdmagazine.com" class="publication-name-link" target="_blank">Firebird</a></h2>
-          <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+          <div class="publication-header-right">
+            <button class="publication-info-btn" data-popup="firebird-info-popup">i</button>
+            <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+          </div>
+          <div class="publication-info-popup" id="firebird-info-popup">
+            <p>Placeholder text for Firebird info.</p>
+          </div>
         </div>
         <div class="publication-content" id="firebird-content-inner">
           <a href="https://firebirdmagazine.com/concerts/patterson-hood-folk" class="article-link" target="_blank">
@@ -536,17 +556,25 @@
   </div>
 
   <!-- Social Icons (bottom left) -->
-  <div class="social-icons-container">
-    <a href="https://www.linkedin.com/in/shafrasier" class="social-icon" id="linkedin-logo">
-      <img src="pictures/linkedin-big-logo.svg" alt="LinkedIn">
-    </a>
-    <a href="https://www.instagram.com/shafrasier/" class="social-icon" id="instagram-logo">
-      <img src="pictures/new-instagram-logo-glyph.png" alt="Instagram">
-    </a>
-    <a href="https://shafrasier.substack.com/" class="social-icon" id="substack-logo">
-      <img src="pictures/substack4.png" alt="Substack">
-    </a>
+  <div class="social-icons-wrapper">
+    <button class="ce-button" id="ce-logo">
+      <img src="pictures/ce.svg" alt="Continuing Education">
+    </button>
+    <div class="social-icons-container">
+      <a href="https://www.linkedin.com/in/shafrasier" class="social-icon" id="linkedin-logo">
+        <img src="pictures/linkedin-big-logo.svg" alt="LinkedIn">
+      </a>
+      <a href="https://www.instagram.com/shafrasier/" class="social-icon" id="instagram-logo">
+        <img src="pictures/new-instagram-logo-glyph.png" alt="Instagram">
+      </a>
+      <a href="https://shafrasier.substack.com/" class="social-icon" id="substack-logo">
+        <img src="pictures/substack4.png" alt="Substack">
+      </a>
+    </div>
   </div>
+
+  <!-- CE "Coming Soon" Popup -->
+  <div class="ce-popup" id="ce-popup">coming soon...</div>
 
 
   <!-- Theme Toggle (bottom right) -->
@@ -570,157 +598,157 @@
   <script>
     const PLAYLIST_DATA = {
       car: { name: "CAR", playlists: [
-        { name: "AIR", url: "https://music.apple.com/us/playlist/air/pl.u-r2yBo9GIRGaZJ4" },
-        { name: "SUE", url: "https://music.apple.com/us/playlist/sue/pl.u-yZyVoELudr61B3" },
-        { name: "PRINCESS", url: "https://music.apple.com/us/playlist/princess/pl.u-55D6N47f6o1rD3" },
-        { name: "RANGE", url: "https://music.apple.com/us/playlist/range/pl.u-pMylzqjHWLyNZ2" }
+        { name: "AIR", url: "https://music.apple.com/us/playlist/air/pl.u-r2yBo9GIRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/b9/9d/ed/b99dede2-1eaa-79ff-f10a-2f1a22b297e5/image/300x300bb.jpg" },
+        { name: "SUE", url: "https://music.apple.com/us/playlist/sue/pl.u-yZyVoELudr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/5e/16/5a/5e165ac7-82e1-a17d-76dc-61397d1f0539/image/300x300bb.jpg" },
+        { name: "PRINCESS", url: "https://music.apple.com/us/playlist/princess/pl.u-55D6N47f6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/94/64/ad/9464ada4-8a2e-e8b7-0129-1f6702840791/image/300x300bb.jpg" },
+        { name: "RANGE", url: "https://music.apple.com/us/playlist/range/pl.u-pMylzqjHWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/9a/64/1f/9a641fc6-07bf-a094-ba0b-1372a73cdd4d/image/300x300bb.jpg" }
       ]},
-      ambient: { name: "AMBIENT", playlists: [{ name: "GARDEN", url: "https://music.apple.com/us/playlist/garden/pl.u-zPyLAd6Ceg4qpD" }]},
-      blues: { name: "BLUES", playlists: [{ name: "BLUE", url: "https://music.apple.com/us/playlist/blue/pl.u-pMylAeEUWLyNZ2" }]},
+      ambient: { name: "AMBIENT", playlists: [{ name: "GARDEN", url: "https://music.apple.com/us/playlist/garden/pl.u-zPyLAd6Ceg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/78/ec/98/78ec98b8-f105-c6d9-f90c-ac8667bd8c32/image/300x300bb.jpg" }]},
+      blues: { name: "BLUES", playlists: [{ name: "BLUE", url: "https://music.apple.com/us/playlist/blue/pl.u-pMylAeEUWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/bb/c8/13/bbc813e1-72cc-0ceb-79bf-33199da64b1c/image/300x300bb.jpg" }]},
       chillout: { name: "CHILLOUT", playlists: [
-        { name: "ROOM", url: "https://music.apple.com/us/playlist/room/pl.u-4JomKZDCJYyPZA" },
-        { name: "TRIP", url: "https://music.apple.com/us/playlist/trip/pl.u-r2yBAzGIRGaZJ4" }
+        { name: "ROOM", url: "https://music.apple.com/us/playlist/room/pl.u-4JomKZDCJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/37/5d/fe/375dfe0d-1509-14b3-be07-7ad4eca889c6/image/300x300bb.jpg" },
+        { name: "TRIP", url: "https://music.apple.com/us/playlist/trip/pl.u-r2yBAzGIRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/f5/8f/64/f58f64f6-9a6b-c787-d804-b43269929db4/image/300x300bb.jpg" }
       ]},
       classical: { name: "CLASSICAL", playlists: [
-        { name: "POND", url: "https://music.apple.com/us/playlist/pond/pl.u-zPyLXg5Feg4qpD" },
-        { name: "SNOW", url: "https://music.apple.com/us/playlist/snow/pl.u-qxylAdlT35JDRg" }
+        { name: "POND", url: "https://music.apple.com/us/playlist/pond/pl.u-zPyLXg5Feg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/b9/ee/64/b9ee64d8-4212-9c0e-b1d7-efc5100b17b4/image/300x300bb.jpg" },
+        { name: "SNOW", url: "https://music.apple.com/us/playlist/snow/pl.u-qxylAdlT35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/eb/92/35/eb923521-6600-93f7-ae87-4c5ba382a6a1/image/300x300bb.jpg" }
       ]},
       country: { name: "COUNTRY", playlists: [
-        { name: "ASH", url: "https://music.apple.com/us/playlist/ash/pl.u-XkD0roZf2KWyBl" },
-        { name: "BARN", url: "https://music.apple.com/us/playlist/barn/pl.u-pMyllebfWLyNZ2" },
-        { name: "PORCH", url: "https://music.apple.com/us/playlist/porch/pl.u-MDAWv86tAKXkeV" }
+        { name: "ASH", url: "https://music.apple.com/us/playlist/ash/pl.u-XkD0roZf2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/96/68/9e/96689ed3-abbb-7ba7-0109-b29b7e49aafe/image/300x300bb.jpg" },
+        { name: "BARN", url: "https://music.apple.com/us/playlist/barn/pl.u-pMyllebfWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/a3/34/4c/a3344c3f-d284-7828-baef-deb1996a909c/image/300x300bb.jpg" },
+        { name: "PORCH", url: "https://music.apple.com/us/playlist/porch/pl.u-MDAWv86tAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/79/d5/09/79d50987-b6e3-9414-47b0-802f594b08c7/image/300x300bb.jpg" }
       ]},
       disco: { name: "DISCO", playlists: [
-        { name: "ENERGY", url: "https://music.apple.com/us/playlist/energy/pl.u-zPyLy2Lueg4qpD" },
-        { name: "NUDE", url: "https://music.apple.com/us/playlist/nude/pl.u-4Jomol2tJYyPZA" },
-        { name: "RAPTURE", url: "https://music.apple.com/us/playlist/rapture/pl.u-55D6Dg3u6o1rD3" },
-        { name: "RINK", url: "https://music.apple.com/us/playlist/rink/pl.u-4JomKdmFJYyPZA" }
+        { name: "ENERGY", url: "https://music.apple.com/us/playlist/energy/pl.u-zPyLy2Lueg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/f7/0e/d2/f70ed2ed-f461-2d4d-b6c6-80241485dc4e/image/300x300bb.jpg" },
+        { name: "NUDE", url: "https://music.apple.com/us/playlist/nude/pl.u-4Jomol2tJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/14/a0/6d/14a06db1-8cc4-f313-9cae-c7b04e654fe9/image/300x300bb.jpg" },
+        { name: "RAPTURE", url: "https://music.apple.com/us/playlist/rapture/pl.u-55D6Dg3u6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/fd/d4/77/fdd477a1-5f26-7350-d4be-b4216821f575/image/300x300bb.jpg" },
+        { name: "RINK", url: "https://music.apple.com/us/playlist/rink/pl.u-4JomKdmFJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/30/9b/5a/309b5a36-fbb8-ef77-3ec7-04ce8b925724/image/300x300bb.jpg" }
       ]},
       edm: { name: "EDM", playlists: [
-        { name: "BALEARES", url: "https://music.apple.com/us/playlist/baleares/pl.u-55D6xrlT6o1rD3" },
-        { name: "BOING", url: "https://music.apple.com/us/playlist/boing/pl.u-yZyVP2Xtdr61B3" },
-        { name: "BREAK", url: "https://music.apple.com/us/playlist/break/pl.u-4JomzrbIJYyPZA" },
-        { name: "DIVA", url: "https://music.apple.com/us/playlist/diva/pl.u-pMylNqmTWLyNZ2" },
-        { name: "DOCKS", url: "https://music.apple.com/us/playlist/docks/pl.u-yZyVBDlIdr61B3" },
-        { name: "DROP", url: "https://music.apple.com/us/playlist/drop/pl.u-pMylGajIWLyNZ2" },
-        { name: "EURO", url: "https://music.apple.com/us/playlist/euro/pl.u-pMylAdjTWLyNZ2" },
-        { name: "FEVER", url: "https://music.apple.com/us/playlist/fever/pl.u-zPyLvPYTeg4qpD" },
-        { name: "HAUS", url: "https://music.apple.com/us/playlist/haus/pl.u-yZyVDvLCdr61B3" },
-        { name: "KEYS", url: "https://music.apple.com/us/playlist/keys/pl.u-4JomrZmsJYyPZA" },
-        { name: "KITCHEN", url: "https://music.apple.com/us/playlist/kitchen/pl.u-pMylDJLhWLyNZ2" },
-        { name: "KITE", url: "https://music.apple.com/us/playlist/kite/pl.u-r2yBBeGFRGaZJ4" },
-        { name: "SLEAZE", url: "https://music.apple.com/us/playlist/sleaze/pl.u-zPyLdE6Ieg4qpD" },
-        { name: "STEP", url: "https://music.apple.com/us/playlist/step/pl.u-qxylAVXC35JDRg" },
-        { name: "TECH", url: "https://music.apple.com/us/playlist/tech/pl.u-XkD03xBt2KWyBl" },
-        { name: "TRANCE", url: "https://music.apple.com/us/playlist/trance/pl.u-55D6zLKF6o1rD3" }
+        { name: "BALEARES", url: "https://music.apple.com/us/playlist/baleares/pl.u-55D6xrlT6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/63/9b/7b/639b7bcb-0806-f0c5-bee7-b4f7b9f6738e/image/300x300bb.jpg" },
+        { name: "BOING", url: "https://music.apple.com/us/playlist/boing/pl.u-yZyVP2Xtdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/d2/b0/02/d2b00298-cf71-6a01-6852-7f4ddf71fcb6/image/300x300bb.jpg" },
+        { name: "BREAK", url: "https://music.apple.com/us/playlist/break/pl.u-4JomzrbIJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/56/5b/ae/565bae5c-7e4c-c2c6-7924-811b3b0e390b/image/300x300bb.jpg" },
+        { name: "DIVA", url: "https://music.apple.com/us/playlist/diva/pl.u-pMylNqmTWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/54/82/4b/54824be6-57b3-29f2-7d94-1bfe28d674ae/image/300x300bb.jpg" },
+        { name: "DOCKS", url: "https://music.apple.com/us/playlist/docks/pl.u-yZyVBDlIdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/29/51/5c/29515c6c-f8cb-4073-0183-9857a50422c3/image/300x300bb.jpg" },
+        { name: "DROP", url: "https://music.apple.com/us/playlist/drop/pl.u-pMylGajIWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/03/da/50/03da50a1-c04d-3419-7e0c-648fdcf97c7a/image/300x300bb.jpg" },
+        { name: "EURO", url: "https://music.apple.com/us/playlist/euro/pl.u-pMylAdjTWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/9d/52/c9/9d52c906-ae7b-378f-2192-00b1aa72476c/image/300x300bb.jpg" },
+        { name: "FEVER", url: "https://music.apple.com/us/playlist/fever/pl.u-zPyLvPYTeg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/eb/ad/ac/ebadac54-d23e-8770-3d67-df118006b4ac/image/300x300bb.jpg" },
+        { name: "HAUS", url: "https://music.apple.com/us/playlist/haus/pl.u-yZyVDvLCdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/a2/40/47/a2404777-2720-6935-d6a4-ec3ddcf1d089/image/300x300bb.jpg" },
+        { name: "KEYS", url: "https://music.apple.com/us/playlist/keys/pl.u-4JomrZmsJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/d4/cf/ef/d4cfef38-c9b0-352d-537d-fda26dd5d5c2/image/300x300bb.jpg" },
+        { name: "KITCHEN", url: "https://music.apple.com/us/playlist/kitchen/pl.u-pMylDJLhWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/d9/70/0b/d9700bca-e8cf-6fa2-bb85-543d1df6b66e/image/300x300bb.jpg" },
+        { name: "KITE", url: "https://music.apple.com/us/playlist/kite/pl.u-r2yBBeGFRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/a9/71/66/a97166f2-0efc-486d-b6f0-8a66bab5fe93/image/300x300bb.jpg" },
+        { name: "SLEAZE", url: "https://music.apple.com/us/playlist/sleaze/pl.u-zPyLdE6Ieg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/9f/69/6f/9f696fda-52c3-213e-b8b2-3b6c41276d89/image/300x300bb.jpg" },
+        { name: "STEP", url: "https://music.apple.com/us/playlist/step/pl.u-qxylAVXC35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/df/4c/9c/df4c9c15-0882-dd26-d3cb-03ef9fcefeac/image/300x300bb.jpg" },
+        { name: "TECH", url: "https://music.apple.com/us/playlist/tech/pl.u-XkD03xBt2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/6f/be/5a/6fbe5a77-0905-7613-1df1-41c36f7c7fed/image/300x300bb.jpg" },
+        { name: "TRANCE", url: "https://music.apple.com/us/playlist/trance/pl.u-55D6zLKF6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/50/b0/e7/50b0e797-1dda-1011-a2ab-38c56100ac3d/image/300x300bb.jpg" }
       ]},
       electronic: { name: "ELECTRONIC", playlists: [
-        { name: "FOG", url: "https://music.apple.com/us/playlist/fog/pl.u-06oxxkyFYPyZJ8" },
-        { name: "GLITCH", url: "https://music.apple.com/us/playlist/glitch/pl.u-qxyl9MYt35JDRg" },
-        { name: "PC", url: "https://music.apple.com/us/playlist/pc/pl.u-55D6zoyF6o1rD3" }
+        { name: "FOG", url: "https://music.apple.com/us/playlist/fog/pl.u-06oxxkyFYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/6d/3e/5a/6d3e5a0b-795a-56bb-ec39-b316d755da1b/image/300x300bb.jpg" },
+        { name: "GLITCH", url: "https://music.apple.com/us/playlist/glitch/pl.u-qxyl9MYt35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/0b/fd/cb/0bfdcb0b-8af9-76ea-723d-0b60e3d25c9e/image/300x300bb.jpg" },
+        { name: "PC", url: "https://music.apple.com/us/playlist/pc/pl.u-55D6zoyF6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/5c/7a/c0/5c7ac019-6d1a-5212-6a9e-a0cc5745df89/image/300x300bb.jpg" }
       ]},
       folk: { name: "FOLK", playlists: [
-        { name: "DUST", url: "https://music.apple.com/us/playlist/dust/pl.u-pMylNovcWLyNZ2" },
-        { name: "IVY", url: "https://music.apple.com/us/playlist/ivy/pl.u-XkD0Japt2KWyBl" },
+        { name: "DUST", url: "https://music.apple.com/us/playlist/dust/pl.u-pMylNovcWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/17/47/20/17472018-24b0-958e-3953-5bb11bea85e9/image/300x300bb.jpg" },
+        { name: "IVY", url: "https://music.apple.com/us/playlist/ivy/pl.u-XkD0Japt2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/c1/6b/5a/c16b5aed-f3c0-bac3-1e04-90cd1b82fad5/image/300x300bb.jpg" },
         { name: "PLAINS", url: "https://music.apple.com/us/playlist/plains/pl.u-06oxmYbTYPyZJ83" },
-        { name: "SMOKE", url: "https://music.apple.com/us/playlist/smoke/pl.u-zPyL1L9ueg4qpD" },
-        { name: "STICKS", url: "https://music.apple.com/us/playlist/sticks/pl.u-4Jom0B9sJYyPZA" },
-        { name: "WOODS", url: "https://music.apple.com/us/playlist/woods/pl.u-zPyL1DRFeg4qpD" }
+        { name: "SMOKE", url: "https://music.apple.com/us/playlist/smoke/pl.u-zPyL1L9ueg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/a9/ed/4b/a9ed4b50-5615-06c6-8d7c-6e305333be66/image/300x300bb.jpg" },
+        { name: "STICKS", url: "https://music.apple.com/us/playlist/sticks/pl.u-4Jom0B9sJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/12/62/48/12624869-160e-e8e7-e7d8-c262ddf6b80b/image/300x300bb.jpg" },
+        { name: "WOODS", url: "https://music.apple.com/us/playlist/woods/pl.u-zPyL1DRFeg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/98/bc/a8/98bca864-621f-842e-21d8-ca93964940ae/image/300x300bb.jpg" }
       ]},
       hiphop: { name: "HIP-HOP", subgenres: { trap: [
-        { name: "BOP", url: "https://music.apple.com/us/playlist/bop/pl.u-yZyVKPLtdr61B3" },
-        { name: "BRR", url: "https://music.apple.com/us/playlist/brr/pl.u-zPyLeq6teg4qpD" },
-        { name: "BUMP", url: "https://music.apple.com/us/playlist/bump/pl.u-zPyLkg6ueg4qpD" },
-        { name: "ICE", url: "https://music.apple.com/us/playlist/ice/pl.u-qxylyRJs35JDRg", genreTag: "plugg", rymUrl: "https://rateyourmusic.com/genre/plugg/", genreDesc: "Spacey, ethereal trap with video game-inspired synths and dreamlike 808s. Hazy, hypnotic, and otherworldly." },
-        { name: "WAR", url: "https://music.apple.com/us/playlist/war/pl.u-EdAVEmbCDKN6vd" },
-        { name: "YEET", url: "https://music.apple.com/us/playlist/yeet/pl.u-r2yBAv2FRGaZJ4" }
+        { name: "BOP", url: "https://music.apple.com/us/playlist/bop/pl.u-yZyVKPLtdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/6b/61/ef/6b61ef27-2545-244a-bbc6-b9cbbfa0abad/image/300x300bb.jpg" },
+        { name: "BRR", url: "https://music.apple.com/us/playlist/brr/pl.u-zPyLeq6teg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/92/8c/c7/928cc755-c7c8-e8a3-4735-a0e7cc4e3880/image/300x300bb.jpg" },
+        { name: "BUMP", url: "https://music.apple.com/us/playlist/bump/pl.u-zPyLkg6ueg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/a3/f6/45/a3f6456c-bee3-a34f-a7b2-ef35d190bb79/image/300x300bb.jpg" },
+        { name: "ICE", url: "https://music.apple.com/us/playlist/ice/pl.u-qxylyRJs35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/b8/01/b0/b801b0bb-f5b3-4fb6-1e12-af7ed614b099/image/300x300bb.jpg", genreTag: "plugg", rymUrl: "https://rateyourmusic.com/genre/plugg/", genreDesc: "Spacey, ethereal trap with video game-inspired synths and dreamlike 808s. Hazy, hypnotic, and otherworldly." },
+        { name: "WAR", url: "https://music.apple.com/us/playlist/war/pl.u-EdAVEmbCDKN6vd", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/8f/3f/ef/8f3fefa8-4d2a-ca12-53fd-732935a75239/image/300x300bb.jpg" },
+        { name: "YEET", url: "https://music.apple.com/us/playlist/yeet/pl.u-r2yBAv2FRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/b0/3f/8e/b03f8e06-b0df-20bf-a58b-2ba6ff81ccdb/image/300x300bb.jpg" }
       ]}, playlists: [
-        { name: "5G", url: "https://music.apple.com/us/playlist/5g/pl.u-qxyl3glt35JDRg" },
-        { name: "BLOCK", url: "https://music.apple.com/us/playlist/block/pl.u-XkD0j0pS2KWyBl" },
-        { name: "EAST", url: "https://music.apple.com/us/playlist/east/pl.u-qxylAaas35JDRg" },
-        { name: "HYPHY", url: "https://music.apple.com/us/playlist/hyphy/pl.u-r2yBvbkIRGaZJ4" },
-        { name: "NINE", url: "https://music.apple.com/us/playlist/nine/pl.u-55D6K8Ks6o1rD3" },
-        { name: "SCREWED", url: "https://music.apple.com/us/playlist/screwed/pl.u-XkD0110u2KWyBl" },
-        { name: "SOUTH", url: "https://music.apple.com/us/playlist/south/pl.u-zPyL1pvCeg4qpD" },
-        { name: "THEODORE", url: "https://music.apple.com/us/playlist/theodore/pl.u-06oxMo6IYPyZJ8" },
-        { name: "WEST", url: "https://music.apple.com/us/playlist/west/pl.u-06ox7KbIYPyZJ8" }
+        { name: "5G", url: "https://music.apple.com/us/playlist/5g/pl.u-qxyl3glt35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/e1/6c/42/e16c428f-76bf-7331-0c03-a77f8ae8c066/image/300x300bb.jpg" },
+        { name: "BLOCK", url: "https://music.apple.com/us/playlist/block/pl.u-XkD0j0pS2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/34/af/c4/34afc4d6-679e-41b6-ebf7-54c1d6adf7b8/image/300x300bb.jpg" },
+        { name: "EAST", url: "https://music.apple.com/us/playlist/east/pl.u-qxylAaas35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/c8/b9/3d/c8b93da1-acb6-be16-b0f2-fb3382386c9d/image/300x300bb.jpg" },
+        { name: "HYPHY", url: "https://music.apple.com/us/playlist/hyphy/pl.u-r2yBvbkIRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/13/ca/18/13ca187c-87a8-9448-d113-fe7fb88c3e69/image/300x300bb.jpg" },
+        { name: "NINE", url: "https://music.apple.com/us/playlist/nine/pl.u-55D6K8Ks6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/a6/48/33/a6483341-1465-f678-e7b5-1ef3d4350bf0/image/300x300bb.jpg" },
+        { name: "SCREWED", url: "https://music.apple.com/us/playlist/screwed/pl.u-XkD0110u2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/9e/bd/c5/9ebdc5c6-9a05-303b-2214-5e2dc1a4fff0/image/300x300bb.jpg" },
+        { name: "SOUTH", url: "https://music.apple.com/us/playlist/south/pl.u-zPyL1pvCeg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/18/c6/62/18c66256-c4ba-d73d-b478-032d823a7ad5/image/300x300bb.jpg" },
+        { name: "THEODORE", url: "https://music.apple.com/us/playlist/theodore/pl.u-06oxMo6IYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/a4/1e/e7/a41ee795-a7b4-790c-9cca-1b1be89df404/image/300x300bb.jpg" },
+        { name: "WEST", url: "https://music.apple.com/us/playlist/west/pl.u-06ox7KbIYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/c0/4a/d6/c04ad6eb-714e-4f0c-9507-2987d2928791/image/300x300bb.jpg" }
       ]},
       jazz: { name: "JAZZ", playlists: [
-        { name: "PEAKS", url: "https://music.apple.com/us/playlist/peaks/pl.u-4Jom0D3sJYyPZA" },
-        { name: "STARS", url: "https://music.apple.com/us/playlist/stars/pl.u-yZyVJg3Cdr61B3" }
+        { name: "PEAKS", url: "https://music.apple.com/us/playlist/peaks/pl.u-4Jom0D3sJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/f4/40/64/f44064e1-979e-ca15-de1c-aa581b356839/image/300x300bb.jpg" },
+        { name: "STARS", url: "https://music.apple.com/us/playlist/stars/pl.u-yZyVJg3Cdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/f9/f4/6e/f9f46e09-6c1c-b6c0-7799-1db2a00c4885/image/300x300bb.jpg" }
       ]},
       pop: { name: "POP", playlists: [
-        { name: "BALL", url: "https://music.apple.com/us/playlist/ball/pl.u-yZyVjGrCdr61B3" },
-        { name: "BARBER", url: "https://music.apple.com/us/playlist/barber/pl.u-4Jomro2TJYyPZA" },
-        { name: "BRILL", url: "https://music.apple.com/us/playlist/brill/pl.u-06oxN8NFYPyZJ8" },
-        { name: "EURO", url: "https://music.apple.com/us/playlist/euro/pl.u-pMylAdjTWLyNZ2" },
-        { name: "HOT", url: "https://music.apple.com/us/playlist/hot/pl.u-r2yBrlXFRGaZJ4" },
-        { name: "MALL", url: "https://music.apple.com/us/playlist/mall/pl.u-qxyl0v6s35JDRg" },
-        { name: "MOON", url: "https://music.apple.com/us/playlist/moon/pl.u-yZyVlXXIdr61B3" },
-        { name: "PAINT", url: "https://music.apple.com/us/playlist/paint/pl.u-06oxN73uYPyZJ8" },
-        { name: "SUN", url: "https://music.apple.com/us/playlist/sun/pl.u-zPyLARPTeg4qpD" },
-        { name: "SWEET", url: "https://music.apple.com/us/playlist/sweet/pl.u-MDAWqJGuAKXkeV" },
-        { name: "TWEE", url: "https://music.apple.com/us/playlist/twee/pl.u-55D6ANqH6o1rD3" },
-        { name: "ZOO", url: "https://music.apple.com/us/playlist/zoo/pl.u-pMylEVMuWLyNZ2" }
+        { name: "BALL", url: "https://music.apple.com/us/playlist/ball/pl.u-yZyVjGrCdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/66/42/90/6642907a-35ba-903a-ba9c-0c5ad3cdd21d/image/300x300bb.jpg" },
+        { name: "BARBER", url: "https://music.apple.com/us/playlist/barber/pl.u-4Jomro2TJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/78/f8/c0/78f8c0a3-0fad-da3a-8983-8b8c03e48e34/image/300x300bb.jpg" },
+        { name: "BRILL", url: "https://music.apple.com/us/playlist/brill/pl.u-06oxN8NFYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/f0/f1/f1/f0f1f16a-3cf8-70ca-5e5f-f5df6ccbe3ae/image/300x300bb.jpg" },
+        { name: "EURO", url: "https://music.apple.com/us/playlist/euro/pl.u-pMylAdjTWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/9d/52/c9/9d52c906-ae7b-378f-2192-00b1aa72476c/image/300x300bb.jpg" },
+        { name: "HOT", url: "https://music.apple.com/us/playlist/hot/pl.u-r2yBrlXFRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/a7/bc/d3/a7bcd32c-a4e6-519d-96f1-9f15869719a7/image/300x300bb.jpg" },
+        { name: "MALL", url: "https://music.apple.com/us/playlist/mall/pl.u-qxyl0v6s35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/fd/e3/61/fde3618a-088e-a2ca-e6d3-77450a411f38/image/300x300bb.jpg" },
+        { name: "MOON", url: "https://music.apple.com/us/playlist/moon/pl.u-yZyVlXXIdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/05/41/59/054159f5-7ca0-3618-e2f2-db2f2013765b/image/300x300bb.jpg" },
+        { name: "PAINT", url: "https://music.apple.com/us/playlist/paint/pl.u-06oxN73uYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/5b/e2/78/5be278fc-2b95-a9c5-88d9-8ab35c9df6f0/image/300x300bb.jpg" },
+        { name: "SUN", url: "https://music.apple.com/us/playlist/sun/pl.u-zPyLARPTeg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/0c/a7/c0/0ca7c0d5-121e-5a78-6030-0547dd874024/image/300x300bb.jpg" },
+        { name: "SWEET", url: "https://music.apple.com/us/playlist/sweet/pl.u-MDAWqJGuAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/7a/58/ca/7a58cac4-d52f-db4f-e04e-7d00006aeaaa/image/300x300bb.jpg" },
+        { name: "TWEE", url: "https://music.apple.com/us/playlist/twee/pl.u-55D6ANqH6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/9e/09/85/9e098512-ebb2-f8cf-9f1d-78a0103fa7c5/image/300x300bb.jpg" },
+        { name: "ZOO", url: "https://music.apple.com/us/playlist/zoo/pl.u-pMylEVMuWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/87/24/2c/87242cbb-f115-a67a-1c8b-99c4ca1fc64d/image/300x300bb.jpg" }
       ]},
       psychedelia: { name: "PSYCHEDELIA", playlists: [
-        { name: "CARNIVAL", url: "https://music.apple.com/us/playlist/carnival/pl.u-MDAWldJIAKXkeV" },
-        { name: "CIRCUS", url: "https://music.apple.com/us/playlist/circus/pl.u-06ox9ZgsYPyZJ8" },
-        { name: "COSMOS", url: "https://music.apple.com/us/playlist/cosmos/pl.u-zPyLW43Ceg4qpD" },
-        { name: "FIELD", url: "https://music.apple.com/us/playlist/field/pl.u-06oxr1aCYPyZJ8" },
-        { name: "GLASS", url: "https://music.apple.com/us/playlist/glass/pl.u-MDAW2EJsAKXkeV" }
+        { name: "CARNIVAL", url: "https://music.apple.com/us/playlist/carnival/pl.u-MDAWldJIAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/ba/e4/47/bae44721-8699-eac2-d1d3-4915a959db6f/image/300x300bb.jpg" },
+        { name: "CIRCUS", url: "https://music.apple.com/us/playlist/circus/pl.u-06ox9ZgsYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/d8/40/71/d84071b0-0fd2-cc85-b1dd-ba59ec02805b/image/300x300bb.jpg" },
+        { name: "COSMOS", url: "https://music.apple.com/us/playlist/cosmos/pl.u-zPyLW43Ceg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/b9/f4/f1/b9f4f19b-b6a7-f0bc-7184-d976b24c2f4f/image/300x300bb.jpg" },
+        { name: "FIELD", url: "https://music.apple.com/us/playlist/field/pl.u-06oxr1aCYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/4c/13/02/4c13024d-74e7-38a9-6b61-03cd61587b7a/image/300x300bb.jpg" },
+        { name: "GLASS", url: "https://music.apple.com/us/playlist/glass/pl.u-MDAW2EJsAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/83/2c/ca/832cca68-73c4-673a-2e59-1a0a282604b8/image/300x300bb.jpg" }
       ]},
       punk: { name: "PUNK", playlists: [
-        { name: "LAIR", url: "https://music.apple.com/us/playlist/lair/pl.u-XkD0YzZi2KWyBl" },
-        { name: "SKATE", url: "https://music.apple.com/us/playlist/skate/pl.u-MDAWmZqTAKXkeV" }
+        { name: "LAIR", url: "https://music.apple.com/us/playlist/lair/pl.u-XkD0YzZi2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/9e/d9/d7/9ed9d776-c4ac-6f4e-ea39-396a5fea3131/image/300x300bb.jpg" },
+        { name: "SKATE", url: "https://music.apple.com/us/playlist/skate/pl.u-MDAWmZqTAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/98/cb/8c/98cb8c1e-a605-4af7-824a-327da5b6bd3e/image/300x300bb.jpg" }
       ]},
       rnb: { name: "R&B", playlists: [
-        { name: "AQUARIUM", url: "https://music.apple.com/us/playlist/aquarium/pl.u-zPyLLE5teg4qpD" },
-        { name: "COUPE", url: "https://music.apple.com/us/playlist/coupe/pl.u-r2yB3d4IRGaZJ4" },
-        { name: "GASMS", url: "https://music.apple.com/us/playlist/gasms/pl.u-pMylJKECWLyNZ2" },
-        { name: "GROOVE", url: "https://music.apple.com/us/playlist/groove/pl.u-MDAWqaWuAKXkeV" },
-        { name: "JUKE", url: "https://music.apple.com/us/playlist/juke/pl.u-4Jomm92FJYyPZA" },
-        { name: "JACK", url: "https://music.apple.com/us/playlist/jack/pl.u-06oxNWyuYPyZJ8" },
-        { name: "SHIP", url: "https://music.apple.com/us/playlist/ship/pl.u-55D6Pp3i6o1rD3" }
+        { name: "AQUARIUM", url: "https://music.apple.com/us/playlist/aquarium/pl.u-zPyLLE5teg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/2c/9b/55/2c9b55ee-82b6-cabb-c398-5c30b08b07de/image/300x300bb.jpg" },
+        { name: "COUPE", url: "https://music.apple.com/us/playlist/coupe/pl.u-r2yB3d4IRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/31/95/61/319561c1-f202-0cd0-f044-1dcd1e5cee9e/image/300x300bb.jpg" },
+        { name: "GASMS", url: "https://music.apple.com/us/playlist/gasms/pl.u-pMylJKECWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/38/2b/f0/382bf0e3-f489-b3cb-4bfd-b7646ac20815/image/300x300bb.jpg" },
+        { name: "GROOVE", url: "https://music.apple.com/us/playlist/groove/pl.u-MDAWqaWuAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/23/45/d4/2345d4ab-b598-932c-cf08-639f9845a68f/image/300x300bb.jpg" },
+        { name: "JUKE", url: "https://music.apple.com/us/playlist/juke/pl.u-4Jomm92FJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/5c/63/07/5c6307d6-e845-6bb4-ec6b-cfa8943be010/image/300x300bb.jpg" },
+        { name: "JACK", url: "https://music.apple.com/us/playlist/jack/pl.u-06oxNWyuYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/4d/74/7b/4d747b2e-85f5-3ed2-8d51-5dc2dd3fd5cd/image/300x300bb.jpg" },
+        { name: "SHIP", url: "https://music.apple.com/us/playlist/ship/pl.u-55D6Pp3i6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/0d/d0/c7/0dd0c7eb-a529-5df4-b286-9d420147fb21/image/300x300bb.jpg" }
       ]},
       rock: { name: "ROCK", subgenres: { alternative: [
-        { name: "ABYSS", url: "https://music.apple.com/us/playlist/abyss/pl.u-qxyl9eBC35JDRg" },
-        { name: "BAGGY", url: "https://music.apple.com/us/playlist/baggy/pl.u-qxylXqxF35JDRg" },
-        { name: "BRITANNIA", url: "https://music.apple.com/us/playlist/britannia/pl.u-r2yBX5kFRGaZJ4" },
-        { name: "DREAM", url: "https://music.apple.com/us/playlist/dream/pl.u-qxyl00xI35JDRg" },
-        { name: "GRUNGE", url: "https://music.apple.com/us/playlist/grunge/pl.u-55D6pV2H6o1rD3" },
-        { name: "MAD", url: "https://music.apple.com/us/playlist/mad/pl.u-yZyVJVmsdr61B3" },
-        { name: "SLACK", url: "https://music.apple.com/us/playlist/slack/pl.u-XkD0r8Mf2KWyBl" },
-        { name: "STORM", url: "https://music.apple.com/us/playlist/storm/pl.u-zPyLA2gFeg4qpD" },
-        { name: "TRAIN", url: "https://music.apple.com/us/playlist/train/pl.u-EdAVv5dCDKN6vd" },
-        { name: "TUBE", url: "https://music.apple.com/us/playlist/tube/pl.u-4Jomo1DIJYyPZA" }
+        { name: "ABYSS", url: "https://music.apple.com/us/playlist/abyss/pl.u-qxyl9eBC35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/14/0f/5f/140f5f8c-c062-2fb6-3878-83cd04b7bd12/image/300x300bb.jpg" },
+        { name: "BAGGY", url: "https://music.apple.com/us/playlist/baggy/pl.u-qxylXqxF35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/50/68/a7/5068a739-3bc8-43a2-53aa-7c98affe5220/image/300x300bb.jpg" },
+        { name: "BRITANNIA", url: "https://music.apple.com/us/playlist/britannia/pl.u-r2yBX5kFRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/a4/16/53/a4165342-7f76-3427-4259-c1edc1b91aea/image/300x300bb.jpg" },
+        { name: "DREAM", url: "https://music.apple.com/us/playlist/dream/pl.u-qxyl00xI35JDRg", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/5e/ae/c3/5eaec353-0737-3511-6776-859989549bf4/image/300x300bb.jpg" },
+        { name: "GRUNGE", url: "https://music.apple.com/us/playlist/grunge/pl.u-55D6pV2H6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/75/5e/a9/755ea935-92d0-4e60-4c7f-6a490d8c1b4e/image/300x300bb.jpg" },
+        { name: "MAD", url: "https://music.apple.com/us/playlist/mad/pl.u-yZyVJVmsdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/f0/d1/97/f0d197c1-bd3d-2d66-c7c7-8b551b804bde/image/300x300bb.jpg" },
+        { name: "SLACK", url: "https://music.apple.com/us/playlist/slack/pl.u-XkD0r8Mf2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/01/4b/82/014b8272-fd6e-266f-5eeb-e6073db87170/image/300x300bb.jpg" },
+        { name: "STORM", url: "https://music.apple.com/us/playlist/storm/pl.u-zPyLA2gFeg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/4c/d7/c6/4cd7c6ff-fa4a-5b22-a932-1da45af56e4b/image/300x300bb.jpg" },
+        { name: "TRAIN", url: "https://music.apple.com/us/playlist/train/pl.u-EdAVv5dCDKN6vd", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/7a/7d/19/7a7d1925-3e40-a348-ab71-77b328690d0a/image/300x300bb.jpg" },
+        { name: "TUBE", url: "https://music.apple.com/us/playlist/tube/pl.u-4Jomo1DIJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/fc/76/a8/fc76a80c-bc41-6db8-514e-dd26b2223a4d/image/300x300bb.jpg" }
       ]}, playlists: [
-        { name: "DIVE", url: "https://music.apple.com/us/playlist/dive/pl.u-XkD0YErH2KWyBl" },
-        { name: "DRIVE", url: "https://music.apple.com/us/playlist/drive/pl.u-XkD035Et2KWyBl" },
-        { name: "FIZZ", url: "https://music.apple.com/us/playlist/fizz/pl.u-r2yBZ22IRGaZJ4" },
-        { name: "GRAIN", url: "https://music.apple.com/us/playlist/grain/pl.u-06oxrEbuYPyZJ8" },
-        { name: "KRAUT", url: "https://music.apple.com/us/playlist/kraut/pl.u-EdAVvaGCDKN6vd" },
-        { name: "POSE", url: "https://music.apple.com/us/playlist/pose/pl.u-4JomVa9TJYyPZA" },
-        { name: "ROLL", url: "https://music.apple.com/us/playlist/roll/pl.u-4Jomrb9CJYyPZA" },
-        { name: "SEA", url: "https://music.apple.com/us/playlist/sea/pl.u-EdAV06bTDKN6vd" },
-        { name: "STEEL", url: "https://music.apple.com/us/playlist/steel/pl.u-MDAWq2gFAKXkeV" },
-        { name: "STEW", url: "https://music.apple.com/us/playlist/stew/pl.u-r2yBVrkIRGaZJ4" },
-        { name: "SURF", url: "https://music.apple.com/us/playlist/surf/pl.u-pMylNjMSWLyNZ2" },
-        { name: "YACHT", url: "https://music.apple.com/us/playlist/yacht/pl.u-r2yBJ3PIRGaZJ4" }
+        { name: "DIVE", url: "https://music.apple.com/us/playlist/dive/pl.u-XkD0YErH2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/f3/51/23/f35123e3-edb7-f629-819a-4ef0d9a4b697/image/300x300bb.jpg" },
+        { name: "DRIVE", url: "https://music.apple.com/us/playlist/drive/pl.u-XkD035Et2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/5e/63/e8/5e63e82d-25cc-3dd2-a376-d050c3c8e402/image/300x300bb.jpg" },
+        { name: "FIZZ", url: "https://music.apple.com/us/playlist/fizz/pl.u-r2yBZ22IRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/41/16/65/4116659c-1d4f-4b4f-a3f2-9852d5192002/image/300x300bb.jpg" },
+        { name: "GRAIN", url: "https://music.apple.com/us/playlist/grain/pl.u-06oxrEbuYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/54/b9/62/54b96255-d6fd-fd3d-7cdd-11faac61233a/image/300x300bb.jpg" },
+        { name: "KRAUT", url: "https://music.apple.com/us/playlist/kraut/pl.u-EdAVvaGCDKN6vd", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/96/2b/a8/962ba866-7f24-6477-ed98-bec7830da360/image/300x300bb.jpg" },
+        { name: "POSE", url: "https://music.apple.com/us/playlist/pose/pl.u-4JomVa9TJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/fd/90/b2/fd90b2b5-f0db-9652-4090-1437b6589bda/image/300x300bb.jpg" },
+        { name: "ROLL", url: "https://music.apple.com/us/playlist/roll/pl.u-4Jomrb9CJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/40/13/70/401370f9-c51d-78ad-b217-c1ad4087ac0e/image/300x300bb.jpg" },
+        { name: "SEA", url: "https://music.apple.com/us/playlist/sea/pl.u-EdAV06bTDKN6vd", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-035-Image000001/v4/bf/b8/f5/bfb8f59a-8549-9fdc-74e2-da658155c2ad/image/300x300bb.jpg" },
+        { name: "STEEL", url: "https://music.apple.com/us/playlist/steel/pl.u-MDAWq2gFAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/8b/34/79/8b34795b-0b45-b620-f193-212bd1a1d0c1/image/300x300bb.jpg" },
+        { name: "STEW", url: "https://music.apple.com/us/playlist/stew/pl.u-r2yBVrkIRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/c1/5b/3f/c15b3fc6-c8e9-24e9-f3cd-6f8f51bbd313/image/300x300bb.jpg" },
+        { name: "SURF", url: "https://music.apple.com/us/playlist/surf/pl.u-pMylNjMSWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/03/7f/a0/037fa043-7109-2767-d651-ca46dbfa63b8/image/300x300bb.jpg" },
+        { name: "YACHT", url: "https://music.apple.com/us/playlist/yacht/pl.u-r2yBJ3PIRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/10/18/a1/1018a1ba-36d2-0fd1-ddae-37e9fea9aab2/image/300x300bb.jpg" }
       ]},
       world: { name: "WORLD", playlists: [
-        { name: "JAMROCK", url: "https://music.apple.com/us/playlist/jamrock/pl.u-4JomrmluJYyPZA" },
-        { name: "PERREO", url: "https://music.apple.com/us/playlist/perreo/pl.u-XkD0Y60I2KWyBl" },
-        { name: "PORT", url: "https://music.apple.com/us/playlist/port/pl.u-yZyVWdLtdr61B3" },
-        { name: "SHIBUYA", url: "https://music.apple.com/us/playlist/shibuya/pl.u-55D6xR3C6o1rD3" }
+        { name: "JAMROCK", url: "https://music.apple.com/us/playlist/jamrock/pl.u-4JomrmluJYyPZA", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/c4/2d/46/c42d460f-fff4-b011-8dcc-5cc6ab5fa1bf/image/300x300bb.jpg" },
+        { name: "PERREO", url: "https://music.apple.com/us/playlist/perreo/pl.u-XkD0Y60I2KWyBl", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/6c/cf/e3/6ccfe30d-699c-31f6-0b7d-c3114354cbe1/image/300x300bb.jpg" },
+        { name: "PORT", url: "https://music.apple.com/us/playlist/port/pl.u-yZyVWdLtdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/c1/64/ce/c164ce80-7829-3fa2-7e9c-dbad17f589a8/image/300x300bb.jpg" },
+        { name: "SHIBUYA", url: "https://music.apple.com/us/playlist/shibuya/pl.u-55D6xR3C6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-037-Image000001/v4/5c/9b/03/5c9b0376-785f-3280-54df-d4386d8bd48a/image/300x300bb.jpg" }
       ]},
       misc: { name: "MISC", playlists: [
-        { name: "BOOM", url: "https://music.apple.com/us/playlist/boom/pl.u-MDAWeRJIAKXkeV" },
-        { name: "CLOUD", url: "https://music.apple.com/us/playlist/cloud/pl.u-yZyVP0ZCdr61B3" },
-        { name: "HOME", url: "https://music.apple.com/us/playlist/home/pl.u-55D6Pm7h6o1rD3" },
-        { name: "HYPERROCK", url: "https://music.apple.com/us/playlist/hyperrock/pl.u-MDAWbpgTAKXkeV" },
-        { name: "MOTHER", url: "https://music.apple.com/us/playlist/mother/pl.u-r2yBYRxIRGaZJ4" },
-        { name: "SANDS", url: "https://music.apple.com/us/playlist/sands/pl.u-pMylANbHWLyNZ2" }
+        { name: "BOOM", url: "https://music.apple.com/us/playlist/boom/pl.u-MDAWeRJIAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/be/48/c2/be48c267-5c30-cfe5-d6c7-2d122ef79f6d/image/300x300bb.jpg" },
+        { name: "CLOUD", url: "https://music.apple.com/us/playlist/cloud/pl.u-yZyVP0ZCdr61B3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/50/14/44/501444e5-9ddc-25e0-7e6a-a63735cd40a9/image/300x300bb.jpg" },
+        { name: "HOME", url: "https://music.apple.com/us/playlist/home/pl.u-55D6Pm7h6o1rD3", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/61/9f/79/619f7947-556a-cb4e-063e-2821ab5c9b45/image/300x300bb.jpg" },
+        { name: "HYPERROCK", url: "https://music.apple.com/us/playlist/hyperrock/pl.u-MDAWbpgTAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/79/91/a7/7991a717-0f7a-6afb-f194-4080461b60de/image/300x300bb.jpg" },
+        { name: "MOTHER", url: "https://music.apple.com/us/playlist/mother/pl.u-r2yBYRxIRGaZJ4", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/6f/3d/33/6f3d332c-5ad3-9d1f-7f54-f82c354d3412/image/300x300bb.jpg" },
+        { name: "SANDS", url: "https://music.apple.com/us/playlist/sands/pl.u-pMylANbHWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/cd/b5/e4/cdb5e4ca-f300-a167-5779-64efd280948e/image/300x300bb.jpg" }
       ]}
     };
   </script>

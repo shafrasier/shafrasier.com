@@ -7,8 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const moonIcon = document.querySelector('.moon-icon');
   const sunIcon = document.querySelector('.sun-icon');
 
-  // Check for saved theme preference or default to light mode
-  const currentTheme = localStorage.getItem('theme') || 'light';
+  // Always default to light mode on page load
+  const currentTheme = 'light';
+  localStorage.setItem('theme', 'light');
 
   // Apply the saved theme on page load
   // Icon shows what mode you'll switch TO, not current mode

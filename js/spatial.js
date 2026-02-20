@@ -4,6 +4,11 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // ===================================
+  // REDUCED MOTION CHECK
+  // ===================================
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ===================================
   // CUSTOM CURSOR - Just the dot
   // ===================================
   const cursorInner = document.querySelector('.cursor-inner');
@@ -27,8 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
   camera.lookAt(0, 0, 0);
 
   // Create ocean waves - stretches to horizon
-  // Check saved theme preference or default to light
-  const savedTheme = localStorage.getItem('theme') || 'light';
+  // Always default to light mode on page load
+  const savedTheme = 'light';
+  localStorage.setItem('theme', 'light');
   let currentLightMode = savedTheme === 'light';
   if (currentLightMode) {
     document.body.classList.add('light-mode');
@@ -55,28 +61,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Animation loop
   let time = 0;
+  const timeIncrement = prefersReducedMotion ? 0 : 0.015; // Freeze waves for reduced motion
+
+  // Meditative breathing envelope
+  // Full cycle: ~12s (6s inhale, 6s exhale) ≈ 5 breaths/min
+  // sine.inOut feel: waves swell gently on inhale, settle on exhale
+  const breathCycleDuration = 12; // seconds
+  const breathFreq = (2 * Math.PI) / breathCycleDuration; // radians per second
+  const breathMin = 0.35;  // exhale — waves settle to 35% amplitude
+  const breathMax = 1.0;   // inhale — waves at full amplitude
+  let breathTime = 0;
+  const breathIncrement = prefersReducedMotion ? 0 : 1 / 60; // ~1 second per 60 frames
+
   function animate() {
     requestAnimationFrame(animate);
-    time += 0.015;
+    time += timeIncrement;
+    breathTime += breathIncrement;
 
-    // Animate waves - single ocean, no scrolling needed
-    // The wave animation creates the movement illusion
+    // Breathing envelope: smooth sine oscillation between min and max
+    // Uses (1 - cos) / 2 for a natural ease-in-out feel (starts at min, peaks at max)
+    const breathRaw = (1 - Math.cos(breathFreq * breathTime)) / 2;
+    const breath = breathMin + (breathMax - breathMin) * breathRaw;
+
+    // Animate waves modulated by breath
     for (let i = 0; i < positions.count; i++) {
       const x = originalPositions[i * 3];
       const y = originalPositions[i * 3 + 1];
 
       // Depth factor: more amplitude in front (positive y), less at horizon (negative y)
-      // y ranges from -200 to +200 (half of 400 plane size)
       const depthFactor = Math.max(0.3, (y + 200) / 400);
 
-      // Create rolling wave effect that moves toward viewer
+      // Rolling wave effect — three overlapping sine waves
       const wave1 = Math.sin(x * 0.05 + time) * 0.5;
       const wave2 = Math.sin(y * 0.08 + time * 1.2) * 0.35;
       const wave3 = Math.sin((x + y) * 0.04 + time * 0.8) * 0.4;
 
-      // Apply depth-based scaling - waves taller in front
+      // Apply depth scaling and breathing modulation
       const baseWave = wave1 + wave2 + wave3;
-      positions.array[i * 3 + 2] = baseWave * (1 + depthFactor * 1.5);
+      positions.array[i * 3 + 2] = baseWave * (1 + depthFactor * 1.5) * breath;
     }
     positions.needsUpdate = true;
 
@@ -111,36 +133,40 @@ document.addEventListener('DOMContentLoaded', () => {
   // FLOATING BUTTON ANIMATIONS (GSAP)
   // ===================================
   const floatingButtons = document.querySelectorAll('.floating-button');
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-  // Gentle floating motion for main nav buttons (similar to playlist menu buttons)
-  floatingButtons.forEach((button, index) => {
-    // Subtle, constrained movement - no rotation to keep buttons level
-    const floatY = 8 + Math.random() * 6; // Subtle vertical movement
-    const floatX = 10 + Math.random() * 8; // Subtle horizontal movement
-    const durationY = 3 + Math.random() * 1.5;
-    const durationX = 3.5 + Math.random() * 2;
-    const delay = index * 0.4;
+  // Gentle floating motion for main nav buttons
+  // Skip on mobile (GSAP x/y overrides CSS translateX(-50%) centering) and reduced motion
+  if (!prefersReducedMotion && !isMobile) {
+    floatingButtons.forEach((button, index) => {
+      // Subtle, constrained movement - no rotation to keep buttons level
+      const floatY = 8 + Math.random() * 6; // Subtle vertical movement
+      const floatX = 10 + Math.random() * 8; // Subtle horizontal movement
+      const durationY = 3 + Math.random() * 1.5;
+      const durationX = 3.5 + Math.random() * 2;
+      const delay = index * 0.4;
 
-    // Vertical float - gentle bobbing
-    gsap.to(button, {
-      y: `+=${floatY}`,
-      duration: durationY,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-      delay: delay
+      // Vertical float - gentle bobbing
+      gsap.to(button, {
+        y: `+=${floatY}`,
+        duration: durationY,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: delay
+      });
+
+      // Horizontal drift - subtle
+      gsap.to(button, {
+        x: `+=${floatX}`,
+        duration: durationX,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: delay + 0.3
+      });
     });
-
-    // Horizontal drift - subtle
-    gsap.to(button, {
-      x: `+=${floatX}`,
-      duration: durationX,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-      delay: delay + 0.3
-    });
-  });
+  }
 
   // Name fade-in (only if element exists)
   const nameContainer = document.querySelector('.name-container');
@@ -157,31 +183,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===================================
   // PARALLAX EFFECT ON MOUSE MOVE
   // ===================================
-  document.addEventListener('mousemove', (e) => {
-    const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-    const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  // Skip on mobile - no mouse, and GSAP x/y would override CSS centering
+  if (!prefersReducedMotion && !isMobile) {
+    document.addEventListener('mousemove', (e) => {
+      const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
 
-    // Move buttons slightly based on mouse position
-    floatingButtons.forEach((button, index) => {
-      const depth = (index + 1) * 0.5;
-      gsap.to(button, {
-        x: mouseX * 20 * depth,
-        y: mouseY * 20 * depth,
-        duration: 1,
-        ease: 'power2.out'
+      // Move buttons slightly based on mouse position
+      floatingButtons.forEach((button, index) => {
+        const depth = (index + 1) * 0.5;
+        gsap.to(button, {
+          x: mouseX * 20 * depth,
+          y: mouseY * 20 * depth,
+          duration: 1,
+          ease: 'power2.out'
+        });
       });
+
+      // Move name (only if element exists)
+      if (nameContainer) {
+        gsap.to(nameContainer, {
+          x: mouseX * 10,
+          y: mouseY * 10,
+          duration: 1.5,
+          ease: 'power2.out'
+        });
+      }
     });
-
-    // Move name (only if element exists)
-    if (nameContainer) {
-      gsap.to(nameContainer, {
-        x: mouseX * 10,
-        y: mouseY * 10,
-        duration: 1.5,
-        ease: 'power2.out'
-      });
-    }
-  });
+  }
 
   // ===================================
   // SINGLE-PAGE NAVIGATION WITH ZOOM
@@ -198,12 +227,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const buttonCenterX = (rect.left + rect.width / 2 - window.innerWidth / 2) / window.innerWidth;
       const buttonCenterY = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
 
+      // Animation duration multiplier for reduced motion
+      const dur = prefersReducedMotion ? 0.01 : 1;
+
       // Fade out other buttons
       floatingButtons.forEach(otherButton => {
         if (otherButton !== button) {
           gsap.to(otherButton, {
             opacity: 0,
-            duration: 0.5,
+            duration: 0.5 * dur,
             ease: 'power2.in'
           });
         }
@@ -213,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.to('.social-icons-container', {
         opacity: 0,
         pointerEvents: 'none',
-        duration: 0.5,
+        duration: 0.5 * dur,
         ease: 'power2.in'
       });
 
@@ -222,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
         z: 0.3,
         x: buttonCenterX * 4,
         y: 0.2 + buttonCenterY * 2.5,
-        duration: 1.5,
+        duration: 1.5 * dur,
         ease: 'power2.inOut',
         onUpdate: () => {
           camera.lookAt(buttonCenterX * 3, buttonCenterY - 0.5, -20);
@@ -237,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.to(button, {
         scale: 1.5,
         opacity: 0,
-        duration: 1.2,
+        duration: 1.2 * dur,
         ease: 'power2.inOut'
       });
 
@@ -249,6 +281,23 @@ document.addEventListener('DOMContentLoaded', () => {
   function showSection(section) {
     // Hide home container
     document.querySelector('.floating-container').style.display = 'none';
+
+    // Hide CE button and social icons wrapper when viewing sections
+    const ceButton = document.querySelector('.ce-button');
+    if (ceButton) {
+      ceButton.style.display = 'none';
+    }
+    const socialWrapper = document.querySelector('.social-icons-wrapper');
+    if (socialWrapper) {
+      socialWrapper.style.opacity = '0';
+      socialWrapper.style.pointerEvents = 'none';
+    }
+
+    // Hide theme toggle when viewing sections (mobile optimization)
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn) {
+      themeToggleBtn.style.display = 'none';
+    }
 
     // Show section-specific content (we'll add this content to the HTML)
     const sectionContent = document.getElementById(`${section}-content`);
@@ -321,6 +370,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Step 3: Show and fade in home elements after section fades out (0.3s delay)
     timeline.add(() => {
       floatingContainer.style.display = 'block';
+
+      // Show CE button when returning home
+      const ceButton = document.querySelector('.ce-button');
+      if (ceButton) {
+        ceButton.style.display = 'flex';
+      }
+
+      // Show social icons wrapper when returning home
+      const socialWrapper = document.querySelector('.social-icons-wrapper');
+      if (socialWrapper) {
+        socialWrapper.style.opacity = '1';
+        socialWrapper.style.pointerEvents = 'auto';
+      }
+
+      // Show theme toggle when returning home
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      if (themeToggleBtn) {
+        themeToggleBtn.style.display = 'flex';
+      }
     }, 0.3);
 
     timeline.to(floatingButtons, {
@@ -355,8 +423,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     header.addEventListener('click', (e) => {
-      // Don't toggle if clicking the link
+      // Don't toggle if clicking the link or info button/popup
       if (e.target.closest('.publication-name-link')) return;
+      if (e.target.closest('.publication-info-btn') || e.target.closest('.publication-info-popup')) return;
 
       e.preventDefault();
       const contentId = header.dataset.toggle;
@@ -368,4 +437,42 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // ===================================
+  // CE BUTTON "COMING SOON" POPUP
+  // ===================================
+  const ceButton = document.getElementById('ce-logo');
+  const cePopup = document.getElementById('ce-popup');
+
+  if (ceButton && cePopup) {
+    let ceTimeout = null;
+
+    ceButton.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      // Clear any existing timeout
+      if (ceTimeout) {
+        clearTimeout(ceTimeout);
+      }
+
+      cePopup.classList.toggle('visible');
+
+      // Auto-hide after 2 seconds
+      if (cePopup.classList.contains('visible')) {
+        ceTimeout = setTimeout(() => {
+          cePopup.classList.remove('visible');
+        }, 2000);
+      }
+    });
+
+    // Hide popup when clicking elsewhere
+    document.addEventListener('click', (e) => {
+      if (!ceButton.contains(e.target) && !cePopup.contains(e.target)) {
+        cePopup.classList.remove('visible');
+        if (ceTimeout) {
+          clearTimeout(ceTimeout);
+        }
+      }
+    });
+  }
 });

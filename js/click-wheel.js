@@ -345,6 +345,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===================================
+  // PUBLICATION INFO POPUPS (Writing section)
+  // ===================================
+  document.querySelectorAll('.publication-info-btn').forEach(btn => {
+    const popupId = btn.getAttribute('data-popup');
+    const popup = document.getElementById(popupId);
+    if (!popup) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Don't trigger the publication-header toggle
+      // Close any other open publication popups
+      document.querySelectorAll('.publication-info-popup.visible').forEach(p => {
+        if (p !== popup) p.classList.remove('visible');
+      });
+      popup.classList.toggle('visible');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!btn.contains(e.target) && !popup.contains(e.target)) {
+        popup.classList.remove('visible');
+      }
+    });
+  });
+
+  // ===================================
   // VIEW SWITCHING (ORIGINAL)
   // ===================================
 
@@ -465,8 +489,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Update genre description
       updateGenreDescription(playlist);
 
-      // Load artwork
-      loadArtwork(playlist.url);
+      // Load artwork (pass imageUrl if available)
+      loadArtwork(playlist.url, playlist.imageUrl);
     }
   }
 
@@ -498,8 +522,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Update genre description if exists
       updateGenreDescription(newPlaylist);
 
-      // Load new artwork
-      loadArtwork(newPlaylist.url);
+      // Load new artwork (pass imageUrl if available)
+      loadArtwork(newPlaylist.url, newPlaylist.imageUrl);
 
       // Position for enter animation (instant repositioning)
       playlistDisplay.style.transition = 'none';
@@ -542,21 +566,39 @@ document.addEventListener('DOMContentLoaded', () => {
     descriptionText.textContent = playlist.genreDesc || '';
   }
 
-  function loadArtwork(playlistUrl) {
-    // For now, use a gradient placeholder
-    // TODO: Implement Apple Music API integration
+  function loadArtwork(playlistUrl, imageUrl = null) {
     playlistArtwork.classList.remove('loaded');
+    playlistArtwork.onerror = null;
+    playlistArtwork.onload = null;
 
-    // Extract playlist ID for potential caching
+    // Error handler — hide broken image, show placeholder gradient
+    const handleError = () => {
+      playlistArtwork.classList.remove('loaded');
+      playlistArtwork.removeAttribute('src');
+      playlistArtwork.onerror = null;
+    };
+
+    // First check if we have a direct image URL from PLAYLIST_DATA
+    if (imageUrl) {
+      playlistArtwork.onerror = handleError;
+      playlistArtwork.onload = () => {
+        playlistArtwork.classList.add('loaded');
+      };
+      playlistArtwork.src = imageUrl;
+      return;
+    }
+
+    // Fall back to localStorage cache
     const playlistId = extractPlaylistId(playlistUrl);
-
-    // Check cache
     const cachedArtwork = localStorage.getItem(`artwork_${playlistId}`);
     if (cachedArtwork) {
+      playlistArtwork.onerror = handleError;
+      playlistArtwork.onload = () => {
+        playlistArtwork.classList.add('loaded');
+      };
       playlistArtwork.src = cachedArtwork;
-      playlistArtwork.classList.add('loaded');
     }
-    // Artwork will stay as placeholder gradient until API is implemented
+    // Artwork will stay as placeholder gradient if no cached/direct image
   }
 
   function extractPlaylistId(url) {
