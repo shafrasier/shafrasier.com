@@ -373,14 +373,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===================================
 
   function showGenreView() {
-    wheelView.classList.remove('active');
-    // Return to whichever genre grid we came from
-    const returnView = document.getElementById(previousGenreView);
-    if (returnView) {
-      returnView.classList.add('active');
-    } else {
-      genreView.classList.add('active');
-    }
+    // Return to whichever genre grid we came from, with animation
+    const targetView = previousGenreView || 'genre-view';
+    showPlaylistsView(targetView, 'down');
     currentGenre = null;
     currentSubgenre = null;
   }
@@ -402,12 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Build subgenre pills if applicable
     buildSubgenrePills(genreData);
 
-    // Hide all playlists views and show wheel
-    if (playlistsLanding) playlistsLanding.classList.remove('active');
-    if (genreView) genreView.classList.remove('active');
-    if (miscView) miscView.classList.remove('active');
-    if (diaryView) diaryView.classList.remove('active');
-    wheelView.classList.add('active');
+    // Animate into wheel view
+    showPlaylistsView('wheel-view', 'up');
 
     // Display first playlist
     updatePlaylistDisplay(0);
@@ -571,19 +562,25 @@ document.addEventListener('DOMContentLoaded', () => {
     playlistArtwork.onerror = null;
     playlistArtwork.onload = null;
 
-    // Error handler — hide broken image, show placeholder gradient
+    // Error handler — fully hide broken image so gradient placeholder shows cleanly
     const handleError = () => {
       playlistArtwork.classList.remove('loaded');
+      playlistArtwork.style.visibility = 'hidden';
       playlistArtwork.removeAttribute('src');
       playlistArtwork.onerror = null;
     };
 
+    // Success handler — ensure image is visible and faded in
+    const handleLoad = () => {
+      playlistArtwork.style.visibility = '';
+      playlistArtwork.classList.add('loaded');
+    };
+
     // First check if we have a direct image URL from PLAYLIST_DATA
     if (imageUrl) {
+      playlistArtwork.style.visibility = '';
       playlistArtwork.onerror = handleError;
-      playlistArtwork.onload = () => {
-        playlistArtwork.classList.add('loaded');
-      };
+      playlistArtwork.onload = handleLoad;
       playlistArtwork.src = imageUrl;
       return;
     }
@@ -592,13 +589,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const playlistId = extractPlaylistId(playlistUrl);
     const cachedArtwork = localStorage.getItem(`artwork_${playlistId}`);
     if (cachedArtwork) {
+      playlistArtwork.style.visibility = '';
       playlistArtwork.onerror = handleError;
-      playlistArtwork.onload = () => {
-        playlistArtwork.classList.add('loaded');
-      };
+      playlistArtwork.onload = handleLoad;
       playlistArtwork.src = cachedArtwork;
+    } else {
+      // No image available — hide img element so gradient shows cleanly
+      playlistArtwork.style.visibility = 'hidden';
     }
-    // Artwork will stay as placeholder gradient if no cached/direct image
   }
 
   function extractPlaylistId(url) {

@@ -45,7 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Handle Back Button (only for non-spatial pages that don't use returnToHome)
   // Section back buttons use onclick="returnToHome()" so we skip .section-back
   // Playlists internal back buttons use .playlists-back so we skip those too
-  const backButton = document.querySelector('.back-button:not(.section-back):not(.playlists-back)');
+  // The wheel-view back button (#backToGenres) is handled in click-wheel.js
+  const backButton = document.querySelector('.back-button:not(.section-back):not(.playlists-back):not(#backToGenres)');
   if (backButton) {
     backButton.addEventListener('click', () => {
       if (window.scrollY === 0) {

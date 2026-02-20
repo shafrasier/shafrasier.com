@@ -51,6 +51,29 @@ body {
   z-index: 100;
 }
 
+/* Genre view header */
+.genre-view-header {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: -30px;
+}
+
+.genre-view-title {
+  font-size: var(--font-size-lg, 24px);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-active, #ffffff);
+  margin: 0;
+}
+
+.genre-view-disclaimer {
+  font-size: var(--font-size-caption, 11px);
+  color: var(--color-text-muted, #999999);
+  margin: 6px 0 0;
+  letter-spacing: 0.05em;
+}
+
 .genre-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -333,16 +356,28 @@ body {
   z-index: 0;
 }
 
-/* Light mode placeholder */
+/* Light mode placeholder — translucent glass to match genre folder cards */
 body.light-mode .artwork-container::before {
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.5) 0%, transparent 60%),
     linear-gradient(
       135deg,
-      rgba(200, 200, 200, 0.5) 0%,
-      rgba(230, 230, 230, 0.6) 50%,
-      rgba(210, 210, 210, 0.5) 100%
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.25) 100%
     );
+}
+
+/* Light mode artwork container — frosted glass effect */
+body.light-mode .artwork-container {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
 }
 
 .playlist-name {
@@ -665,6 +700,14 @@ body.light-mode .genre-folder:active {
     0 4px 12px rgba(0, 0, 0, 0.06),
     inset 0 1px 1px rgba(255, 255, 255, 0.7),
     inset 0 -1px 1px rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode .genre-view-title {
+  color: var(--color-text-active, #000000);
+}
+
+body.light-mode .genre-view-disclaimer {
+  color: var(--color-text-muted, #888888);
 }
 
 body.light-mode .folder-label {
