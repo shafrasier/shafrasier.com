@@ -259,6 +259,8 @@ body.light-mode .sheets-info-popup p {
   padding: 80px 20px 120px;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .playlists-view.active {
@@ -1615,36 +1617,40 @@ body.light-mode .article-link:active {
 
   .sheets-section {
     flex-direction: column;
-    align-items: center; /* Center the links horizontally */
-    padding: 20px 20px 40px;
+    align-items: flex-start;
+    padding: 20px 0 40px;
     gap: 0;
     position: relative;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
   }
 
   .sheets-section::before {
-    /* Vertical line for mobile - positioned to left of centered content */
+    /* Vertical line for mobile - aligned with dots */
     top: 20px;
     bottom: 40px;
-    left: 50%;
-    transform: translateX(-75px); /* Position line to left of centered text */
+    left: 24px;
     right: auto;
     width: 2px;
     height: auto;
+    transform: none;
   }
 
   .sheets-link {
     flex-direction: row;
-    padding: 12px 20px 12px 25px; /* Reduced left padding */
+    padding: 12px 20px 12px 50px;
     min-width: auto;
-    width: auto;
+    width: 100%;
     justify-content: flex-start;
     position: relative;
+    box-sizing: border-box;
   }
 
   .sheets-link::after {
     bottom: auto;
     top: 50%;
-    left: -10px; /* Position dot to left of text */
+    left: 20px;
     transform: translateY(-50%);
   }
 
@@ -1673,8 +1679,34 @@ body.light-mode .article-link:active {
     display: none;
   }
 
+  /* Diary mobile - constrain password field and container */
+  .diary-container {
+    width: 100%;
+    padding: 20px 0 100px;
+    box-sizing: border-box;
+  }
+
+  .diary-password-container {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diary-password-input {
+    max-width: 280px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diary-year-toggle {
+    padding-right: 0;
+  }
+
   .publication-header .heading {
     font-size: var(--font-size-title1, 22px);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* Writing section mobile - ensure chevron is visible */
@@ -1696,8 +1728,8 @@ body.light-mode .article-link:active {
 
   /* Writing section container - proper mobile spacing */
   .writing-section {
-    padding: 0 15px;
-    width: calc(100% - 30px);
+    padding: 80px 0 100px;
+    width: 100%;
     max-width: none;
     box-sizing: border-box;
   }
@@ -1705,18 +1737,21 @@ body.light-mode .article-link:active {
   .publication-header {
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+  }
+
+  .publication-header-right {
+    flex-shrink: 0;
   }
 }
 
 @media (max-width: 480px) {
   .sheets-link {
     font-size: var(--font-size-subheadline, 14px);
-    padding: var(--space-6, 14px) var(--space-8, 16px) var(--space-6, 14px) 45px;
+    padding: var(--space-6, 14px) var(--space-8, 16px) var(--space-6, 14px) 50px;
   }
 
   .sheets-link::after {
-    left: 16px;
+    left: 20px;
     width: 8px;
     height: 8px;
   }
@@ -1759,7 +1794,11 @@ body.light-mode .article-link:active {
 
   /* Writing section container - tighter padding on small phones */
   .writing-section {
-    padding: 0 10px;
-    width: calc(100% - 20px);
+    padding: 80px 0 100px;
+    width: 100%;
+  }
+
+  .diary-password-input {
+    max-width: 240px;
   }
 }

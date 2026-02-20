@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hashed passwords - original values not stored in code
   // Maps hashed input -> { key: data-password to match, message: custom message }
   const DIARY_PASSWORD_HASHES = {
-    '-aa463p': { key: null, message: 'hi tommy <3' },
+    '-aa463p': { key: null, message: 'hi tommy ! <3' },
     '1psb0g': { key: '1psb0g', message: 'unlocked' },
     '-icrpc7': { key: 'all', message: 'all unlocked' }
   };
