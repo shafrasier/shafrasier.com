@@ -703,7 +703,7 @@ body.light-mode .genre-folder:active {
 }
 
 body.light-mode .genre-view-title {
-  color: var(--color-text-active, #000000);
+  color: var(--color-text-muted, #757575);
 }
 
 body.light-mode .genre-view-disclaimer {

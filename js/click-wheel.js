@@ -127,7 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===================================
 
   // Apply floating animation to playlist nav buttons (constrained, no rotation)
-  if (typeof gsap !== 'undefined') {
+  // Skip on mobile — GSAP x/y overrides flex centering and causes misalignment
+  const isMobileNav = window.matchMedia('(max-width: 768px)').matches;
+  if (typeof gsap !== 'undefined' && !isMobileNav) {
     playlistNavBtns.forEach((btn, index) => {
       // Gentle, constrained movement - no rotation to keep buttons level
       const floatY = 8 + Math.random() * 6; // Subtle vertical movement
@@ -209,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hashed passwords - original values not stored in code
   // Maps hashed input -> { key: data-password to match, message: custom message }
   const DIARY_PASSWORD_HASHES = {
-    '-aa463p': { key: null, message: 'hi tommy ! <3' },
+    '-aa463p': { key: null, message: 'hi tommy <span class="alt-font">!</span> <3' },
     '1psb0g': { key: '1psb0g', message: 'unlocked' },
     '-icrpc7': { key: 'all', message: 'all unlocked' }
   };
@@ -243,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Show message below field
         if (diaryPasswordMessage) {
-          diaryPasswordMessage.textContent = message;
+          diaryPasswordMessage.innerHTML = message;
           diaryPasswordMessage.classList.add('visible');
           setTimeout(() => {
             diaryPasswordMessage.classList.remove('visible');

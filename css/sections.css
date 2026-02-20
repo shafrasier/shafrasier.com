@@ -14,9 +14,9 @@
 
 .sheets-container {
   position: absolute;
-  top: 28%;
+  top: 35%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -345,11 +345,12 @@ body.light-mode .playlist-nav-btn:hover {
 }
 
 .genre-view-title {
-  font-size: var(--font-size-lg, 24px);
+  font-family: Futura, sans-serif;
+  font-size: 28px;
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-text-active, #ffffff);
+  color: var(--color-text-muted, #999999);
   margin: 0;
 }
 
@@ -568,6 +569,11 @@ body.light-mode .playlist-nav-btn:hover {
 
 .diary-password-message.visible {
   opacity: 1;
+}
+
+.diary-password-message .alt-font {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
 }
 
 .diary-year-section {
@@ -1225,10 +1231,11 @@ body.light-mode .moment-item:hover .moment-title {
 
 .publication-header .heading {
   margin: 0;
+  font-family: Futura, sans-serif;
   font-size: 28px;
-  color: var(--color-text, #c8c8c8);
+  color: var(--color-text-muted, #999999);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   font-weight: 500;
   transition: color 0.3s ease,
               text-shadow 0.3s ease;
@@ -1422,7 +1429,7 @@ body.light-mode .moment-item:hover .moment-title {
    =================================== */
 
 body.light-mode .genre-view-title {
-  color: var(--color-text-active, #000000);
+  color: var(--color-text-muted, #757575);
 }
 
 body.light-mode .genre-view-disclaimer {
@@ -1505,7 +1512,7 @@ body.light-mode .publication-header:hover {
 }
 
 body.light-mode .publication-header .heading {
-  color: var(--color-text, #2a2a2a);
+  color: var(--color-text-muted, #757575);
 }
 
 body.light-mode .publication-header:hover .heading {
