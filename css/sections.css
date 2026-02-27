@@ -1650,6 +1650,7 @@ body.light-mode .article-link:active {
     transform: none;
     width: 100%;
     padding: 80px 20px;
+    box-sizing: border-box;
   }
 
   .sheets-header {
@@ -1680,14 +1681,14 @@ body.light-mode .article-link:active {
   }
 
   .sheets-section::before {
-    /* Vertical line for mobile - aligned with dots */
+    /* Vertical line for mobile - centered with dots at 25px */
     top: 20px;
     bottom: 40px;
-    left: 24px;
+    left: 25px;
     right: auto;
     width: 2px;
     height: auto;
-    transform: none;
+    transform: translateX(-50%);
   }
 
   .sheets-link {
@@ -1703,13 +1704,13 @@ body.light-mode .article-link:active {
   .sheets-link::after {
     bottom: auto;
     top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
+    left: 25px;
+    transform: translate(-50%, -50%);
   }
 
   .sheets-link:hover::after,
   .sheets-link:focus::after {
-    transform: translateY(-50%) scale(1.5);
+    transform: translate(-50%, -50%) scale(1.5);
   }
 
   .sheets-link:hover,
@@ -1862,7 +1863,7 @@ body.light-mode .article-link:active {
   }
 
   .sheets-link::after {
-    left: 20px;
+    left: 25px;
     width: 8px;
     height: 8px;
   }
