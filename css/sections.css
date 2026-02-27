@@ -203,6 +203,10 @@ body.light-mode .sheets-link {
   color: var(--color-text-muted, #757575);
 }
 
+body.light-mode .sheets-link::before {
+  background: var(--color-text-muted, #757575);
+}
+
 body.light-mode .sheets-link::after {
   background: var(--color-text-muted, #757575);
 }
@@ -1655,6 +1659,7 @@ body.light-mode .article-link:active {
 
   .sheets-header {
     margin-bottom: 30px;
+    width: 100%;
   }
 
   .sheets-info-btn {
@@ -1681,14 +1686,8 @@ body.light-mode .article-link:active {
   }
 
   .sheets-section::before {
-    /* Vertical line for mobile - centered with dots at 25px */
-    top: 20px;
-    bottom: 40px;
-    left: 25px;
-    right: auto;
-    width: 2px;
-    height: auto;
-    transform: translateX(-50%);
+    /* Hide section-level line on mobile; line segments are on each link instead */
+    content: none;
   }
 
   .sheets-link {
@@ -1699,6 +1698,29 @@ body.light-mode .article-link:active {
     justify-content: flex-start;
     position: relative;
     box-sizing: border-box;
+  }
+
+  /* Vertical line segment on each link - guaranteed aligned with dot */
+  .sheets-link::before {
+    content: '';
+    position: absolute;
+    left: 25px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-text-muted, #999999);
+    opacity: 0.4;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  /* Clip line at first and last items so it spans dot-to-dot */
+  .sheets-link:first-child::before {
+    top: 50%;
+  }
+
+  .sheets-link:last-child::before {
+    bottom: 50%;
   }
 
   .sheets-link::after {
@@ -1715,7 +1737,8 @@ body.light-mode .article-link:active {
 
   .sheets-link:hover,
   .sheets-link:focus {
-    transform: translateX(4px);
+    transform: none;
+    color: var(--color-text-active, #ffffff);
   }
 
   .genre-grid {
