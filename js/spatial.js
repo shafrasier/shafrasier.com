@@ -291,6 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (socialWrapper) {
       socialWrapper.style.opacity = '0';
       socialWrapper.style.pointerEvents = 'none';
+      socialWrapper.style.visibility = 'hidden';
     }
 
     // Hide theme toggle when viewing sections (mobile optimization)
@@ -380,6 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Show social icons wrapper when returning home
       const socialWrapper = document.querySelector('.social-icons-wrapper');
       if (socialWrapper) {
+        socialWrapper.style.visibility = 'visible';
         socialWrapper.style.opacity = '1';
         socialWrapper.style.pointerEvents = 'auto';
       }

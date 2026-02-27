@@ -277,7 +277,7 @@ body:not(.light-mode) {
   flex-direction: column;
   align-items: flex-start; /* Align CE button and social icons to left edge */
   gap: var(--space-4, 8px);
-  z-index: 1000;
+  z-index: 15; /* Below section-content (50) so sections naturally cover social icons */
   pointer-events: none;
 }
 
@@ -349,7 +349,7 @@ body:not(.light-mode) {
   transform: translateY(10px);
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
   pointer-events: none;
-  z-index: 1001;
+  z-index: 16; /* Above social icons (15) but below section-content (50) */
 }
 
 .ce-popup.visible {
@@ -581,6 +581,8 @@ body.light-mode .section-inner {
   /* Section content - reduce padding on mobile */
   .section-content {
     padding: 80px 20px 40px;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
   }
 
   /* Disable custom cursor on mobile */

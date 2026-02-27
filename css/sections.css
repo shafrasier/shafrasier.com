@@ -62,7 +62,6 @@
   font-style: italic;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -505,7 +504,6 @@ body.light-mode .playlist-nav-btn:hover {
   font-style: italic;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -1304,7 +1302,6 @@ body.light-mode .moment-item:hover .moment-title {
   font-style: italic;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -1594,6 +1591,47 @@ body.light-mode .article-link:active {
 
 /* Tablet Portrait (768px) */
 @media (max-width: 768px) {
+  /* Playlists landing - fit viewport, no scrolling */
+  #playlists-landing {
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  #playlists-landing .playlists-nav-container {
+    min-height: 100vh;
+    margin-top: 0;
+  }
+
+  /* Sheets - prevent elastic dragging on mobile */
+  #sheets-content {
+    overflow: hidden;
+  }
+
+  /* Click wheel - part of layout flow on mobile so it fits viewport */
+  .click-wheel {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin: 0 auto calc(10px + env(safe-area-inset-bottom, 0px));
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+  }
+
+  .wheel-center {
+    width: 65px;
+    height: 65px;
+  }
+
+  /* Reduce header padding to reclaim vertical space */
+  .wheel-header {
+    padding: 50px 20px 5px;
+  }
+
   /* Playlists nav - vertical on mobile */
   .playlists-nav-row {
     flex-direction: column;
@@ -1689,9 +1727,23 @@ body.light-mode .article-link:active {
     font-size: var(--font-size-caption, 12px);
   }
 
-  /* Disable diary artwork preview on mobile - clips off-screen */
+  /* Mobile diary artwork - inline thumbnail instead of hover preview */
   .diary-artwork-preview {
-    display: none;
+    position: static;
+    width: 40px;
+    height: 40px;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    flex-shrink: 0;
+    order: -1;
+    margin-right: 12px;
+    border-radius: 6px;
+    box-shadow: none;
+  }
+
+  .diary-playlist-item:hover .diary-artwork-preview {
+    opacity: 1;
   }
 
   /* Diary mobile - constrain password field and container */
@@ -1757,6 +1809,50 @@ body.light-mode .article-link:active {
   .publication-header-right {
     flex-shrink: 0;
   }
+}
+
+/* Touch devices - prevent sticky hover states */
+@media (hover: none) {
+  .diary-year-toggle:hover {
+    color: var(--color-text-muted, #999999);
+    transform: none;
+    text-shadow: none;
+  }
+
+  .diary-year-toggle:hover .diary-year-icon {
+    color: inherit;
+  }
+
+  .diary-playlist-item:hover {
+    background: transparent;
+    transform: none;
+  }
+
+  .diary-playlist-item:hover .diary-playlist-name {
+    color: var(--color-text, #c8c8c8);
+  }
+}
+
+/* Diary playlist highlight state (applied via JS) */
+.diary-playlist-item.highlighted {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  transform: translateX(4px);
+}
+
+.diary-playlist-item.highlighted .diary-playlist-name {
+  color: var(--color-text-active, #ffffff);
+}
+
+/* Smooth fade-out when highlight timer expires */
+.diary-playlist-item.highlight-fading {
+  background: transparent !important;
+  transform: translateX(0) !important;
+  transition: background 1s ease, transform 1s ease !important;
+}
+
+.diary-playlist-item.highlight-fading .diary-playlist-name {
+  color: var(--color-text, #c8c8c8) !important;
+  transition: color 1s ease !important;
 }
 
 @media (max-width: 480px) {

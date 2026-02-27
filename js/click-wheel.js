@@ -285,9 +285,40 @@ document.addEventListener('DOMContentLoaded', () => {
   // DIARY PLAYLIST CLICK HANDLING
   // ===================================
 
+  // ===================================
+  // DIARY PLAYLIST CLICK HANDLING + HIGHLIGHT
+  // ===================================
+
+  let highlightTimer = null;
+  let fadeTimer = null;
+
   const diaryPlaylistItems = document.querySelectorAll('.diary-playlist-item');
   diaryPlaylistItems.forEach(item => {
     item.addEventListener('click', () => {
+      // Clear any existing timers
+      if (highlightTimer) clearTimeout(highlightTimer);
+      if (fadeTimer) clearTimeout(fadeTimer);
+
+      // Remove highlight from all items
+      diaryPlaylistItems.forEach(i => {
+        i.classList.remove('highlighted', 'highlight-fading');
+      });
+
+      // Add highlight to clicked item
+      item.classList.add('highlighted');
+
+      // After 10 seconds, start fading out
+      highlightTimer = setTimeout(() => {
+        item.classList.add('highlight-fading');
+        item.classList.remove('highlighted');
+
+        // Clean up fading class after transition completes
+        fadeTimer = setTimeout(() => {
+          item.classList.remove('highlight-fading');
+        }, 1000);
+      }, 10000);
+
+      // Open the playlist
       const url = item.dataset.playlistUrl;
       if (url && url !== '#') {
         window.open(url, '_blank', 'noopener,noreferrer');
@@ -302,9 +333,39 @@ document.addEventListener('DOMContentLoaded', () => {
   diaryYearToggles.forEach(toggle => {
     toggle.addEventListener('click', () => {
       const yearSection = toggle.closest('.diary-year-section');
-      if (yearSection) {
-        yearSection.classList.toggle('expanded');
+      if (!yearSection) return;
+
+      const content = yearSection.querySelector('.diary-year-content');
+      if (!content) return;
+
+      if (yearSection.classList.contains('expanded')) {
+        // COLLAPSING: set actual height first for proportional animation
+        content.style.maxHeight = content.scrollHeight + 'px';
+        content.offsetHeight; // Force reflow
+        yearSection.classList.remove('expanded');
+        content.style.maxHeight = '0px';
+
+        // Clean up inline style after transition
+        const onEnd = () => {
+          content.style.maxHeight = '';
+          content.removeEventListener('transitionend', onEnd);
+        };
+        content.addEventListener('transitionend', onEnd);
+      } else {
+        // EXPANDING: animate from 0 to actual height
+        yearSection.classList.add('expanded');
+        content.style.maxHeight = content.scrollHeight + 'px';
+
+        // After transition, remove inline style so CSS takes over
+        const onEnd = () => {
+          content.style.maxHeight = '';
+          content.removeEventListener('transitionend', onEnd);
+        };
+        content.addEventListener('transitionend', onEnd);
       }
+
+      // Remove focus/hover state on touch devices
+      toggle.blur();
     });
   });
 
