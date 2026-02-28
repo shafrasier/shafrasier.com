@@ -610,7 +610,7 @@ body.light-mode #substack-logo:active img {
   }
 
   /* Remove sticky scale/translate transforms on hover */
-  .floating-button:hover,
+  /* Note: .floating-button excluded — GSAP manages their transforms */
   .social-icon:hover,
   .theme-toggle:hover,
   .back-button:hover,
@@ -656,5 +656,13 @@ body.light-mode #substack-logo:active img {
   .sheets-link:hover::after,
   .sheets-link:focus::after {
     box-shadow: none !important;
+  }
+
+  /* Floating buttons: reset visual effects only (not transform — GSAP controls it) */
+  .floating-button:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: var(--color-text, #c8c8c8) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0) !important;
   }
 }
