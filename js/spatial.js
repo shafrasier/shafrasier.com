@@ -450,8 +450,32 @@ document.addEventListener('DOMContentLoaded', () => {
       const content = document.getElementById(contentId);
 
       if (content) {
-        content.classList.toggle('expanded');
-        header.classList.toggle('expanded');
+        const isExpanded = content.classList.contains('expanded');
+
+        if (isExpanded) {
+          // Closing: set to actual height, force reflow, then animate to 0
+          content.style.maxHeight = content.scrollHeight + 'px';
+          content.offsetHeight;
+          content.style.maxHeight = '0';
+          content.classList.remove('expanded');
+          header.classList.remove('expanded');
+        } else {
+          // Opening: animate from 0 to scrollHeight
+          content.style.maxHeight = '0';
+          content.offsetHeight;
+          content.classList.add('expanded');
+          header.classList.add('expanded');
+          content.style.maxHeight = content.scrollHeight + 'px';
+
+          // After transition, allow content to grow freely
+          const onEnd = (ev) => {
+            if (ev.propertyName === 'max-height' && content.classList.contains('expanded')) {
+              content.style.maxHeight = 'none';
+            }
+            content.removeEventListener('transitionend', onEnd);
+          };
+          content.addEventListener('transitionend', onEnd);
+        }
       }
     });
   });

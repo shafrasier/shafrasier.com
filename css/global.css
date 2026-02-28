@@ -599,3 +599,62 @@ body.light-mode #substack-logo:active img {
     max-width: 1280px;
   }
 }
+
+/* ===================================
+   TOUCH DEVICE FIXES
+   Prevent hover states from sticking on tap
+   =================================== */
+@media (hover: none) and (pointer: coarse) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Remove sticky scale/translate transforms on hover */
+  .floating-button:hover,
+  .social-icon:hover,
+  .theme-toggle:hover,
+  .back-button:hover,
+  .sheets-link:hover,
+  .sheets-link:focus,
+  .dropdown-button:hover,
+  .small-dropdown-button:hover,
+  .genre-folder:hover,
+  .playlist-nav-btn:hover,
+  .publication-header:hover,
+  .publication-info-btn:hover,
+  .article-link:hover,
+  .diary-playlist-item:hover {
+    transform: none !important;
+  }
+
+  /* Reset publication header highlight on touch */
+  .publication-header:hover {
+    border-bottom-color: var(--glass-border, rgba(255, 255, 255, 0.15)) !important;
+  }
+
+  .publication-header:hover .heading {
+    color: var(--color-text-muted, #999999) !important;
+    text-shadow: none !important;
+  }
+
+  .publication-header:hover .dropdown-icon {
+    color: var(--color-text-muted, #999999) !important;
+  }
+
+  /* Reset article link highlight on touch */
+  .article-link:hover {
+    color: var(--color-text, #c8c8c8) !important;
+    background: transparent !important;
+  }
+
+  /* Reset sheets link hover */
+  .sheets-link:hover,
+  .sheets-link:focus {
+    color: inherit !important;
+  }
+
+  .sheets-link:hover::after,
+  .sheets-link:focus::after {
+    box-shadow: none !important;
+  }
+}

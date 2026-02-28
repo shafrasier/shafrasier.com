@@ -26,17 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('light-mode');
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
 
       // Toggle icon visibility - show what mode you'll switch TO
       if (document.body.classList.contains('light-mode')) {
         // In light mode, show moon (indicates you can switch to dark)
         if (moonIcon) moonIcon.style.display = 'block';
         if (sunIcon) sunIcon.style.display = 'none';
+        if (themeMeta) themeMeta.setAttribute('content', '#f5f5f5');
         localStorage.setItem('theme', 'light');
       } else {
         // In dark mode, show sun (indicates you can switch to light)
         if (moonIcon) moonIcon.style.display = 'none';
         if (sunIcon) sunIcon.style.display = 'block';
+        if (themeMeta) themeMeta.setAttribute('content', '#131313');
         localStorage.setItem('theme', 'dark');
       }
     });
