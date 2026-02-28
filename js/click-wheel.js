@@ -465,6 +465,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Display first playlist
     updatePlaylistDisplay(0);
+
+    // Preload all artwork in this genre for instant transitions
+    currentPlaylists.forEach(p => {
+      if (p.imageUrl) {
+        const img = new Image();
+        img.src = p.imageUrl;
+      }
+    });
   }
 
   function buildSubgenrePills(genreData) {
@@ -546,6 +554,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // Load artwork (pass imageUrl if available)
       loadArtwork(playlist.url, playlist.imageUrl);
     }
+
+    // Preload adjacent artwork for instant transitions
+    preloadAdjacentArtwork();
   }
 
   function animateArtworkTransition(direction, newPlaylist) {
@@ -660,6 +671,26 @@ document.addEventListener('DOMContentLoaded', () => {
       // No image available — hide img element so gradient shows cleanly
       playlistArtwork.style.visibility = 'hidden';
     }
+  }
+
+  // Preload artwork for adjacent playlists so transitions are instant
+  function preloadAdjacentArtwork() {
+    if (currentPlaylists.length <= 1) return;
+
+    const prevIdx = (currentIndex - 1 + currentPlaylists.length) % currentPlaylists.length;
+    const nextIdx = (currentIndex + 1) % currentPlaylists.length;
+
+    [prevIdx, nextIdx].forEach(idx => {
+      const p = currentPlaylists[idx];
+      const src = p.imageUrl || (() => {
+        const id = extractPlaylistId(p.url);
+        return id ? localStorage.getItem(`artwork_${id}`) : null;
+      })();
+      if (src) {
+        const img = new Image();
+        img.src = src;
+      }
+    });
   }
 
   function extractPlaylistId(url) {

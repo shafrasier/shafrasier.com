@@ -303,10 +303,10 @@ body.light-mode .sheets-info-popup p {
 }
 
 .playlist-nav-btn {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 25px;
   padding: 20px 50px;
   font-family: Futura, sans-serif;
@@ -327,8 +327,8 @@ body.light-mode .sheets-info-popup p {
 }
 
 body.light-mode .playlist-nav-btn {
-  background: rgba(255, 255, 255, 0.4);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
   color: var(--color-text, #2a2a2a);
 }
 
@@ -966,8 +966,9 @@ body.light-mode .moment-item:hover .moment-title {
 
 /* Wheel View - fixed layout, no scroll */
 #wheel-view {
-  height: 100vh;
-  max-height: 100vh;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
   overflow: hidden;
   padding: 0;
   justify-content: space-between;
@@ -1208,11 +1209,8 @@ body.light-mode .moment-item:hover .moment-title {
   width: 90%;
   margin: 0 auto;
   padding: 80px 0 100px;
-  /* Center vertically when collapsed (only headers visible) */
-  min-height: calc(100vh - 180px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .publication-section {
@@ -1374,15 +1372,14 @@ body.light-mode .moment-item:hover .moment-title {
 .publication-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.4s ease;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.2s ease;
   padding: 0;
   opacity: 0;
 }
 
 .publication-content.expanded {
-  max-height: 800px;
   padding: 24px 0 0 0;
   opacity: 1;
 }
@@ -1676,12 +1673,11 @@ body.light-mode .article-link:active {
 
   .sheets-section {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     padding: 20px 0 40px;
     gap: 0;
     position: relative;
     width: 100%;
-    max-width: 250px;
     margin: 0 auto;
   }
 
@@ -1694,7 +1690,7 @@ body.light-mode .article-link:active {
     flex-direction: row;
     padding: 12px 20px 12px 50px;
     min-width: auto;
-    width: 100%;
+    width: 185px;
     justify-content: flex-start;
     position: relative;
     box-sizing: border-box;
