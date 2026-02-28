@@ -249,6 +249,22 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: 'power2.in'
       });
 
+      // Fade out CE button, social wrapper, and theme toggle immediately
+      const ceButton = document.querySelector('.ce-button');
+      if (ceButton) {
+        gsap.to(ceButton, { opacity: 0, duration: 0.5 * dur, ease: 'power2.in' });
+      }
+      const socialWrapper = document.querySelector('.social-icons-wrapper');
+      if (socialWrapper) {
+        gsap.to(socialWrapper, { opacity: 0, duration: 0.5 * dur, ease: 'power2.in',
+          onComplete: () => { socialWrapper.style.pointerEvents = 'none'; socialWrapper.style.visibility = 'hidden'; }
+        });
+      }
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      if (themeToggleBtn) {
+        gsap.to(themeToggleBtn, { opacity: 0, duration: 0.5 * dur, ease: 'power2.in' });
+      }
+
       // Zoom camera into the ocean expanse - toward button position
       gsap.to(camera.position, {
         z: 0.3,
@@ -282,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide home container
     document.querySelector('.floating-container').style.display = 'none';
 
-    // Hide CE button and social icons wrapper when viewing sections
+    // Finalize hidden state for elements already faded out during transition
     const ceButton = document.querySelector('.ce-button');
     if (ceButton) {
       ceButton.style.display = 'none';
@@ -293,8 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
       socialWrapper.style.pointerEvents = 'none';
       socialWrapper.style.visibility = 'hidden';
     }
-
-    // Hide theme toggle when viewing sections (mobile optimization)
     const themeToggleBtn = document.getElementById('theme-toggle');
     if (themeToggleBtn) {
       themeToggleBtn.style.display = 'none';
@@ -376,6 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const ceButton = document.querySelector('.ce-button');
       if (ceButton) {
         ceButton.style.display = 'flex';
+        ceButton.style.opacity = '1';
       }
 
       // Show social icons wrapper when returning home
@@ -390,6 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const themeToggleBtn = document.getElementById('theme-toggle');
       if (themeToggleBtn) {
         themeToggleBtn.style.display = 'flex';
+        themeToggleBtn.style.opacity = '1';
       }
     }, 0.3);
 
