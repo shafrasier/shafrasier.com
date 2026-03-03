@@ -276,6 +276,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Zoom camera into the ocean expanse - toward button position
+      // Smoothly interpolate lookAt target to prevent jolt on first frame
+      const lookAtTarget = { x: 0, y: 0, z: 0 };
+      gsap.to(lookAtTarget, {
+        x: buttonCenterX * 3,
+        y: buttonCenterY - 0.5,
+        z: -20,
+        duration: 1.5 * dur,
+        ease: 'power2.inOut'
+      });
       gsap.to(camera.position, {
         z: 0.3,
         x: buttonCenterX * 4,
@@ -283,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 1.5 * dur,
         ease: 'power2.inOut',
         onUpdate: () => {
-          camera.lookAt(buttonCenterX * 3, buttonCenterY - 0.5, -20);
+          camera.lookAt(lookAtTarget.x, lookAtTarget.y, lookAtTarget.z);
         },
         onComplete: () => {
           // Show the section content
