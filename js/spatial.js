@@ -110,18 +110,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   animate();
 
-  // Handle window resize - only on width changes to prevent mobile browser chrome jolt
+  // Handle window resize
+  // On mobile, height-only changes from browser chrome show/hide can cause the
+  // ocean to jolt, so we skip those. Desktop/tablet height-only resizes (window
+  // drag, split-view) still need a full update to avoid stretching.
   let lastWidth = window.innerWidth;
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   window.addEventListener('resize', () => {
     const newWidth = window.innerWidth;
-    // On mobile, height changes from browser chrome show/hide cause the ocean to jolt.
-    // Only resize when width actually changes (orientation change or real resize).
-    if (newWidth !== lastWidth) {
-      lastWidth = newWidth;
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
+    if (isMobile && newWidth === lastWidth) return;
+    lastWidth = newWidth;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
   // Adjust ocean for light mode
