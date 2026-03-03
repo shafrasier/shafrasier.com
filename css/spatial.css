@@ -192,9 +192,10 @@ body:not(.light-mode) {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Invert LinkedIn and Instagram to white in dark mode */
+/* Invert LinkedIn, Instagram, and Email to white in dark mode */
 #linkedin-logo img,
-#instagram-logo img {
+#instagram-logo img,
+#email-logo img {
   filter: invert(1) brightness(1);
 }
 
@@ -215,15 +216,22 @@ body:not(.light-mode) {
   filter: none;
 }
 
-/* Hover effects for LinkedIn and Instagram */
+#email-logo img {
+  width: 80%;
+  height: 80%;
+}
+
+/* Hover effects for LinkedIn, Instagram, and Email */
 #linkedin-logo:hover img,
-#instagram-logo:hover img {
+#instagram-logo:hover img,
+#email-logo:hover img {
   transform: scale(1.1);
   filter: invert(1) brightness(1.2);
 }
 
 #linkedin-logo:active img,
-#instagram-logo:active img {
+#instagram-logo:active img,
+#email-logo:active img {
   transform: scale(0.95);
   filter: invert(1) brightness(0.8);
 }

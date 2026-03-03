@@ -469,19 +469,22 @@ body.light-mode .social-icon {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Light mode - show original dark icons for LinkedIn and Instagram */
+/* Light mode - show original dark icons for LinkedIn, Instagram, and Email */
 body.light-mode #linkedin-logo img,
-body.light-mode #instagram-logo img {
+body.light-mode #instagram-logo img,
+body.light-mode #email-logo img {
   filter: none !important;
 }
 
 body.light-mode #linkedin-logo:hover img,
-body.light-mode #instagram-logo:hover img {
+body.light-mode #instagram-logo:hover img,
+body.light-mode #email-logo:hover img {
   filter: brightness(1.2) !important;
 }
 
 body.light-mode #linkedin-logo:active img,
-body.light-mode #instagram-logo:active img {
+body.light-mode #instagram-logo:active img,
+body.light-mode #email-logo:active img {
   filter: brightness(0.8) !important;
 }
 
