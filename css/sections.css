@@ -1815,7 +1815,7 @@ body.light-mode .article-link:active {
 
   /* Writing section container - proper mobile spacing */
   .writing-section {
-    padding: 80px 0 100px;
+    padding: max(80px, 14vh) 0 100px; /* Scale top padding with viewport to clear ocean wave */
     width: 100%;
     max-width: none;
     box-sizing: border-box;
@@ -1925,7 +1925,7 @@ body.light-mode .article-link:active {
 
   /* Writing section container - tighter padding on small phones */
   .writing-section {
-    padding: 80px 0 100px;
+    padding: max(80px, 14vh) 0 100px; /* Scale top padding with viewport to clear ocean wave */
     width: 100%;
   }
 

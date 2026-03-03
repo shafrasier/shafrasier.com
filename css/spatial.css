@@ -306,7 +306,7 @@ body:not(.light-mode) {
   width: 180px; /* Slightly wider to accommodate script flourishes */
   height: auto;
   padding: 10px 0;
-  margin-left: 0;
+  margin-left: -32px; /* Shift left so "Education" (right side of SVG) centers over social icons */
   border: none;
   background: transparent;
   font-family: inherit;
@@ -621,6 +621,6 @@ body.light-mode .section-inner {
 
   .ce-button {
     width: 140px; /* Smaller on mobile */
-    margin-left: 0;
+    margin-left: -25px; /* Shift left so "Education" centers over social icons */
   }
 }

@@ -110,18 +110,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   animate();
 
-  // Handle window resize - only on width changes to prevent mobile browser chrome jolt
+  // Handle window resize
+  // On mobile, height-only changes from browser chrome show/hide can cause the
+  // ocean to jolt, so we skip those. Desktop/tablet height-only resizes (window
+  // drag, split-view) still need a full update to avoid stretching.
   let lastWidth = window.innerWidth;
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   window.addEventListener('resize', () => {
     const newWidth = window.innerWidth;
-    // On mobile, height changes from browser chrome show/hide cause the ocean to jolt.
-    // Only resize when width actually changes (orientation change or real resize).
-    if (newWidth !== lastWidth) {
-      lastWidth = newWidth;
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
+    if (isMobile && newWidth === lastWidth) return;
+    lastWidth = newWidth;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
   // Adjust ocean for light mode
@@ -226,6 +227,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // SINGLE-PAGE NAVIGATION WITH ZOOM
   // ===================================
   let currentSection = 'home';
+  // Track current lookAt target so returnToHome can interpolate from it
+  const currentLookAt = { x: 0, y: 0, z: 0 };
 
   floatingButtons.forEach(button => {
     button.addEventListener('click', (e) => {
@@ -276,6 +279,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Zoom camera into the ocean expanse - toward button position
+      // Smoothly interpolate lookAt target to prevent jolt on first frame
+      gsap.to(currentLookAt, {
+        x: buttonCenterX * 3,
+        y: buttonCenterY - 0.5,
+        z: -20,
+        duration: 1.5 * dur,
+        ease: 'power2.inOut'
+      });
       gsap.to(camera.position, {
         z: 0.3,
         x: buttonCenterX * 4,
@@ -283,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 1.5 * dur,
         ease: 'power2.inOut',
         onUpdate: () => {
-          camera.lookAt(buttonCenterX * 3, buttonCenterY - 0.5, -20);
+          camera.lookAt(currentLookAt.x, currentLookAt.y, currentLookAt.z);
         },
         onComplete: () => {
           // Show the section content
@@ -380,7 +391,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 0);
     });
 
-    // Step 2: Start camera zoom at the same time
+    // Step 2: Smoothly interpolate lookAt back to origin (prevents jolt/tilt)
+    timeline.to(currentLookAt, {
+      x: 0,
+      y: 0,
+      z: 0,
+      duration: 1.2,
+      ease: 'power2.inOut'
+    }, 0);
+
+    // Step 2b: Start camera zoom at the same time
     timeline.to(camera.position, {
       z: 8,
       x: 0,
@@ -388,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
       duration: 1.2,
       ease: 'power2.inOut',
       onUpdate: () => {
-        camera.lookAt(0, 0, 0);
+        camera.lookAt(currentLookAt.x, currentLookAt.y, currentLookAt.z);
       }
     }, 0);
 
