@@ -26,7 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  // Lock initial dimensions to prevent mobile browser chrome from causing jolts
+  const initialWidth = window.innerWidth;
+  const initialHeight = window.innerHeight;
+  renderer.setSize(initialWidth, initialHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   camera.position.set(0, 1, 8);
   camera.lookAt(0, 0, 0);
@@ -107,11 +110,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   animate();
 
-  // Handle window resize
+  // Handle window resize - only on width changes to prevent mobile browser chrome jolt
+  let lastWidth = window.innerWidth;
   window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const newWidth = window.innerWidth;
+    // On mobile, height changes from browser chrome show/hide cause the ocean to jolt.
+    // Only resize when width actually changes (orientation change or real resize).
+    if (newWidth !== lastWidth) {
+      lastWidth = newWidth;
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
   });
 
   // Adjust ocean for light mode

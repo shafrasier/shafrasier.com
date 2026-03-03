@@ -25,21 +25,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // Toggle theme when button is clicked
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
+      // Remove focus/highlight on mobile after tap
+      themeToggle.blur();
       document.body.classList.toggle('light-mode');
       const themeMeta = document.querySelector('meta[name="theme-color"]');
 
       // Toggle icon visibility - show what mode you'll switch TO
+      const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
       if (document.body.classList.contains('light-mode')) {
         // In light mode, show moon (indicates you can switch to dark)
         if (moonIcon) moonIcon.style.display = 'block';
         if (sunIcon) sunIcon.style.display = 'none';
         if (themeMeta) themeMeta.setAttribute('content', '#f5f5f5');
+        if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'light');
+        document.documentElement.style.backgroundColor = '#f5f5f5';
         localStorage.setItem('theme', 'light');
       } else {
         // In dark mode, show sun (indicates you can switch to light)
         if (moonIcon) moonIcon.style.display = 'none';
         if (sunIcon) sunIcon.style.display = 'block';
         if (themeMeta) themeMeta.setAttribute('content', '#131313');
+        if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'dark');
+        document.documentElement.style.backgroundColor = '#131313';
         localStorage.setItem('theme', 'dark');
       }
     });

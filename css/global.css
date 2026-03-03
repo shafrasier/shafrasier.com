@@ -615,7 +615,6 @@ body.light-mode #substack-logo:active img {
   /* Remove sticky scale/translate transforms on hover */
   /* Note: .floating-button excluded — GSAP manages their transforms */
   .social-icon:hover,
-  .theme-toggle:hover,
   .back-button:hover,
   .sheets-link:hover,
   .sheets-link:focus,
@@ -628,6 +627,28 @@ body.light-mode #substack-logo:active img {
   .article-link:hover,
   .diary-playlist-item:hover {
     transform: none !important;
+  }
+
+  /* Reset theme toggle hover state completely on touch */
+  .theme-toggle:hover {
+    transform: none !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  body.light-mode .theme-toggle:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.25) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    box-shadow:
+      0 4px 15px rgba(0, 0, 0, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.7),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.03) !important;
   }
 
   /* Reset publication header highlight on touch */
