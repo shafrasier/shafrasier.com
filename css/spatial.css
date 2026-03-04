@@ -198,19 +198,25 @@ body:not(.light-mode) {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Invert LinkedIn, Instagram, Email, and Letterboxd to white in dark mode */
+/* Invert LinkedIn, Instagram, Email to white in dark mode */
 #linkedin-logo img,
 #instagram-logo img,
-#email-logo img,
-#letterboxd-logo img {
+#email-logo img {
   filter: invert(1) brightness(1);
 }
 
-/* Make colored logos into white silhouettes in dark mode */
+/* Letterboxd: use blend mode to make white bg transparent, showing only dots */
+#letterboxd-logo img {
+  mix-blend-mode: screen; /* dark mode: inverted white dots show, black bg transparent */
+  filter: invert(1);
+}
+
+/* RYM, Beli, Firebird: invert + screen blend to make white bg transparent in dark mode */
 #rym-logo img,
 #beli-logo img,
 #firebird-logo img {
-  filter: brightness(0) invert(1);
+  filter: invert(1);
+  mix-blend-mode: screen;
 }
 
 /* Size adjustments for each logo */
@@ -255,18 +261,27 @@ body:not(.light-mode) {
   height: 100%;
 }
 
-/* Hover effects for LinkedIn, Instagram, Email, and Letterboxd */
+/* Hover effects for LinkedIn, Instagram, Email */
 #linkedin-logo:hover img,
 #instagram-logo:hover img,
-#email-logo:hover img,
-#letterboxd-logo:hover img {
+#email-logo:hover img {
   transform: scale(1.1);
   filter: invert(1) brightness(1.2);
 }
 
 #linkedin-logo:active img,
 #instagram-logo:active img,
-#email-logo:active img,
+#email-logo:active img {
+  transform: scale(0.95);
+  filter: invert(1) brightness(0.8);
+}
+
+/* Hover effects for Letterboxd */
+#letterboxd-logo:hover img {
+  transform: scale(1.1);
+  filter: invert(1) brightness(1.2);
+}
+
 #letterboxd-logo:active img {
   transform: scale(0.95);
   filter: invert(1) brightness(0.8);
@@ -277,14 +292,14 @@ body:not(.light-mode) {
 #beli-logo:hover img,
 #firebird-logo:hover img {
   transform: scale(1.1);
-  filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.3));
+  filter: invert(1) brightness(1.2);
 }
 
 #rym-logo:active img,
 #beli-logo:active img,
 #firebird-logo:active img {
   transform: scale(0.95);
-  filter: brightness(0) invert(1);
+  filter: invert(1) brightness(0.8);
 }
 
 /* Hover effects for Substack (no invert) */
@@ -334,7 +349,7 @@ body:not(.light-mode) {
   left: calc(20px + env(safe-area-inset-left, 0px));
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center CE button over social icons row */
+  align-items: flex-start; /* Left-align everything */
   gap: var(--space-4, 8px);
   z-index: 15; /* Below section-content (50) so sections naturally cover social icons */
   pointer-events: none;
@@ -351,7 +366,7 @@ body:not(.light-mode) {
   width: 180px; /* Slightly wider to accommodate script flourishes */
   height: auto;
   padding: 10px 0;
-  margin-left: 80px; /* Center "Education" over the wider 8-icon row */
+  margin-left: -32px; /* Shift left so "Education" (right side of SVG) centers over social icons */
   border: none;
   background: transparent;
   font-family: inherit;
@@ -379,11 +394,11 @@ body:not(.light-mode) {
   opacity: 0.4; /* Dimmer on click */
 }
 
-/* CE "Coming Soon" Popup */
+/* CE "Coming Soon" Popup - appears to the right of CE button */
 .ce-popup {
   position: fixed;
-  bottom: calc(140px + env(safe-area-inset-bottom, 0px));
-  left: calc(20px + env(safe-area-inset-left, 0px));
+  bottom: calc(95px + env(safe-area-inset-bottom, 0px));
+  left: calc(190px + env(safe-area-inset-left, 0px));
   padding: 12px 20px;
   font-family: Futura, sans-serif;
   font-size: 14px;
@@ -405,16 +420,17 @@ body:not(.light-mode) {
     inset 0 -1px 1px rgba(0, 0, 0, 0.1);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(10px);
+  transform: translateX(-10px);
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
   pointer-events: none;
   z-index: 16; /* Above social icons (15) but below section-content (50) */
+  white-space: nowrap;
 }
 
 .ce-popup.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateX(0);
 }
 
 /* Dark Mode Button Overrides (when toggled from light default) */
@@ -661,14 +677,15 @@ body.light-mode .section-inner {
   /* Social icons and CE button mobile adjustments */
   .social-icons-wrapper {
     left: calc(15px + env(safe-area-inset-left, 0px));
-    right: calc(15px + env(safe-area-inset-right, 0px));
     bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    align-items: flex-start; /* Left-align */
   }
 
   .social-icons-container {
+    display: grid;
+    grid-template-columns: repeat(4, 38px);
     gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
   }
 
   .social-icon {
@@ -679,7 +696,13 @@ body.light-mode .section-inner {
 
   .ce-button {
     width: 140px; /* Smaller on mobile */
-    margin-left: 0; /* Center over wrapped icon rows */
+    margin-left: -20px; /* Shift left so "Education" centers over 4-wide icon grid */
+  }
+
+  /* CE popup: to the right of CE on mobile too */
+  .ce-popup {
+    bottom: calc(85px + env(safe-area-inset-bottom, 0px));
+    left: calc(140px + env(safe-area-inset-left, 0px));
   }
 
   /* Move X close button to bottom-left on mobile for thumb reachability */
