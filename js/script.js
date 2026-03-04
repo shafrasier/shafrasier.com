@@ -15,9 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Icon shows what mode you'll switch TO, not current mode
   if (currentTheme === 'light') {
     document.body.classList.add('light-mode');
+    document.documentElement.style.backgroundColor = '#f5f5f5';
     if (moonIcon) moonIcon.style.display = 'block';  // Show moon in light mode (click to go dark)
     if (sunIcon) sunIcon.style.display = 'none';
   } else {
+    document.documentElement.style.backgroundColor = '#131313';
     if (moonIcon) moonIcon.style.display = 'none';
     if (sunIcon) sunIcon.style.display = 'block';  // Show sun in dark mode (click to go light)
   }
