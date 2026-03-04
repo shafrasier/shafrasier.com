@@ -469,45 +469,58 @@ body.light-mode .social-icon {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Light mode - show original dark icons for LinkedIn, Instagram, Email, and Letterboxd */
+/* Light mode - show original dark icons for LinkedIn, Instagram, Email */
 body.light-mode #linkedin-logo img,
 body.light-mode #instagram-logo img,
-body.light-mode #email-logo img,
-body.light-mode #letterboxd-logo img {
+body.light-mode #email-logo img {
   filter: none !important;
 }
 
 body.light-mode #linkedin-logo:hover img,
 body.light-mode #instagram-logo:hover img,
-body.light-mode #email-logo:hover img,
-body.light-mode #letterboxd-logo:hover img {
+body.light-mode #email-logo:hover img {
   filter: brightness(1.2) !important;
 }
 
 body.light-mode #linkedin-logo:active img,
 body.light-mode #instagram-logo:active img,
-body.light-mode #email-logo:active img,
-body.light-mode #letterboxd-logo:active img {
+body.light-mode #email-logo:active img {
   filter: brightness(0.8) !important;
 }
 
-/* Light mode - make colored logos into black silhouettes */
+/* Light mode Letterboxd - multiply blend makes white bg transparent, keeps black dots */
+body.light-mode #letterboxd-logo img {
+  filter: none !important;
+  mix-blend-mode: multiply !important;
+}
+
+body.light-mode #letterboxd-logo:hover img {
+  filter: brightness(0.8) !important;
+  mix-blend-mode: multiply !important;
+}
+
+body.light-mode #letterboxd-logo:active img {
+  filter: brightness(0.6) !important;
+  mix-blend-mode: multiply !important;
+}
+
+/* Light mode - greyscale for colored logos */
 body.light-mode #rym-logo img,
 body.light-mode #beli-logo img,
 body.light-mode #firebird-logo img {
-  filter: brightness(0) !important;
+  filter: grayscale(1) !important;
 }
 
 body.light-mode #rym-logo:hover img,
 body.light-mode #beli-logo:hover img,
 body.light-mode #firebird-logo:hover img {
-  filter: brightness(0) drop-shadow(0 0 2px rgba(0,0,0,0.3)) !important;
+  filter: grayscale(1) brightness(0.8) !important;
 }
 
 body.light-mode #rym-logo:active img,
 body.light-mode #beli-logo:active img,
 body.light-mode #firebird-logo:active img {
-  filter: brightness(0) !important;
+  filter: grayscale(1) brightness(0.6) !important;
 }
 
 /* Invert Substack in light mode (it's white, needs to be dark) */

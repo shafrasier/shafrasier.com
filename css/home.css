@@ -63,19 +63,24 @@ body {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Invert LinkedIn, Instagram, Email, and Letterboxd to white in dark mode */
+/* Invert LinkedIn, Instagram, Email to white in dark mode */
 #linkedin-logo img,
 #instagram-logo img,
-#email-logo img,
-#letterboxd-logo img {
+#email-logo img {
   filter: invert(1) brightness(1);
 }
 
-/* Make colored logos into white silhouettes in dark mode */
+/* Letterboxd: invert + screen blend makes white bg transparent, shows white dots */
+#letterboxd-logo img {
+  filter: invert(1);
+  mix-blend-mode: screen;
+}
+
+/* Greyscale + invert for colored logos in dark mode */
 #rym-logo img,
 #beli-logo img,
 #firebird-logo img {
-  filter: brightness(0) invert(1);
+  filter: grayscale(1) invert(1);
 }
 
 /* Size adjustments for each logo */
@@ -120,18 +125,27 @@ body {
   height: 100%;
 }
 
-/* Hover effects for LinkedIn, Instagram, Email, and Letterboxd */
+/* Hover effects for LinkedIn, Instagram, Email */
 #linkedin-logo:hover img,
 #instagram-logo:hover img,
-#email-logo:hover img,
-#letterboxd-logo:hover img {
+#email-logo:hover img {
   transform: scale(1.1);
   filter: invert(1) brightness(1.2);
 }
 
 #linkedin-logo:active img,
 #instagram-logo:active img,
-#email-logo:active img,
+#email-logo:active img {
+  transform: scale(0.95);
+  filter: invert(1) brightness(0.8);
+}
+
+/* Hover effects for Letterboxd */
+#letterboxd-logo:hover img {
+  transform: scale(1.1);
+  filter: invert(1) brightness(1.2);
+}
+
 #letterboxd-logo:active img {
   transform: scale(0.95);
   filter: invert(1) brightness(0.8);
@@ -142,14 +156,14 @@ body {
 #beli-logo:hover img,
 #firebird-logo:hover img {
   transform: scale(1.1);
-  filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.3));
+  filter: grayscale(1) invert(1) brightness(1.2);
 }
 
 #rym-logo:active img,
 #beli-logo:active img,
 #firebird-logo:active img {
   transform: scale(0.95);
-  filter: brightness(0) invert(1);
+  filter: grayscale(1) invert(1) brightness(0.8);
 }
 
 /* Hover effects for Substack (no invert) */
