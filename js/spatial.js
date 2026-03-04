@@ -115,10 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // ocean to jolt, so we skip those. Desktop/tablet height-only resizes (window
   // drag, split-view) still need a full update to avoid stretching.
   let lastWidth = window.innerWidth;
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isMobileDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   window.addEventListener('resize', () => {
     const newWidth = window.innerWidth;
-    if (isMobile && newWidth === lastWidth) return;
+    if (isMobileDevice && newWidth === lastWidth) return;
     lastWidth = newWidth;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
