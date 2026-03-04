@@ -198,11 +198,19 @@ body:not(.light-mode) {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Invert LinkedIn, Instagram, and Email to white in dark mode */
+/* Invert LinkedIn, Instagram, Email, and Letterboxd to white in dark mode */
 #linkedin-logo img,
 #instagram-logo img,
-#email-logo img {
+#email-logo img,
+#letterboxd-logo img {
   filter: invert(1) brightness(1);
+}
+
+/* Make colored logos into white silhouettes in dark mode */
+#rym-logo img,
+#beli-logo img,
+#firebird-logo img {
+  filter: brightness(0) invert(1);
 }
 
 /* Size adjustments for each logo */
@@ -227,19 +235,56 @@ body:not(.light-mode) {
   height: 80%;
 }
 
-/* Hover effects for LinkedIn, Instagram, and Email */
+#letterboxd-logo img {
+  width: 110%;
+  height: 110%;
+}
+
+#rym-logo img {
+  width: 90%;
+  height: 90%;
+}
+
+#beli-logo img {
+  width: 80%;
+  height: 80%;
+}
+
+#firebird-logo img {
+  width: 100%;
+  height: 100%;
+}
+
+/* Hover effects for LinkedIn, Instagram, Email, and Letterboxd */
 #linkedin-logo:hover img,
 #instagram-logo:hover img,
-#email-logo:hover img {
+#email-logo:hover img,
+#letterboxd-logo:hover img {
   transform: scale(1.1);
   filter: invert(1) brightness(1.2);
 }
 
 #linkedin-logo:active img,
 #instagram-logo:active img,
-#email-logo:active img {
+#email-logo:active img,
+#letterboxd-logo:active img {
   transform: scale(0.95);
   filter: invert(1) brightness(0.8);
+}
+
+/* Hover effects for RYM, Beli, Firebird */
+#rym-logo:hover img,
+#beli-logo:hover img,
+#firebird-logo:hover img {
+  transform: scale(1.1);
+  filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.3));
+}
+
+#rym-logo:active img,
+#beli-logo:active img,
+#firebird-logo:active img {
+  transform: scale(0.95);
+  filter: brightness(0) invert(1);
 }
 
 /* Hover effects for Substack (no invert) */
@@ -306,7 +351,7 @@ body:not(.light-mode) {
   width: 180px; /* Slightly wider to accommodate script flourishes */
   height: auto;
   padding: 10px 0;
-  margin-left: -32px; /* Shift left so "Education" (right side of SVG) centers over social icons */
+  margin-left: 80px; /* Center "Education" over the wider 8-icon row */
   border: none;
   background: transparent;
   font-family: inherit;
@@ -616,11 +661,37 @@ body.light-mode .section-inner {
   /* Social icons and CE button mobile adjustments */
   .social-icons-wrapper {
     left: calc(15px + env(safe-area-inset-left, 0px));
-    bottom: calc(23px + env(safe-area-inset-bottom, 0px));
+    right: calc(15px + env(safe-area-inset-right, 0px));
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .social-icons-container {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .social-icon {
+    width: 38px;
+    height: 38px;
+    padding: 6px;
   }
 
   .ce-button {
     width: 140px; /* Smaller on mobile */
-    margin-left: -25px; /* Shift left so "Education" centers over social icons */
+    margin-left: 0; /* Center over wrapped icon rows */
+  }
+
+  /* Move X close button to bottom-left on mobile for thumb reachability */
+  .section-back {
+    top: auto !important;
+    bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+    left: 20px;
+  }
+
+  .section-content .back-button {
+    top: auto !important;
+    bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+    left: 20px;
   }
 }

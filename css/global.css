@@ -469,23 +469,45 @@ body.light-mode .social-icon {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Light mode - show original dark icons for LinkedIn, Instagram, and Email */
+/* Light mode - show original dark icons for LinkedIn, Instagram, Email, and Letterboxd */
 body.light-mode #linkedin-logo img,
 body.light-mode #instagram-logo img,
-body.light-mode #email-logo img {
+body.light-mode #email-logo img,
+body.light-mode #letterboxd-logo img {
   filter: none !important;
 }
 
 body.light-mode #linkedin-logo:hover img,
 body.light-mode #instagram-logo:hover img,
-body.light-mode #email-logo:hover img {
+body.light-mode #email-logo:hover img,
+body.light-mode #letterboxd-logo:hover img {
   filter: brightness(1.2) !important;
 }
 
 body.light-mode #linkedin-logo:active img,
 body.light-mode #instagram-logo:active img,
-body.light-mode #email-logo:active img {
+body.light-mode #email-logo:active img,
+body.light-mode #letterboxd-logo:active img {
   filter: brightness(0.8) !important;
+}
+
+/* Light mode - make colored logos into black silhouettes */
+body.light-mode #rym-logo img,
+body.light-mode #beli-logo img,
+body.light-mode #firebird-logo img {
+  filter: brightness(0) !important;
+}
+
+body.light-mode #rym-logo:hover img,
+body.light-mode #beli-logo:hover img,
+body.light-mode #firebird-logo:hover img {
+  filter: brightness(0) drop-shadow(0 0 2px rgba(0,0,0,0.3)) !important;
+}
+
+body.light-mode #rym-logo:active img,
+body.light-mode #beli-logo:active img,
+body.light-mode #firebird-logo:active img {
+  filter: brightness(0) !important;
 }
 
 /* Invert Substack in light mode (it's white, needs to be dark) */
@@ -688,5 +710,13 @@ body.light-mode #substack-logo:active img {
     border-color: rgba(255, 255, 255, 0.12) !important;
     color: var(--color-text, #c8c8c8) !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0) !important;
+  }
+
+  /* Light mode floating button touch reset - theme-aware */
+  body.light-mode .floating-button:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: var(--color-text, #2a2a2a) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
   }
 }
