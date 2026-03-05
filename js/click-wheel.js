@@ -441,6 +441,15 @@ document.addEventListener('DOMContentLoaded', () => {
     showPlaylistsView(targetView, 'down');
     currentGenre = null;
     currentSubgenre = null;
+
+    // Clear search bar state when returning to genre view
+    if (searchBar) {
+      searchBar.value = '';
+      searchBar.blur();
+      handleSearch('');
+    }
+    const clearBtn = document.getElementById('searchClear');
+    if (clearBtn) clearBtn.classList.remove('visible');
   }
 
   function showWheelView(genre) {
@@ -884,9 +893,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Search input
+  const searchClear = document.getElementById('searchClear');
+
+  function clearSearch() {
+    if (searchBar) {
+      searchBar.value = '';
+      searchBar.blur();
+      handleSearch('');
+    }
+    if (searchClear) searchClear.classList.remove('visible');
+  }
+
   if (searchBar) {
     searchBar.addEventListener('input', (e) => {
       handleSearch(e.target.value);
+      if (searchClear) {
+        searchClear.classList.toggle('visible', e.target.value.length > 0);
+      }
     });
+  }
+
+  if (searchClear) {
+    searchClear.addEventListener('click', clearSearch);
   }
 });
