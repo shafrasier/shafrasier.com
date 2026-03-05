@@ -652,7 +652,7 @@ body.light-mode .section-inner {
   .social-icons-wrapper {
     left: calc(15px + env(safe-area-inset-left, 0px));
     bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-    align-items: flex-start; /* Left-align */
+    align-items: center; /* Center CE logo over grid */
   }
 
   .social-icons-container {
@@ -670,7 +670,15 @@ body.light-mode .section-inner {
 
   .ce-button {
     width: 140px; /* Smaller on mobile */
-    margin-left: -20px; /* Shift left so "Education" centers over 4-wide icon grid */
+    margin-left: 0;
+  }
+
+  /* Move theme toggle next to social icons on mobile */
+  .theme-toggle {
+    right: auto;
+    /* Position after the 4-column icon grid: wrapper left (15px) + grid width (4×38 + 3×10 = 182px) + gap */
+    left: calc(15px + env(safe-area-inset-left, 0px) + 202px);
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
   }
 
 
