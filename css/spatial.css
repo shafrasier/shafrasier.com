@@ -221,10 +221,9 @@ body:not(.light-mode) {
   filter: grayscale(1);
 }
 
-/* Firebird: same as Beli - grayscale + contrast + invert + brightness for white in dark mode */
+/* Firebird: force all strokes to white in dark mode */
 #firebird-logo img {
-  filter: grayscale(1) contrast(10) invert(1) brightness(2);
-  mix-blend-mode: screen;
+  filter: brightness(0) invert(1);
 }
 
 /* Size adjustments for each logo */
@@ -245,8 +244,8 @@ body:not(.light-mode) {
 }
 
 #email-logo img {
-  width: 80%;
-  height: 80%;
+  width: 95%;
+  height: 95%;
 }
 
 #letterboxd-logo img {
@@ -317,15 +316,15 @@ body:not(.light-mode) {
   filter: grayscale(1) brightness(0.8);
 }
 
-/* Hover effects for Firebird (same as Beli) */
+/* Hover effects for Firebird */
 #firebird-logo:hover img {
   transform: scale(1.1);
-  filter: grayscale(1) contrast(5) invert(1) brightness(1.2);
+  filter: brightness(0) invert(1) drop-shadow(0 0 1px rgba(255,255,255,0.3));
 }
 
 #firebird-logo:active img {
   transform: scale(0.95);
-  filter: grayscale(1) contrast(5) invert(1) brightness(0.8);
+  filter: brightness(0) invert(1) opacity(0.7);
 }
 
 /* Hover effects for Substack (no invert) */
@@ -402,6 +401,7 @@ body:not(.light-mode) {
   box-sizing: border-box;
   pointer-events: auto;
   cursor: none;
+  text-decoration: none;
 }
 
 .ce-button img {
@@ -420,44 +420,6 @@ body:not(.light-mode) {
   opacity: 0.4; /* Dimmer on click */
 }
 
-/* CE "Coming Soon" Popup - appears to the right of CE button */
-.ce-popup {
-  position: fixed;
-  bottom: calc(95px + env(safe-area-inset-bottom, 0px));
-  left: calc(190px + env(safe-area-inset-left, 0px));
-  padding: 12px 20px;
-  font-family: Futura, sans-serif;
-  font-size: 14px;
-  letter-spacing: 0.05em;
-  color: #c8c8c8;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.04) 50%,
-    rgba(255, 255, 255, 0.07) 100%
-  );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.08),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
-  pointer-events: none;
-  z-index: 16; /* Above social icons (15) but below section-content (50) */
-  white-space: nowrap;
-}
-
-.ce-popup.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
-}
 
 /* Dark Mode Button Overrides (when toggled from light default) */
 body:not(.light-mode) .floating-button {
@@ -552,21 +514,6 @@ body.light-mode .ce-button:active img {
   opacity: 0.4;
 }
 
-/* Light mode - CE Popup */
-body.light-mode .ce-popup {
-  color: #2a2a2a;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0.25) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.7),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.03);
-}
 
 /* Light mode - transparent glass with smooth shadow transition */
 body.light-mode .floating-button {
@@ -727,14 +674,10 @@ body.light-mode .section-inner {
     margin-left: -20px; /* Shift left so "Education" centers over 4-wide icon grid */
   }
 
-  /* CE popup: to the right of CE on mobile too */
-  .ce-popup {
-    bottom: calc(85px + env(safe-area-inset-bottom, 0px));
-    left: calc(140px + env(safe-area-inset-left, 0px));
-  }
 
-  /* Move X close button to bottom-center on mobile for thumb reachability */
-  .section-back {
+  /* Move X close button and back buttons to bottom-center on mobile for thumb reachability */
+  .section-back,
+  .playlists-back {
     top: auto !important;
     bottom: calc(30px + env(safe-area-inset-bottom, 0px));
     left: 50% !important;
@@ -742,11 +685,13 @@ body.light-mode .section-inner {
     transform: translateX(-50%);
   }
 
-  .section-back:hover {
+  .section-back:hover,
+  .playlists-back:hover {
     transform: translateX(-50%) scale(1.1);
   }
 
-  .section-back:active {
+  .section-back:active,
+  .playlists-back:active {
     transform: translateX(-50%) scale(0.95);
   }
 

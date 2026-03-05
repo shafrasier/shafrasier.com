@@ -510,41 +510,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ===================================
-  // CE BUTTON "COMING SOON" POPUP
-  // ===================================
-  const ceButton = document.getElementById('ce-logo');
-  const cePopup = document.getElementById('ce-popup');
-
-  if (ceButton && cePopup) {
-    let ceTimeout = null;
-
-    ceButton.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      // Clear any existing timeout
-      if (ceTimeout) {
-        clearTimeout(ceTimeout);
-      }
-
-      cePopup.classList.toggle('visible');
-
-      // Auto-hide after 2 seconds
-      if (cePopup.classList.contains('visible')) {
-        ceTimeout = setTimeout(() => {
-          cePopup.classList.remove('visible');
-        }, 2000);
-      }
-    });
-
-    // Hide popup when clicking elsewhere
-    document.addEventListener('click', (e) => {
-      if (!ceButton.contains(e.target) && !cePopup.contains(e.target)) {
-        cePopup.classList.remove('visible');
-        if (ceTimeout) {
-          clearTimeout(ceTimeout);
-        }
-      }
-    });
-  }
 });

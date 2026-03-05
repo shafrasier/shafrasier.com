@@ -896,7 +896,7 @@ body.light-mode .moment-item:hover .moment-title {
 }
 
 .genre-folder {
-  aspect-ratio: 1;
+  aspect-ratio: 2 / 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1766,10 +1766,20 @@ body.light-mode .article-link:active {
     color: var(--color-text-active, #ffffff);
   }
 
+  /* Genre view - compact header on mobile */
+  .genre-view-header {
+    margin-top: 10px;
+    margin-bottom: -10px;
+  }
+
+  #genre-view {
+    padding-top: 20px;
+  }
+
   .genre-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-8, 16px);
-    margin-top: 40px;
+    gap: var(--space-4, 8px);
+    margin-top: 20px;
   }
 
   .folder-label {
@@ -1923,7 +1933,7 @@ body.light-mode .article-link:active {
 
   .genre-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6, 12px);
+    gap: var(--space-4, 8px);
     padding: 0 10px;
   }
 

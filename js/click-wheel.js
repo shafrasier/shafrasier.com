@@ -768,8 +768,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const allPlaylists = getAllPlaylists();
+    const lowerQuery = query.toLowerCase();
     const matches = allPlaylists.filter(p =>
-      p.name.toLowerCase().includes(query.toLowerCase())
+      p.name.toLowerCase().includes(lowerQuery) ||
+      (p.genreTag && p.genreTag.toLowerCase().includes(lowerQuery)) ||
+      (p.subgenre && p.subgenre.toLowerCase().includes(lowerQuery))
     );
 
     // Get unique genres that have matches
