@@ -1805,7 +1805,7 @@ body.light-mode .article-link:active {
     max-height: 100vh;
     height: 100vh;
     overflow: hidden;
-    padding: 10px 12px calc(80px + env(safe-area-inset-bottom, 0px));
+    padding: 10px 12px calc(20px + env(safe-area-inset-bottom, 0px));
     justify-content: flex-start;
   }
 
@@ -1818,8 +1818,7 @@ body.light-mode .article-link:active {
     grid-template-columns: repeat(3, 1fr);
     gap: 6px;
     margin-top: 10px;
-    flex: 1;
-    align-content: center;
+    flex: 0 0 auto;
   }
 
   .genre-folder {
@@ -1829,6 +1828,15 @@ body.light-mode .article-link:active {
 
   .folder-label {
     font-size: var(--font-size-caption, 12px);
+  }
+
+  /* Make search bar flow below grid instead of fixed at bottom */
+  #genre-view .search-container {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 12px;
   }
 
   /* Mobile diary artwork - inline thumbnail instead of hover preview */
