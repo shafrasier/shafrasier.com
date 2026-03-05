@@ -441,6 +441,15 @@ document.addEventListener('DOMContentLoaded', () => {
     showPlaylistsView(targetView, 'down');
     currentGenre = null;
     currentSubgenre = null;
+
+    // Clear search bar state when returning to genre view
+    if (searchBar) {
+      searchBar.value = '';
+      searchBar.blur();
+      handleSearch('');
+    }
+    const clearBtn = document.getElementById('searchClear');
+    if (clearBtn) clearBtn.classList.remove('visible');
   }
 
   function showWheelView(genre) {
@@ -562,8 +571,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function animateArtworkTransition(direction, newPlaylist) {
     isAnimating = true;
 
-    // Use CSS transitions with GPU acceleration for buttery smooth animations
-    // Direction: 1 = next (slide left), -1 = prev (slide right)
+    // Curve-up arc animation: artwork exits curving upward, new one enters curving up from below
+    // Direction: 1 = next, -1 = prev
 
     const playlistDisplay = document.querySelector('.playlist-display');
 
@@ -571,15 +580,16 @@ document.addEventListener('DOMContentLoaded', () => {
     playlistDisplay.style.willChange = 'transform, opacity';
     playlistDisplay.style.backfaceVisibility = 'hidden';
     playlistDisplay.style.perspective = '1000px';
+    playlistDisplay.style.transformOrigin = 'center bottom';
 
-    // Smooth exit animation - shorter duration, gentler easing
-    playlistDisplay.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.6, 1), opacity 0.2s ease-out';
+    // Exit: curve up and away
+    playlistDisplay.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.6, 1), opacity 0.25s ease-out';
     playlistDisplay.style.transform = direction === 1
-      ? 'translate3d(-40px, 0, 0)'
-      : 'translate3d(40px, 0, 0)';
+      ? 'translate3d(-30px, -60px, 0) rotate(-8deg) scale(0.9)'
+      : 'translate3d(30px, -60px, 0) rotate(8deg) scale(0.9)';
     playlistDisplay.style.opacity = '0';
 
-    // After fade out, update content and fade in from opposite side
+    // After fade out, update content and bring new one in from below
     setTimeout(() => {
       // Update content
       playlistName.textContent = newPlaylist.name;
@@ -590,29 +600,30 @@ document.addEventListener('DOMContentLoaded', () => {
       // Load new artwork (pass imageUrl if available)
       loadArtwork(newPlaylist.url, newPlaylist.imageUrl);
 
-      // Position for enter animation (instant repositioning)
+      // Position for enter: start below, curved
       playlistDisplay.style.transition = 'none';
       playlistDisplay.style.transform = direction === 1
-        ? 'translate3d(40px, 0, 0)'
-        : 'translate3d(-40px, 0, 0)';
+        ? 'translate3d(30px, 40px, 0) rotate(5deg) scale(0.95)'
+        : 'translate3d(-30px, 40px, 0) rotate(-5deg) scale(0.95)';
 
-      // Force GPU layer creation and reflow
+      // Force reflow
       playlistDisplay.offsetHeight;
 
-      // Smooth enter animation - slightly longer for polish
-      playlistDisplay.style.transition = 'transform 0.3s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.25s ease-in';
-      playlistDisplay.style.transform = 'translate3d(0, 0, 0)';
+      // Enter: curve up into place
+      playlistDisplay.style.transition = 'transform 0.35s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.3s ease-in';
+      playlistDisplay.style.transform = 'translate3d(0, 0, 0) rotate(0deg) scale(1)';
       playlistDisplay.style.opacity = '1';
 
       setTimeout(() => {
         isAnimating = false;
-        // Clean up GPU hints
+        // Clean up
         playlistDisplay.style.transition = '';
         playlistDisplay.style.willChange = '';
         playlistDisplay.style.backfaceVisibility = '';
         playlistDisplay.style.perspective = '';
-      }, 300);
-    }, 200);
+        playlistDisplay.style.transformOrigin = '';
+      }, 350);
+    }, 250);
   }
 
   function updateGenreDescription(playlist) {
@@ -882,9 +893,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Search input
+  const searchClear = document.getElementById('searchClear');
+
+  function clearSearch() {
+    if (searchBar) {
+      searchBar.value = '';
+      searchBar.blur();
+      handleSearch('');
+    }
+    if (searchClear) searchClear.classList.remove('visible');
+  }
+
   if (searchBar) {
     searchBar.addEventListener('input', (e) => {
       handleSearch(e.target.value);
+      if (searchClear) {
+        searchClear.classList.toggle('visible', e.target.value.length > 0);
+      }
     });
+  }
+
+  if (searchClear) {
+    searchClear.addEventListener('click', clearSearch);
   }
 });

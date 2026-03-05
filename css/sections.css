@@ -333,8 +333,8 @@ body.light-mode .sheets-info-popup p {
 }
 
 body.light-mode .playlist-nav-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.4);
   color: var(--color-text, #2a2a2a);
 }
 
@@ -372,12 +372,6 @@ body.light-mode .playlist-nav-btn:hover {
   margin: 0;
 }
 
-.genre-view-disclaimer {
-  font-size: var(--font-size-caption, 11px);
-  color: var(--color-text-muted, #999999);
-  margin: 6px 0 0;
-  letter-spacing: 0.05em;
-}
 
 .genre-grid {
   display: grid;
@@ -970,6 +964,27 @@ body.light-mode .moment-item:hover .moment-title {
 
 .search-bar:focus {
   border-color: var(--glass-border-focus, rgba(255, 255, 255, 0.4));
+}
+
+.search-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-muted, #999999);
+  font-size: 16px;
+  padding: 8px;
+  cursor: pointer;
+  display: none;
+  line-height: 1;
+}
+
+.search-clear.visible {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Wheel View - fixed layout, no scroll */
@@ -1641,25 +1656,43 @@ body.light-mode .article-link:active {
     overflow: hidden;
   }
 
-  /* Click wheel - large and fixed on mobile, extending past bottom of screen */
+  /* Click wheel - large and fixed on mobile, show more of it */
   .click-wheel {
     position: fixed;
-    bottom: calc(-35vw + env(safe-area-inset-bottom, 0px));
+    bottom: calc(-30vw + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
-    width: 85vw;
-    height: 85vw;
+    width: 80vw;
+    height: 80vw;
     flex-shrink: 0;
   }
 
   .wheel-center {
-    width: 65px;
-    height: 65px;
+    width: 60px;
+    height: 60px;
   }
 
   /* Reduce header padding to reclaim vertical space */
   .wheel-header {
-    padding: 50px 20px 5px;
+    padding: 50px 20px 0;
+  }
+
+  /* Playlist display - position above the wheel */
+  #wheel-view .playlist-display {
+    padding: 0 20px 10px;
+  }
+
+  #wheel-view .artwork-container {
+    width: 42vw;
+    height: 42vw;
+    max-width: 220px;
+    max-height: 220px;
+  }
+
+  #wheel-view .playlist-name {
+    font-size: 20px;
+    margin-bottom: 4px;
+    margin-top: 0;
   }
 
   /* Playlists nav - vertical on mobile */
@@ -1766,24 +1799,44 @@ body.light-mode .article-link:active {
     color: var(--color-text-active, #ffffff);
   }
 
-  /* Genre view - compact header on mobile */
-  .genre-view-header {
-    margin-top: 10px;
-    margin-bottom: -10px;
+  /* Genre view - fit viewport, no scrolling */
+  #genre-view {
+    min-height: 100vh;
+    max-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+    padding: 10px 12px calc(20px + env(safe-area-inset-bottom, 0px));
+    justify-content: flex-start;
   }
 
-  #genre-view {
-    padding-top: 20px;
+  .genre-view-header {
+    margin-top: 10px;
+    margin-bottom: 0;
   }
 
   .genre-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-4, 8px);
-    margin-top: 20px;
+    gap: 6px;
+    margin-top: 10px;
+    flex: 0 0 auto;
+  }
+
+  .genre-folder {
+    aspect-ratio: auto;
+    padding: 10px 4px;
   }
 
   .folder-label {
     font-size: var(--font-size-caption, 12px);
+  }
+
+  /* Make search bar flow below grid instead of fixed at bottom */
+  #genre-view .search-container {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 12px;
   }
 
   /* Mobile diary artwork - inline thumbnail instead of hover preview */
@@ -1877,13 +1930,19 @@ body.light-mode .article-link:active {
 
 /* Touch devices - prevent sticky hover states */
 @media (hover: none) {
-  .diary-year-toggle:hover {
+  .diary-year-toggle:hover,
+  body.light-mode .diary-year-toggle:hover {
     color: var(--color-text-muted, #999999);
     transform: none;
     text-shadow: none;
   }
 
-  .diary-year-toggle:hover .diary-year-icon {
+  body.light-mode .diary-year-toggle:hover {
+    color: var(--color-text-muted, #757575);
+  }
+
+  .diary-year-toggle:hover .diary-year-icon,
+  body.light-mode .diary-year-toggle:hover .diary-year-icon {
     color: inherit;
   }
 
@@ -1933,12 +1992,16 @@ body.light-mode .article-link:active {
 
   .genre-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-4, 8px);
-    padding: 0 10px;
+    gap: 5px;
+    padding: 0 6px;
+  }
+
+  .genre-folder {
+    padding: 8px 2px;
   }
 
   .folder-label {
-    font-size: var(--font-size-caption, 11px); /* Minimum 11px for legibility */
+    font-size: 11px;
   }
 
   .publication-header .heading {

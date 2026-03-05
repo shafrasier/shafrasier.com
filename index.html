@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#f5f5f5" />
   <meta name="color-scheme" content="light dark" />
   <link rel="stylesheet" href="css/global.css" />
   <link rel="stylesheet" href="css/spatial.css" />
@@ -81,7 +80,6 @@
       </button>
       <div class="genre-view-header">
         <h2 class="genre-view-title">GENRE</h2>
-        <p class="genre-view-disclaimer"><em>artwork under construction</em></p>
       </div>
       <div class="genre-grid">
         <button class="genre-folder" data-genre="ambient"><span class="folder-label">AMBIENT</span></button>
@@ -104,6 +102,7 @@
       </div>
       <div class="search-container">
         <input type="text" class="search-bar glass-panel" placeholder="Search playlists..." id="playlistSearch">
+        <button class="search-clear" id="searchClear" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
       </div>
     </div>
 
@@ -608,17 +607,17 @@
       <a href="https://www.linkedin.com/in/shafrasier" class="social-icon" id="linkedin-logo">
         <img src="pictures/linkedin-big-logo.svg" alt="LinkedIn">
       </a>
-      <a href="https://rateyourmusic.com/~oleschnitzel" class="social-icon" id="rym-logo" target="_blank" rel="noopener noreferrer">
-        <img src="pictures/Rate_Your_Music_logo.svg.png" alt="RateYourMusic">
-      </a>
-      <a href="https://boxd.it/4DusT" class="social-icon" id="letterboxd-logo" target="_blank" rel="noopener noreferrer">
-        <img src="pictures/letterboxd-decal-dots-neg-mono.svg" alt="Letterboxd">
-      </a>
       <a href="https://beliapp.co/app/frasier" class="social-icon" id="beli-logo" target="_blank" rel="noopener noreferrer">
         <img src="pictures/beli.png" alt="Beli">
       </a>
+      <a href="https://rateyourmusic.com/~oleschnitzel" class="social-icon" id="rym-logo" target="_blank" rel="noopener noreferrer">
+        <img src="pictures/Rate_Your_Music_logo.svg.png" alt="RateYourMusic">
+      </a>
       <a href="https://shafrasier.substack.com/" class="social-icon" id="substack-logo">
         <img src="pictures/substack4.png" alt="Substack">
+      </a>
+      <a href="https://boxd.it/4DusT" class="social-icon" id="letterboxd-logo" target="_blank" rel="noopener noreferrer">
+        <img src="pictures/letterboxd-decal-dots-neg-mono.svg" alt="Letterboxd">
       </a>
       <a href="https://firebirdmagazine.com" class="social-icon" id="firebird-logo" target="_blank" rel="noopener noreferrer">
         <img src="pictures/Firebird Logo clear.png" alt="Firebird Magazine">
@@ -742,8 +741,8 @@
         { name: "ZOO", url: "https://music.apple.com/us/playlist/zoo/pl.u-pMylEVMuWLyNZ2", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/87/24/2c/87242cbb-f115-a67a-1c8b-99c4ca1fc64d/image/300x300bb.jpg", genreTag: "baroque pop", rymUrl: "https://rateyourmusic.com/genre/baroque-pop/" }
       ]},
       psychedelia: { name: "PSYCHEDELIA", playlists: [
-        { name: "CARNIVAL", url: "https://music.apple.com/us/playlist/carnival/pl.u-MDAWldJIAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/ba/e4/47/bae44721-8699-eac2-d1d3-4915a959db6f/image/300x300bb.jpg" },
-        { name: "CIRCUS", url: "https://music.apple.com/us/playlist/circus/pl.u-06ox9ZgsYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/d8/40/71/d84071b0-0fd2-cc85-b1dd-ba59ec02805b/image/300x300bb.jpg" },
+        { name: "CARNIVAL", url: "https://music.apple.com/us/playlist/carnival/pl.u-MDAWldJIAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/ba/e4/47/bae44721-8699-eac2-d1d3-4915a959db6f/image/300x300bb.jpg", genreTag: "psychedelic pop", rymUrl: "https://rateyourmusic.com/genre/psychedelic-pop/" },
+        { name: "CIRCUS", url: "https://music.apple.com/us/playlist/circus/pl.u-06ox9ZgsYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/d8/40/71/d84071b0-0fd2-cc85-b1dd-ba59ec02805b/image/300x300bb.jpg", genreTag: "psychedelic rock", rymUrl: "https://rateyourmusic.com/genre/psychedelic-rock/" },
         { name: "COSMOS", url: "https://music.apple.com/us/playlist/cosmos/pl.u-zPyLW43Ceg4qpD", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-004-Image-000001/v4/b9/f4/f1/b9f4f19b-b6a7-f0bc-7184-d976b24c2f4f/image/300x300bb.jpg", genreTag: "space rock revival", rymUrl: "https://rateyourmusic.com/genre/space-rock-revival/" },
         { name: "FIELD", url: "https://music.apple.com/us/playlist/field/pl.u-06oxr1aCYPyZJ8", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-001-Image000001/v4/4c/13/02/4c13024d-74e7-38a9-6b61-03cd61587b7a/image/300x300bb.jpg", genreTag: "neo-psychedelia", rymUrl: "https://rateyourmusic.com/genre/neo-psychedelia/" },
         { name: "GLASS", url: "https://music.apple.com/us/playlist/glass/pl.u-MDAW2EJsAKXkeV", imageUrl: "https://is1-ssl.mzstatic.com/image/thumb/SG-MQ-US-032-Image000001/v4/83/2c/ca/832cca68-73c4-673a-2e59-1a0a282604b8/image/300x300bb.jpg", genreTag: "psychedelia", rymUrl: "https://rateyourmusic.com/genre/psychedelia/" }
