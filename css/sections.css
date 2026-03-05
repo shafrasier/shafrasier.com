@@ -662,6 +662,15 @@ body.light-mode .playlist-nav-btn:hover {
   transform: rotate(0deg);
 }
 
+/* Highlight year header text when expanded */
+.diary-year-section.expanded .diary-year {
+  color: var(--color-text-active, #ffffff);
+}
+
+body.light-mode .diary-year-section.expanded .diary-year {
+  color: var(--color-text-active, #000000);
+}
+
 .diary-playlist-list {
   display: flex;
   flex-direction: column;
@@ -1739,7 +1748,7 @@ body.light-mode .article-link:active {
     padding: 20px 0 40px;
     gap: 0;
     position: relative;
-    width: 100%;
+    width: auto;
     margin: 0 auto;
   }
 
