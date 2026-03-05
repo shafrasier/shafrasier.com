@@ -279,7 +279,7 @@ html:has(body:not(.light-mode)) {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  cursor: pointer;
+  cursor: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -332,7 +332,7 @@ html:has(body:not(.light-mode)) {
   text-decoration: none;
   color: #ffffff;
   font-size: 20px;
-  cursor: pointer;
+  cursor: none;
   transition:
     transform 0.3s ease,
     background 0.3s ease,
@@ -498,42 +498,64 @@ body.light-mode #email-logo:active img {
   filter: brightness(0.8) !important;
 }
 
-/* Light mode Letterboxd - multiply blend makes white bg transparent, keeps black dots */
+/* Light mode Letterboxd - no bg in SVG, just show black dots */
 body.light-mode #letterboxd-logo img {
   filter: none !important;
-  mix-blend-mode: multiply !important;
+  mix-blend-mode: normal !important;
 }
 
 body.light-mode #letterboxd-logo:hover img {
   filter: brightness(0.8) !important;
-  mix-blend-mode: multiply !important;
+  mix-blend-mode: normal !important;
 }
 
 body.light-mode #letterboxd-logo:active img {
   filter: brightness(0.6) !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Light mode - RYM: just grayscale */
+body.light-mode #rym-logo img {
+  filter: grayscale(1) !important;
+  mix-blend-mode: normal !important;
+}
+
+body.light-mode #rym-logo:hover img {
+  filter: grayscale(1) brightness(0.8) !important;
+}
+
+body.light-mode #rym-logo:active img {
+  filter: grayscale(1) brightness(0.6) !important;
+}
+
+/* Light mode - Beli: grayscale + contrast for stark black, multiply hides white bg */
+body.light-mode #beli-logo img {
+  filter: grayscale(1) contrast(5) !important;
   mix-blend-mode: multiply !important;
 }
 
-/* Light mode - multiply blend makes white bg transparent for colored logos */
-body.light-mode #rym-logo img,
-body.light-mode #beli-logo img,
+body.light-mode #beli-logo:hover img {
+  filter: grayscale(1) contrast(5) brightness(0.8) !important;
+  mix-blend-mode: multiply !important;
+}
+
+body.light-mode #beli-logo:active img {
+  filter: grayscale(1) contrast(5) brightness(0.6) !important;
+  mix-blend-mode: multiply !important;
+}
+
+/* Light mode - Firebird: same as Beli - grayscale + contrast for stark black */
 body.light-mode #firebird-logo img {
-  filter: none !important;
-  mix-blend-mode: multiply !important;
+  filter: grayscale(1) contrast(5) !important;
+  mix-blend-mode: normal !important;
 }
 
-body.light-mode #rym-logo:hover img,
-body.light-mode #beli-logo:hover img,
 body.light-mode #firebird-logo:hover img {
-  filter: brightness(0.8) !important;
-  mix-blend-mode: multiply !important;
+  filter: grayscale(1) contrast(5) brightness(0.8) !important;
 }
 
-body.light-mode #rym-logo:active img,
-body.light-mode #beli-logo:active img,
 body.light-mode #firebird-logo:active img {
-  filter: brightness(0.6) !important;
-  mix-blend-mode: multiply !important;
+  filter: grayscale(1) contrast(5) brightness(0.6) !important;
 }
 
 /* Invert Substack in light mode (it's white, needs to be dark) */

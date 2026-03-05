@@ -13,13 +13,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Apply the saved theme on page load
   // Icon shows what mode you'll switch TO, not current mode
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
   if (currentTheme === 'light') {
     document.body.classList.add('light-mode');
     document.documentElement.style.backgroundColor = '#f5f5f5';
+    if (themeMeta) themeMeta.setAttribute('content', '#f5f5f5');
+    if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'light');
     if (moonIcon) moonIcon.style.display = 'block';  // Show moon in light mode (click to go dark)
     if (sunIcon) sunIcon.style.display = 'none';
   } else {
     document.documentElement.style.backgroundColor = '#131313';
+    if (themeMeta) themeMeta.setAttribute('content', '#131313');
+    if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'dark');
     if (moonIcon) moonIcon.style.display = 'none';
     if (sunIcon) sunIcon.style.display = 'block';  // Show sun in dark mode (click to go light)
   }

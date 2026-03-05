@@ -60,7 +60,7 @@
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 12px;
   font-style: italic;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.3s ease;
   align-items: center;
   justify-content: center;
@@ -178,13 +178,13 @@
 }
 
 .sheets-link:hover,
-.sheets-link:focus {
+.sheets-link:focus-visible {
   color: var(--color-text-active, #ffffff);
   transform: translateY(-4px);
 }
 
 .sheets-link:hover::after,
-.sheets-link:focus::after {
+.sheets-link:focus-visible::after {
   background: var(--color-text-active, #ffffff);
   transform: translateX(-50%) scale(1.5);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
@@ -216,12 +216,12 @@ body.light-mode .sheets-link:visited {
 }
 
 body.light-mode .sheets-link:hover,
-body.light-mode .sheets-link:focus {
+body.light-mode .sheets-link:focus-visible {
   color: var(--color-text-active, #000000);
 }
 
 body.light-mode .sheets-link:hover::after,
-body.light-mode .sheets-link:focus::after {
+body.light-mode .sheets-link:focus-visible::after {
   background: var(--color-text-active, #000000);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
@@ -314,16 +314,22 @@ body.light-mode .sheets-info-popup p {
   font-weight: 500;
   letter-spacing: 0.1em;
   color: var(--color-text, #c8c8c8);
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  cursor: none;
+  transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
 }
 
 .playlist-nav-btn:hover {
-  transform: translateY(-4px) scale(1.05);
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
   color: var(--color-text-active, #ffffff);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.playlist-nav-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 body.light-mode .playlist-nav-btn {
@@ -333,8 +339,10 @@ body.light-mode .playlist-nav-btn {
 }
 
 body.light-mode .playlist-nav-btn:hover {
-  background: rgba(255, 255, 255, 0.55);
   color: var(--color-text-active, #000000);
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* Playlists back button */
@@ -506,7 +514,7 @@ body.light-mode .playlist-nav-btn:hover {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 12px;
   font-style: italic;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.3s ease;
   align-items: center;
   justify-content: center;
@@ -603,7 +611,7 @@ body.light-mode .playlist-nav-btn:hover {
 
 /* Diary year toggle styling */
 .diary-year-toggle {
-  cursor: pointer;
+  cursor: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -671,7 +679,7 @@ body.light-mode .playlist-nav-btn:hover {
   align-items: center;
   padding: 14px 16px;
   border-radius: 8px;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.3s ease;
   position: relative;
 }
@@ -896,7 +904,7 @@ body.light-mode .moment-item:hover .moment-title {
   background: var(--glass-bg, rgba(255, 255, 255, 0.08));
   border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
   border-radius: 16px;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -1107,7 +1115,7 @@ body.light-mode .moment-item:hover .moment-title {
   border-radius: 50px;
   color: var(--color-text, #c8c8c8);
   font-size: 14px;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.3s ease;
 }
 
@@ -1146,7 +1154,7 @@ body.light-mode .moment-item:hover .moment-title {
   background: linear-gradient(145deg, rgba(80, 80, 80, 0.9) 0%, rgba(50, 50, 50, 0.95) 100%);
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
+  cursor: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1168,7 +1176,7 @@ body.light-mode .moment-item:hover .moment-title {
   height: 50px;
   background: transparent;
   border: none;
-  cursor: pointer;
+  cursor: none;
   color: rgba(255, 255, 255, 0.5);
   font-size: 20px;
   display: flex;
@@ -1228,7 +1236,7 @@ body.light-mode .moment-item:hover .moment-title {
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
-  cursor: pointer;
+  cursor: none;
   transition: border-color 0.3s ease,
               transform 0.3s ease;
 }
@@ -1303,7 +1311,7 @@ body.light-mode .moment-item:hover .moment-title {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 12px;
   font-style: italic;
-  cursor: pointer;
+  cursor: none;
   transition: all 0.3s ease;
   align-items: center;
   justify-content: center;
@@ -1383,6 +1391,7 @@ body.light-mode .moment-item:hover .moment-title {
 .publication-content.expanded {
   padding: 24px 0 0 0;
   opacity: 1;
+  overflow: visible;
 }
 
 .article-link {
@@ -1400,6 +1409,26 @@ body.light-mode .moment-item:hover .moment-title {
   border-radius: 8px;
   line-height: 1.5;
   gap: 20px;
+  position: relative;
+}
+
+.article-artwork-preview {
+  position: absolute;
+  left: -180px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 150px;
+  height: auto;
+  border-radius: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  display: block;
+}
+
+.article-link:hover .article-artwork-preview {
+  opacity: 1;
 }
 
 .article-title {
@@ -1612,15 +1641,14 @@ body.light-mode .article-link:active {
     overflow: hidden;
   }
 
-  /* Click wheel - part of layout flow on mobile so it fits viewport */
+  /* Click wheel - large and fixed on mobile, extending past bottom of screen */
   .click-wheel {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    transform: none;
-    margin: 0 auto calc(10px + env(safe-area-inset-bottom, 0px));
-    width: 200px;
-    height: 200px;
+    position: fixed;
+    bottom: calc(-35vw + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85vw;
+    height: 85vw;
     flex-shrink: 0;
   }
 
@@ -1728,12 +1756,12 @@ body.light-mode .article-link:active {
   }
 
   .sheets-link:hover::after,
-  .sheets-link:focus::after {
+  .sheets-link:focus-visible::after {
     transform: translate(-50%, -50%) scale(1.5);
   }
 
   .sheets-link:hover,
-  .sheets-link:focus {
+  .sheets-link:focus-visible {
     transform: none;
     color: var(--color-text-active, #ffffff);
   }
@@ -1765,6 +1793,11 @@ body.light-mode .article-link:active {
 
   .diary-playlist-item:hover .diary-artwork-preview {
     opacity: 1;
+  }
+
+  /* Hide article artwork previews on mobile */
+  .article-artwork-preview {
+    display: none;
   }
 
   /* Diary mobile - constrain password field and container */

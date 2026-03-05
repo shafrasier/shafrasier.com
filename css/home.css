@@ -17,7 +17,7 @@ body {
 
 .button {
   background: rgb(28, 28, 28);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 25px;
   padding: 15px 30px;
   margin: 10px;
@@ -26,7 +26,7 @@ body {
   font-size: 18px;
   color: #c8c8c8;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
   display: inline-block;
   width: 40%;
   max-width: 300px;
@@ -35,11 +35,16 @@ body {
 .button:hover {
   transform: scale(1.1);
   color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .button:active {
   transform: scale(0.95);
   color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .social-icon {
@@ -70,17 +75,25 @@ body {
   filter: invert(1) brightness(1);
 }
 
-/* Letterboxd: invert + screen blend makes white bg transparent, shows white dots */
+/* Letterboxd: invert to white in dark mode (no bg circle in SVG) */
 #letterboxd-logo img {
   filter: invert(1);
+}
+
+/* Beli: grayscale + contrast + invert + screen blend for stark white icon in dark mode */
+#beli-logo img {
+  filter: grayscale(1) contrast(5) invert(1);
   mix-blend-mode: screen;
 }
 
-/* RYM, Beli, Firebird: invert + screen blend to make white bg transparent in dark mode */
-#rym-logo img,
-#beli-logo img,
+/* RYM: just grayscale, no invert */
+#rym-logo img {
+  filter: grayscale(1);
+}
+
+/* Firebird: same as Beli - grayscale + contrast + invert for white in dark mode */
 #firebird-logo img {
-  filter: invert(1);
+  filter: grayscale(1) contrast(10) invert(1) brightness(2);
   mix-blend-mode: screen;
 }
 
@@ -107,23 +120,23 @@ body {
 }
 
 #letterboxd-logo img {
+  width: 130%;
+  height: 130%;
+}
+
+#rym-logo img {
   width: 110%;
   height: 110%;
 }
 
-#rym-logo img {
-  width: 90%;
-  height: 90%;
-}
-
 #beli-logo img {
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
 }
 
 #firebird-logo img {
-  width: 100%;
-  height: 100%;
+  width: 130%;
+  height: 130%;
 }
 
 /* Hover effects for LinkedIn, Instagram, Email */
@@ -152,19 +165,37 @@ body {
   filter: invert(1) brightness(0.8);
 }
 
-/* Hover effects for RYM, Beli, Firebird */
-#rym-logo:hover img,
-#beli-logo:hover img,
-#firebird-logo:hover img {
+/* Hover effects for Beli (inverted) */
+#beli-logo:hover img {
   transform: scale(1.1);
-  filter: invert(1) brightness(1.2);
+  filter: grayscale(1) contrast(5) invert(1) brightness(1.2);
 }
 
-#rym-logo:active img,
-#beli-logo:active img,
+#beli-logo:active img {
+  transform: scale(0.95);
+  filter: grayscale(1) contrast(5) invert(1) brightness(0.8);
+}
+
+/* Hover effects for RYM (grayscale only) */
+#rym-logo:hover img {
+  transform: scale(1.1);
+  filter: grayscale(1) brightness(1.2);
+}
+
+#rym-logo:active img {
+  transform: scale(0.95);
+  filter: grayscale(1) brightness(0.8);
+}
+
+/* Hover effects for Firebird (same as Beli) */
+#firebird-logo:hover img {
+  transform: scale(1.1);
+  filter: grayscale(1) contrast(5) invert(1) brightness(1.2);
+}
+
 #firebird-logo:active img {
   transform: scale(0.95);
-  filter: invert(1) brightness(0.8);
+  filter: grayscale(1) contrast(5) invert(1) brightness(0.8);
 }
 
 /* Hover effects for Substack (no invert) */
@@ -191,6 +222,18 @@ body {
 body.light-mode .button {
   background: #e8e8e8;
   color: #2a2a2a;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .button:hover {
+  color: #000000;
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .button:active {
+  color: #000000;
 }
 
 body.light-mode .button:hover,
