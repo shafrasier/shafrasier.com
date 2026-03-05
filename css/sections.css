@@ -333,8 +333,8 @@ body.light-mode .sheets-info-popup p {
 }
 
 body.light-mode .playlist-nav-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.4);
   color: var(--color-text, #2a2a2a);
 }
 
@@ -1877,13 +1877,19 @@ body.light-mode .article-link:active {
 
 /* Touch devices - prevent sticky hover states */
 @media (hover: none) {
-  .diary-year-toggle:hover {
+  .diary-year-toggle:hover,
+  body.light-mode .diary-year-toggle:hover {
     color: var(--color-text-muted, #999999);
     transform: none;
     text-shadow: none;
   }
 
-  .diary-year-toggle:hover .diary-year-icon {
+  body.light-mode .diary-year-toggle:hover {
+    color: var(--color-text-muted, #757575);
+  }
+
+  .diary-year-toggle:hover .diary-year-icon,
+  body.light-mode .diary-year-toggle:hover .diary-year-icon {
     color: inherit;
   }
 
