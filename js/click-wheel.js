@@ -160,38 +160,87 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Playlist nav button clicks
+  // Playlist nav button clicks — fade transition matching section entry/exit exactly
   playlistNavBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      const targetView = btn.dataset.playlistView;
-      let direction = 'right'; // Default slide direction
+      const targetViewId = btn.dataset.playlistView;
+      const targetView = document.getElementById(targetViewId);
+      if (!targetView) return;
 
-      // Determine swivel direction based on layout position
-      // GENRE is on left, MOMENTS in center, DIARY on right, MORE below
-      if (targetView === 'genre-view') direction = 'left';
-      else if (targetView === 'moments-view') direction = 'up';
-      else if (targetView === 'diary-view') direction = 'right';
-      else if (targetView === 'misc-view') direction = 'down';
+      // Fade out all nav buttons (like floating buttons fade on section entry)
+      playlistNavBtns.forEach(otherBtn => {
+        if (otherBtn !== btn) {
+          gsap.to(otherBtn, { opacity: 0, duration: 0.5, ease: 'power2.in' });
+        }
+      });
+      // Scale up and fade clicked button (like clicked section button)
+      gsap.to(btn, {
+        scale: 1.5,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power2.inOut'
+      });
+      // Also fade out the playlists landing X button
+      const landingBack = playlistsLanding.querySelector('.section-back');
+      if (landingBack) {
+        gsap.to(landingBack, { opacity: 0, duration: 0.5, ease: 'power2.in' });
+      }
 
-      showPlaylistsView(targetView, direction);
+      // After buttons fade, swap views and fade in target (like showSection)
+      setTimeout(() => {
+        playlistsLanding.classList.remove('active');
+        // Reset button styles for when we return
+        playlistNavBtns.forEach(b => {
+          b.style.opacity = '';
+          b.style.transform = '';
+        });
+        if (landingBack) landingBack.style.opacity = '';
+
+        // Show target view with fade in (matching showSection: 0.8s power2.out)
+        targetView.style.opacity = '0';
+        targetView.classList.add('active');
+        gsap.to(targetView, {
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out'
+        });
+
+        currentPlaylistView = targetViewId;
+      }, 500);
     });
   });
 
-  // Back buttons within playlists views
-  playlistsBackBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const backTo = btn.dataset.backTo;
-      let direction = 'left'; // Default reverse direction
+  // Return to playlists landing from sub-views (Genre, Diary, etc.)
+  // Uses same fade animation as returnToHome/showSection for consistency
+  window.returnToPlaylistsLanding = function() {
+    const views = [genreView, miscView, momentsView, diaryView, wheelView];
 
-      // Reverse direction when going back
-      if (currentPlaylistView === 'genre-view') direction = 'right';
-      else if (currentPlaylistView === 'moments-view') direction = 'down';
-      else if (currentPlaylistView === 'diary-view') direction = 'left';
-      else if (currentPlaylistView === 'misc-view') direction = 'up';
+    // Find the currently active view
+    const activeView = views.find(v => v && v.classList.contains('active'));
+    if (!activeView) return;
 
-      showPlaylistsView(backTo, direction);
+    // Fade out current view (matching returnToHome: 0.4s, power2.in)
+    gsap.to(activeView, {
+      opacity: 0,
+      duration: 0.4,
+      ease: 'power2.in',
+      onComplete: () => {
+        activeView.classList.remove('active');
+        activeView.style.opacity = '';
+
+        // Show playlists landing with fade in (matching showSection: 0.8s, power2.out)
+        playlistsLanding.style.opacity = '0';
+        playlistsLanding.classList.add('active');
+        gsap.to(playlistsLanding, {
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out'
+        });
+
+        currentPlaylistView = 'playlists-landing';
+      }
     });
-  });
+  };
 
   // ===================================
   // DIARY PASSWORD PROTECTION

@@ -680,9 +680,9 @@ body.light-mode .section-inner {
   }
 
 
-  /* Move X close button and back buttons to bottom-center on mobile for thumb reachability */
+  /* Move all back/close buttons to bottom-center on mobile for thumb reachability */
   .section-back,
-  .playlists-back {
+  .section-content .back-button {
     top: auto !important;
     bottom: calc(30px + env(safe-area-inset-bottom, 0px));
     left: 50% !important;
@@ -691,36 +691,12 @@ body.light-mode .section-inner {
   }
 
   .section-back:hover,
-  .playlists-back:hover {
+  .section-content .back-button:hover {
     transform: translateX(-50%) scale(1.1);
   }
 
   .section-back:active,
-  .playlists-back:active {
+  .section-content .back-button:active {
     transform: translateX(-50%) scale(0.95);
-  }
-
-  .section-content .back-button:not(#backToGenres) {
-    top: auto !important;
-    bottom: calc(30px + env(safe-area-inset-bottom, 0px));
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%);
-  }
-
-  .section-content .back-button:not(#backToGenres):hover {
-    transform: translateX(-50%) scale(1.1);
-  }
-
-  .section-content .back-button:not(#backToGenres):active {
-    transform: translateX(-50%) scale(0.95);
-  }
-
-  /* Wheel view back button stays at top-left */
-  #backToGenres {
-    position: fixed;
-    top: 30px !important;
-    left: 30px !important;
-    z-index: 100;
   }
 }
