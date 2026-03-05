@@ -228,6 +228,17 @@ document.addEventListener('DOMContentLoaded', () => {
         activeView.classList.remove('active');
         activeView.style.opacity = '';
 
+        // Kill any in-flight fade/scale tweens on nav buttons, then reset visibility
+        playlistNavBtns.forEach(b => {
+          gsap.killTweensOf(b, 'opacity,scale');
+          gsap.set(b, { opacity: 1, scale: 1 });
+        });
+        const landingBack = playlistsLanding.querySelector('.section-back');
+        if (landingBack) {
+          gsap.killTweensOf(landingBack, 'opacity');
+          gsap.set(landingBack, { opacity: 1 });
+        }
+
         // Show playlists landing with fade in (matching showSection: 0.8s, power2.out)
         playlistsLanding.style.opacity = '0';
         playlistsLanding.classList.add('active');
