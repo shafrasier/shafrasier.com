@@ -316,6 +316,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to show section content
   function showSection(section) {
+    // Reset all dropdowns to closed state so they don't persist across visits
+    document.querySelectorAll('.dropdown.open, .small-dropdown.open').forEach(d => {
+      d.classList.remove('open');
+      const content = d.querySelector('.dropdown-content, .small-dropdown-content');
+      if (content) content.style.maxHeight = '0';
+    });
+
     // Hide home container
     document.querySelector('.floating-container').style.display = 'none';
 
