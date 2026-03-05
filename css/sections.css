@@ -1635,25 +1635,43 @@ body.light-mode .article-link:active {
     overflow: hidden;
   }
 
-  /* Click wheel - large and fixed on mobile, extending past bottom of screen */
+  /* Click wheel - large and fixed on mobile, show more of it */
   .click-wheel {
     position: fixed;
-    bottom: calc(-35vw + env(safe-area-inset-bottom, 0px));
+    bottom: calc(-30vw + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
-    width: 85vw;
-    height: 85vw;
+    width: 80vw;
+    height: 80vw;
     flex-shrink: 0;
   }
 
   .wheel-center {
-    width: 65px;
-    height: 65px;
+    width: 60px;
+    height: 60px;
   }
 
   /* Reduce header padding to reclaim vertical space */
   .wheel-header {
-    padding: 50px 20px 5px;
+    padding: 50px 20px 0;
+  }
+
+  /* Playlist display - position above the wheel */
+  #wheel-view .playlist-display {
+    padding: 0 20px 10px;
+  }
+
+  #wheel-view .artwork-container {
+    width: 42vw;
+    height: 42vw;
+    max-width: 220px;
+    max-height: 220px;
+  }
+
+  #wheel-view .playlist-name {
+    font-size: 20px;
+    margin-bottom: 4px;
+    margin-top: 0;
   }
 
   /* Playlists nav - vertical on mobile */
