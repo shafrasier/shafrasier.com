@@ -34,7 +34,6 @@ body:not(.light-mode) {
   left: 0;
   width: 100%;
   height: 100%;
-  height: 100svh; /* Stable viewport height - prevents jolt from mobile browser chrome */
   z-index: 0;
   pointer-events: none;
 }
@@ -264,8 +263,8 @@ body:not(.light-mode) {
 }
 
 #firebird-logo img {
-  width: 130%;
-  height: 130%;
+  width: 100%;
+  height: 100%;
 }
 
 /* Hover effects for LinkedIn, Instagram, Email */

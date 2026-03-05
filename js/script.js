@@ -13,18 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Apply the saved theme on page load
   // Icon shows what mode you'll switch TO, not current mode
-  const themeMeta = document.querySelector('meta[name="theme-color"]');
   const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
   if (currentTheme === 'light') {
     document.body.classList.add('light-mode');
-    document.documentElement.style.backgroundColor = '#f5f5f5';
-    if (themeMeta) themeMeta.setAttribute('content', '#f5f5f5');
     if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'light');
     if (moonIcon) moonIcon.style.display = 'block';  // Show moon in light mode (click to go dark)
     if (sunIcon) sunIcon.style.display = 'none';
   } else {
-    document.documentElement.style.backgroundColor = '#131313';
-    if (themeMeta) themeMeta.setAttribute('content', '#131313');
     if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'dark');
     if (moonIcon) moonIcon.style.display = 'none';
     if (sunIcon) sunIcon.style.display = 'block';  // Show sun in dark mode (click to go light)
@@ -36,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Remove focus/highlight on mobile after tap
       themeToggle.blur();
       document.body.classList.toggle('light-mode');
-      const themeMeta = document.querySelector('meta[name="theme-color"]');
 
       // Toggle icon visibility - show what mode you'll switch TO
       const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
@@ -44,17 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // In light mode, show moon (indicates you can switch to dark)
         if (moonIcon) moonIcon.style.display = 'block';
         if (sunIcon) sunIcon.style.display = 'none';
-        if (themeMeta) themeMeta.setAttribute('content', '#f5f5f5');
         if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'light');
-        document.documentElement.style.backgroundColor = '#f5f5f5';
         localStorage.setItem('theme', 'light');
       } else {
         // In dark mode, show sun (indicates you can switch to light)
         if (moonIcon) moonIcon.style.display = 'none';
         if (sunIcon) sunIcon.style.display = 'block';
-        if (themeMeta) themeMeta.setAttribute('content', '#131313');
         if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'dark');
-        document.documentElement.style.backgroundColor = '#131313';
         localStorage.setItem('theme', 'dark');
       }
     });
