@@ -544,18 +544,17 @@ body.light-mode #beli-logo:active img {
   mix-blend-mode: multiply !important;
 }
 
-/* Light mode - Firebird: same as Beli - grayscale + contrast for stark black */
+/* Light mode - Firebird: force all strokes to uniform black */
 body.light-mode #firebird-logo img {
-  filter: grayscale(1) contrast(5) !important;
-  mix-blend-mode: normal !important;
+  filter: brightness(0) !important;
 }
 
 body.light-mode #firebird-logo:hover img {
-  filter: grayscale(1) contrast(5) brightness(0.8) !important;
+  filter: brightness(0) opacity(0.7) !important;
 }
 
 body.light-mode #firebird-logo:active img {
-  filter: grayscale(1) contrast(5) brightness(0.6) !important;
+  filter: brightness(0) opacity(0.5) !important;
 }
 
 /* Invert Substack in light mode (it's white, needs to be dark) */
@@ -684,8 +683,9 @@ body.light-mode #substack-logo:active img {
 
   /* Remove sticky scale/translate transforms on hover */
   /* Note: .floating-button excluded — GSAP manages their transforms */
+  /* Note: .section-back/.playlists-back excluded — they use translateX(-50%) for centering on mobile */
   .social-icon:hover,
-  .back-button:hover,
+  .back-button:not(.section-back):not(.playlists-back):hover,
   .sheets-link:hover,
   .sheets-link:focus,
   .dropdown-button:hover,
