@@ -34,17 +34,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Toggle icon visibility - show what mode you'll switch TO
       const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
       if (document.body.classList.contains('light-mode')) {
         // In light mode, show moon (indicates you can switch to dark)
         if (moonIcon) moonIcon.style.display = 'block';
         if (sunIcon) sunIcon.style.display = 'none';
         if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'light');
+        if (themeColorMeta) themeColorMeta.setAttribute('content', '#f5f5f5');
+        document.documentElement.style.backgroundColor = '#f5f5f5';
         localStorage.setItem('theme', 'light');
       } else {
         // In dark mode, show sun (indicates you can switch to light)
         if (moonIcon) moonIcon.style.display = 'none';
         if (sunIcon) sunIcon.style.display = 'block';
         if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'dark');
+        if (themeColorMeta) themeColorMeta.setAttribute('content', '#1a1a1a');
+        document.documentElement.style.backgroundColor = '#1a1a1a';
         localStorage.setItem('theme', 'dark');
       }
     });

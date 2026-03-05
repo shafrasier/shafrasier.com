@@ -368,32 +368,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeline = gsap.timeline();
     const floatingContainer = document.querySelector('.floating-container');
 
-    // Reset playlists view to landing when returning home
-    const playlistsLanding = document.getElementById('playlists-landing');
-    const genreView = document.getElementById('genre-view');
-    const miscView = document.getElementById('misc-view');
-    const momentsView = document.getElementById('moments-view');
-    const diaryView = document.getElementById('diary-view');
-    const wheelView = document.getElementById('wheel-view');
-
-    // Hide all sub-views
-    if (wheelView) wheelView.classList.remove('active');
-    if (genreView) genreView.classList.remove('active');
-    if (miscView) miscView.classList.remove('active');
-    if (momentsView) momentsView.classList.remove('active');
-    if (diaryView) diaryView.classList.remove('active');
-    // Show landing view
-    if (playlistsLanding) playlistsLanding.classList.add('active');
-
     // Step 1: Fade out section content AND start camera zoom simultaneously
     document.querySelectorAll('.section-content').forEach(section => {
-      // Immediately set display none to prevent visual glitches
       timeline.to(section, {
         opacity: 0,
         duration: 0.4,
         ease: 'power2.in',
         onComplete: () => {
           section.style.display = 'none';
+
+          // Reset playlists view to landing AFTER fade-out to prevent flash
+          const playlistsLanding = document.getElementById('playlists-landing');
+          const genreView = document.getElementById('genre-view');
+          const miscView = document.getElementById('misc-view');
+          const momentsView = document.getElementById('moments-view');
+          const diaryView = document.getElementById('diary-view');
+          const wheelView = document.getElementById('wheel-view');
+          if (wheelView) wheelView.classList.remove('active');
+          if (genreView) genreView.classList.remove('active');
+          if (miscView) miscView.classList.remove('active');
+          if (momentsView) momentsView.classList.remove('active');
+          if (diaryView) diaryView.classList.remove('active');
+          if (playlistsLanding) playlistsLanding.classList.add('active');
         }
       }, 0);
     });

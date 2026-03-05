@@ -673,12 +673,10 @@ body.light-mode .section-inner {
     margin-left: 0;
   }
 
-  /* Move theme toggle next to social icons on mobile */
+  /* Keep theme toggle in bottom-right corner, vertically centered between icon rows */
+  /* Icon grid: 2 rows of 38px with 10px gap. Row gap center is 61px above wrapper bottom. */
   .theme-toggle {
-    right: auto;
-    /* Position after the 4-column icon grid: wrapper left (15px) + grid width (4×38 + 3×10 = 182px) + gap */
-    left: calc(15px + env(safe-area-inset-left, 0px) + 202px);
-    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(36px + env(safe-area-inset-bottom, 0px));
   }
 
 
@@ -702,7 +700,7 @@ body.light-mode .section-inner {
     transform: translateX(-50%) scale(0.95);
   }
 
-  .section-content .back-button {
+  .section-content .back-button:not(#backToGenres) {
     top: auto !important;
     bottom: calc(30px + env(safe-area-inset-bottom, 0px));
     left: 50% !important;
@@ -710,11 +708,19 @@ body.light-mode .section-inner {
     transform: translateX(-50%);
   }
 
-  .section-content .back-button:hover {
+  .section-content .back-button:not(#backToGenres):hover {
     transform: translateX(-50%) scale(1.1);
   }
 
-  .section-content .back-button:active {
+  .section-content .back-button:not(#backToGenres):active {
     transform: translateX(-50%) scale(0.95);
+  }
+
+  /* Wheel view back button stays at top-left */
+  #backToGenres {
+    position: fixed;
+    top: 30px !important;
+    left: 30px !important;
+    z-index: 100;
   }
 }
