@@ -631,59 +631,44 @@ document.addEventListener('DOMContentLoaded', () => {
   function animateArtworkTransition(direction, newPlaylist) {
     isAnimating = true;
 
-    // Curve-up arc animation: artwork exits curving upward, new one enters curving up from below
-    // Direction: 1 = next, -1 = prev
+    // Artwork follows the curvature of the wheel circle:
+    // NEXT (direction=1): current exits down-left, new enters from bottom-right
+    // PREV (direction=-1): current exits down-right, new enters from bottom-left
 
-    const playlistDisplay = document.querySelector('.playlist-display');
+    // Animate artwork container only (not the whole display)
+    const exitClass = direction === 1 ? 'artwork-exiting-left' : 'artwork-exiting-right';
+    const enterClass = direction === 1 ? 'artwork-entering-right' : 'artwork-entering-left';
 
-    // Enable hardware acceleration
-    playlistDisplay.style.willChange = 'transform, opacity';
-    playlistDisplay.style.backfaceVisibility = 'hidden';
-    playlistDisplay.style.perspective = '1000px';
-    playlistDisplay.style.transformOrigin = 'center bottom';
+    // Also fade the playlist name
+    playlistName.style.transition = 'opacity 0.25s ease-out';
+    playlistName.style.opacity = '0';
 
-    // Exit: curve up and away
-    playlistDisplay.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.6, 1), opacity 0.25s ease-out';
-    playlistDisplay.style.transform = direction === 1
-      ? 'translate3d(-30px, -60px, 0) rotate(-8deg) scale(0.9)'
-      : 'translate3d(30px, -60px, 0) rotate(8deg) scale(0.9)';
-    playlistDisplay.style.opacity = '0';
+    // Exit animation on artwork
+    artworkContainer.classList.add(exitClass);
 
-    // After fade out, update content and bring new one in from below
+    // After exit completes, swap content and enter
     setTimeout(() => {
+      // Remove exit class
+      artworkContainer.classList.remove(exitClass);
+
       // Update content
       playlistName.textContent = newPlaylist.name;
-
-      // Update genre description if exists
       updateGenreDescription(newPlaylist);
-
-      // Load new artwork (pass imageUrl if available)
       loadArtwork(newPlaylist.url, newPlaylist.imageUrl);
 
-      // Position for enter: start below, curved
-      playlistDisplay.style.transition = 'none';
-      playlistDisplay.style.transform = direction === 1
-        ? 'translate3d(30px, 40px, 0) rotate(5deg) scale(0.95)'
-        : 'translate3d(-30px, 40px, 0) rotate(-5deg) scale(0.95)';
+      // Fade name back in
+      playlistName.style.transition = 'opacity 0.3s ease-in';
+      playlistName.style.opacity = '1';
 
-      // Force reflow
-      playlistDisplay.offsetHeight;
-
-      // Enter: curve up into place
-      playlistDisplay.style.transition = 'transform 0.35s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.3s ease-in';
-      playlistDisplay.style.transform = 'translate3d(0, 0, 0) rotate(0deg) scale(1)';
-      playlistDisplay.style.opacity = '1';
+      // Enter animation on artwork
+      artworkContainer.classList.add(enterClass);
 
       setTimeout(() => {
+        artworkContainer.classList.remove(enterClass);
+        playlistName.style.transition = '';
         isAnimating = false;
-        // Clean up
-        playlistDisplay.style.transition = '';
-        playlistDisplay.style.willChange = '';
-        playlistDisplay.style.backfaceVisibility = '';
-        playlistDisplay.style.perspective = '';
-        playlistDisplay.style.transformOrigin = '';
-      }, 350);
-    }, 250);
+      }, 550);
+    }, 500);
   }
 
   function updateGenreDescription(playlist) {
