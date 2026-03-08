@@ -1811,11 +1811,14 @@ body.light-mode .article-link:active {
   /* Genre view - fit viewport, no scrolling */
   #genre-view {
     min-height: 100vh;
+    min-height: 100dvh;
     max-height: 100vh;
+    max-height: 100dvh;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     padding: 10px 12px calc(20px + env(safe-area-inset-bottom, 0px));
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .genre-view-header {
