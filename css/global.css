@@ -201,9 +201,9 @@ body.light-mode {
    BASE STYLES
    =================================== */
 
-/* HTML root background - must match body so iOS Safari toolbar areas blend seamlessly */
+/* HTML root background - transparent so iOS Safari toolbar blends with content */
 html {
-  background-color: #f5f5f5;
+  background-color: transparent;
 }
 
 /* Font Definitions */

@@ -845,21 +845,21 @@ body.light-mode .subgenre-pill.active {
 
 @media (max-width: 768px) {
   #genre-view {
-    height: 100%;
-    padding: 0 10px;
-    justify-content: center;
+    min-height: 100dvh;
+    padding: 60px 10px 100px;
+    justify-content: flex-start;
     overflow: hidden;
     box-sizing: border-box;
   }
 
   .genre-view-header {
-    margin-top: 0;
+    margin-top: 40px;
     margin-bottom: 0;
   }
 
   .genre-grid {
     gap: 18px 10px;
-    margin-top: 32px;
+    margin-top: 24px;
     padding: 0 12px;
   }
 
