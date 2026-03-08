@@ -415,46 +415,67 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, 0);
 
-    // Step 3: Show and fade in home elements after section fades out (0.3s delay)
+    // Step 3: Show home elements at opacity 0, then fade everything in together
     timeline.add(() => {
       floatingContainer.style.display = 'block';
 
-      // Show CE button when returning home
+      // Prepare CE button (hidden, ready to fade)
       const ceButton = document.querySelector('.ce-button');
       if (ceButton) {
         ceButton.style.display = 'flex';
-        ceButton.style.opacity = '1';
+        ceButton.style.opacity = '0';
       }
 
-      // Show social icons wrapper when returning home
+      // Prepare social icons wrapper (hidden, ready to fade)
       const socialWrapper = document.querySelector('.social-icons-wrapper');
       if (socialWrapper) {
         socialWrapper.style.visibility = 'visible';
-        socialWrapper.style.opacity = '1';
-        socialWrapper.style.pointerEvents = 'auto';
+        socialWrapper.style.opacity = '0';
+        socialWrapper.style.pointerEvents = 'none';
       }
 
-      // Show theme toggle when returning home
+      // Prepare theme toggle (hidden, ready to fade)
       const themeToggleBtn = document.getElementById('theme-toggle');
       if (themeToggleBtn) {
         themeToggleBtn.style.display = 'flex';
-        themeToggleBtn.style.opacity = '1';
+        themeToggleBtn.style.opacity = '0';
       }
     }, 0.3);
 
+    // Fade in all home elements together smoothly
     timeline.to(floatingButtons, {
       opacity: 1,
       scale: 1,
-      duration: 0.6,
-      ease: 'power2.out'
-    }, 0.4);
+      duration: 0.8,
+      ease: 'power2.out',
+      stagger: 0.06
+    }, 0.5);
 
     timeline.to('.social-icons-container', {
       opacity: 1,
       pointerEvents: 'auto',
-      duration: 0.6,
+      duration: 0.8,
       ease: 'power2.out'
-    }, 0.4);
+    }, 0.5);
+
+    timeline.to('.social-icons-wrapper', {
+      opacity: 1,
+      pointerEvents: 'auto',
+      duration: 0.8,
+      ease: 'power2.out'
+    }, 0.5);
+
+    timeline.to('.ce-button', {
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power2.out'
+    }, 0.55);
+
+    timeline.to('#theme-toggle', {
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power2.out'
+    }, 0.55);
 
     currentSection = 'home';
   };

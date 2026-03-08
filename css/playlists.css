@@ -33,7 +33,7 @@ body {
    =================================== */
 
 #genre-view {
-  padding: 80px 20px 120px;
+  padding: 80px 10px 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,7 +55,7 @@ body {
 .genre-view-header {
   text-align: center;
   margin-top: 60px;
-  margin-bottom: -30px;
+  margin-bottom: 0;
 }
 
 .genre-view-title {
@@ -75,21 +75,22 @@ body {
 }
 
 .genre-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-md, 32px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
   max-width: 700px;
   width: 100%;
   margin-top: 60px;
-  padding: 0 20px;
+  padding: 0 16px;
 }
 
 .genre-folder {
-  aspect-ratio: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 14px 24px;
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.1) 0%,
@@ -99,7 +100,7 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-md, 16px);
+  border-radius: 50px;
   box-shadow:
     0 4px 15px rgba(0, 0, 0, 0.2),
     inset 0 1px 1px rgba(255, 255, 255, 0.08),
@@ -237,18 +238,19 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  padding-bottom: 220px; /* Extra space for genre description above wheel */
+  padding-bottom: 120px; /* Reduced - artwork overlaps the wheel */
 }
 
 #wheel-view.active {
   display: flex;
 }
 
-/* Back button container - top left */
+/* Back button container - top center, away from wheel */
 .wheel-back-container {
   position: fixed;
   top: 20px;
-  left: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 100;
 }
 
@@ -275,11 +277,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 20px 20px 40px;
+  justify-content: flex-end;
+  padding: 20px 20px 0;
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
+  position: relative;
+  z-index: 55;
   /* GPU acceleration for buttery smooth animations */
   transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
@@ -323,6 +327,7 @@ body {
   box-shadow: var(--shadow-lg, 0 12px 40px rgba(0, 0, 0, 0.5));
   background: var(--glass-bg, rgba(255, 255, 255, 0.08));
   position: relative;
+  z-index: 60;
 }
 
 .playlist-artwork {
@@ -392,86 +397,105 @@ body.light-mode .artwork-container {
 
 /* ===================================
    CURVED ARC ANIMATIONS
+   Artwork follows the curvature of the circle (wheel).
+   NEXT: exit curves down-left, enter rises from bottom-right.
+   PREV: exit curves down-right, enter rises from bottom-left.
    =================================== */
 
-/* Artwork entering from bottom-left (for NEXT) */
-@keyframes artworkEnterFromLeft {
+/* NEXT: current artwork exits curving down to bottom-left */
+@keyframes artworkExitToBottomLeft {
   0% {
-    transform: translate(-150%, 100%) rotate(-15deg);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(-50%, 20%) rotate(-5deg);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0) rotate(0deg) scale(1);
     opacity: 1;
   }
-}
-
-/* Artwork exiting to bottom-right (for NEXT) */
-@keyframes artworkExitToRight {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-    opacity: 1;
+  30% {
+    transform: translate(-20%, 30%) rotate(-6deg) scale(0.92);
+    opacity: 0.9;
   }
-  50% {
-    transform: translate(50%, 20%) rotate(5deg);
-    opacity: 0.8;
+  60% {
+    transform: translate(-60%, 80%) rotate(-12deg) scale(0.8);
+    opacity: 0.5;
   }
   100% {
-    transform: translate(150%, 100%) rotate(15deg);
+    transform: translate(-120%, 140%) rotate(-18deg) scale(0.6);
     opacity: 0;
   }
 }
 
-/* Artwork entering from bottom-right (for PREV) */
-@keyframes artworkEnterFromRight {
+/* NEXT: new artwork enters rising from bottom-right */
+@keyframes artworkEnterFromBottomRight {
   0% {
-    transform: translate(150%, 100%) rotate(15deg);
+    transform: translate(120%, 140%) rotate(18deg) scale(0.6);
     opacity: 0;
   }
-  50% {
-    transform: translate(50%, 20%) rotate(5deg);
-    opacity: 0.8;
+  40% {
+    transform: translate(60%, 80%) rotate(12deg) scale(0.8);
+    opacity: 0.5;
+  }
+  70% {
+    transform: translate(20%, 30%) rotate(6deg) scale(0.92);
+    opacity: 0.9;
   }
   100% {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0) rotate(0deg) scale(1);
     opacity: 1;
   }
 }
 
-/* Artwork exiting to bottom-left (for PREV) */
-@keyframes artworkExitToLeft {
+/* PREV: current artwork exits curving down to bottom-right */
+@keyframes artworkExitToBottomRight {
   0% {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0) rotate(0deg) scale(1);
     opacity: 1;
   }
-  50% {
-    transform: translate(-50%, 20%) rotate(-5deg);
-    opacity: 0.8;
+  30% {
+    transform: translate(20%, 30%) rotate(6deg) scale(0.92);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translate(60%, 80%) rotate(12deg) scale(0.8);
+    opacity: 0.5;
   }
   100% {
-    transform: translate(-150%, 100%) rotate(-15deg);
+    transform: translate(120%, 140%) rotate(18deg) scale(0.6);
     opacity: 0;
   }
 }
 
-.artwork-entering-left {
-  animation: artworkEnterFromLeft 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-.artwork-exiting-right {
-  animation: artworkExitToRight 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-.artwork-entering-right {
-  animation: artworkEnterFromRight 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+/* PREV: new artwork enters rising from bottom-left */
+@keyframes artworkEnterFromBottomLeft {
+  0% {
+    transform: translate(-120%, 140%) rotate(-18deg) scale(0.6);
+    opacity: 0;
+  }
+  40% {
+    transform: translate(-60%, 80%) rotate(-12deg) scale(0.8);
+    opacity: 0.5;
+  }
+  70% {
+    transform: translate(-20%, 30%) rotate(-6deg) scale(0.92);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
 }
 
 .artwork-exiting-left {
-  animation: artworkExitToLeft 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation: artworkExitToBottomLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.artwork-entering-right {
+  animation: artworkEnterFromBottomRight 0.55s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+}
+
+.artwork-exiting-right {
+  animation: artworkExitToBottomRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.artwork-entering-left {
+  animation: artworkEnterFromBottomLeft 0.55s cubic-bezier(0.2, 0, 0.2, 1) forwards;
 }
 
 /* Name fade animation */
@@ -821,9 +845,13 @@ body.light-mode .subgenre-pill.active {
 
 @media (max-width: 768px) {
   .genre-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-sm, 16px);
+    gap: 10px;
     margin-top: 40px;
+    padding: 0 12px;
+  }
+
+  .genre-folder {
+    padding: 12px 18px;
   }
 
   .folder-label {
@@ -831,12 +859,12 @@ body.light-mode .subgenre-pill.active {
   }
 
   .playlist-display {
-    padding: 20px;
+    padding: 20px 20px 0;
   }
 
   .artwork-container {
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
   }
 
   .playlist-name {
@@ -844,9 +872,9 @@ body.light-mode .subgenre-pill.active {
   }
 
   .click-wheel {
-    width: 240px;
-    height: 240px;
-    bottom: calc(-80px + env(safe-area-inset-bottom, 0px));
+    width: 280px;
+    height: 280px;
+    bottom: calc(-100px + env(safe-area-inset-bottom, 0px));
   }
 
   .wheel-center {
@@ -862,13 +890,16 @@ body.light-mode .subgenre-pill.active {
 
 @media (max-width: 480px) {
   .genre-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6, 12px);
+    gap: 8px;
     padding: 0 10px;
   }
 
+  .genre-folder {
+    padding: 10px 16px;
+  }
+
   .folder-label {
-    font-size: var(--font-size-caption, 11px); /* Minimum 11px for legibility */
+    font-size: var(--font-size-caption, 11px);
   }
 
   .search-bar {
@@ -877,19 +908,19 @@ body.light-mode .subgenre-pill.active {
   }
 
   .artwork-container {
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
   }
 
   .playlist-name {
     font-size: 20px;
-    margin-top: 20px;
+    margin-top: 16px;
   }
 
   .click-wheel {
-    width: 220px;
-    height: 220px;
-    bottom: calc(-70px + env(safe-area-inset-bottom, 0px));
+    width: 260px;
+    height: 260px;
+    bottom: calc(-90px + env(safe-area-inset-bottom, 0px));
   }
 
   .wheel-center {
