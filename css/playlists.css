@@ -844,9 +844,22 @@ body.light-mode .subgenre-pill.active {
    =================================== */
 
 @media (max-width: 768px) {
+  #genre-view {
+    height: 100%;
+    padding: 0 10px;
+    justify-content: center;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .genre-view-header {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .genre-grid {
-    gap: 10px;
-    margin-top: 40px;
+    gap: 18px 10px;
+    margin-top: 32px;
     padding: 0 12px;
   }
 
@@ -889,8 +902,13 @@ body.light-mode .subgenre-pill.active {
 }
 
 @media (max-width: 480px) {
+  #genre-view {
+    padding: 0 10px;
+  }
+
   .genre-grid {
-    gap: 8px;
+    gap: 14px 8px;
+    margin-top: 24px;
     padding: 0 10px;
   }
 
