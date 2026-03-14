@@ -201,10 +201,8 @@ body.light-mode {
    BASE STYLES
    =================================== */
 
-/* HTML root background - transparent so iOS Safari toolbar blends with content */
-html {
-  background-color: transparent;
-}
+/* HTML root background is set in spatial.css to match dark/light mode
+   so iOS Safari toolbar tints correctly. */
 
 /* Font Definitions */
 /* Futura: system font on macOS/iOS, primary typeface for all text.
