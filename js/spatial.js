@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
       opacity: 1,
       scale: 1,
       duration: 0.8,
-      ease: 'power2.out',
+      ease: 'none',
       stagger: 0.06
     }, 0.5);
 
