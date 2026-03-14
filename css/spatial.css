@@ -7,7 +7,11 @@
 }
 
 html {
-  background-color: #f5f5f5; /* Match body for browser chrome / safe area */
+  background-color: #131313; /* Dark mode default for browser chrome / safe area */
+}
+
+html:has(body.light-mode) {
+  background-color: #f5f5f5;
 }
 
 body {
