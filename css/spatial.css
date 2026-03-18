@@ -8,6 +8,7 @@
 
 html {
   background-color: #131313; /* Dark mode default for browser chrome / safe area */
+  overscroll-behavior: none; /* Prevent rubber-band bounce revealing white background */
 }
 
 html:has(body.light-mode) {
@@ -16,20 +17,18 @@ html:has(body.light-mode) {
 
 body {
   font-family: Futura, sans-serif;
-  background: #f5f5f5; /* Light mode default */
+  background: #131313; /* Match html background to prevent any flash */
   margin: 0;
   padding: 0;
   overflow: hidden;
+  overscroll-behavior: none; /* Prevent rubber-band bounce revealing white background */
   position: relative;
   width: 100vw;
   height: 100vh;
-  height: 100svh; /* Stable viewport height - prevents jolt from mobile browser chrome */
+  height: 100dvh; /* Dynamic viewport height - fills entire viewport including safe areas */
 }
 
-/* Dark mode background */
-body:not(.light-mode) {
-  background: #131313;
-}
+/* Light mode background override is in global.css (body.light-mode) */
 
 /* Three.js Canvas Background
    Wrapped in a clip container so Safari 26 Liquid Glass
@@ -684,8 +683,8 @@ body.light-mode .section-inner {
   }
 
   .ce-button {
-    width: 140px; /* Smaller on mobile */
-    margin-left: 0;
+    width: 160px; /* Slightly wider to show full script */
+    margin-left: -25px; /* Shift left so "Education" centers over icon grid */
   }
 
   /* Keep theme toggle in bottom-right corner, vertically centered between icon rows */
