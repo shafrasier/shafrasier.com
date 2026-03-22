@@ -268,10 +268,10 @@ body.light-mode {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: none;
   display: flex;
   align-items: center;
@@ -282,20 +282,20 @@ body.light-mode {
     border-color 0.3s ease,
     box-shadow 0.4s ease;
   z-index: 15; /* Below section-content (50) so sections naturally cover the toggle */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: none;
 }
 
 .theme-toggle:hover {
   transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
 }
 
 .theme-toggle:active {
   transform: scale(0.95);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
 }
 
 .theme-toggle svg {
@@ -347,12 +347,21 @@ body.light-mode {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Section back buttons - fixed top-left */
+/* Section back buttons - fixed bottom center */
 .section-back {
   position: fixed;
-  top: 30px;
-  left: 30px;
+  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 100;
+}
+
+.section-back:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.section-back:active {
+  transform: translateX(-50%) scale(0.95);
 }
 
 /* Back button icon - white in dark mode */

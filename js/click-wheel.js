@@ -724,8 +724,8 @@ document.addEventListener('DOMContentLoaded', () => {
         artworkContainer.classList.remove(artEnterClass);
         playlistName.classList.remove(nameEnterClass);
         isAnimating = false;
-      }, 550);
-    }, 500);
+      }, 400);
+    }, 350);
   }
 
   function updateGenreDescription(playlist) {
@@ -965,33 +965,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Touch/swipe support for wheel
+  // Touch/swipe support - works on the entire wheel view for seamless swiping
   let touchStartX = 0;
-  let touchEndX = 0;
+  let touchStartY = 0;
+  let isSwiping = false;
 
-  const wheelElement = document.getElementById('clickWheel');
-  if (wheelElement) {
-    wheelElement.addEventListener('touchstart', (e) => {
+  if (wheelView) {
+    wheelView.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+      isSwiping = false;
     }, { passive: true });
 
-    wheelElement.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, { passive: true });
-  }
-
-  function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchEndX - touchStartX;
-
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0) {
-        navigate(-1); // Swipe right = previous
-      } else {
-        navigate(1); // Swipe left = next
+    wheelView.addEventListener('touchmove', (e) => {
+      if (!wheelView.classList.contains('active')) return;
+      const dx = Math.abs(e.changedTouches[0].screenX - touchStartX);
+      const dy = Math.abs(e.changedTouches[0].screenY - touchStartY);
+      // If horizontal swipe is dominant, mark as swiping
+      if (dx > dy && dx > 10) {
+        isSwiping = true;
       }
-    }
+    }, { passive: true });
+
+    wheelView.addEventListener('touchend', (e) => {
+      if (!wheelView.classList.contains('active')) return;
+      const touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      const swipeThreshold = 40;
+
+      if (isSwiping && Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          navigate(-1); // Swipe right = previous
+        } else {
+          navigate(1); // Swipe left = next
+        }
+      }
+    }, { passive: true });
   }
 
   // Search input

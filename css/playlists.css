@@ -51,6 +51,12 @@ body {
   z-index: 100;
 }
 
+/* Wheel view back button - top center (bottom is occupied by click wheel) */
+#backToGenres {
+  bottom: auto;
+  top: 30px;
+}
+
 /* Genre view header */
 .genre-view-header {
   text-align: center;
@@ -77,7 +83,7 @@ body {
 .genre-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px 14px;
+  gap: 24px 18px;
   justify-content: center;
   max-width: 700px;
   width: 100%;
@@ -485,19 +491,19 @@ body.light-mode .artwork-container {
 }
 
 .artwork-exiting-left {
-  animation: artworkExitToBottomLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  animation: artworkExitToBottomLeft 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
 }
 
 .artwork-entering-right {
-  animation: artworkEnterFromBottomRight 0.55s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
+  animation: artworkEnterFromBottomRight 0.4s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
 }
 
 .artwork-exiting-right {
-  animation: artworkExitToBottomRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  animation: artworkExitToBottomRight 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
 }
 
 .artwork-entering-left {
-  animation: artworkEnterFromBottomLeft 0.55s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
+  animation: artworkEnterFromBottomLeft 0.4s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
 }
 
 /* Name fade animation */
@@ -562,19 +568,19 @@ body.light-mode .artwork-container {
 }
 
 .name-exiting-left {
-  animation: nameExitLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: nameExitLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .name-entering-right {
-  animation: nameEnterFromRight 0.45s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+  animation: nameEnterFromRight 0.35s cubic-bezier(0.2, 0, 0.2, 1) forwards;
 }
 
 .name-exiting-right {
-  animation: nameExitRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: nameExitRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .name-entering-left {
-  animation: nameEnterFromLeft 0.45s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+  animation: nameEnterFromLeft 0.35s cubic-bezier(0.2, 0, 0.2, 1) forwards;
 }
 
 /* ===================================
@@ -652,14 +658,16 @@ body.light-mode .artwork-container {
   border-radius: 50%;
   background: linear-gradient(
     145deg,
-    rgba(60, 60, 60, 0.95) 0%,
-    rgba(35, 35, 35, 0.98) 100%
+    rgba(60, 60, 60, 0.65) 0%,
+    rgba(35, 35, 35, 0.7) 100%
   );
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
-    0 -10px 40px rgba(0, 0, 0, 0.4),
-    inset 0 2px 20px rgba(255, 255, 255, 0.05),
-    inset 0 -5px 20px rgba(0, 0, 0, 0.3);
+    0 -10px 40px rgba(0, 0, 0, 0.2),
+    inset 0 2px 20px rgba(255, 255, 255, 0.03),
+    inset 0 -5px 20px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -673,13 +681,13 @@ body.light-mode .artwork-container {
   border-radius: 50%;
   background: linear-gradient(
     145deg,
-    rgba(80, 80, 80, 0.9) 0%,
-    rgba(50, 50, 50, 0.95) 100%
+    rgba(80, 80, 80, 0.6) 0%,
+    rgba(50, 50, 50, 0.65) 100%
   );
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
-    0 4px 15px rgba(0, 0, 0, 0.3),
-    inset 0 1px 5px rgba(255, 255, 255, 0.1);
+    0 4px 15px rgba(0, 0, 0, 0.15),
+    inset 0 1px 5px rgba(255, 255, 255, 0.05);
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -823,23 +831,23 @@ body.light-mode .search-bar:focus {
 body.light-mode .click-wheel {
   background: linear-gradient(
     145deg,
-    rgba(230, 230, 230, 0.98) 0%,
-    rgba(200, 200, 200, 0.98) 100%
+    rgba(230, 230, 230, 0.6) 0%,
+    rgba(200, 200, 200, 0.65) 100%
   );
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.06);
   box-shadow:
-    0 -10px 40px rgba(0, 0, 0, 0.1),
-    inset 0 2px 20px rgba(255, 255, 255, 0.5),
-    inset 0 -5px 20px rgba(0, 0, 0, 0.05);
+    0 -10px 40px rgba(0, 0, 0, 0.05),
+    inset 0 2px 20px rgba(255, 255, 255, 0.3),
+    inset 0 -5px 20px rgba(0, 0, 0, 0.03);
 }
 
 body.light-mode .wheel-center {
   background: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(220, 220, 220, 0.95) 100%
+    rgba(255, 255, 255, 0.65) 0%,
+    rgba(220, 220, 220, 0.6) 100%
   );
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.06);
   color: var(--color-text, #2a2a2a);
 }
 
@@ -921,7 +929,7 @@ body.light-mode .subgenre-pill.active {
   }
 
   .genre-grid {
-    gap: 20px 12px;
+    gap: 24px 16px;
     margin-top: 24px;
     padding: 0 12px;
   }
@@ -970,7 +978,7 @@ body.light-mode .subgenre-pill.active {
   }
 
   .genre-grid {
-    gap: 16px 10px;
+    gap: 20px 14px;
     margin-top: 24px;
     padding: 0 10px;
   }
