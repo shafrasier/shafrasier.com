@@ -33,7 +33,7 @@ body {
    =================================== */
 
 #genre-view {
-  padding: 80px 10px 120px;
+  padding: 30px 10px 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,7 +60,7 @@ body {
 /* Genre view header */
 .genre-view-header {
   text-align: center;
-  margin-top: 60px;
+  margin-top: 20px;
   margin-bottom: 0;
 }
 
@@ -917,14 +917,14 @@ body.light-mode .subgenre-pill.active {
 @media (max-width: 768px) {
   #genre-view {
     min-height: 100dvh;
-    padding: 60px 10px 100px;
+    padding: 20px 10px 100px;
     justify-content: flex-start;
     overflow: hidden;
     box-sizing: border-box;
   }
 
   .genre-view-header {
-    margin-top: 40px;
+    margin-top: 10px;
     margin-bottom: 0;
   }
 
