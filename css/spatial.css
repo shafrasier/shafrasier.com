@@ -695,7 +695,8 @@ body.light-mode .section-inner {
 
 
   /* Move all back/close buttons to bottom-center on mobile for thumb reachability */
-  .section-back,
+  /* Exclude #backToGenres — it stays top center (bottom is occupied by click wheel) */
+  .section-back:not(#backToGenres),
   .section-content .back-button {
     top: auto !important;
     bottom: calc(30px + env(safe-area-inset-bottom, 0px));
@@ -704,12 +705,12 @@ body.light-mode .section-inner {
     transform: translateX(-50%);
   }
 
-  .section-back:hover,
+  .section-back:not(#backToGenres):hover,
   .section-content .back-button:hover {
     transform: translateX(-50%) scale(1.1);
   }
 
-  .section-back:active,
+  .section-back:not(#backToGenres):active,
   .section-content .back-button:active {
     transform: translateX(-50%) scale(0.95);
   }
