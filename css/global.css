@@ -347,10 +347,10 @@ body.light-mode {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Section back buttons - fixed top center */
+/* Section back buttons - fixed bottom center */
 .section-back {
   position: fixed;
-  top: 30px;
+  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;

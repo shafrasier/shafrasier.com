@@ -51,6 +51,12 @@ body {
   z-index: 100;
 }
 
+/* Genre view back button - top center */
+#genre-view > .section-back {
+  bottom: auto;
+  top: 30px;
+}
+
 /* Genre view header */
 .genre-view-header {
   text-align: center;
