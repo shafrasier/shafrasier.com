@@ -112,7 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
           y: 0,
           rotateY: 0,
           duration: 0.4,
-          ease: 'power2.out'
+          ease: 'power2.out',
+          onComplete: () => {
+            // Clear inline transform so position:fixed children work correctly
+            targetView.style.transform = '';
+          }
         });
       } else {
         targetView.classList.add('active');
@@ -215,6 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.returnToPlaylistsLanding = function() {
     const views = [genreView, miscView, momentsView, diaryView, wheelView];
 
+    // Hide wheel back button if visible
+    if (backToGenres) {
+      backToGenres.style.display = 'none';
+    }
+
     // Find the currently active view
     const activeView = views.find(v => v && v.classList.contains('active'));
     if (!activeView) return;
@@ -227,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
       onComplete: () => {
         activeView.classList.remove('active');
         activeView.style.opacity = '';
+        activeView.style.transform = '';
 
         // Kill any in-flight fade/scale tweens on nav buttons, then reset visibility
         playlistNavBtns.forEach(b => {
@@ -496,11 +506,48 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===================================
 
   function showGenreView() {
-    // Return to whichever genre grid we came from, with animation
-    const targetView = previousGenreView || 'genre-view';
-    showPlaylistsView(targetView, 'down');
+    // Return to whichever genre grid we came from
+    // Use the same fade pattern as returnToPlaylistsLanding (no directional shift)
+    const targetViewId = previousGenreView || 'genre-view';
+    const targetView = document.getElementById(targetViewId);
+
+    // Hide the wheel back button
+    if (backToGenres) {
+      backToGenres.style.display = 'none';
+    }
+
+    // Fade out wheel view
+    if (typeof gsap !== 'undefined') {
+      gsap.to(wheelView, {
+        opacity: 0,
+        duration: 0.4,
+        ease: 'power2.in',
+        onComplete: () => {
+          wheelView.classList.remove('active');
+          wheelView.style.opacity = '';
+          // Clear any GSAP inline transforms
+          wheelView.style.transform = '';
+
+          // Show target genre view with fade in
+          if (targetView) {
+            targetView.style.opacity = '0';
+            targetView.classList.add('active');
+            gsap.to(targetView, {
+              opacity: 1,
+              duration: 0.8,
+              ease: 'power2.out'
+            });
+          }
+        }
+      });
+    } else {
+      wheelView.classList.remove('active');
+      if (targetView) targetView.classList.add('active');
+    }
+
     currentGenre = null;
     currentSubgenre = null;
+    currentPlaylistView = targetViewId;
 
     // Clear search bar state when returning to genre view
     if (searchBar) {
@@ -531,6 +578,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Animate into wheel view
     showPlaylistsView('wheel-view', 'up');
+
+    // Show the wheel back button
+    if (backToGenres) {
+      backToGenres.style.display = '';
+    }
+
+    // Clear any stale GSAP transforms on wheel-view after enter animation completes
+    // so that position: fixed children work correctly
+    setTimeout(() => {
+      if (wheelView) {
+        wheelView.style.transform = '';
+      }
+    }, 700);
 
     // Display first playlist
     updatePlaylistDisplay(0);
@@ -635,37 +695,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // NEXT (direction=1): current exits down-left, new enters from bottom-right
     // PREV (direction=-1): current exits down-right, new enters from bottom-left
 
-    // Animate artwork container only (not the whole display)
-    const exitClass = direction === 1 ? 'artwork-exiting-left' : 'artwork-exiting-right';
-    const enterClass = direction === 1 ? 'artwork-entering-right' : 'artwork-entering-left';
+    // Animate artwork container AND playlist name together
+    const artExitClass = direction === 1 ? 'artwork-exiting-left' : 'artwork-exiting-right';
+    const artEnterClass = direction === 1 ? 'artwork-entering-right' : 'artwork-entering-left';
+    const nameExitClass = direction === 1 ? 'name-exiting-left' : 'name-exiting-right';
+    const nameEnterClass = direction === 1 ? 'name-entering-right' : 'name-entering-left';
 
-    // Also fade the playlist name
-    playlistName.style.transition = 'opacity 0.25s ease-out';
-    playlistName.style.opacity = '0';
-
-    // Exit animation on artwork
-    artworkContainer.classList.add(exitClass);
+    // Exit animations on artwork and name
+    artworkContainer.classList.add(artExitClass);
+    playlistName.classList.add(nameExitClass);
 
     // After exit completes, swap content and enter
     setTimeout(() => {
-      // Remove exit class
-      artworkContainer.classList.remove(exitClass);
+      // Remove exit classes
+      artworkContainer.classList.remove(artExitClass);
+      playlistName.classList.remove(nameExitClass);
 
       // Update content
       playlistName.textContent = newPlaylist.name;
       updateGenreDescription(newPlaylist);
       loadArtwork(newPlaylist.url, newPlaylist.imageUrl);
 
-      // Fade name back in
-      playlistName.style.transition = 'opacity 0.3s ease-in';
-      playlistName.style.opacity = '1';
-
-      // Enter animation on artwork
-      artworkContainer.classList.add(enterClass);
+      // Enter animations on artwork and name
+      artworkContainer.classList.add(artEnterClass);
+      playlistName.classList.add(nameEnterClass);
 
       setTimeout(() => {
-        artworkContainer.classList.remove(enterClass);
-        playlistName.style.transition = '';
+        artworkContainer.classList.remove(artEnterClass);
+        playlistName.classList.remove(nameEnterClass);
         isAnimating = false;
       }, 550);
     }, 500);
