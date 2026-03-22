@@ -384,7 +384,13 @@ document.addEventListener('DOMContentLoaded', () => {
           const momentsView = document.getElementById('moments-view');
           const diaryView = document.getElementById('diary-view');
           const wheelView = document.getElementById('wheel-view');
-          if (wheelView) wheelView.classList.remove('active');
+          if (wheelView) {
+            wheelView.classList.remove('active');
+            wheelView.style.transform = '';
+          }
+          // Hide wheel back button
+          const backToGenres = document.getElementById('backToGenres');
+          if (backToGenres) backToGenres.style.display = 'none';
           if (genreView) genreView.classList.remove('active');
           if (miscView) miscView.classList.remove('active');
           if (momentsView) momentsView.classList.remove('active');
