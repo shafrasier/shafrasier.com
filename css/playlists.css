@@ -51,8 +51,7 @@ body {
   z-index: 100;
 }
 
-/* Genre and wheel view back buttons - top center (bottom is occupied by click wheel) */
-#genre-view > .section-back,
+/* Wheel view back button - top center (bottom is occupied by click wheel) */
 #backToGenres {
   bottom: auto;
   top: 30px;
