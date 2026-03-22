@@ -355,10 +355,16 @@ body.light-mode .playlist-nav-btn:hover {
 
 /* Back button positioning handled by .section-back in global.css */
 
+/* Wheel view back button - top center (bottom is occupied by click wheel) */
+#backToGenres {
+  bottom: auto;
+  top: 30px;
+}
+
 /* Genre view header */
 .genre-view-header {
   text-align: center;
-  margin-top: 60px;
+  margin-top: 20px;
   margin-bottom: -30px;
 }
 
@@ -1819,7 +1825,7 @@ body.light-mode .article-link:active {
     height: 100dvh;
     overflow: hidden;
     padding: 10px 12px calc(20px + env(safe-area-inset-bottom, 0px));
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .genre-view-header {
