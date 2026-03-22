@@ -355,10 +355,16 @@ body.light-mode .playlist-nav-btn:hover {
 
 /* Back button positioning handled by .section-back in global.css */
 
+/* Wheel view back button - top center (bottom is occupied by click wheel) */
+#backToGenres {
+  bottom: auto;
+  top: 30px;
+}
+
 /* Genre view header */
 .genre-view-header {
   text-align: center;
-  margin-top: 60px;
+  margin-top: 20px;
   margin-bottom: -30px;
 }
 
@@ -1233,6 +1239,112 @@ body.light-mode .moment-item:hover .moment-title {
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* Back button container (used on writing/sheets pages) */
+.back-button-container {
+  position: fixed;
+  top: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+/* ===================================
+   CURVED ARC ANIMATIONS
+   Artwork follows the curvature of the circle (wheel).
+   NEXT: exit curves down-left, enter rises from bottom-right.
+   PREV: exit curves down-right, enter rises from bottom-left.
+   =================================== */
+
+@keyframes artworkExitToBottomLeft {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+  30% { transform: translate(-20%, 30%) rotate(-6deg) scale(0.92); opacity: 0.9; }
+  60% { transform: translate(-60%, 80%) rotate(-12deg) scale(0.8); opacity: 0.5; }
+  100% { transform: translate(-120%, 140%) rotate(-18deg) scale(0.6); opacity: 0; }
+}
+
+@keyframes artworkEnterFromBottomRight {
+  0% { transform: translate(120%, 140%) rotate(18deg) scale(0.6); opacity: 0; }
+  40% { transform: translate(60%, 80%) rotate(12deg) scale(0.8); opacity: 0.5; }
+  70% { transform: translate(20%, 30%) rotate(6deg) scale(0.92); opacity: 0.9; }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+}
+
+@keyframes artworkExitToBottomRight {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+  30% { transform: translate(20%, 30%) rotate(6deg) scale(0.92); opacity: 0.9; }
+  60% { transform: translate(60%, 80%) rotate(12deg) scale(0.8); opacity: 0.5; }
+  100% { transform: translate(120%, 140%) rotate(18deg) scale(0.6); opacity: 0; }
+}
+
+@keyframes artworkEnterFromBottomLeft {
+  0% { transform: translate(-120%, 140%) rotate(-18deg) scale(0.6); opacity: 0; }
+  40% { transform: translate(-60%, 80%) rotate(-12deg) scale(0.8); opacity: 0.5; }
+  70% { transform: translate(-20%, 30%) rotate(-6deg) scale(0.92); opacity: 0.9; }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+}
+
+.artwork-exiting-left {
+  animation: artworkExitToBottomLeft 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+.artwork-entering-right {
+  animation: artworkEnterFromBottomRight 0.4s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
+}
+
+.artwork-exiting-right {
+  animation: artworkExitToBottomRight 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+.artwork-entering-left {
+  animation: artworkEnterFromBottomLeft 0.4s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
+}
+
+/* Name transition animations */
+@keyframes nameFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes nameExitLeft {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(-60px) scale(0.9); }
+}
+
+@keyframes nameEnterFromRight {
+  0% { opacity: 0; transform: translateX(60px) scale(0.9); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes nameExitRight {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(60px) scale(0.9); }
+}
+
+@keyframes nameEnterFromLeft {
+  0% { opacity: 0; transform: translateX(-60px) scale(0.9); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.name-fade-in {
+  animation: nameFadeIn 0.3s ease forwards;
+}
+
+.name-exiting-left {
+  animation: nameExitLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.name-entering-right {
+  animation: nameEnterFromRight 0.35s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+}
+
+.name-exiting-right {
+  animation: nameExitRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.name-entering-left {
+  animation: nameEnterFromLeft 0.35s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+}
+
 /* ===================================
    WRITING SECTION
    =================================== */
@@ -1819,7 +1931,7 @@ body.light-mode .article-link:active {
     height: 100dvh;
     overflow: hidden;
     padding: 10px 12px calc(20px + env(safe-area-inset-bottom, 0px));
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .genre-view-header {
