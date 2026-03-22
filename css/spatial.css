@@ -695,31 +695,22 @@ body.light-mode .section-inner {
 
 
   /* Move all back/close buttons to bottom-center on mobile for thumb reachability */
-  .section-back,
+  /* Exclude #backToGenres — it stays top center (bottom is occupied by click wheel) */
+  .section-back:not(#backToGenres),
   .section-content .back-button {
     top: auto !important;
     bottom: calc(30px + env(safe-area-inset-bottom, 0px));
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%);
-    /* Prevent Safari 26 Liquid Glass from sampling backdrop-filter for toolbar tint.
-       Use slightly more opaque background to compensate for no blur. */
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: rgba(255, 255, 255, 0.25);
   }
 
-  body.light-mode .section-back,
-  body.light-mode .section-content .back-button {
-    background: rgba(255, 255, 255, 0.7);
-  }
-
-  .section-back:hover,
+  .section-back:not(#backToGenres):hover,
   .section-content .back-button:hover {
     transform: translateX(-50%) scale(1.1);
   }
 
-  .section-back:active,
+  .section-back:not(#backToGenres):active,
   .section-content .back-button:active {
     transform: translateX(-50%) scale(0.95);
   }
