@@ -14,16 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Apply the saved theme on page load
   // Icon shows what mode you'll switch TO, not current mode
   const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
-  const initThemeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
   if (currentTheme === 'light') {
     document.body.classList.add('light-mode');
     if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'light');
-    initThemeColorMetas.forEach(m => m.setAttribute('content', '#f5f5f5'));
     if (moonIcon) moonIcon.style.display = 'block';  // Show moon in light mode (click to go dark)
     if (sunIcon) sunIcon.style.display = 'none';
   } else {
     if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'dark');
-    initThemeColorMetas.forEach(m => m.setAttribute('content', '#131313'));
     if (moonIcon) moonIcon.style.display = 'none';
     if (sunIcon) sunIcon.style.display = 'block';  // Show sun in dark mode (click to go light)
   }
@@ -37,20 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Toggle icon visibility - show what mode you'll switch TO
       const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
-      const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
       if (document.body.classList.contains('light-mode')) {
         // In light mode, show moon (indicates you can switch to dark)
         if (moonIcon) moonIcon.style.display = 'block';
         if (sunIcon) sunIcon.style.display = 'none';
         if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'light');
-        themeColorMetas.forEach(m => m.setAttribute('content', '#f5f5f5'));
         localStorage.setItem('theme', 'light');
       } else {
         // In dark mode, show sun (indicates you can switch to light)
         if (moonIcon) moonIcon.style.display = 'none';
         if (sunIcon) sunIcon.style.display = 'block';
         if (colorSchemeMeta) colorSchemeMeta.setAttribute('content', 'dark');
-        themeColorMetas.forEach(m => m.setAttribute('content', '#131313'));
         localStorage.setItem('theme', 'dark');
       }
     });
