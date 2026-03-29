@@ -24,15 +24,15 @@ body {
   touch-action: manipulation; /* Prevent pinch-zoom without telling Safari page has no content */
   position: relative;
   width: 100vw;
-  height: 100vh;
-  height: 100dvh; /* Dynamic viewport height - fills entire viewport including safe areas */
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* Allow content to extend behind Safari toolbar for transparent toolbar */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Light mode background override is in global.css (body.light-mode) */
 
-/* Three.js Canvas Background
-   Wrapped in a clip container so Safari 26 Liquid Glass
-   does not sample the canvas for toolbar tinting. */
+/* Three.js Canvas Background */
 .canvas-wrapper {
   position: fixed;
   top: 0;
