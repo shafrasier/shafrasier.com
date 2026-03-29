@@ -1019,7 +1019,7 @@ body.light-mode .moment-item:hover .moment-title {
 .wheel-back-container {
   position: fixed;
   top: 30px;
-  left: 30px;
+  left: 40px;
   z-index: 100;
   width: auto;
   padding: 0;
@@ -1930,35 +1930,53 @@ body.light-mode .article-link:active {
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
-    padding: 10px 12px calc(20px + env(safe-area-inset-bottom, 0px));
+    padding: 10px 12px calc(80px + env(safe-area-inset-bottom, 0px));
     justify-content: flex-start;
   }
 
   .genre-view-header {
-    margin-top: 10px;
-    margin-bottom: 0;
+    display: none;
+  }
+
+  .diary-header .diary-title {
+    display: none;
   }
 
   .genre-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px 10px;
-    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: auto;
+    margin-bottom: auto;
     flex: 0 0 auto;
+    padding: 0 20px;
   }
 
   .genre-folder {
     aspect-ratio: auto;
-    padding: 10px 4px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    flex: 0 0 auto;
+    background: rgba(200, 200, 200, 0.35);
+    border-color: rgba(180, 180, 180, 0.4);
+  }
+
+  body.light-mode .genre-folder {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(255, 255, 255, 0.5);
   }
 
   .folder-label {
-    font-size: var(--font-size-caption, 12px);
+    font-size: 13px;
+    letter-spacing: 0.06em;
   }
 
   /* Make search bar flow below grid instead of fixed at bottom */
   #genre-view .search-container {
-    position: static;
+    position: relative;
     transform: none;
+    left: auto;
     width: 100%;
     max-width: 100%;
     margin-top: 12px;
@@ -2116,17 +2134,16 @@ body.light-mode .article-link:active {
   }
 
   .genre-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px 8px;
-    padding: 0 6px;
+    gap: 8px;
+    padding: 0 10px;
   }
 
   .genre-folder {
-    padding: 8px 2px;
+    padding: 9px 18px;
   }
 
   .folder-label {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .publication-header .heading {

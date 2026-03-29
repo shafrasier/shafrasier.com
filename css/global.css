@@ -350,9 +350,8 @@ body.light-mode {
 /* Section back buttons - fixed bottom center */
 .section-back {
   position: fixed;
-  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
-  left: 50%;
-  transform: translateX(-50%);
+  top: 30px;
+  left: 40px;
   z-index: 100;
 }
 

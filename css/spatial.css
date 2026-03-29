@@ -695,9 +695,9 @@ body.light-mode .section-inner {
 
 
   /* Move all back/close buttons to bottom-center on mobile for thumb reachability */
-  /* Exclude #backToGenres — it stays top center (bottom is occupied by click wheel) */
-  .section-back:not(#backToGenres),
-  .section-content .back-button {
+  /* Exclude wheel-view back button — it has its own fixed positioning */
+  .section-back,
+  .section-content .back-button:not(#backToGenres) {
     top: auto !important;
     bottom: calc(30px + env(safe-area-inset-bottom, 0px));
     left: 50% !important;
@@ -705,13 +705,13 @@ body.light-mode .section-inner {
     transform: translateX(-50%);
   }
 
-  .section-back:not(#backToGenres):hover,
-  .section-content .back-button:hover {
+  .section-back:hover,
+  .section-content .back-button:not(#backToGenres):hover {
     transform: translateX(-50%) scale(1.1);
   }
 
-  .section-back:not(#backToGenres):active,
-  .section-content .back-button:active {
+  .section-back:active,
+  .section-content .back-button:not(#backToGenres):active {
     transform: translateX(-50%) scale(0.95);
   }
 }

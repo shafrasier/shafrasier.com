@@ -506,45 +506,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===================================
 
   function showGenreView() {
-    // Return to whichever genre grid we came from
-    // Use the same fade pattern as returnToPlaylistsLanding (no directional shift)
     const targetViewId = previousGenreView || 'genre-view';
     const targetView = document.getElementById(targetViewId);
-
-    // Hide the wheel back button
-    if (backToGenres) {
-      backToGenres.style.display = 'none';
-    }
-
-    // Fade out wheel view
-    if (typeof gsap !== 'undefined') {
-      gsap.to(wheelView, {
-        opacity: 0,
-        duration: 0.4,
-        ease: 'power2.in',
-        onComplete: () => {
-          wheelView.classList.remove('active');
-          wheelView.style.opacity = '';
-          // Clear any GSAP inline transforms
-          wheelView.style.transform = '';
-
-          // Show target genre view with fade in
-          if (targetView) {
-            targetView.style.opacity = '0';
-            targetView.classList.add('active');
-            gsap.to(targetView, {
-              opacity: 1,
-              duration: 0.8,
-              ease: 'power2.out'
-            });
-          }
-        }
-      });
-    } else {
-      wheelView.classList.remove('active');
-      if (targetView) targetView.classList.add('active');
-    }
-
     currentGenre = null;
     currentSubgenre = null;
     currentPlaylistView = targetViewId;
@@ -557,6 +520,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const clearBtn = document.getElementById('searchClear');
     if (clearBtn) clearBtn.classList.remove('visible');
+
+    // Crossfade back to genre view — no y-offset to prevent jump
+    if (wheelView.classList.contains('active') && typeof gsap !== 'undefined') {
+      gsap.to(wheelView, {
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          wheelView.classList.remove('active');
+          wheelView.style.opacity = '';
+
+          gsap.set(targetView, { opacity: 0 });
+          targetView.classList.add('active');
+          gsap.to(targetView, {
+            opacity: 1,
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+        }
+      });
+    } else {
+      showPlaylistsView(targetViewId, 'center');
+    }
+    currentPlaylistView = targetViewId;
   }
 
   function showWheelView(genre) {
@@ -576,8 +563,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // Build subgenre pills if applicable
     buildSubgenrePills(genreData);
 
-    // Animate into wheel view
-    showPlaylistsView('wheel-view', 'up');
+    // Crossfade into wheel view — no y-offset to prevent page jump
+    // Scroll to top to prevent position shift
+    window.scrollTo(0, 0);
+    document.body.scrollTop = 0;
+
+    const currentActive = [genreView, miscView].find(v => v && v.classList.contains('active'));
+    if (currentActive && typeof gsap !== 'undefined') {
+      gsap.to(currentActive, {
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          currentActive.classList.remove('active');
+          currentActive.style.opacity = '';
+
+          gsap.set(wheelView, { opacity: 0 });
+          wheelView.classList.add('active');
+          gsap.to(wheelView, {
+            opacity: 1,
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+        }
+      });
+    } else {
+      showPlaylistsView('wheel-view', 'center');
+    }
+    currentPlaylistView = 'wheel-view';
 
     // Show the wheel back button
     if (backToGenres) {
@@ -689,11 +702,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function animateArtworkTransition(direction, newPlaylist) {
-    isAnimating = true;
+    if (typeof gsap === 'undefined') {
+      // Fallback: direct update without animation
+      playlistName.textContent = newPlaylist.name;
+      updateGenreDescription(newPlaylist);
+      loadArtwork(newPlaylist.url, newPlaylist.imageUrl);
+      return;
+    }
 
-    // Artwork follows the curvature of the wheel circle:
-    // NEXT (direction=1): current exits down-left, new enters from bottom-right
-    // PREV (direction=-1): current exits down-right, new enters from bottom-left
+    isAnimating = true;
 
     // Animate artwork container AND playlist name together
     const artExitClass = direction === 1 ? 'artwork-exiting-left' : 'artwork-exiting-right';
@@ -701,31 +718,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameExitClass = direction === 1 ? 'name-exiting-left' : 'name-exiting-right';
     const nameEnterClass = direction === 1 ? 'name-entering-right' : 'name-entering-left';
 
-    // Exit animations on artwork and name
-    artworkContainer.classList.add(artExitClass);
-    playlistName.classList.add(nameExitClass);
+    // Exit: slide out in the direction of navigation
+    const exitX = direction === 1 ? -40 : 40;
+    const enterX = direction === 1 ? 40 : -40;
 
-    // After exit completes, swap content and enter
-    setTimeout(() => {
-      // Remove exit classes
-      artworkContainer.classList.remove(artExitClass);
-      playlistName.classList.remove(nameExitClass);
+    const tl = gsap.timeline({
+      onComplete: () => {
+        isAnimating = false;
+        gsap.set(playlistDisplay, { clearProps: 'all' });
+      }
+    });
 
-      // Update content
+    // Phase 1: Fade out playlist display only (header stays static)
+    tl.to(playlistDisplay, {
+      x: exitX,
+      opacity: 0,
+      duration: 0.25,
+      ease: 'power2.in'
+    });
+
+    // Phase 2: Swap content, reposition, then animate in
+    tl.call(() => {
       playlistName.textContent = newPlaylist.name;
       updateGenreDescription(newPlaylist);
       loadArtwork(newPlaylist.url, newPlaylist.imageUrl);
+      gsap.set(playlistDisplay, { x: enterX, opacity: 0 });
+    });
 
-      // Enter animations on artwork and name
-      artworkContainer.classList.add(artEnterClass);
-      playlistName.classList.add(nameEnterClass);
-
-      setTimeout(() => {
-        artworkContainer.classList.remove(artEnterClass);
-        playlistName.classList.remove(nameEnterClass);
-        isAnimating = false;
-      }, 400);
-    }, 350);
+    tl.to(playlistDisplay, {
+      x: 0,
+      opacity: 1,
+      duration: 0.3,
+      ease: 'power2.out'
+    });
   }
 
   function updateGenreDescription(playlist) {
@@ -1007,12 +1032,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchClear = document.getElementById('searchClear');
 
   function clearSearch() {
-    if (searchBar) {
+    if (!searchBar) return;
+
+    // Fade out the search bar text and dimmed folders gracefully
+    if (typeof gsap !== 'undefined') {
+      // Fade the search bar opacity down, then clear
+      gsap.to(searchBar, {
+        opacity: 0.4,
+        duration: 0.25,
+        ease: 'power2.in',
+        onComplete: () => {
+          searchBar.value = '';
+          searchBar.blur();
+          handleSearch('');
+          if (searchClear) searchClear.classList.remove('visible');
+          gsap.to(searchBar, {
+            opacity: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        }
+      });
+    } else {
       searchBar.value = '';
       searchBar.blur();
       handleSearch('');
+      if (searchClear) searchClear.classList.remove('visible');
     }
-    if (searchClear) searchClear.classList.remove('visible');
   }
 
   if (searchBar) {
