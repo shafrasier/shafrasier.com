@@ -1678,6 +1678,42 @@ body.light-mode .publication-header {
   border-bottom-color: var(--glass-border, rgba(0, 0, 0, 0.1));
 }
 
+/* Dark mode mobile wheel overrides - glass overlay + controls */
+@media (max-width: 768px) {
+  body:not(.light-mode) #wheel-view .playlist-name {
+    background: rgba(40, 40, 40, 0.6);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+
+  body:not(.light-mode) #wheel-view .genre-description {
+    background: rgba(40, 40, 40, 0.5);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  body:not(.light-mode) #wheel-view .genre-tag {
+    color: #999;
+  }
+
+  body:not(.light-mode) .wheel-center {
+    background: rgba(80, 80, 80, 0.4) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff;
+  }
+
+  body:not(.light-mode) .wheel-nav {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  body:not(.light-mode) .wheel-indicator .dot {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  body:not(.light-mode) .wheel-indicator .dot.active {
+    background: rgba(255, 255, 255, 0.7);
+  }
+}
+
 body.light-mode .publication-header:hover {
   border-bottom-color: var(--color-text-active, #000000);
   transform: translateX(4px);
@@ -1777,43 +1813,174 @@ body.light-mode .article-link:active {
     overflow: hidden;
   }
 
-  /* Click wheel - large and fixed on mobile, show more of it */
+  /* ===================================
+     MOBILE WHEEL VIEW REDESIGN
+     Full-bleed gallery: large artwork, glass overlay, dot indicators
+     =================================== */
+
+  /* Header - genre label at top */
+  .wheel-header {
+    padding: 50px 20px 0;
+    gap: 6px;
+  }
+
+  .current-genre-label {
+    font-size: 16px;
+  }
+
+  .subgenre-pills {
+    gap: 8px;
+    margin-bottom: 10px;
+    padding: 0 16px;
+  }
+
+  .subgenre-pill {
+    padding: 7px 16px;
+    font-size: 12px;
+  }
+
+  /* Playlist display - centered with breathing room */
+  #wheel-view .playlist-display {
+    padding: 0 20px;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Artwork - large and hero-sized */
+  #wheel-view .artwork-container {
+    width: 75vw;
+    height: 75vw;
+    max-width: 340px;
+    max-height: 340px;
+    border-radius: 24px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+    order: -1;
+  }
+
+  /* Playlist name - clean below artwork with glass card */
+  #wheel-view .playlist-name {
+    font-size: 17px;
+    letter-spacing: 0.12em;
+    margin-top: -28px;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 10px 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #2a2a2a;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Genre tag - inside glass card below name */
+  #wheel-view .genre-description {
+    margin-top: -4px;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 6px 24px 10px;
+    border-radius: 0 0 16px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-top: none;
+  }
+
+  #wheel-view .genre-tag {
+    font-size: 12px;
+    color: #666;
+  }
+
+  /* Hide description text - only show genre tag */
+  #wheel-view .genre-desc-text {
+    display: none;
+  }
+
+  /* Click wheel - remove circle, make flat control bar */
   .click-wheel {
-    position: fixed;
-    bottom: calc(-30vw + env(safe-area-inset-bottom, 0px));
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80vw;
-    height: 80vw;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    padding: 16px 0 0;
     flex-shrink: 0;
   }
 
+  /* Play button - frosted glass pill */
   .wheel-center {
-    width: 60px;
-    height: 60px;
+    width: auto;
+    height: auto;
+    padding: 12px 28px;
+    border-radius: 50px;
+    background: rgba(200, 200, 200, 0.3) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(200, 200, 200, 0.4) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
+    color: #2a2a2a;
+    font-size: 18px;
   }
 
-  /* Reduce header padding to reclaim vertical space */
-  .wheel-header {
-    padding: 50px 20px 0;
+  /* Nav arrows - subtle, inline */
+  .wheel-nav {
+    position: relative;
+    top: auto;
+    left: auto !important;
+    right: auto !important;
+    transform: none;
+    width: 44px;
+    height: 44px;
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 18px;
   }
 
-  /* Playlist display - position above the wheel */
-  #wheel-view .playlist-display {
-    padding: 0 20px 10px;
+  .wheel-nav:hover {
+    color: rgba(0, 0, 0, 0.5);
   }
 
-  #wheel-view .artwork-container {
-    width: 42vw;
-    height: 42vw;
-    max-width: 220px;
-    max-height: 220px;
+  /* Dot indicators - replace "1/6" counter */
+  .wheel-indicator {
+    position: relative;
+    top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 0 0;
+    font-size: 0; /* Hide text */
   }
 
-  #wheel-view .playlist-name {
-    font-size: 20px;
-    margin-bottom: 4px;
-    margin-top: 0;
+  .wheel-indicator .current-index,
+  .wheel-indicator .separator,
+  .wheel-indicator .total-count {
+    display: none;
+  }
+
+  .wheel-indicator .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+  }
+
+  .wheel-indicator .dot.active {
+    background: rgba(0, 0, 0, 0.5);
+    transform: scale(1.2);
   }
 
   /* Playlists nav - vertical on mobile */
@@ -1977,9 +2144,17 @@ body.light-mode .article-link:active {
     position: relative;
     transform: none;
     left: auto;
-    width: 100%;
-    max-width: 100%;
-    margin-top: 12px;
+    width: auto;
+    max-width: 280px;
+    margin: 20px auto 0;
+  }
+
+  #genre-view .search-bar {
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 50px;
+    background: rgba(200, 200, 200, 0.2);
+    border-color: rgba(180, 180, 180, 0.3);
   }
 
   /* Mobile diary artwork - inline thumbnail instead of hover preview */

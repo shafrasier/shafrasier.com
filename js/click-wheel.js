@@ -681,6 +681,9 @@ document.addEventListener('DOMContentLoaded', () => {
     currentIndexEl.textContent = currentIndex + 1;
     totalCountEl.textContent = currentPlaylists.length;
 
+    // Update dot indicators for mobile
+    updateDotIndicators();
+
     // Animate artwork transition
     if (direction !== 0 && !isAnimating) {
       animateArtworkTransition(direction, playlist);
@@ -699,6 +702,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Preload adjacent artwork for instant transitions
     preloadAdjacentArtwork();
+  }
+
+  // Generate dot indicators for mobile view
+  function updateDotIndicators() {
+    if (!wheelIndicator) return;
+    // Remove existing dots
+    wheelIndicator.querySelectorAll('.dot').forEach(d => d.remove());
+    // Only generate dots on mobile
+    if (window.innerWidth > 768) return;
+    const total = currentPlaylists.length;
+    // Cap at 12 dots to avoid overflow
+    const maxDots = Math.min(total, 12);
+    for (let i = 0; i < maxDots; i++) {
+      const dot = document.createElement('span');
+      dot.className = 'dot' + (i === currentIndex ? ' active' : '');
+      wheelIndicator.appendChild(dot);
+    }
   }
 
   function animateArtworkTransition(direction, newPlaylist) {

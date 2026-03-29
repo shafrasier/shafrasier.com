@@ -30,15 +30,9 @@ body {
 
 /* Light mode background override is in global.css (body.light-mode) */
 
-/* Safari toolbar transparency spacer - creates scrollable content so Safari engages Liquid Glass */
+/* Safari toolbar transparency spacer - hidden, kept for potential future use */
 .safari-toolbar-spacer {
-  position: relative;
-  width: 100%;
-  height: calc(100dvh + 200px);
-  pointer-events: none;
-  z-index: -1;
-  /* Needs actual visual content for Safari to detect scrollable page */
-  background: linear-gradient(to bottom, transparent 90%, rgba(19, 19, 19, 0.01));
+  display: none;
 }
 
 /* Three.js Canvas Background */
