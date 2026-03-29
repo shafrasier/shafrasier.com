@@ -20,8 +20,8 @@ body {
   background: #131313; /* Match html background to prevent any flash */
   margin: 0;
   padding: 0;
-  overflow: hidden;
   overscroll-behavior: none; /* Prevent rubber-band bounce revealing white background */
+  touch-action: manipulation; /* Prevent pinch-zoom without telling Safari page has no content */
   position: relative;
   width: 100vw;
   height: 100vh;
