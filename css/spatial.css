@@ -8,7 +8,6 @@
 
 html {
   background-color: #131313; /* Dark mode default for browser chrome / safe area */
-  overscroll-behavior: none; /* Prevent rubber-band bounce revealing white background */
 }
 
 html:has(body.light-mode) {
@@ -32,6 +31,15 @@ body {
 
 /* Light mode background override is in global.css (body.light-mode) */
 
+/* Safari toolbar transparency spacer - creates scrollable content so Safari engages Liquid Glass */
+.safari-toolbar-spacer {
+  position: relative;
+  width: 100%;
+  height: calc(100dvh + 1px);
+  pointer-events: none;
+  z-index: -1;
+}
+
 /* Three.js Canvas Background */
 .canvas-wrapper {
   position: fixed;
@@ -42,6 +50,7 @@ body {
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  background-color: transparent; /* Explicit transparent so Safari toolbar tinting doesn't sample opaque color */
 }
 
 #bg-canvas {
