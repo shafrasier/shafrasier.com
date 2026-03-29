@@ -19,10 +19,9 @@ body {
   background: #131313; /* Match html background to prevent any flash */
   margin: 0;
   padding: 0;
-  overscroll-behavior: none; /* Prevent rubber-band bounce revealing white background */
   touch-action: manipulation; /* Prevent pinch-zoom without telling Safari page has no content */
   position: relative;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
   /* Allow content to extend behind Safari toolbar for transparent toolbar */
@@ -45,8 +44,10 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  /* Extend canvas into safe area so Safari sees content behind toolbar */
+  bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
   z-index: 0;
   pointer-events: none;
   overflow: hidden;

@@ -1862,7 +1862,7 @@ body.light-mode .article-link:active {
     position: relative;
     width: auto;
     margin: 0 auto;
-    padding-left: 25px; /* Offset for dot/line so text visually centers under SHEETS */
+    padding-left: 40px; /* Offset for dot/line so text visually centers under SHEETS */
   }
 
   .sheets-section::before {
