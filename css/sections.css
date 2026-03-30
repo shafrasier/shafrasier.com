@@ -1678,21 +1678,22 @@ body.light-mode .publication-header {
   border-bottom-color: var(--glass-border, rgba(0, 0, 0, 0.1));
 }
 
-/* Dark mode mobile wheel overrides - glass overlay + controls */
+/* Dark mode mobile wheel overrides - typography + controls */
 @media (max-width: 768px) {
   body:not(.light-mode) #wheel-view .playlist-name {
-    background: rgba(40, 40, 40, 0.6);
-    border-color: rgba(255, 255, 255, 0.12);
     color: #ffffff;
-  }
-
-  body:not(.light-mode) #wheel-view .genre-description {
-    background: rgba(40, 40, 40, 0.5);
-    border-color: rgba(255, 255, 255, 0.12);
   }
 
   body:not(.light-mode) #wheel-view .genre-tag {
     color: #999;
+  }
+
+  body:not(.light-mode) #wheel-view .artwork-container {
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      0 20px 48px rgba(0, 0, 0, 0.35);
   }
 
   body:not(.light-mode) .wheel-center {
@@ -1842,53 +1843,52 @@ body.light-mode .article-link:active {
     position: relative;
   }
 
-  /* Artwork - large and hero-sized */
+  /* Artwork - large hero with layered shadow for physical depth */
   #wheel-view .artwork-container {
-    width: 75vw;
-    height: 75vw;
-    max-width: 340px;
-    max-height: 340px;
-    border-radius: 24px;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+    width: 72vw;
+    height: 72vw;
+    max-width: 320px;
+    max-height: 320px;
+    border-radius: 20px;
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      0 8px 24px rgba(0, 0, 0, 0.1),
+      0 20px 48px rgba(0, 0, 0, 0.12);
     order: -1;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
-  /* Playlist name - clean below artwork with glass card */
+  /* Playlist name - clean typography below artwork */
   #wheel-view .playlist-name {
-    font-size: 17px;
-    letter-spacing: 0.12em;
-    margin-top: -28px;
+    font-size: 18px;
+    letter-spacing: 0.14em;
+    margin-top: 16px;
     margin-bottom: 0;
-    position: relative;
-    z-index: 2;
-    background: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    padding: 10px 24px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
     color: #2a2a2a;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   }
 
-  /* Genre tag - inside glass card below name */
+  /* Genre tag - small italic below name */
   #wheel-view .genre-description {
-    margin-top: -4px;
+    margin-top: 4px;
     margin-bottom: 0;
-    position: relative;
-    z-index: 2;
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    padding: 6px 24px 10px;
-    border-radius: 0 0 16px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-top: none;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
   }
 
   #wheel-view .genre-tag {
-    font-size: 12px;
-    color: #666;
+    font-size: 13px;
+    color: #888;
   }
 
   /* Hide description text - only show genre tag */
