@@ -363,9 +363,7 @@ body.light-mode .playlist-nav-btn:hover {
 
 /* Genre view header */
 .genre-view-header {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: -30px;
+  display: none;
 }
 
 .genre-view-title {
@@ -380,9 +378,10 @@ body.light-mode .playlist-nav-btn:hover {
 
 
 .genre-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
   max-width: 700px;
   width: 100%;
   margin-top: 60px;
@@ -390,7 +389,6 @@ body.light-mode .playlist-nav-btn:hover {
 }
 
 .misc-grid {
-  grid-template-columns: repeat(2, 1fr);
   max-width: 400px;
 }
 
@@ -905,22 +903,24 @@ body.light-mode .moment-item:hover .moment-title {
 }
 
 .genre-folder {
-  aspect-ratio: 2 / 1;
+  aspect-ratio: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 14px 28px;
   background: var(--glass-bg, rgba(255, 255, 255, 0.08));
   border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
-  border-radius: 16px;
+  border-radius: 50px;
+  flex: 0 0 auto;
   cursor: none;
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .genre-folder:hover {
-  transform: scale(1.05) translateY(-4px);
+  transform: scale(1.08);
   background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .folder-label {
@@ -1769,10 +1769,6 @@ body.light-mode .article-link:active {
 
 /* Tablet Landscape (1024px) */
 @media (max-width: 1024px) {
-  .genre-grid {
-    gap: var(--space-12, 24px);
-  }
-
   .sheets-link {
     padding: var(--space-8, 16px) var(--space-12, 24px) 45px;
     min-width: 80px;
@@ -2101,18 +2097,11 @@ body.light-mode .article-link:active {
     justify-content: flex-start;
   }
 
-  .genre-view-header {
-    display: none;
-  }
-
   .diary-header .diary-title {
     display: none;
   }
 
   .genre-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     gap: 12px;
     margin-top: auto;
     margin-bottom: auto;
@@ -2121,10 +2110,7 @@ body.light-mode .article-link:active {
   }
 
   .genre-folder {
-    aspect-ratio: auto;
     padding: 12px 24px;
-    border-radius: 50px;
-    flex: 0 0 auto;
     background: rgba(200, 200, 200, 0.35);
     border-color: rgba(180, 180, 180, 0.4);
   }
