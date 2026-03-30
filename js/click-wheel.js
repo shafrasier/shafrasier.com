@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const wheelNext = document.getElementById('wheelNext');
   const wheelCenter = document.getElementById('wheelCenter');
   const wheelIndicator = document.getElementById('wheelIndicator');
+  const playlistDisplay = document.querySelector('.playlist-display');
   const searchBar = document.getElementById('playlistSearch');
   const diaryPasswordInput = document.getElementById('diaryPassword');
   const playlistNavBtns = document.querySelectorAll('.playlist-nav-btn');
@@ -546,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentPlaylistView = targetViewId;
   }
 
-  function showWheelView(genre) {
+  function showWheelView(genre, searchQuery) {
     currentGenre = genre;
     const genreData = PLAYLIST_DATA[genre];
 
@@ -562,6 +563,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Build subgenre pills if applicable
     buildSubgenrePills(genreData);
+
+    // If we came from a search, navigate to the matching playlist/subgenre
+    if (searchQuery) {
+      const lowerQuery = searchQuery.toLowerCase();
+      // First check main playlists
+      let found = false;
+      for (let i = 0; i < genreData.playlists.length; i++) {
+        const p = genreData.playlists[i];
+        if (p.name.toLowerCase().includes(lowerQuery) ||
+            (p.genreTag && p.genreTag.toLowerCase().includes(lowerQuery))) {
+          currentIndex = i;
+          found = true;
+          break;
+        }
+      }
+      // If not found in main, check subgenres
+      if (!found && genreData.subgenres) {
+        for (const [subName, subPlaylists] of Object.entries(genreData.subgenres)) {
+          for (let i = 0; i < subPlaylists.length; i++) {
+            const p = subPlaylists[i];
+            if (p.name.toLowerCase().includes(lowerQuery) ||
+                (p.genreTag && p.genreTag.toLowerCase().includes(lowerQuery)) ||
+                subName.toLowerCase().includes(lowerQuery)) {
+              // Switch to this subgenre and set index
+              currentSubgenre = subName;
+              currentPlaylists = subPlaylists;
+              currentIndex = i;
+              // Update pill active states
+              setTimeout(() => {
+                const pills = subgenrePills.querySelectorAll('.subgenre-pill');
+                pills.forEach(pill => {
+                  pill.classList.toggle('active', pill.textContent === subName.toUpperCase());
+                });
+              }, 50);
+              found = true;
+              break;
+            }
+          }
+          if (found) break;
+        }
+      }
+    }
 
     // Crossfade into wheel view — no y-offset to prevent page jump
     // Scroll to top to prevent position shift
@@ -962,7 +1005,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           previousGenreView = 'genre-view';
         }
-        showWheelView(genre);
+        // Pass search query so we navigate to the matched playlist
+        const query = searchBar ? searchBar.value : '';
+        showWheelView(genre, query);
       }
     });
   });

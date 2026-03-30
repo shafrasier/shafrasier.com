@@ -1816,7 +1816,7 @@ body.light-mode .article-link:active {
 
   /* Header - genre label at top */
   .wheel-header {
-    padding: 50px 20px 0;
+    padding: 100px 20px 0;
     gap: 6px;
   }
 
@@ -1896,7 +1896,7 @@ body.light-mode .article-link:active {
     display: none;
   }
 
-  /* Click wheel - remove circle, make flat control bar */
+  /* Click wheel - remove circle, make stacked control bar */
   .click-wheel {
     position: relative !important;
     bottom: auto !important;
@@ -1909,10 +1909,11 @@ body.light-mode .article-link:active {
     border: none !important;
     box-shadow: none !important;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 32px;
-    padding: 16px 0 0;
+    gap: 24px;
+    padding: 20px 0 0;
     flex-shrink: 0;
   }
 
@@ -1929,6 +1930,7 @@ body.light-mode .article-link:active {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
     color: #2a2a2a;
     font-size: 18px;
+    order: 2;
   }
 
   /* Nav arrows - subtle, inline */
@@ -1944,11 +1946,14 @@ body.light-mode .article-link:active {
     font-size: 18px;
   }
 
+  .wheel-nav.prev { order: 1; }
+  .wheel-nav.next { order: 3; }
+
   .wheel-nav:hover {
     color: rgba(0, 0, 0, 0.5);
   }
 
-  /* Dot indicators - replace "1/6" counter */
+  /* Dot indicators - full width row below controls */
   .wheel-indicator {
     position: relative;
     top: auto;
@@ -1956,8 +1961,9 @@ body.light-mode .article-link:active {
     display: flex;
     justify-content: center;
     gap: 6px;
-    padding: 12px 0 0;
+    padding: 0;
     font-size: 0; /* Hide text */
+    order: 4;
   }
 
   .wheel-indicator .current-index,
@@ -2131,13 +2137,14 @@ body.light-mode .article-link:active {
     transform: none;
     left: auto;
     width: auto;
-    max-width: 280px;
-    margin: 20px auto 0;
+    max-width: 240px;
+    margin: 10px auto 0;
+    flex: 0 0 auto;
   }
 
   #genre-view .search-bar {
-    padding: 12px 20px;
-    font-size: 14px;
+    padding: 10px 18px;
+    font-size: 13px;
     border-radius: 50px;
     background: rgba(200, 200, 200, 0.2);
     border-color: rgba(180, 180, 180, 0.3);
