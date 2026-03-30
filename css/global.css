@@ -356,11 +356,11 @@ body.light-mode {
 }
 
 .section-back:hover {
-  transform: translateX(-50%) scale(1.1);
+  transform: scale(1.1);
 }
 
 .section-back:active {
-  transform: translateX(-50%) scale(0.95);
+  transform: scale(0.95);
 }
 
 /* Back button icon - white in dark mode */
