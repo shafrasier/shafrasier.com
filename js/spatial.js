@@ -452,9 +452,19 @@ document.addEventListener('DOMContentLoaded', () => {
     timeline.to(floatingButtons, {
       opacity: 1,
       scale: 1,
-      duration: 0.8,
-      ease: 'none',
-      stagger: 0.06
+      duration: 1.0,
+      ease: 'power2.out',
+      stagger: 0.06,
+      onComplete: function() {
+        // Remove inline transform so CSS transitions can work cleanly for hover
+        floatingButtons.forEach(btn => {
+          btn.style.transition = 'none';
+          btn.style.transform = '';
+          // Force reflow then restore CSS transition
+          btn.offsetHeight;
+          btn.style.transition = '';
+        });
+      }
     }, 0.5);
 
     timeline.to('.social-icons-container', {

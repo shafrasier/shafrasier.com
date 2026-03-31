@@ -12,7 +12,7 @@ html {
 
 body {
   font-family: Futura, sans-serif;
-  background: #f5f5f5; /* Light mode default — match html for Safari toolbar sampling at initial paint */
+  background: transparent; /* Transparent so Safari toolbar uses Liquid Glass instead of sampling a color */
   margin: 0;
   padding: 0;
   touch-action: manipulation; /* Prevent pinch-zoom without telling Safari page has no content */
@@ -468,12 +468,12 @@ body:not(.light-mode) .floating-button:active {
 
 /* Dark Mode Override — default is now light for Safari toolbar sampling */
 body:not(.light-mode) {
-  background: #131313;
+  background: transparent;
 }
 
 /* Light Mode Overrides */
 body.light-mode {
-  background: #f5f5f5;
+  background: transparent;
 }
 
 body.light-mode .social-icon {
