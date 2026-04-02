@@ -42,7 +42,11 @@ body {
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  background-color: transparent; /* Explicit transparent so Safari toolbar tinting doesn't sample opaque color */
+  background-color: transparent;
+}
+
+body:not(.light-mode) .canvas-wrapper {
+  background-color: var(--color-bg, #131313);
 }
 
 #bg-canvas {
@@ -466,9 +470,9 @@ body:not(.light-mode) .floating-button:active {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Dark Mode Override — default is now light for Safari toolbar sampling */
+/* Dark Mode Override — solid dark background */
 body:not(.light-mode) {
-  background: transparent;
+  background: var(--color-bg, #131313);
 }
 
 /* Light Mode Overrides */
