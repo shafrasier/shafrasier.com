@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
 
+  // Set initial clear color based on theme (light mode is transparent, dark mode needs a dark bg)
+  const initialLightMode = document.body.classList.contains('light-mode');
+  if (!initialLightMode) {
+    renderer.setClearColor(0x131313, 1);
+  }
+
   // Lock initial dimensions to prevent mobile browser chrome from causing jolts
   const initialWidth = window.innerWidth;
   const initialHeight = window.innerHeight;
@@ -136,6 +142,13 @@ document.addEventListener('DOMContentLoaded', () => {
         waveMaterial.color.set(currentLightMode ? 0xb0b0b0 : 0x2a2a2a);
         waveMaterial.opacity = currentLightMode ? 0.12 : 0.2;
         waveMaterial.needsUpdate = true;
+
+        // Update renderer clear color: transparent for light mode, dark for dark mode
+        if (currentLightMode) {
+          renderer.setClearColor(0x000000, 0);
+        } else {
+          renderer.setClearColor(0x131313, 1);
+        }
       }, 50);
     });
   }
