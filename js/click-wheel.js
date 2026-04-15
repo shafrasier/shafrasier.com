@@ -773,6 +773,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Kill any stale tweens and reset transforms so interrupted animations
+    // don't leave orphaned ghost frames painted on screen.
+    gsap.killTweensOf(playlistDisplay);
+    gsap.set(playlistDisplay, { clearProps: 'all' });
+
     isAnimating = true;
 
     // Animate artwork container AND playlist name together

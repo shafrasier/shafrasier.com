@@ -715,6 +715,23 @@ body.light-mode .section-inner {
     transform: translateX(-50%);
   }
 
+  /* Wheel view back button stays pinned near the top — offset by the iOS
+     safe area + Safari toolbar so it doesn't crowd the top of the screen */
+  #backToGenres {
+    top: calc(env(safe-area-inset-top, 0px) + 50px) !important;
+    bottom: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  #backToGenres:hover {
+    transform: translateX(-50%) scale(1.1) !important;
+  }
+
+  #backToGenres:active {
+    transform: translateX(-50%) scale(0.95) !important;
+  }
+
   .section-back:hover,
   .section-content .back-button:not(#backToGenres):hover {
     transform: translateX(-50%) scale(1.1);

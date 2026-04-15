@@ -1144,7 +1144,11 @@ body.light-mode .moment-item:hover .moment-title {
   border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
   border-radius: 50px;
   color: var(--color-text, #c8c8c8);
+  font-family: var(--font-family, Futura, sans-serif);
   font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: none;
   transition: all 0.3s ease;
 }
@@ -1815,9 +1819,10 @@ body.light-mode .article-link:active {
      Full-bleed gallery: large artwork, glass overlay, dot indicators
      =================================== */
 
-  /* Header - genre label at top */
+  /* Header - genre label at top. Extra top padding accounts for the iOS
+     safe area + Safari toolbar so the X button doesn't crowd the label. */
   .wheel-header {
-    padding: 100px 20px 0;
+    padding: calc(100px + env(safe-area-inset-top, 0px)) 20px 0;
     gap: 6px;
   }
 
