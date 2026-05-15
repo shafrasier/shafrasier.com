@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Using the MAP</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="MAP"/><meta property="og:title" content="Using the MAP"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Using the MAP"/><meta name="twitter:description" content="Folder structure FolderSubfoldersPurposeRELEASESALBUMS, SINGLES, TRACKSThe music itself."/><meta property="og:description" content="Folder structure FolderSubfoldersPurposeRELEASESALBUMS, SINGLES, TRACKSThe music itself."/><meta property="og:image:alt" content="Folder structure FolderSubfoldersPurposeRELEASESALBUMS, SINGLES, TRACKSThe music itself."/><meta property="twitter:domain" content="shafrasier.com/map"/><meta property="og:url" content="https://shafrasier.com/map/MUSIC/x.-META/Using-the-MAP"/><meta property="twitter:url" content="https://shafrasier.com/map/MUSIC/x.-META/Using-the-MAP"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Folder structure FolderSubfoldersPurposeRELEASESALBUMS, SINGLES, TRACKSThe music itself."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" data-persist="true"/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL1VzZXJzL3NoYS9NQVAvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFJSjtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBOztBQUVBO0VBQ0U7O0FBR0Y7RUFDRTs7QUFJRjtFQUNFO0VBQ0E7RUFDQSIsInNvdXJjZXNDb250ZW50IjpbIi5leHBhbmQtYnV0dG9uIHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbG9hdDogcmlnaHQ7XG4gIHBhZGRpbmc6IDAuNHJlbTtcbiAgbWFyZ2luOiAwLjNyZW07XG4gIHJpZ2h0OiAwOyAvLyBOT1RFOiByaWdodCB3aWxsIGJlIHNldCBpbiBtZXJtYWlkLmlubGluZS50c1xuICBjb2xvcjogdmFyKC0tZ3JheSk7XG4gIGJvcmRlci1jb2xvcjogdmFyKC0tZGFyayk7XG4gIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgYm9yZGVyOiAxcHggc29saWQ7XG4gIGJvcmRlci1yYWRpdXM6IDVweDtcbiAgb3BhY2l0eTogMDtcbiAgdHJhbnNpdGlvbjogMC4ycztcblxuICAmID4gc3ZnIHtcbiAgICBmaWxsOiB2YXIoLS1saWdodCk7XG4gICAgZmlsdGVyOiBjb250cmFzdCgwLjMpO1xuICB9XG5cbiAgJjpob3ZlciB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGJvcmRlci1jb2xvcjogdmFyKC0tc2Vjb25kYXJ5KTtcbiAgfVxuXG4gICY6Zm9jdXMge1xuICAgIG91dGxpbmU6IDA7XG4gIH1cbn1cblxucHJlIHtcbiAgJjpob3ZlciA+IC5leHBhbmQtYnV0dG9uIHtcbiAgICBvcGFjaXR5OiAxO1xuICAgIHRyYW5zaXRpb246IDAuMnM7XG4gIH1cbn1cblxuI21lcm1haWQtY29udGFpbmVyIHtcbiAgcG9zaXRpb246IGZpeGVkO1xuICBjb250YWluOiBsYXlvdXQ7XG4gIHotaW5kZXg6IDk5OTtcbiAgbGVmdDogMDtcbiAgdG9wOiAwO1xuICB3aWR0aDogMTAwdnc7XG4gIGhlaWdodDogMTAwdmg7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIGRpc3BsYXk6IG5vbmU7XG4gIGJhY2tkcm9wLWZpbHRlcjogYmx1cig0cHgpO1xuICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIDAuNSk7XG5cbiAgJi5hY3RpdmUge1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgfVxuXG4gICYgPiAjbWVybWFpZC1zcGFjZSB7XG4gICAgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tbGlnaHRncmF5KTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1saWdodCk7XG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xuICAgIHBvc2l0aW9uOiBmaXhlZDtcbiAgICB0b3A6IDUwJTtcbiAgICBsZWZ0OiA1MCU7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG4gICAgaGVpZ2h0OiA4MHZoO1xuICAgIHdpZHRoOiA4MHZ3O1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG5cbiAgICAmID4gLm1lcm1haWQtY29udGVudCB7XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" data-persist="true"/><script src="../../prescript.js" type="application/javascript" data-persist="true"></script><script type="application/javascript" data-persist="true">const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://shafrasier.com/map/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://shafrasier.com/map/MUSIC/x.-META/Using-the-MAP-og-image.webp"/><meta property="og:image:url" content="https://shafrasier.com/map/MUSIC/x.-META/Using-the-MAP-og-image.webp"/><meta name="twitter:image" content="https://shafrasier.com/map/MUSIC/x.-META/Using-the-MAP-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="MUSIC/x.-META/Using-the-MAP"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">MAP</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-279"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-279" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../MUSIC/">MUSIC</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../MUSIC/x.-META/">x. META</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Using the MAP</a></div></nav><h1 class="article-title">Using the MAP</h1><p show-comma="true" class="content-meta"><time datetime="2026-05-15T19:25:35.707Z">May 15, 2026</time><span>87 min read</span></p></div></div><article class="popover-hint"><h4 id="folder-structure"><strong>Folder structure</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#folder-structure" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Folder</th><th>Subfolders</th><th>Purpose</th></tr></thead><tbody><tr><td><strong>RELEASES</strong></td><td><strong>ALBUMS</strong>, <strong>SINGLES</strong>, <strong>TRACKS</strong></td><td>The music itself. ALBUMS holds notes on foundational records, organized chronologically: <code>(Year) Title.md</code>. SINGLES holds historically important individual tracks released as singles: <code>(Year) &quot;Title&quot;.md</code>. TRACKS holds notes on influential album tracks that were never released as singles but whose innovation or influence merits standalone treatment: <code>(Year) &quot;Title&quot;.md</code>. Singles earn entries when they changed the direction of a genre, introduced a production innovation, or became cultural events independent of any album. Tracks earn entries when their influence or innovation exceeds what the album note can contain.</td></tr><tr><td><strong>TAXONOMY</strong></td><td><strong>ERAS</strong>, <strong>GENRES</strong>, <strong>SCENES</strong></td><td>Classification and periodization. ERAS are the broadest orientation: broad historical periods (Tin Pan Alley to Brill Building, the British Invasion, Punk and Its Afterlives) that contextualize everything else. GENRES follow RYM’s taxonomy, explaining not just what a genre sounds like but why it emerged. SCENES are geographic and temporal clusters: Merseybeat, Laurel Canyon, CBGB, the Düsseldorf school.</td></tr><tr><td><strong>MOMENTS</strong></td><td></td><td>Discrete historical events — hours or days, not years — that changed the trajectory of music: Dylan at Newport, Monterey Pop, the Beatles on Ed Sullivan. Moments are not taxonomic categories (you wouldn’t classify an album as belonging to “Dylan at Newport” the way you’d tag it as “British blues”); they are narrative inflection points, often marking where one era ends and another begins. They sit outside TAXONOMY because they describe events, not classifications.</td></tr><tr><td><strong>ARTISTS</strong></td><td><strong>SONGWRITERS</strong>, <strong>PRODUCERS</strong>, <strong>SESSION MUSICIANS</strong></td><td>Critical profiles that map influence in both directions (who shaped them, who they shaped). SONGWRITERS for behind-the-scenes writers (Gerry Goffin, Hal David, Holland-Dozier-Holland). PRODUCERS for sonic signatures that shaped genres (Phil Spector, Lee “Scratch” Perry, Brian Eno). SESSION MUSICIANS for ensembles or individuals whose playing shaped the sound of an era (the Funk Brothers, the Wrecking Crew). Everyone who makes music lives under ARTISTS; the subfolders distinguish their role.</td></tr><tr><td><strong>INDUSTRY</strong></td><td><strong>LABELS</strong>, <strong>STUDIOS</strong>, <strong>EXECUTIVES</strong></td><td>The business and physical infrastructure of recorded music. LABELS profiles record labels whose aesthetic identity or institutional structure shaped the music released on them (Motown, Stax, Atlantic, Factory). STUDIOS profiles recording studios whose acoustic properties, equipment, or house engineers shaped the sound of the records made there (Gold Star, Abbey Road, Muscle Shoals Sound). EXECUTIVES profiles non-performing industry figures whose decisions shaped what music got made and released — label founders and owners (Berry Gordy, Ahmet Ertegun, Leonard and Phil Chess), A&amp;R people (John Hammond, Ralph Peer), publishers (Don Kirshner), and managers (Brian Epstein, Peter Grant) whose creative-commercial judgment is a primary shaping force on the music itself, not just on the business. Executive-producers whose primary contribution is sonic (Phil Spector, Sam Phillips, Chris Blackwell) belong in PRODUCERS, not here.</td></tr><tr><td><strong>TECHNIQUES</strong></td><td><strong>PRODUCTION</strong>, <strong>THEORY</strong></td><td>The craft layer of the MAP, split in two. <strong>PRODUCTION</strong> covers production techniques, sonic innovations, and historically significant instruments that changed what music could sound like: the Wall of Sound, gated reverb, the Minimoog, the TR-808, sampling, Auto-Tune. The material history of recorded music. <strong>THEORY</strong> covers the musical-theory concepts that recur as connective tissue between genres, artists, and records: the twelve-bar blues, the backbeat, the I–vi–IV–V progression, call and response, extended chords, modal interchange, voice leading. Theory notes exist so that other notes can wikilink to a single, well-explained concept instead of re-explaining it each time, and so that a reader without formal theory background can follow the argument.</td></tr><tr><td><strong>IDEAS</strong></td><td></td><td>The MAP’s analytical core. These notes make arguments about influence, commerce, race, and other sociological phenomena by engaging with specific scholars and critics by name. They synthesize human thinking — not summarize events — and ground their claims in the SOURCES library. Living documents: update with new examples and new scholarly engagement as the MAP grows.</td></tr><tr><td><strong>SOURCES</strong></td><td></td><td>The MAP’s scholarly backbone. Each note maps a book, essay, or critical text’s core argument, key contributions, and connections to the MAP. SOURCES are not bibliographic entries — they are argument maps that IDEAS notes engage with directly. The chain is: a genre or artist note links to an IDEAS note; the IDEAS note engages with specific arguments from SOURCES notes; the reader can follow the wikilink to the full argument.</td></tr><tr><td><strong>META</strong></td><td></td><td>MAP documentation: cover artwork, this note, <a href="../../MUSIC/x.-META/About-the-MAP" class="internal alias" data-slug="MUSIC/x.-META/About-the-MAP">About the MAP</a>, and <a href="../../MUSIC/x.-META/MAPmaking" class="internal" data-slug="MUSIC/x.-META/MAPmaking">MAPmaking</a> — the planning and task-tracking note for the MAP’s ongoing development.</td></tr></tbody></table></div>
+<h4 id="what-gets-its-own-note"><strong>What gets its own note</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-gets-its-own-note" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ul>
+<li>Genres that need historical explanation beyond a one-line definition</li>
+<li>Scenes where geographic concentration produced something distinctive</li>
+<li>Artists whose influence extends meaningfully beyond their own discography</li>
+<li>Albums that are foundational to a genre, scene, or era</li>
+<li>Album tracks whose innovation, influence, or cultural weight exceeds what the album note can contain — tracks that are referenced across multiple notes and deserve sustained treatment of their own</li>
+<li>Moments — discrete historical events (a concert, a broadcast, a festival) that changed the trajectory of music in ways that no single artist, album, or genre note can adequately capture</li>
+<li>Producers whose work constitutes a recognizable sonic signature</li>
+<li>Production techniques that changed the sound of recorded music (TECHNIQUES/PRODUCTION)</li>
+<li>Music theory concepts that recur across the MAP and earn their own explanation so other notes can wikilink to them rather than re-defining each time (TECHNIQUES/THEORY). A theory note earns its place when the concept shows up in at least three other notes where naming it would sharpen the argument</li>
+<li>Studios whose acoustic properties, equipment, or house engineers produced a recognizable sound</li>
+<li>Executives whose creative-commercial decisions shaped what music got made and released — label founders, A&amp;R figures, publishers, and managers whose institutional or signing choices are a primary shaping force on the music, not just on the business. An executive earns a note when their decisions are referenced across multiple other notes (three is a useful threshold: Berry Gordy alone is named in more than fifteen) and the explanation would otherwise have to be re-stated each time</li>
+<li>Ideas that apply across multiple genres, scenes, or eras. The signal for a new IDEAS note is noticing the same argument surfacing in a third or fourth note — when a claim has outgrown its host, it needs its own space. IDEAS notes crystallize when the thinking crystallizes; they are not planned in advance but recognized as patterns emerge.</li>
+<li>Sources whose arguments inform the MAP’s IDEAS notes, or that shaped music criticism, or that captured a scene in real time</li>
+</ul>
+<h4 id="what-stays-embedded"><strong>What stays embedded</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-stays-embedded" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ul>
+<li>One-off observations (keep them in album or artist notes)</li>
+<li>Discography details beyond the foundational records (that’s what the spreadsheets are for)</li>
+<li>Chart positions and sales figures (mention in context, don’t catalog)</li>
+<li>Personal ratings or rankings (the spreadsheets handle this)</li>
+</ul>
+<h4 id="the-influence-principle"><strong>The influence principle</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#the-influence-principle" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>Influence is the primary connective tissue of the MAP. Every note should answer at least one of these questions: What did this inherit? What did it reject? What did it make possible? An album note that doesn’t connect backward and forward isn’t finished. A genre note that doesn’t explain what came before and what came after isn’t useful. A scene note that doesn’t map the cross-pollination between artists working in proximity isn’t doing its job.</p>
+<p>This means the MAP reads as history — not a timeline, but a web of cause and effect, action and reaction, inheritance and reinvention.</p>
+<h4 id="the-scholarly-architecture"><strong>The scholarly architecture</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#the-scholarly-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>The MAP’s value comes from synthesizing human thinking about music, not generating original analysis in a vacuum. The architecture works in layers: RELEASE, ARTIST, GENRE, and SCENE notes stay close to the music — close listening, historical specificity, production detail. IDEAS notes are where those observations connect to larger arguments, and those arguments are grounded in specific scholars and critics whose work is mapped in SOURCES notes. The citation chain runs: a reader in a genre or artist note follows a wikilink to an IDEAS note; the IDEAS note engages with named arguments from scholars (Miller on genre as racial infrastructure, Lott on love and theft, George on the crossover trap, Brooks on critical authority); the reader can follow a wikilink to the SOURCES note and see the full argument.</p>
+<p>This architecture serves three functions. It foregrounds human intellectual work — real arguments by real thinkers — rather than relying on AI-generated analysis that can feel flat or generic. It differentiates the MAP from Wikipedia, which cites for verification; the MAP cites for intellectual engagement, putting scholars in conversation with each other through the music. And it gives the reader a path from sonic detail to structural argument to the scholarly literature, which is what makes the MAP function as a serious intellectual resource rather than an encyclopedia.</p>
+<p>When writing or revising an IDEAS note, identify which SOURCES arguments it should engage with. Write those SOURCES notes if they don’t exist yet. The IDEAS note should then engage with the arguments substantively — agreeing, extending, complicating — so that the prose is doing intellectual work in conversation with specific thinkers, not narrating events in a generically authoritative voice.</p>
+<h4 id="keeping-the-network-alive"><strong>Keeping the network alive</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#keeping-the-network-alive" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>The MAP is a network, and every new note should strengthen the existing ones rather than sitting in isolation. Six principles govern this:</p>
+<p><strong>Backlink pass.</strong> Every new note requires one. Search the entire MAP for unlinked mentions of the new subject and add wikilinks to the first occurrence in each note where it appears. A note that exists but isn’t linked from the places that mention it is a dead note. No new note is finished until its backlinks are in place.</p>
+<p><strong>Conceptual link pass.</strong> After the textual backlink pass, run three conceptual sweeps — one each for IDEAS, THEORY, and PRODUCTION. All three catch connections that are argumentative rather than textual (the note’s current prose doesn’t name the concept, but the concept is structurally present in the subject).</p>
+<ul>
+<li><strong>IDEAS.</strong> Review the IDEAS notes and ask: which arguments does this new subject participate in, even if the IDEAS note doesn’t mention it by name? A <em>Back to Black</em> album note should link to “The transatlantic feedback loop” because a British artist channeling 1960s American soul <em>is</em> the loop. Thread the example into the IDEAS note’s prose when it strengthens an argument; add to its “See also” section otherwise.</li>
+<li><strong>THEORY.</strong> Review the TECHNIQUES/THEORY notes and ask: which theoretical concepts does this record, artist, or genre embody, even if the current prose doesn’t name them? A Motown track note should engage with Backbeat and Call and response. A doo-wop single should engage with I–vi–IV–V progression. A Stones or Kinks song should engage with Pentatonic and blues scales. When a concept is structurally central to the subject, the note should name it, wikilink it, and give one or two sentences of in-context explanation of how the move works in this specific record. If the same unlinked concept keeps coming up across new notes and no THEORY note exists yet, flag it as a candidate for a future THEORY note (the three-notes rule from earlier in this document).</li>
+<li><strong>PRODUCTION.</strong> Same pass for TECHNIQUES/PRODUCTION notes (Wall of Sound, eventually slapback echo, compression, tape saturation, etc.). When a production technique is <em>the</em> thing that makes the record sound the way it does, name it, link it, and explain in a sentence how it shapes what you hear.</li>
+</ul>
+<p>All three sweeps update the target notes as living documents — the IDEAS / THEORY / PRODUCTION note should absorb the new example in its prose when it strengthens the argument, or in its See also section when the relationship is real but doesn’t need development.</p>
+<p><strong>New SOURCES propagate to existing IDEAS notes.</strong> When a new SOURCES note is written, check which existing IDEAS notes should engage with it — not just the one it was written for. If a Gilroy <em>Black Atlantic</em> source note is created for “The transatlantic feedback loop,” ask whether “The color line in pop” should also engage with Gilroy’s argument. Scholarly arguments rarely respect the boundaries of a single IDEAS note, and the MAP should reflect that.</p>
+<p><strong>Same example, different argument.</strong> A record like <em>What’s Going On</em> can and should appear in multiple notes — the Motown Records note, a Marvin Gaye artist note, “The pop factory,” a future IDEAS note on protest music. The principle is not “don’t repeat examples” but “don’t repeat arguments.” Each appearance must make a distinct claim. The Motown note uses <em>What’s Going On</em> as the moment an artist outgrew the system. The pop factory note uses it as the system saying no to what became a defining record. A protest music note would engage with it on entirely different terms. If two notes are making the same argument about the same record, one of them is redundant.</p>
+<p><strong>See also sections explain the relationship.</strong> The “See also” links at the bottom of notes should not be flat lists. Each link should carry a brief annotation where the relationship isn’t obvious: <code>[[The transatlantic feedback loop]] — the loop is one of the color line's mechanisms; the color line is what makes the loop exploitative rather than merely cultural exchange</code>. As the network gets denser, these annotations keep the connections legible and intellectually specific.</p>
+<p><strong>See also sections are arranged in rough chronological order.</strong> Once a See also section has more than two or three entries, order matters: a reader scanning the list should feel the MAP’s timeline unfold, not a random grab-bag. Arrange the entries so that earlier subjects come first and later ones come last. Era/scene/genre/artist/record entries sort by the decade or year they belong to (rock &amp; roll before Merseybeat before British Invasion before punk before Amy Winehouse); techniques and production methods sort by when they emerged; MOMENTS sort by date; IDEAS notes and SOURCES notes sort loosely by the period their central argument is anchored to, and can float to the end of the section if they’re transhistorical. Perfect chronology isn’t required — the point is that the order is legible and roughly time-shaped rather than arbitrary. This convention applies to See also sections on <strong>every note type</strong> in the MAP, not just IDEAS notes.</p>
+<p><strong>Genre and scene notes point toward the scholarship.</strong> Genre and scene notes stay grounded in close listening — that’s the right register for them. But their Legacy or See also sections should actively direct the reader toward the deeper arguments in IDEAS notes, with a sentence that signals what’s there: “For the institutional consequences of soul’s crossover success, see ((The color line in pop)).” The genre note doesn’t need to do the scholarly engagement itself, but it should make the path to it visible rather than leaving the connection to the graph view alone.</p>
+<h4 id="every-note-is-a-living-document"><strong>Every note is a living document</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#every-note-is-a-living-document" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>No note in the MAP is ever finished — it is current. The MAP is a representation of thinking, and thinking changes as knowledge expands. A Lennon-McCartney note written when the MAP only covered the Brill Building era should look different after notes on Smokey Robinson, the Everly Brothers, and Muscle Shoals exist, because the network of available connections has grown and the note should grow with it.</p>
+<p>When a new note is created, check which existing notes should absorb new examples or connections from it. The question is whether to thread the new example into the prose or add it to the Links/Connects to section at the bottom. The test: does this example change what the paragraph <em>argues</em>, or does it just add another instance of something the paragraph already argues? If the new example makes the note’s argument stronger, more specific, or more nuanced, thread it into the prose. If the relationship is real but doesn’t do argumentative work in the body, add it to the See also section. McCartney’s documented debt to Smokey Robinson belongs in the prose of a Lennon-McCartney note, because it changes how you hear the songwriting. A link to the Everly Brothers might belong in See also, because the harmony debt is real but doesn’t require sustained development.</p>
+<p>This principle applies to every note type, not just IDEAS notes. Artist notes should accumulate new influence connections as those influences get their own notes. Genre notes should accumulate new examples as foundational records are written up. <strong>THEORY and PRODUCTION technique notes are structurally analogous to IDEAS notes in this respect</strong>: they are concept layers that example layers feed into, and they should accumulate new examples the same way. When a new record, artist, or genre note exemplifies a theory concept or production technique, the THEORY or PRODUCTION note should absorb that example — threaded into the prose where it sharpens an argument, added to See also / Key records otherwise. The MAP breathes because its notes are always in conversation with each other, and those conversations deepen as the network grows.</p>
+<h4 id="note-templates"><strong>Note templates</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#note-templates" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>ERA notes</strong> are entry points for entire periods. Metadata block in this order:</p>
+<pre><code>**Scope:** (dates, geography)
+**Defining tension:**
+</code></pre>
+<p>Then prose sections:</p>
+<ul>
+<li>What the era inherits and what it rejects</li>
+<li>Key genres and scenes that define the period</li>
+<li>Commercial and technological context (how music was made, sold, heard)</li>
+<li>The critical landscape (how music was written about)</li>
+<li>Key figures (bullet format: <code>- Name — prose description</code> (bold the name only when it’s a wikilink, per the bolding rule); same format as genre notes’ Key artists)</li>
+<li>Legacy and dissolution</li>
+<li>See also</li>
+</ul>
+<p><strong>GENRE notes</strong> explain genres through history and context. Metadata block in this order:</p>
+<pre><code>_[Genre tree, e.g.: Pop → **Brill Building**]_
+
+**Period:**
+**Location:** (when geographically specific; omit when not)
+**Key influences:** (omit when not applicable)
+**Playlist:** (when one exists; omit when not)
+
+**[RYM](url)**
+</code></pre>
+<p>The genre tree is italicized using underscores (not asterisks) for the outer italic delimiter, with the current note’s name in bold within the italics: <code>_Blues → Electric blues → **British blues**_</code>. Underscores prevent the triple-asterisk ambiguity (<code>***</code>) that causes Obsidian read mode to render raw asterisks instead of italics. Genre names in the tree use natural casing, not title case. The RYM link is bolded. RYM links use the format <code>https://rateyourmusic.com/genre/genre-name/</code>.</p>
+<p><strong>Genre name spelling — no hyphens by default.</strong> Follow RYM’s orthography: write “folk rock,” “blues rock,” “jazz rock,” “country rock,” “big band,” “jump blues,” “rhythm &amp; blues,” “hard rock,” “art rock,” “progressive rock” (not “prog rock” except as informal shorthand), “trip hop,” “new wave,” etc. as separate words, no hyphen. Some genres are one word: <strong>synthpop</strong>, <strong>krautrock</strong>, <strong>electropop</strong>, <strong>dreampop</strong> (when RYM spells them closed). The URL slug uses a dash (<code>folk-rock</code>), but the written genre name does not. The known exceptions where RYM itself uses a hyphen: <strong>singer-songwriter</strong>, <strong>doo-wop</strong>, <strong>post-punk</strong>, <strong>post-rock</strong>, <strong>post-bop</strong>, <strong>euro-disco</strong>, <strong>italo-disco</strong>, <strong>electro-disco</strong>, <strong>alt-country</strong>, <strong>blue-eyed soul</strong>. When in doubt, check the RYM genre page before writing — never invent a hyphen. This rule applies everywhere genre names appear: metadata blocks, prose, See also sections, foundational records descriptions.</p>
+<p>Then prose sections:</p>
+<ul>
+<li>Opening paragraph with sonic and historical orientation</li>
+<li>Origins (what genres or traditions it emerged from)</li>
+<li>Key characteristics (sonic, lyrical, structural)</li>
+<li>Foundational records (linked to ALBUMS)</li>
+<li>Key artists (bullet format: <code>- Artist Name — prose description</code> (bold the name only when it’s a wikilink, per the bolding rule); each entry is a bolded name followed by an em-dash and a paragraph-length description)</li>
+<li>Subgenres and adjacent genres (with links)</li>
+<li>Legacy and influence</li>
+<li>Further reading (when key books or documents exist; with links to SOURCES where applicable)</li>
+<li>See also</li>
+</ul>
+<p><strong>SCENE notes</strong> map geographic and temporal clusters. Metadata block in this order:</p>
+<pre><code>_[Genre tree, when the scene also functions as an RYM genre]_
+
+**Location:**
+**Period:**
+**Key genres:**
+
+**[RYM](url)** (when a corresponding RYM genre page exists)
+</code></pre>
+<p>When a scene has a genre tree (e.g., Merseybeat), it follows the same formatting as genre notes: italicized, current name bold, natural casing. The RYM link is bolded.
+Then prose sections:</p>
+<ul>
+<li>Opening paragraph with defining characteristics</li>
+<li>Historical and economic context (why here, why now)</li>
+<li>Key venues, labels, and institutions</li>
+<li>Key artists (bullet format: <code>- Artist Name — prose description</code> (bold the name only when it’s a wikilink, per the bolding rule); same format as genre notes)</li>
+<li>Cross-pollination (what genres mixed here)</li>
+<li>Foundational records</li>
+<li>Dissolution or evolution</li>
+<li>Further reading (with links to SOURCES where applicable)</li>
+<li>See also</li>
+</ul>
+<p><strong>MOMENT notes</strong> (in MOMENTS/) capture discrete historical events that changed the trajectory of music. Metadata block in this order:</p>
+<pre><code>**Date:** (exact date or date range)
+**Location:**
+**Key figures:**
+</code></pre>
+<p>Then prose sections:</p>
+<ul>
+<li>Opening paragraph with thesis (what happened and why it mattered)</li>
+<li>What preceded it (the conditions that made this moment possible or inevitable)</li>
+<li>What happened (the event itself, grounded in specific detail)</li>
+<li>Immediate aftermath (how people responded — press, audience, industry)</li>
+<li>What it changed (the longer-term consequences for music, culture, or the industry)</li>
+<li>See also</li>
+</ul>
+<p>Moment notes are named plainly: <code>Dylan at Newport.md</code>, <code>Monterey Pop Festival.md</code>, <code>The Beatles on Ed Sullivan.md</code>. They live in MOMENTS/ at the top level of the vault. The distinction from an ERA note is temporal scale — a moment is hours or days, not years. The distinction from a SCENE note is that a moment is an event, not a geographic cluster. Moments are often the inflection points <em>between</em> eras: the event that marks where one period ends and another begins.</p>
+<p><strong>ARTIST notes</strong> are critical profiles, not biographies:</p>
+<ul>
+<li>Genre, scene, and era metadata</li>
+<li>External links: <code>[RYM](url) · [Apple Music](url) · [Spotify](url)</code></li>
+<li>Opening paragraph with critical positioning</li>
+<li>Influences and inheritance (who shaped them). Be specific about what the artist was actually listening to — documented musical, sonic, and lyrical debts, not general genre claims. “McCartney has said he was trying to write a Smokey Robinson song” is stronger than “influenced by R&amp;B.” As new notes are written for those influences, the links become concrete.</li>
+<li>Core musical identity (what they sound like and why)</li>
+<li>Key records (linked to ALBUMS)</li>
+<li>Production relationships (linked to PRODUCERS where relevant)</li>
+<li>Legacy and influence (who they shaped)</li>
+<li>See also</li>
+</ul>
+<p><strong>ALBUM notes</strong> situate records historically. Metadata block in this order:</p>
+<pre><code>![[(Year) Album.png]]
+**Artist:**
+**Released:** (exact date when available, month or year when not)
+**Label:**
+**Producer:**
+**Studio:** (when known and relevant; comma-separated if multiple)
+**Songwriters:** (only when the key songwriter is not the performer)
+**Genre:**
+- **Primary**:
+- **Secondary**:
+**Scene:** (when applicable)
+
+[RYM](url) · [Apple Music](url) · [Spotify](url)
+</code></pre>
+<p>RYM links come from the hyperlinks on album titles in the decade spreadsheets. Spotify and Apple Music links should be sourced from each album’s RYM page, where they appear as icons below the cover art. If a RYM page doesn’t have streaming links, flag this and have the links be grabbed manually.</p>
+<p>Then prose sections:</p>
+<ul>
+<li>Opening paragraph with thesis (why this album matters)</li>
+<li>Musical and production context (who produced it, where, with what)</li>
+<li>What it inherits and what it introduces</li>
+<li>Reception (contemporary and retrospective, with links to SOURCES)</li>
+<li>Influence and legacy</li>
+<li>See also — only link things that are NOT already wikilinked in the prose. If an artist, genre, scene, or idea is already linked inline, the graph connection already exists and repeating it here is redundant. This section captures connections that matter but don’t come up naturally in the body of the note. If every relevant connection is already wikilinked in the prose, omit the section entirely.</li>
+</ul>
+<p><strong>SINGLE notes</strong> capture historically significant tracks. Metadata block in this order:</p>
+<pre><code>**Artist:**
+**Released:** (exact date when available, month or year when not)
+**Label:**
+**Producer:**
+**Studio:** (when known and relevant)
+**Songwriters:** (when distinct from the artist)
+**Genre:**
+- **Primary**:
+- **Secondary**:
+
+[RYM](url) · [Apple Music](url) · [Spotify](url)
+</code></pre>
+<p>Then prose sections:</p>
+<ul>
+<li>Opening paragraph with thesis (why this single matters as a historical event)</li>
+<li>Musical and production context</li>
+<li>What it inherits and what it introduces</li>
+<li>Chart performance and cultural impact</li>
+<li>Influence and legacy</li>
+<li>See also — same rule as album notes: only link things NOT already wikilinked in the prose. Omit the section entirely if all connections are already in the prose.</li>
+</ul>
+<p><strong>TRACK notes</strong> (in RELEASES/TRACKS) capture influential album tracks that were never released as singles but whose innovation or influence merits standalone treatment. Metadata block in this order:</p>
+<pre><code>**Artist:**
+**Album:** (wikilinked)
+**Released:** (album release date)
+**Label:**
+**Producer:**
+**Studio:** (when known and relevant)
+**Songwriters:** (when distinct from the artist)
+**Genre:**
+- **Primary**:
+- **Secondary**:
+
+[RYM](url) · [Apple Music](url) · [Spotify](url)
+</code></pre>
+<p>RYM links point to the track’s page on RYM when available; otherwise link to the album page. Apple Music and Spotify links point directly to the track.
+Then prose sections:</p>
+<ul>
+<li>Opening paragraph with thesis (why this track matters as a standalone work of innovation or influence)</li>
+<li>Musical and production context (what was technically or compositionally new)</li>
+<li>What it inherits and what it introduces</li>
+<li>Influence and legacy (where the innovation led — genres, techniques, artists who responded to it)</li>
+<li>See also — same rule as album notes: only link things NOT already wikilinked in the prose. Omit the section entirely if all connections are already in the prose.</li>
+</ul>
+<p>Track notes follow the same naming convention as singles: <code>(Year) &quot;Title&quot;.md</code>. They live in RELEASES/TRACKS/. The distinction from a SINGLE note is that these tracks were never commercially released as singles — they earned their notes through innovation or influence rather than chart history.</p>
+<p><strong>SONGWRITER notes</strong> (in ARTISTS/SONGWRITERS) profile behind-the-scenes writers:</p>
+<ul>
+<li>Era, genres, key collaborators metadata</li>
+<li>External links: <code>[RYM](url) · [Apple Music](url) · [Spotify](url)</code></li>
+<li>Opening paragraph with critical positioning</li>
+<li>Songwriting style and signature characteristics</li>
+<li>Key songs (linked to SINGLES, ALBUMS, and ARTISTS who recorded them)</li>
+<li>Partnerships (co-writers, producers, publishers)</li>
+<li>Legacy and influence</li>
+<li>See also</li>
+</ul>
+<p><strong>PRODUCER notes</strong> (in ARTISTS/PRODUCERS) profile sonic authors:</p>
+<ul>
+<li>Era, genres, key artists metadata</li>
+<li>External links: <code>[RYM](url) · [Apple Music](url) · [Spotify](url)</code></li>
+<li>Opening paragraph with critical positioning</li>
+<li>Sonic signature (what they sound like and how they achieve it)</li>
+<li>Key techniques (linked to TECHNIQUES)</li>
+<li>Key records (linked to ALBUMS)</li>
+<li>Influence and legacy</li>
+<li>See also</li>
+</ul>
+<p><strong>STUDIO notes</strong> profile recording spaces whose sound shaped records:</p>
+<ul>
+<li>Location, years of peak activity, key engineers</li>
+<li>Opening paragraph with the studio’s sonic significance</li>
+<li>Acoustic properties and equipment (what made it sound the way it did)</li>
+<li>Key producers and engineers who worked there</li>
+<li>Key records (linked to ALBUMS)</li>
+<li>Legacy and influence</li>
+<li>See also</li>
+</ul>
+<p><strong>LABEL notes</strong> profile institutional tastemakers:</p>
+<ul>
+<li>Founded, location, key years, founder(s)</li>
+<li>Opening paragraph with the label’s significance</li>
+<li>Aesthetic identity (what the label sounds like, if applicable)</li>
+<li>Key artists and releases</li>
+<li>A&amp;R philosophy and business model</li>
+<li>Historical context (what market or cultural gap the label filled)</li>
+<li>Legacy</li>
+<li>See also</li>
+</ul>
+<p><strong>EXECUTIVE notes</strong> (in INDUSTRY/EXECUTIVES) profile non-performing industry figures whose creative-commercial decisions shaped what music got made and released. These are the people whose signing choices, contract structures, A&amp;R direction, and institutional philosophy are themselves primary shaping forces on the music — not producers, songwriters, or performers, but the figures whose work is decisional and structural. The distinction from a PRODUCER note: if the person’s primary contribution to the records is sonic (behind the console, shaping arrangements, cutting vocals), they belong in PRODUCERS even if they also owned the label (Phil Spector, Sam Phillips, Chris Blackwell). If the primary contribution is institutional — who got signed, who got dropped, what the label stood for, how the system worked — they belong here. Edge cases where the figure crosses roles (Jerry Wexler producing Aretha, Ahmet Ertegun producing Ray Charles) go wherever the shaping force is strongest; the other role gets covered in the prose of the note. Metadata block in this order:</p>
+<pre><code>**Born:** (and died, if applicable)
+**Active:** (years)
+**Role:** (label founder, A&amp;R executive, publisher, manager, etc. — comma-separated when multiple)
+**Key institutions:** (labels, publishers, or companies they led or shaped — wikilinked when those notes exist)
+
+[Wikipedia](url) · [RYM](url) (RYM only when a page with substance exists)
+</code></pre>
+<p>Then prose sections:</p>
+<ul>
+<li>Opening paragraph with critical positioning — what they did, and the specific case for why the MAP treats them as shaping the music itself rather than just the business around it</li>
+<li>Creative-commercial philosophy — the A&amp;R approach, the signing logic, the contract or institutional structure that determined what the label stood for and how the records got made. Ground this in specific decisions rather than general description</li>
+<li>Key artists signed, developed, or lost (bullet format: <code>- **Artist Name** — prose description of the relationship and what the executive did for, to, or alongside them</code>; same format as genre notes’ Key artists). Include the ones who got away when the non-signing was itself consequential</li>
+<li>Pivotal decisions (the specific moments — the signing that changed the label’s direction, the rejection that released a classic record anyway, the relocation, the legal fight, the public stand). One paragraph each, with dates and context</li>
+<li>Business model and institutional innovation (when applicable — Gordy’s vertical integration and Friday quality-control meetings, Hammond’s genre-crossing A&amp;R at Columbia, Kirshner’s Aldon cubicle system, Grant’s renegotiation of the manager-label power balance)</li>
+<li>Legacy and influence — what the label or institution became under their leadership, and which later executives, labels, or industry practices inherited the model</li>
+<li>See also</li>
+</ul>
+<p>Executive notes are named plainly: <code>Berry Gordy.md</code>, <code>John Hammond.md</code>, <code>Ahmet Ertegun.md</code>. They live in INDUSTRY/EXECUTIVES/. The external-link convention for executives mentioned in other notes before their own note exists: link to Wikipedia on first mention (see the Wikipedia fallback rule above), and when the executive note is eventually written, every prior Wikipedia link must be converted to the wikilink across the MAP.</p>
+<p><strong>TECHNIQUE notes</strong> come in two flavors, one per subfolder.</p>
+<p><strong>PRODUCTION technique notes</strong> (in TECHNIQUES/PRODUCTION) document sonic innovations and historically significant instruments. Metadata block in this order:</p>
+<pre><code>**Origin:** (who, when, where — comma-separated)
+**Key engineer:** (or **Key engineers:** when multiple)
+</code></pre>
+<p>Then prose sections:</p>
+<ul>
+<li>Opening paragraph with what it sounds like and why it matters</li>
+<li>Technical explanation (accessible, not engineering-manual)</li>
+<li>Key records that defined or popularized it</li>
+<li>Producers and engineers associated with it</li>
+<li>Influence on subsequent production</li>
+<li>See also</li>
+</ul>
+<p><strong>THEORY technique notes</strong> (in TECHNIQUES/THEORY) explain the musical-theory concepts that recur across the MAP. They have a pedagogical job as well as a critical one: a reader with no theory background should finish the note understanding the concept, and a reader who already knows it should find specific, non-obvious examples from records the MAP covers. Metadata block in this order:</p>
+<pre><code>**Also known as:** (alternate names and spellings — omit when not applicable)
+**First heard in:** (genre, era, or tradition where the concept originated in Western popular music — kept short)
+**Related concepts:** (wikilinks to other THEORY notes — omit when none exist yet)
+</code></pre>
+<p>Then prose sections:</p>
+<ul>
+<li>Opening paragraph with a plain-English description of what the concept is and what it sounds like, ideally anchored in one famous example the reader is likely to know</li>
+<li>Technical explanation (the theory itself, written so a reader without formal training can follow — introduce terminology as it’s used, define it inline, and show the concept with at least one notated example when useful: Roman numerals for progressions, letter names for chords, or a simple rhythmic figure for rhythmic concepts. Keep notation minimal and always gloss it)</li>
+<li>How it functions musically (what the concept <em>does</em> to a listener — why it creates tension, release, forward motion, nostalgia, a sense of arrival, etc. This is the bridge between the theory and the ear)</li>
+<li>Key records (linked to ALBUMS, SINGLES, or TRACKS — chronological order. Each entry should name the specific moment in the record where the concept is heard, not just list the record as an example)</li>
+<li>Genres and scenes where it is structural (wikilinks — the places where the concept isn’t an occasional device but part of the genre’s DNA)</li>
+<li>Artists and writers closely identified with it (wikilinks — songwriters, producers, or performers whose style is partly defined by this concept)</li>
+<li>Further reading (when applicable — theory textbooks, musicological studies, or critical pieces that treat the concept)</li>
+<li>See also</li>
+</ul>
+<p>Theory notes differ from production notes in one important respect: they do not have a single historical origin the way the Wall of Sound or gated reverb do. A concept like the twelve-bar blues has a genealogy, not an inventor. The <strong>First heard in</strong> field captures <em>where in the MAP’s scope the concept becomes structurally important</em>, not a specific date or person. When a theory note does have a clear historical crystallization (e.g., the AABA form in Tin Pan Alley), name it in the opening paragraph rather than forcing it into metadata.</p>
+<p><strong>IDEAS notes</strong> make arguments by engaging with specific scholars and critics:</p>
+<ul>
+<li>Opening paragraph with thesis (no heading — start with prose)</li>
+<li>All headings use <code>#### **Bold**</code> format</li>
+<li>Final section labeled <code>#### **See also**</code> — combines examples where the idea is heard and related IDEAS notes. Each link should carry a brief annotation explaining the relationship, not just list the note name (see “Keeping the network alive” above). Only include links NOT already wikilinked in the prose; omit the section if all connections are already in the prose.</li>
+<li>Content sections vary by topic, but each section should engage with at least one named scholar or critic whose argument it builds on, extends, or complicates. The engagement should be substantive — not “as X argues” as decoration, but genuine intellectual work: what does the scholar claim, why does it matter for the MAP’s argument, and where does the MAP agree, extend, or push back? Wikilink to the corresponding SOURCES note on first reference: <code>*[[Author - Title|Title]]*</code>.</li>
+<li><strong>IDEAS notes are living documents</strong> (see “Every note is a living document” above). The arguments are permanent; the evidence should grow. An IDEAS note written with mostly 1960s examples should accumulate 1970s, 1980s, and later examples as those notes are written. New scholarly engagement can be added as new SOURCES notes are created.</li>
+</ul>
+<p><strong>SOURCES notes</strong> are argument maps, not bibliographic entries. Their purpose is to make human thinking accessible so that IDEAS notes can engage with it by name. Each source note should make the reader understand what the author argues and why it matters, not just that the book exists.</p>
+<ul>
+<li>Author, title, year, type (book, essay, review, interview, documentary)</li>
+<li>Core argument (1–3 paragraphs): what the author claims, what evidence they draw on, what makes the argument significant. Write this as engagement, not summary — the MAP should have a view on whether the argument is persuasive and where it applies.</li>
+<li><code>#### **Key contributions**</code> — the specific ideas this text introduced to music criticism, musicology, or cultural discourse. Each bullet should be a claim the reader can follow, not a vague gesture at importance.</li>
+<li><code>#### **See also**</code> — how the text’s arguments thread through the MAP. Each connection should explain the relationship, not just list the note: <code>[[The color line in pop]] — Miller's central argument anchors this note's &quot;Inventing the categories&quot; section</code>, not just <code>[[The color line in pop]]</code>.</li>
+<li>For album reviews: note the publication, the critic, and why this particular review mattered.</li>
+<li>Source note filenames follow the format <code>Author - Title.md</code> (e.g., <code>Miller - Segregating Sound.md</code>). IDEAS notes wikilink to them as <code>*[[Miller - Segregating Sound|Segregating Sound]]*</code> on first reference.</li>
+</ul>
+<p><strong>When to create a SOURCES note vs. leave a text in Further Reading.</strong> A SOURCES note exists because the MAP needs to engage with the text’s argument — an IDEAS note (or multiple IDEAS notes) will be in conversation with its specific claims, agreeing, extending, or pushing back. A Further Reading entry is a recommendation for the reader: “if you want to learn more about this subject, here’s the key text.” The test: does the MAP need to argue with this text, or just point to it? If no IDEAS note will ever say “Schwartz argues that…” or “as Brunning documents…,” the text belongs in Further Reading. If the MAP needs the text’s argument as a building block for its own claims, write the SOURCES note so the citation chain works.</p>
+<h4 id="formatting-conventions"><strong>Formatting conventions</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#formatting-conventions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ul>
+<li>
+<p>No blank line between a heading and the paragraph text that follows it. Headings connect directly to their content.</p>
+</li>
+<li>
+<p>All section headings in IDEAS notes: <code>#### **Bold text**</code></p>
+</li>
+<li>
+<p>All note types end with: <code>#### **See also**</code> (only connections NOT already wikilinked in the prose; omit section entirely if empty)</p>
+</li>
+<li>
+<p>Film note title format: <code>(Year) Title.md</code> for chronological sorting</p>
+</li>
+<li>
+<p>Scene notes are named plainly: <code>Merseybeat.md</code>, <code>Laurel Canyon.md</code></p>
+</li>
+<li>
+<p>Genre notes are named by genre: <code>Girl group.md</code>, <code>Heartland rock.md</code></p>
+</li>
+<li>
+<p>No trailing colons on headings</p>
+</li>
+<li>
+<p>When listing foundational records, key records, or any sequence of albums/singles, list them in order of release date</p>
+</li>
+<li>
+<p>Album wikilinks (first/linked mention, in both prose and list sections): <code>*[[(YEAR) Album|Album]]* (YEAR)</code> — italic, clickable, year visible in running text. Example: <code>*[[(1966) Pet Sounds|Pet Sounds]]* (1966)</code>. This format applies everywhere: prose paragraphs, Key records lists, Foundational records lists, studio/label/technique notes.</p>
+</li>
+<li>
+<p><strong>External-link convention for entities without their own MAP notes.</strong> This principle applies to every note type — not just release notes. Every named, linkable entity gets its external link on first mention, every time a note is created or revised. This is a first-class linking rule on par with the wikilink conventions, not formatting minutiae. Songs (including singles) → Apple Music, <strong>except</strong> standards and compositions without a canonical recording, which go to Wikipedia instead (see the compositions-vs-recordings rule below). Studios → Wikipedia (RYM doesn’t index recording studios consistently, and Wikipedia’s articles on studios are substantially richer than RYM’s occasional stubs). Executives and other non-performing industry figures → Wikipedia (per the Wikipedia fallback rule below). Everything else — artists, albums, producers, songwriters, session musicians, labels — → Rate Your Music (RYM). Rationale: RYM has rich, contextual pages for every entity type <em>except</em> individual songs (RYM song pages are thin and their sidebars usually lack Apple Music links), and Apple Music gives the reader immediate audio access for songs, which is where the MAP’s “context-to-music” promise matters most. The convention is two lines because it tracks where the target page exists most usefully. All unlinked external entities mentioned in any new or revised note should be added to <a href="../../PLANS/External-links-audit" class="internal alias" data-slug="PLANS/External-links-audit">External links audit</a> during the close-read (checklist item 15).</p>
+</li>
+<li>
+<p><strong>When a MAP note is created for a previously externally-linked entity, convert every prior external link across the MAP to the wikilink.</strong> External links are stopgaps for entities the MAP hasn’t written up yet. Once a note exists, every instance where that entity was previously linked to RYM, Apple Music, or Wikipedia in another note must be converted to a wikilink so the graph view and backlinks actually work. When writing a new note, part of the backlink sweep (checklist item 12a) is a grep for the entity’s external URL across the MAP — not just for its unlinked textual mentions. The sweep catches three failure modes: (1) the entity is already externally linked and the external link now hides an internal connection the graph view should show; (2) the entity appears both linked and unlinked in the same note (the external link in paragraph 3 should become the wikilink, and the plain-text mention in paragraph 7 should be de-duplicated); (3) the entity is on the External links audit document and now needs to be removed from it because the note has been created. During the external-link audit pass, do not skip entities that already carry an external link — they’re the highest-priority candidates for conversion the moment their note lands.</p>
+</li>
+<li>
+<p>Albums without their own MAP note: <code>*Album* (YEAR)</code> — italic, year after, no wikilink. When a RYM link is available, use <code>[*Album*](rym-url) (YEAR)</code> for the first mention.</p>
+</li>
+<li>
+<p>Artists, producers, songwriters, session musicians, and labels without their own MAP note: plain text on first mention. When a RYM link is available, use <code>[Name](rym-url)</code> for the first mention.</p>
+</li>
+<li>
+<p>Studios without their own MAP note: on first mention, link to Wikipedia: <code>[Studio Name](https://en.wikipedia.org/wiki/Studio_Name)</code>. RYM doesn’t index studios consistently and Wikipedia’s articles on studios are substantially richer, so studios take the Wikipedia path by default.</p>
+</li>
+<li>
+<p>Executives and other non-performing industry figures (label founders, A&amp;R figures, publishers, managers) without their own MAP note: on first mention, link to Wikipedia: <code>[Name](https://en.wikipedia.org/wiki/Name)</code>. Once an EXECUTIVES note exists, every prior Wikipedia link for that figure must be converted to a wikilink across the MAP.</p>
+</li>
+<li>
+<p><strong>Places do not get external links.</strong> Cities, towns, neighborhoods, states, countries, regions, and venues named in passing (Florence Alabama, Muscle Shoals, Liverpool, Greenwich Village, Laurel Canyon, Detroit, the Brill Building as a building, Hitsville U.S.A. as an address, etc.) are left as plain text. Geography matters to the MAP’s arguments, but the Wikipedia pages for places are general-reference articles that rarely deepen a music note’s point, and the Obsidian external-link icon scattered across place names makes prose visually noisy. The exceptions are entities that happen to share a name with a place but are actually institutions or records the MAP cares about as such — the studio “Muscle Shoals Sound Studio” gets its studio link; the city “Muscle Shoals” does not. The <strong>Brill Building</strong> (as a scene/institution with its own MAP note) gets its wikilink; a casual geographic reference to “the building at 1619 Broadway” does not get externally linked. When in doubt: if the entity is named because of what happened there rather than where it is, and there is no MAP note for it, leave it plain.</p>
+</li>
+<li>
+<p><strong>Wikipedia fallback for figures outside RYM’s categories.</strong> Some people the MAP names don’t fit RYM’s taxonomy and therefore don’t have RYM pages, or their RYM pages are too thin to be useful: choreographers (Cholly Atkins), A&amp;R people, publicists, non-performing label founders and executives (Berry Gordy, Leonard and Phil Chess, Ahmet Ertegun, Mo Ostin, Clive Davis), managers (Brian Epstein, Peter Grant), publishers (Don Kirshner), civil rights figures, film directors covered in passing, academics cited briefly. These still deserve a link on first mention — link to Wikipedia instead: <code>[Name](https://en.wikipedia.org/wiki/Name)</code>. The RYM-first convention applies only to people RYM actually indexes. When in doubt, check RYM first; if no page exists or the page is essentially empty, use Wikipedia. Do not leave named non-MAP figures as plain text just because they don’t fit the main convention — the goal is that every named person in the MAP is either wikilinked, externally linked, or (rarely) deliberately unlinked because no useful external page exists. <strong>Executives in particular</strong> default to Wikipedia because their pages tend to exist even when their RYM presence doesn’t; EXECUTIVES notes once created become the primary target and the Wikipedia links get converted to wikilinks across the MAP per the rule above.</p>
+</li>
+<li>
+<p><strong>External-link display text absorbs adjacent possessives.</strong> The external-link icon (the little box-with-arrow Obsidian renders next to markdown links) looks ugly when it splits a name from its own possessive marker. Pull possessive <code>'s</code> and plural possessive <code>s'</code> <em>into</em> the display text so the icon lands at the end of a natural unit. Examples: <code>[Irving Berlin's](url)</code> not <code>[Irving Berlin](url)'s</code>; <code>[the Gershwins'](url)</code> not <code>[the Gershwins](url)'</code>. <strong>Year parentheticals stay OUTSIDE the link.</strong> For songs and albums, the quote marks and italic asterisks are already their own visual boundary, and the year reads as supplementary context rather than part of the title: <code>[&quot;Lonely Teardrops&quot;](url) (1958)</code> not <code>[&quot;Lonely Teardrops&quot; (1958)](url)</code>; <code>[*Pet Sounds*](url) (1966)</code> not <code>[*Pet Sounds* (1966)](url)</code>. Trailing commas and periods are fine outside the link — they don’t collide with the icon visually. Plain plurals without an apostrophe (<code>[the Shirelles](url)</code>) are fine as-is.</p>
+</li>
+<li>
+<p><strong>RYM <code>/credits/</code> suffix for credit-role figures.</strong> For songwriters, session musicians, arrangers, and similar credit-role figures — people whose work mostly appears on other artists’ releases rather than their own — append <code>/credits/</code> to the RYM artist URL (e.g., <code>https://rateyourmusic.com/artist/ellie-greenwich/credits/</code>, not <code>/artist/ellie-greenwich</code>). The default discography page only shows releases they themselves performed on, which is usually a small fraction of their output; the <code>/credits/</code> page lists every release they’re credited on in any role and is typically an order of magnitude larger. Ellie Greenwich’s discography has 46 entries; her credits page has 583. <strong>Exceptions — link to the main artist page, not <code>/credits/</code>:</strong> classical composers and standards-era tunesmiths whose main RYM page has a “Works” view showing their compositions as recorded by many different artists. Known exceptions: Stephen Foster, Scott Joplin, George Gershwin, Darius Milhaud, Sis Cunningham (Broadside editor, different case). When in doubt, check whether the RYM artist page has a “Works” tab — if it does, use the main page; if not, use <code>/credits/</code>.</p>
+</li>
+<li>
+<p><strong>RYM slugs keep “and” as a word — don’t drop it when an artist name contains <code>&amp;</code> or “and”.</strong> RYM’s URL convention preserves the conjunction rather than treating it as a separator. The naive slugify pattern — lowercase, normalize <code>&amp;</code> and other non-alphanumerics to hyphens, collapse repeats — produces broken URLs for any group whose name contains <code>&amp;</code> or “and”: <code>ike-tina-turner</code>, <code>peter-paul-mary</code>, <code>sam-dave</code>, <code>bob-b-soxx-the-blue-jeans</code>. The correct slugs keep the conjunction: <code>ike-and-tina-turner</code>, <code>peter-paul-and-mary</code>, <code>sam-and-dave</code>, <code>bob-b-soxx-and-the-blue-jeans</code>. When generating RYM URLs programmatically or by hand, always substitute <code>&amp;</code> → <code>and</code> <em>before</em> normalizing separators. When an RYM URL returns 404, the first transformation to try is re-inserting “and”; alongside <code>_f1</code>/<code>_f2</code> disambiguators and hyphen-versus-underscore swaps, this accounts for most broken links.</p>
+</li>
+<li>
+<p>Subsequent unlinked album mentions in prose: <code>*Album*</code> — italic, not clickable</p>
+</li>
+<li>
+<p>Single and track wikilinks follow the same pattern but with quotes: <code>[[(YEAR) &quot;Single&quot;|&quot;Single&quot;]] (YEAR)</code>. Subsequent unlinked mentions: <code>&quot;Single&quot;</code></p>
+</li>
+<li>
+<p>Songs without their own MAP note: on first mention, link directly to Apple Music: <code>[&quot;Song Title&quot;](apple-music-url) (YEAR)</code>. This gives the reader immediate access to hear the music being discussed. Subsequent mentions: <code>&quot;Song Title&quot;</code> (quotes, no link). <strong>Four rules govern how every external link (Apple Music, RYM, Wikipedia) gets into notes</strong>, all consequential and all violated in the past:</p>
+<ul>
+<li><strong>Grep the vault for a verified URL BEFORE adding any external link.</strong> Before adding any external link to any note — Apple Music, RYM, Wikipedia, all of them — run <code>grep</code> across the vault for the entity’s name to see if a verified URL is already in use somewhere. If yes, use the existing verified URL. If no, fall through to the next rules. This is the single most important rule because it prevents three failure modes at once: (1) duplicate verification work for Sha (URLs she already checked once should not require checking again); (2) URL inconsistency across notes (same entity linked to slightly different slugs in different notes); (3) the audit doc accumulating entries that don’t actually need verification. Cautionary precedent: the 2026-05-12 sweep of the four THEORY notes, where I added a dozen “Proposed URL” rows to the audit doc for entities (the Chiffons, the Crystals, Black Sabbath, Ben E. King, Dootone, Atco, Comet, Peacock, Trumpet, Cocteau Twins, <em>Meet the Beatles!</em>, etc.) whose URLs were already linked elsewhere in the vault. A single <code>grep</code> pass would have surfaced them.</li>
+<li><strong>Context-check song-vs-album before flagging “convention violations.”</strong> When a record title can be either an album or a song (a self-titled-track album, or a song on an album sharing the title), read the surrounding prose to determine which the sentence is naming before flagging a link as wrong-form. <code>&quot;My Generation&quot;</code> in the Pentatonic and blues scales note refers to the song (it lists song riffs alongside “Day Tripper” and “Sunshine of Your Love”); <code>*My Generation*</code> in The Who’s note refers to the album. The same title can take a different URL in different notes, depending on context. Flagging a song-context URL as a “convention violation” without checking the prose is the failure mode. Cautionary precedent: the 2026-05-12 audit pass, where I added “My Generation linked to RYM album page instead of Apple Music” as a convention violation without first checking whether the prose was naming the song or the album.</li>
+<li><strong>Inline search URLs are allowed as Apple Music placeholders, but only when paired with an audit doc entry.</strong> When you don’t have a verified Apple Music URL for a song (and grep confirms none exists), inline a search URL in the note’s prose using the format <code>[&quot;Song Title&quot;](https://music.apple.com/us/search?term=Song+Title+Artist) (YEAR)</code> (URL-encode spaces as <code>+</code>, quotes/punctuation as <code>%xx</code>). The placeholder lets Sha click directly from the note to find the real album page. <strong>But every inlined search URL MUST also be tracked in <a href="../../PLANS/External-links-audit" class="internal alias" data-slug="PLANS/External-links-audit">External links audit</a> under the appropriate section</strong> — without that, Sha can’t scan a single list to know which inline URLs are placeholders and which are verified, and a placeholder can slip past a read-through unnoticed (it looks the same as any other purple external link in Obsidian). The audit doc is the master checklist; the inline URL is the convenience. The two are paired: when the verified URL is grabbed and propagated into the note, the audit doc entry is removed. Cautionary precedent: the Crows’ “Gee” note (May 2026), where the Smile Sessions album note received an inline search URL for the SMiLE “Gee” track but the corresponding audit doc entry was never created.</li>
+<li><strong>Never pattern-match numeric IDs from a nearby URL.</strong> Apple Music album/track IDs are opaque and cannot be derived from title/artist or copied from adjacent URLs. Even if an adjacent URL in the same file has the form <code>album/x/{album-id}?i={track-id}</code>, the album-ID and track-ID are both opaque; reusing them with guessed substitutions produces a link to the wrong song or a 404. If you don’t have a verified URL, use the inline-search-URL-plus-audit-doc-entry pattern above. Cautionary precedents: the Sun Records and Berry Gordy notes (April 2026), and “Rock Around the Clock” in the Twelve-bar blues note (May 2026), where the album-ID <code>1469584475</code> was lifted directly from the adjacent “Thrill Is Gone” URL.</li>
+<li><strong>Propagation workflow.</strong> Sha clicks the inline search URL (or the audit doc one), lands on the right album, grabs the verified URL, pastes it back into the audit doc’s table or hands the list to Claude. Claude then propagates verified URLs into the note(s), and removes the now-resolved audit doc entries. The convention covers the lifecycle: placeholder appears in note AND audit doc together → Sha resolves → verified URL replaces placeholder in note, entry deleted from audit doc.</li>
+<li><strong>The audit doc is for things Sha needs to verify or source — not propagation tasks.</strong> When a URL is already verified somewhere in the vault and just needs to be copied into another note where the entity appears unlinked, that’s propagation work — Claude does it directly without adding the entity to the audit doc. The audit doc tracks (a) songs needing Apple Music URLs sourced from outside the vault, and (b) constructed-slug URLs Claude couldn’t verify against the vault. It is not a propagation-task list. Cautionary precedent: the 2026-05-12 sweep, where I added a “Propagation tasks” subsection to the audit doc listing six songs and their verified URLs alongside the unlinked instances they should be copied to. The right action was to just do the propagation inline, not surface it as a Sha-action item.</li>
+</ul>
+</li>
+<li>
+<p><strong>Compositions vs. recordings — standards go to Wikipedia, not Apple Music.</strong> When a song exists primarily as a composition with many recorded versions and no single canonical recording — Tin Pan Alley standards (Berlin, Gershwin, Porter, Rodgers, Arlen, Kern, Mercer), jazz standards, hymns and spirituals, Stephen Foster songs, traditional folk material, show tunes, art songs, opera arias — the Apple Music link is arbitrary in a way it isn’t for a song where one record IS the version. For these compositions, link to Wikipedia instead: <code>[&quot;Song Title&quot;](wikipedia-url) (YEAR)</code>. The Wikipedia article documents history, composer credits, notable recordings, and cultural reception — the appropriate context for a piece that exists across many performances rather than as a single sonic event. <strong>The test</strong>: can you name THE recording most listeners would picture when the song is mentioned? If yes (the Crystals’ “Be My Baby,” Chuck Berry’s “Johnny B. Goode,” Otis Redding’s “Try a Little Tenderness,” the Drifters’ “Save the Last Dance for Me”) → Apple Music. If no (Gershwin’s “Summertime,” Berlin’s “White Christmas,” Foster’s “Beautiful Dreamer,” “Amazing Grace,” Rodgers &amp; Hart’s “My Funny Valentine”) → Wikipedia. The line is about how the song lives in the culture, not who wrote it: Berlin’s “White Christmas” is a standard (Crosby’s version is iconic but not the only version anyone pictures), but Mann-Weil’s “Uptown” is a recording (the Crystals’ Spector production IS the song). Precedent: the Pentatonic and blues scales note’s “Amazing Grace” and “Auld Lang Syne” treatment (April 2026); codified for Tin Pan Alley standards on May 12, 2026.</p>
+</li>
+<li>
+<p><strong>Cover-version disambiguation — songs with notable covers need per-context URLs, not blanket vault-wide propagation.</strong> When the same song title refers to multiple recordings (an original plus one or more famous covers), each version has its own Apple Music URL, and the URL used in any given prose mention or catalog bullet must match the version the surrounding context is talking about. Propagation scripts that build a “URL inventory” by scraping all <code>[&quot;Song&quot;](url)</code> links in a note’s body and applying the first one they find to other mentions of <code>&quot;Song&quot;</code> will silently mis-attribute cover versions to original-artist contexts and vice versa. Two precedents to watch for: <strong>“Hound Dog”</strong> (Big Mama Thornton’s original, <code>hound-dog-digitally-remastered/445676199</code>, vs. Elvis’s 1956 cover, <code>hound-dog/217633715</code> — handled by the Hound Dog discretion paragraph in the External links audit doc), and <strong>“Rock and Roll Music”</strong> (Chuck Berry’s original, <code>rock-and-roll-music/1485639733?i=1485640034</code>, vs. the Beatles’ 1964 cover on <em>Beatles for Sale</em>, <code>rock-and-roll-music/1441165005?i=1441165094</code> — caught in April 2026 when a propagation script applied the Beatles URL to Chuck Berry’s Key songs catalog and a vault-wide find-and-replace then over-corrected by pushing the Chuck Berry URL into a Beatles-cover prose sentence). Other likely cover-version cases to handle by hand: “Twist and Shout” (Isley Brothers vs. Beatles), “I Heard It Through the Grapevine” (Gladys Knight vs. Marvin Gaye vs. CCR), “Respect” (Otis Redding vs. Aretha Franklin), “All Along the Watchtower” (Dylan vs. Hendrix). When authoring, always pick the URL that matches the version the sentence is about. When propagating mechanically, skip any song that has a known multi-version split, or flag those candidates for manual review rather than blanket-applying. The reference implementation lives in the External links audit doc’s “Hound Dog discretion” paragraph; new multi-version songs should be added there as they’re identified.</p>
+</li>
+<li>
+<p>The linking hierarchy for songs: wikilink to the note if it has one (single or track note) → Apple Music link if it doesn’t → unlinked quoted text as fallback. This hierarchy applies in prose, Key records, Key songs, Foundational records, and all other list sections.</p>
+</li>
+<li>
+<p><strong>Same-album track redundancy — don’t repeat the album’s year next to its own tracks inside that album’s note.</strong> A release note’s title already carries the year (<code>(1966) Revolver</code>), and the metadata block restates it (<code>**Released:** August 5, 1966</code>). When the note’s prose lists or discusses tracks from that same album, a trailing <code>(YEAR)</code> after each song title is redundant noise. Write <code>the album's achievement is that it contains &quot;Tomorrow Never Knows&quot; and [&quot;Eleanor Rigby&quot;](url) and [&quot;Here, There and Everywhere&quot;](url)</code> rather than <code>&quot;Tomorrow Never Knows&quot; (1966) and &quot;Eleanor Rigby&quot; (1966)</code>. The year only earns its place when the song’s release year <em>differs</em> from the album’s — e.g., a 1965 single discussed in a 1966 album note still gets <code>(1965)</code> because that’s information the reader doesn’t already have. The same logic applies in reverse: a single-note’s prose discussing tracks from the same single doesn’t need the year repeated either. The April 2026 sweep that codified this rule found 11 redundant <code>(YEAR)</code> instances across six album notes (Pet Sounds, Rubber Soul, Abbey Road, Eli and the Thirteenth Confession, Sgt. Pepper’s, A Christmas Gift for You from Philles Records).</p>
+</li>
+<li>
+<p><strong>Don’t externally link a song that’s already wikilinked earlier in the same paragraph (or section).</strong> When a song has its own MAP note and is wikilinked at first mention, subsequent mentions in the same paragraph should be plain quoted text (<code>&quot;Tomorrow Never Knows&quot;</code>), not a fresh <code>[&quot;Tomorrow Never Knows&quot;](apple-music-url)</code> external link. The wikilink to the MAP note already gives the reader access to the song’s full context (which includes the Apple Music link in metadata), so adding an external link below it in the same paragraph is duplicate work and violates the first-mention rule. Watch for this when authoring release notes: if you wikilink a track in the opening sentence, references to that track later in the same paragraph (or elsewhere in body prose) stay unlinked.</p>
+</li>
+<li>
+<p><strong>Release notes never externally link their own subject in body prose.</strong> A release note’s metadata block already carries the Apple Music link to the album/single/track itself; the body prose is <em>about</em> that subject, so re-linking it externally below the metadata is a self-reference that adds nothing. Body-prose mentions of the note’s own title stay as plain italic for albums (<code>*Revolver*</code>), plain quoted for singles/tracks (<code>&quot;Tomorrow Never Knows&quot;</code>). The cautionary precedent (April 2026): the Tomorrow Never Knows track note’s body prose opened with <code>[&quot;Tomorrow Never Knows&quot;](super-deluxe-url) (1966) sits on a single chord of C major</code> — both the external link (self-reference) and the trailing <code>(1966)</code> (the title already carries the year) were redundant. The same principle extends to other notes mentioning the same subject: if Tomorrow Never Knows is wikilinked once at first prose mention in any note, later mentions in the same note’s body stay unlinked, even across section boundaries.</p>
+</li>
+<li>
+<p>Wikilinks are placed on the first occurrence per note in prose/argument sections (opening, historical context, analysis, legacy, dissolution, cross-pollination, etc.). Once Phil Spector is linked in “How it worked,” he does not need re-linking in “Cross-pollination” or “Dissolution.” Metadata blocks do not count — if an entity appears in the metadata, it still gets linked on its first mention in prose. <strong>This rule cuts only one way:</strong> “metadata blocks don’t count” means metadata mentions don’t <em>satisfy</em> the prose first-mention requirement, not that metadata mentions are exempt from being linked. See the next item — metadata is itself a first-class linking target.</p>
+</li>
+<li>
+<p><strong>Metadata blocks are themselves first-class linking targets, subject to the same external-link convention as prose.</strong> Every named entity in a metadata field (<code>**Artist:**</code>, <code>**Producer:**</code>, <code>**Songwriters:**</code>, <code>**Label:**</code>, <code>**Scene:**</code>, <code>**Genres:**</code>, <code>**Movement:**</code>, <code>**Members:**</code>, <code>**Key collaborator:**</code>, <code>**Key artists:**</code>, <code>**Location:**</code>, etc.) gets a link on first appearance: a bolded wikilink if a MAP note exists (<code>**Songwriters:** **[[Lennon-McCartney]]**</code>), an external link if not (<code>**Songwriters:** [Ray Davies](https://rateyourmusic.com/artist/ray-davies/credits/)</code>). The same external-link convention as prose governs the URL choice — RYM for artists/songwriters/producers/session musicians/labels/studios, Wikipedia for executives and other figures outside RYM’s taxonomy, Apple Music for songs, with the credit-role <code>/credits/</code> suffix and the rest of the conventions in the External-link section below. The historical pattern of leaving Songwriters or Members unlinked while Producer and Label were linked was an inconsistency in the close-read pass, not a deliberate rule. Going forward, every named entity in metadata gets a link, the same way every named entity in prose does.</p>
+</li>
+<li>
+<p><strong>The metadata field name determines the link target, not the figure’s biography.</strong> A single person can carry different roles across different records, and the link target follows the role being credited on the specific line — not the figure’s broader career identity. Example: George Goldner was a label founder (Rama, Gee, End, Roulette, Red Bird) and is therefore most naturally categorized as an executive (Wikipedia link by default). But on the Crows’ “Gee” (1953) his metadata credit reads <code>**Producer:** George Goldner</code>, so on that record’s note he takes the producer convention: <code>[George Goldner](https://rateyourmusic.com/artist/george-goldner/credits/)</code> (RYM /credits/). A hypothetical future Rama Records label note would credit him as <code>**Founder:** [George Goldner](wikipedia-or-future-wikilink)</code> (executive convention). The rule generalizes: read the field name first, then pick the link target from the field’s category — <code>**Label:**</code> → RYM (<code>/label/name/</code>), <code>**Producer:**</code> → RYM (<code>/artist/name/credits/</code>), <code>**Studio:**</code> → Wikipedia, <code>**Songwriters:**</code> → RYM (<code>/artist/name/credits/</code>), <code>**Artist:**</code> → RYM (<code>/artist/name/</code>) if performing or wikilink if MAP note exists, <code>**Founder:**</code> / <code>**A&amp;R:**</code> / <code>**Manager:**</code> / <code>**Publisher:**</code> → Wikipedia (or wikilink to EXECUTIVES note once it exists). The mistake to avoid: defaulting to Wikipedia for a figure whose overall career is “industry executive” when the specific metadata line credits them in a producer, songwriter, or other RYM-bucket role on that record. Caught May 2026 on the Crows’ “Gee” note, where Goldner was incorrectly Wikipedia-linked under <code>**Producer:**</code> and Rama Records was Wikipedia-linked under <code>**Label:**</code> (labels are always RYM, no exceptions — that one was pure inattention).</p>
+</li>
+<li>
+<p><strong>Exception — release-note genre lines are linking anchors, not metadata blocks.</strong> The <code>**Genres:**</code> line at the top of an album, single, or track note is treated as a first-prose-mention-equivalent for linking purposes, because many release notes have little or no body prose and would otherwise leave foundational genres (rhythm &amp; blues, soul, rock, pop, girl group, and every subgenre) unlinked entirely. Every genre listed on the genre line that has its own MAP note must be wikilinked there. This is a deliberate exception to the “metadata blocks don’t count” rule — release-note genre lines are where genre linking happens. <strong>Important:</strong> the genre-line link is <em>additive</em>, not a substitute for prose linking. If a genre is wikilinked on the genre line and then also appears in the body prose of the same note, the first prose mention ALSO gets wikilinked. Treat the genre line and the prose as independent linking contexts: both first mentions carry links. This mirrors how reference/catalog sections link independently from argument prose.</p>
+</li>
+<li>
+<p><strong>The opening paragraph always carries first-mention links.</strong> The opener is almost always where key entities first appear in prose, so it is almost always where they get linked. Do not defer a wikilink to a later section because the concept “belongs” there thematically (e.g., waiting to link Motown sound until the Motown section, or Jump blues until the Origins section). If the opener mentions Motown, Fats Domino, jump blues, and rock &amp; roll, all four get linked in the opener — and later prose-section mentions become plain text. Reference/catalog sections (Key records, Genres, Drummers) still link independently regardless.</p>
+</li>
+<li>
+<p>Reference/catalog sections — sections whose primary purpose is to list and describe entities (Key artists, Key songwriting teams, Key labels, Foundational records, Key records, See also, Further reading, and similar) — link independently, regardless of what has been linked elsewhere in the note. A reader may navigate directly to “Foundational records” and should find working links there. The section’s format (prose paragraphs vs. bulleted list) does not matter; what matters is whether the section’s purpose is cataloging entities. <strong>Catalog sections are identified by purpose, not by heading name.</strong> A bullet list whose entries describe entities (<code>- Entity Name — description</code>) is a catalog section regardless of whether the heading is “Key X / Foundational / See also / Further reading” or something more specific to the note’s argument like “Genres where it is structural” (in TECHNIQUES notes), “Artists closely identified with it,” “Production relationships,” or “Subgenres and adjacent genres.” The visual signal is the bullet form <code>- HEADER — description</code> repeated several times in a row. Each bullet header is a linking target; the description follows standard prose form.</p>
+</li>
+<li>
+<p><strong>Don’t wikilink an entity that appears inside the title of a book, song, album, film, or other proper-noun work.</strong> Titles are quoted, italicized, or otherwise rendered as a single typographic unit, and breaking a wikilink into the middle disrupts the title’s visual integrity and reads as a layout glitch. The Mod note’s “Further reading” entry for <em>The Soul Stylists: Six Decades of Modernism — from Mods to Casuals</em> is the cautionary precedent — an automated bolding pass wikilinked “Soul” inside the book title, producing <code>*The **[[Soul|Soul]]** Stylists*</code>. The fix is to leave the title unbroken: the entity is named in service of identifying the work, not as a standalone reference, and the link can go on a separate first mention elsewhere in the note (or be omitted if the work is the only mention). This rule covers book titles, album titles (<code>*Pet Sounds*</code>), song/single titles (<code>&quot;Strawberry Fields Forever&quot;</code>), film titles, and the names of newspapers, magazines, journals, or other periodicals. Wikilinks for entities mentioned in the surrounding prose — author, performer, label — are unaffected.</p>
+</li>
+<li>
+<p><strong>Image embeds NEVER take any formatting — no bold, no italic, no surrounding asterisks of any kind.</strong> Cover-art image embeds at the top of release notes use the syntax <code>![[Album Title.png]]</code> and Obsidian renders them inline as the actual image. Wrapping the embed in any formatting (<code>!***[[Album Title.png]]***</code>, <code>**![[Album Title.png]]**</code>, etc.) breaks the rendering — the image becomes a broken-link text fragment instead of displaying. The April 2026 metadata-bolding sweep wrapped 22 album/single cover embeds in <code>***...***</code> (because the embed’s filename starts with <code>(YEAR)</code> and the script treated it as an album-style wikilink), breaking every cover image in the vault until the regression was caught and reverted. Going forward, any propagation script or bolding pass must explicitly skip lines whose content matches <code>!\[\[.*\.(png|jpg|jpeg|gif|webp)\]\]</code>. Authors should never apply formatting to image embeds, even when they fall inside a metadata block where surrounding wikilinks ARE bolded — the embed is rendering syntax, not a wikilink-to-bold.</p>
+</li>
+<li>
+<p><strong>Bold wikilinks at first prose mention, in catalog-section bullet headers, and in metadata blocks, so MAP-note links visually outrank external-link records.</strong> Wikilinks inside the MAP point to other MAP notes (purple in Obsidian); external links point outside the vault to RYM, Apple Music, or Wikipedia (default-styled). Bolding the wikilinks in the locations a reader scans first — the metadata block at the top of the note, the first prose mention in a section, and the bullet header in a catalog list — makes internal connections jump off the page so the reader can tell at a glance which entities have notes worth visiting and which don’t. The rule applies to <strong>every wikilink type</strong>, not just releases: artists, songwriters, producers, session musicians, labels, studios, executives, genres, scenes, eras, moments, techniques, sources, and IDEAS notes all bold the same way. <strong>Three contexts get bolded:</strong></p>
+<ol>
+<li><strong>Metadata block (top of note).</strong> Every wikilink in the metadata block — the <code>**Field:**</code> lines at the top of the note (Genres, Scene, Era, Artist, Label, Producer, Songwriters, Movement, Members, Key collaborator, Key artists, Location, etc.) — gets bolded. This includes wikilinks that appear inside list items beneath a metadata field (e.g., the <code>- **Primary**: ...</code> and <code>- **Secondary**: ...</code> items beneath <code>**Genre:**</code>). The metadata block is the first thing a reader scans on any note, and an unbolded wikilink there visually disappears beneath the bolded field labels (<code>**Artist:**</code>, <code>**Genres:**</code>). Bolding restores the wikilink’s prominence. The metadata block ends at the external-links line (<code>[RYM] · [Apple Music] · [Spotify]</code>) or at the first section heading — whichever comes first. (See the linking-scope items above for the metadata-as-first-class-target convention; see the External-link section below for what to link metadata entries to when no MAP note exists.)</li>
+<li><strong>First prose mention per section.</strong> The first time an entity’s wikilink appears in body prose within a given section (opening, historical context, analysis, legacy, dissolution, cross-pollination, etc.), it gets bolded. Subsequent unlinked mentions of the same entity in the same section stay in their standard form (<code>*Album*</code>, <code>&quot;Single&quot;</code>, plain text for artists). The “first mention” rule still governs <em>whether</em> something gets linked at all — bolding only modifies <em>how</em> the link is rendered when it does appear.</li>
+<li><strong>Catalog-section wikilinks — first mention per section, header or description.</strong> Each catalog section is its own linking context (per the “reference/catalog sections link independently” rule). Within a catalog section, the first wikilink mention of any entity gets bolded — whether it sits in a bullet header or in a bullet description. Subsequent mentions of the same entity in the same section stay unbolded. <strong>Bolding is reserved for wikilinks; external links never get bolded</strong> regardless of position. So a bullet like <code>- [Artist Name](rym-url) — their breakthrough was **[[(1960) &quot;Will You Love Me Tomorrow&quot;|&quot;Will You Love Me Tomorrow&quot;]]**, recorded with...</code> correctly leaves the external-link header unbolded and bolds the wikilink to the song’s MAP note (its first mention in this section). If the same song is mentioned again later in the same section, it stays unbolded. This was decided April 2026 (Option B for the header rule, Option Y for the description extension) after sweeps found 104 inconsistently-bolded external-link headers and 239 unbolded wikilinks in catalog descriptions across the vault. The earlier “Key artists / Key figures: each entry is a bolded name” guidance is superseded — bolding now signals MAP-note presence and first-mention status, not list-format convention.</li>
+</ol>
+<p><strong>Form by entity type:</strong></p>
+<ul>
+<li><strong>Albums:</strong> <code>***[[(YEAR) Album|Album]]***</code> — bold + italic.</li>
+<li><strong>Singles and tracks</strong> (display text already in quotes): <code>**[[(YEAR) &quot;Single&quot;|&quot;Single&quot;]]**</code> — bold alone.</li>
+<li><strong>Everything else</strong> (artists, songwriters, producers, session musicians, labels, studios, executives, genres, scenes, eras, moments, techniques, sources, IDEAS): <code>**[[Entity Name]]**</code> — bold alone.</li>
+</ul>
+<p><strong>External links never get bolded.</strong> A <code>[*Album*](rym-url) (YEAR)</code>, <code>[&quot;Single&quot;](apple-music-url) (YEAR)</code>, or <code>[Artist Name](rym-url)</code> stays in its normal italic-or-quoted form regardless of where it sits. Bolding signals “this points to a MAP note,” and external links don’t.</p>
+<p><strong>Canonical example — Carole King:</strong> Key records section: <em><strong>Tapestry</strong></em> is bold-italic (MAP note exists), <em>Writer</em> and <em>Music</em> are italic-only (RYM external links). Legacy paragraph: first prose mentions of <code>**[[The Beatles]]**</code>, <code>***[[(1963) Please Please Me|Please Please Me]]***</code>, <code>**[[Dusty Springfield]]**</code>, <code>***[[(1969) Dusty in Memphis|Dusty in Memphis]]***</code>, and <code>**[[Laura Nyro]]**</code> are all bolded. See also bullet headers: <code>**[[Pop as craft]]**</code>, <code>**[[Authenticity and its discontents]]**</code>, <code>**[[The pop factory]]**</code>.</p>
+<p><strong>What stays standard form:</strong> wikilinks inside a catalog bullet’s description (after the em-dash) — they are not the bullet’s subject. Subsequent unlinked mentions in prose — they aren’t links at all. So <code>- ***[[Rubber Soul]]*** (1965) — The pivot toward artistic ambition; the record that provoked [[Brian Wilson]] into making *[[(1966) Pet Sounds|Pet Sounds]]* (1966)</code> correctly bolds <em>Rubber Soul</em> (header) but leaves Brian Wilson and Pet Sounds in standard form (description). And in body prose, the second mention of <em>Tapestry</em> in the same section reads as plain <em>Tapestry</em> (italic, no link, no bold), not <code>***Tapestry***</code>. The bolding is a “this is a MAP-note link the reader can follow” signal — it does not mean “this entity is important enough to bold every time.”</p>
+</li>
+<li>
+<p><strong>Propagation tooling must enforce the catalog-section rule.</strong> When any script propagates external links (RYM, Apple Music, Wikipedia) or wikilinks across multiple notes — vault-wide sweeps, audit-doc-table propagation, backlink passes — the script must apply the link to BOTH (a) the first prose mention in each note AND (b) the first occurrence in every catalog/list section in each note (Key artists, Key records, Foundational records, See also, Further reading, etc.). A propagation that only touches first-prose-mention leaves catalog sections unlinked, and the gap won’t surface until a reader navigates straight to the Foundational records list and finds plain text where wikilinks should be. The April 2026 propagation passes for ARTISTS / ALBUMS / PRODUCERS / SONGWRITERS / SESSION MUSICIANS / LABELS / STUDIOS missed this: 237 catalog-section gaps across 37 notes had to be retroactively filled in April 25, 2026. Every new propagation script must (1) detect catalog sections by <code>#### **Key|Foundational|See also|Further reading**</code> heading patterns, (2) apply the link to each section independently, and (3) skip sections that already contain the URL. The reference implementation lives in <code>propagate_songs.py</code>’s <code>propagate_song_to_note</code> function.</p>
+</li>
+<li>
+<p>Only link to notes that already exist in the vault. Do not create wikilinks to notes that have not been written yet.</p>
+</li>
+<li>
+<p><strong>Mechanical entity audit before finishing any note.</strong> The last step of writing or revising a note is a mechanical entity-by-entity sweep. Enumerate every named artist, band, songwriter, producer, session musician, record (album/single/track), label, studio, genre, scene, era, moment, technique, source, and IDEAS concept that appears in the note. For each one, check whether a file exists in the vault — do this by actually searching, not by memory. If a file exists, confirm the entity is wikilinked on first prose mention (including in the opening paragraph) and in every reference/catalog section where it appears. If no file exists, leave it plain text. The sweep is not done by skimming for bold names or tracing “themes” — it is done by listing entities and checking each against the vault. This catches the failure mode where a mention like “the Supremes’ ‘You Can’t Hurry Love’” slides by because the writer was thinking about the argument, not the entities.</p>
+</li>
+<li>
+<p>Artist, songwriter, producer, and session musician notes include external links after the metadata block: <code>[RYM](url) · [Apple Music](url) · [Spotify](url)</code> — placed on its own line after the last metadata field, with a blank line before the opening prose paragraph. For songwriter partnership notes where no single artist page exists, link to individual RYM pages: <code>[RYM (Name1)](url) · [RYM (Name2)](url)</code>.</p>
+</li>
+</ul>
+<h4 id="cross-linking-with-the-film-map"><strong>Cross-linking with the FILM MAP</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cross-linking-with-the-film-map" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>Music and cinema are deeply entangled — soundtracks, scoring, musical movements that parallel film movements, artists who cross between them. The MUSIC MAP links freely to the FILM MAP using standard wikilinks. Where a film’s soundtrack is significant to music history (Scorpio Rising, Easy Rider, Purple Rain), it earns mentions in the relevant album, genre, or scene notes. Where a musician’s work connects to cinema (Miles Davis scoring Elevator to the Gallows, Ennio Morricone’s spaghetti westerns), the connection is noted but the primary analysis lives in whichever MAP owns the subject.</p>
+<ul>
+<li><strong>Film/album title disambiguation — never strip a <code>MUSIC/RELEASES/ALBUMS/</code> path prefix from an existing wikilink.</strong> When an album and a film share a title (A Hard Day’s Night, Help!, Magical Mystery Tour, Let It Be, Purple Rain, Stop Making Sense, and other rockumentary/concert-film titles), the MUSIC MAP’s wikilink carries the full path: <code>[[MUSIC/RELEASES/ALBUMS/(YEAR) Title|Title]]</code>. The prefix is not noise — it disambiguates the album note from a FILM note of the same name living in a sibling <code>FILM/</code> folder at the Obsidian vault root. Path prefixes must never be auto-stripped during propagation sweeps, format fixes, or mechanical entity audits. When authoring a new wikilink for a title with a known collision, use the full path prefix form. When touching a wikilink to a titled work, actively consider whether the prose refers to the <em>film</em> rather than the <em>album</em> — in which case the link should point to the FILM note (<code>[[FILM/(YEAR) Title|Title]]</code>) instead. Known collisions to protect: <strong>A Hard Day’s Night (1964)</strong>, <strong>Help! (1965)</strong>, <strong>Magical Mystery Tour (1967)</strong>, <strong>Let It Be (1970)</strong>. Watch for any rockumentary/concert-film title that doubles as a live album.</li>
+</ul>
+<h4 id="city-and-location"><strong>City and location</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#city-and-location" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>Geography matters. Mention where albums were recorded, what city or region artists were active in, and how place shaped sound. Patti Smith belongs to New York even though she wasn’t born there. Motown is inseparable from Detroit. The Muscle Shoals sound requires Muscle Shoals. Location appears in scene notes primarily, but should surface in artist and album notes wherever it’s relevant to understanding the music.</p>
+<h4 id="prose-style"><strong>Prose style</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#prose-style" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>The MAP should read like serious long-form music criticism — the kind of writing found in the best issues of <em>The Wire</em>, in the Continuum Encyclopedia, or in the 33 1/3 series at its sharpest. It should do real analysis that approaches an academic level while remaining readable and free of unnecessary jargon. Literate, compelling, and grounded in close listening.</p>
+<p>The governing method is hybrid: close listening married to cultural and historical argument. Start with something audible — a bass line, a vocal texture, a chord change, a production choice — and read outward from that detail to a larger claim about influence, genre, or cultural context. Every paragraph should do both sonic and historical work simultaneously.</p>
+<p>Specific principles:</p>
+<ul>
+<li><strong>Lead with the music.</strong> Open paragraphs with something the reader can hear rather than an abstract thesis. Let the sonic detail do the argumentative work.</li>
+<li><strong>Read outward from details.</strong> A specific musical observation should open into a historical or cultural argument. McCartney’s bass on “Drive My Car” isn’t just a bass line — it’s evidence of Motown’s influence on the Beatles, which is evidence of a transatlantic exchange that reshaped pop. Move from the small to the large. The same principle applies to factual information: recording locations, personnel, dates, and track counts should be woven into sentences that are also making arguments, not left as isolated declaratives.</li>
+<li><strong>Vary sentence rhythm.</strong> Mix long, syntactically complex sentences that build through clauses and accrue meaning with short declarative ones. Watch for the rule of three (three parallel fragments, three parallel clauses) as a default rhythm — it is the most recognizable AI structural pattern and should be used sparingly if at all. When two ideas are in tension, let the tension sit in the structure of the paragraph rather than announcing it with a pivot word.</li>
+<li><strong>Avoid the “not X but Y” construction and its variants — this is the single most recognizable AI tic in MAP prose.</strong> Sweep the note for all forms before shipping: <code>not X but Y</code>, <code>not just/only/merely X but Y</code>, <code>not so much X as Y</code>, <code>didn't/wasn't/isn't/doesn't X but Y</code>, and the inverted <code>X, not Y</code> (“a method, not a genre”; “a division of labor, not a hierarchy”). Default to restructuring every instance. The construction reads as rhetorical scaffolding that announces a contrast the reader can already feel — it adds no information that a direct positive statement can’t carry. “The form is a platform, not a cage” → “The form is a platform”; “not a performance captured, but a world constructed” → “an entire world constructed unto itself.” Only keep an instance if the contrast is genuinely doing argumentative work the positive statement can’t do alone — and then never more than once per note. The April 2026 vault sweep (logged in MAPmaking) found 90+ instances across the MAP, concentrated in intro paragraphs. The construction is especially corrosive in openers, where it sets a register of rhetorical pivoting that the rest of the note then has to fight against.</li>
+<li><strong>Trust the reader.</strong> Don’t over-explain. If the MAP says Jamerson’s bass work influenced McCartney, the reader can follow that without being told “this is significant because.” Academic rigor without academic hand-holding.</li>
+<li><strong>Make claims with verified facts.</strong> Every paragraph should stake a position. Not “some argue” or “it could be said” — the MAP has a point of view. But claims should be earned by the evidence in the paragraph, not asserted in advance. Use specific figures, dates, and details rather than vague generalizations — “over seventy Top 10 hits” is stronger than “dozens of hits.” When a specific claim sounds uncertain, the response is to verify it, not soften it into a hedge. A checked fact is always better prose than a vague gesture at one.</li>
+<li><strong>No repetition across sections.</strong> The opening paragraph sets the thesis. Each subsequent section — production, inherits, reception, influence — must develop a distinct argument that the other sections don’t make. If an observation appears in the opening, it should not be restated in production or influence with slightly different wording. If the same idea keeps surfacing, that’s a sign the note has one insight being recycled rather than five sections doing independent work. One pass per idea, in the section where it earns the most.</li>
+<li><strong>Differentiate parallel descriptions.</strong> When a note discusses multiple performers, albums, or elements that share a quality, find what is musically distinct about each rather than applying the same characterization twice. Two singers can both be powerful, but describing both as “cutting through the Wall of Sound” wastes the second description. One matches the Wall’s force; the other makes the Wall close around her. The distinction should come from listening, not from thesaurus variation.</li>
+<li><strong>Leave room for personal voice.</strong> The prose should have enough breathing room that a personal anecdote, a first-person aside, or a memory of hearing a record for the first time can be threaded in naturally without breaking the register. This is a personal canon, not a reference work.</li>
+<li><strong>Avoid AI-isms.</strong> No “It’s worth noting,” “It cannot be overstated,” “What makes X remarkable is,” or similar throat-clearing. No redundant summation at the end of a paragraph restating what the paragraph just said. No “the real X is Y” revelatory framing or italicized words that invite the reader to lean in for a truth the sentence is about to deliver. No hyperbole or puffing up importance (“almost unbearable,” “the most X ever made”) — make the case and let the reader decide the magnitude. Watch em-dash density: more than one or two per paragraph starts reading as AI-generated, and the cumulative count across a whole note matters just as much — commas, colons, semicolons, and sentence restructuring can often do the same work with less visual interruption. Every claim should survive close reading — if a metaphor or assertion dissolves when you stop and think about it, cut it. Enter and exit cleanly.</li>
+<li><strong>Re-read after every edit.</strong> A single cut or rewrite can break the flow of an entire paragraph or create new problems: orphaned facts, duplicated phrases, runs of choppy sentences, or a transition that no longer connects. After any edit, re-read the full paragraph and its neighbors to make sure the note still reads as continuous, flowing prose. Edits are not local — they ripple.</li>
+<li><strong>Close-read every note before it ships.</strong> The close-read is the single most important step in writing a MAP note and is ALWAYS the final step before presenting work. Not the entity audit, not the backlink sweep, not “one more spot-check” — the close-read. If you finish a note and hand it back without running this checklist end-to-end on the full note, you have not finished the note. Run it against the entire note — not just the sections that were changed — because edits create ripple effects (repeated ideas, broken transitions, new superlatives, orphaned entity mentions), and a partial close-read will miss them. <strong>Run the checklist on the FINAL text, after every revision pass — not once on an intermediate draft.</strong> Every edit that adds or rewrites prose can introduce new entity mentions, reorder existing ones, or move the “first mention” of an entity to a new location in the note, and those changes escape any audit that ran on an earlier draft. If the entity audit runs on draft 1 and a new example sentence gets added in draft 2, the new sentence’s entities will not be linked unless the audit is re-run. This is how the Call and response note (April 2026) shipped with both “the Four Tops” and “Reach Out, I’ll Be There” unlinked in a late-added Structure-section example: the audit had run before the example was written, and it was never re-swept. The rule: every linking pass runs against whatever text will actually ship, not against whatever text existed when you first thought you were done. This is not optional, and not skippable because another pass felt like a finish line.
+<ol>
+<li><strong>“Not X but Y” and its variants — the most recognizable AI tic in MAP prose.</strong> Grep the note for every form: <code>not X but Y</code>, <code>not just/only/merely X but Y</code>, <code>not so much X as Y</code>, <code>didn't/wasn't/isn't/doesn't X but Y</code>, and the inverted <code>X, not Y</code> (“a method, not a genre”). Default to restructuring every instance. The construction reads as rhetorical scaffolding announcing a contrast the reader can already feel — a direct positive statement almost always does the work better. Only keep an instance if the contrast is genuinely doing argumentative work the positive form can’t carry, and never more than once per note. Especially fatal in opening paragraphs.</li>
+<li><strong>Rule of three</strong> — three parallel fragments, three parallel clauses, three adjectives in a row. The most recognizable AI structural pattern. Vary or cut.</li>
+<li><strong>Em-dash count</strong> — paragraph by paragraph. More than two per paragraph is too many. Cumulative count across the note matters too. Substitute commas, colons, semicolons, or restructure.</li>
+<li><strong>Superlatives and puffing</strong> — “the most X ever made,” “the greatest,” “the most important.” Make the case and let the reader decide the magnitude. Qualified superlatives (“among the most”) are only marginally better.</li>
+<li><strong>Repetition across sections</strong> — same idea, same word, or same example appearing in multiple sections. One pass per idea, in the section where it earns the most.</li>
+<li><strong>Throat-clearing and revelatory framing</strong> — “What makes X remarkable is,” “The real story is,” “It’s worth noting,” “The tension is.” Enter cleanly.</li>
+<li><strong>Unsupported claims</strong> — every assertion should be earned by evidence in the paragraph. If a metaphor dissolves under scrutiny, cut it.</li>
+<li><strong>Fact verification</strong> — web-search all specific figures, dates, chart positions, sales numbers, attribution of quotes, and personnel claims. When verification reveals an error, fix it with the correct figure. When a claim can’t be verified, replace it with something verifiable. Never soften a specific claim into a vague hedge — a checked fact is always better prose than a vague gesture at one.
+8a. <strong>Sonic-claim verification</strong> — every specific claim about what a recording sounds like must be verified against the recording itself, or against documented session details for that track. This is a separate failure mode from text-verifiable facts: the model pattern-matches what “feels plausible” for the song/genre and writes confident-but-wrong sonic detail. <strong>Two cautionary precedents (April 27, 2026):</strong> the Bob Dylan note’s “the harmonica enters first on ‘Blowin’ in the Wind’” (the recording opens with acoustic guitar, voice within seconds, harmonica only at the ~45s break) and the Pet Sounds note’s “the harpsichord and flutes on ‘Wouldn’t It Be Nice’ arrive in the first two bars” (the actual intro is 12-string mando-guitar plus twin accordions; harpsichord and flutes belong to other Pet Sounds tracks like “God Only Knows”). The failure pattern is the same in both: generic-sounding sonic detail filled in by association rather than by listening. <strong>What to verify, specifically:</strong> (1) what enters first / what opens the recording; (2) what instruments play specific parts; (3) timing claims (durations, bar counts, “the X comes in at Y”); (4) section-boundary events (“the bridge breaks into,” “the chorus modulates to”); (5) attribution of named instruments to named players on a specific track; (6) any vocal-action claim (“the voice enters,” “doubles up at the second verse”). <strong>How to verify:</strong> web-search the song’s session details, instrumentation lists, or track-by-track liner notes; or open the recording and listen. <strong>When you can’t verify a sonic claim, fix the prose to make a different point or strip the falsifiable specific.</strong> Don’t ship sonic specifics on faith.</li>
+<li><strong>Cross-note repetition</strong> — when writing a new note, check that its primary examples aren’t already carrying weight in other notes. Especially important for IDEAS notes.</li>
+<li><strong>Foundational records in chronological order.</strong></li>
+<li><strong>Mechanical entity audit (internal linking).</strong> Enumerate every named artist, band, songwriter, producer, session musician, record, label, studio, genre, scene, era, moment, technique, source, and IDEAS concept that appears in the note. For each one, check whether a file exists in the vault by actually searching, not by memory. If a file exists, confirm the entity is wikilinked on first prose mention <strong>(including in the opening paragraph — the opener always carries first-mention links; never defer to a later thematic section)</strong> AND in every reference/catalog section where it appears. If no file exists, leave it plain text. The sweep is done by listing entities and checking each against the vault — not by skimming for bold names or tracing “themes.” <strong>Always run this pass on the final text after every revision</strong>, not once on an intermediate draft: late-added examples, rewrites, and section expansions introduce new entity mentions that escape any earlier audit, and revisions that insert mentions earlier in the file can move the “first mention” to a new location (so a link that was correct on the old draft is now on a later mention, and the real first mention is unlinked). Pay specific attention to artist+release clauses — when an artist name and a quoted song title appear together, check both as separate entities; don’t let the artist link coast the release title past the audit. The same trap applies to <strong>comma-separated name lists</strong>: in a clause like “Stephen Stills, <a href="../../url" class="internal alias" data-slug="url">Neil Young</a>, and Richie Furay” or “Dock Boggs’s ‘Sugar Baby,’ Blind Lemon Jefferson’s ‘See That My Grave Is Kept Clean,’ <a href="../../url" class="internal alias" data-slug="url">Mississippi John Hurt’s</a> ‘Frankie’,” one linked name in the middle satisfies the eye-check for the whole list, and the flanking names get skipped. Each name in a list is an independent entity. Process the list element by element, not as a single passage. Cautionary precedent: Folk rock L32–33 shipped with Stephen Stills, Richie Furay, John Sebastian, and Zal Yanovsky unlinked next to linked Neil Young and Buffalo Springfield; Greenwich Village folk scene L14 shipped with Dock Boggs and Blind Lemon Jefferson unlinked next to linked Mississippi John Hurt (both May 2026).</li>
+<li><strong>Backlink + content-threading pass.</strong> This has two halves and both run every time; the grep sweep alone is not sufficient.
+<ul>
+<li><strong>12a. Grep-based backlink sweep.</strong> Search the entire MAP for unlinked mentions of the new note’s subject AND for existing external links to the same entity (RYM URL, Wikipedia URL, or Apple Music URL for a song that now has a note). Add wikilinks to the first prose occurrence in each note where the term already appears, and convert every prior external link to the new wikilink. External links are stopgaps: once the note exists, the graph view and backlinks only work if the external links are swept and replaced. Also remove the entity from <code>PLANS/External links audit.md</code> if it was listed there.</li>
+<li><strong>12b. Content-threading pass into high-priority target notes.</strong> Grep only finds notes where the term is already used. Some notes <em>should</em> discuss the concept but don’t currently mention it at all — Motown sound without mentioning backbeat, Doo-wop without mentioning call and response. For each new THEORY note (and for any note where the subject is structurally central to other notes), scan the small set of notes where the concept belongs — genre notes where it’s foundational, artist notes where it’s central to identity, individual records where the theory move <em>is</em> the point — and thread in one or two sentences of in-context explanation where the concept sharpens an argument the paragraph already makes. Do not restructure the target notes. If a target note has no paragraph where the concept would land naturally, leave it alone and flag it for a future revision.</li>
+</ul>
+</li>
+<li><strong>Conceptual link pass — three sweeps, not one.</strong> Argumentative connections that aren’t textual — the current prose doesn’t name the concept, but the concept is structurally present in the subject. Run all three every time:
+<ul>
+<li><strong>13a. IDEAS.</strong> Which IDEAS notes does this subject participate in argumentatively, even if neither note mentions the other by name? Thread the example into the IDEAS note’s prose where it strengthens an argument; update its See also otherwise.</li>
+<li><strong>13b. THEORY.</strong> Which TECHNIQUES/THEORY concepts does this record, artist, or genre embody? When a concept is structurally central (backbeat to a Motown track, twelve-bar to a blues single, call and response to a Beatles vocal arrangement, I–vi–IV–V to a doo-wop record, pentatonic/blues scales to a British blues rock track), the note must name it, wikilink it, and give one or two sentences on how the move works in this specific record. Also absorb the new example into the THEORY note as a living document. If a concept keeps recurring across new notes and no THEORY note yet exists for it, flag it as a Phase 2/3 candidate.</li>
+<li><strong>13c. PRODUCTION.</strong> Same pass for TECHNIQUES/PRODUCTION notes. When a production technique is <em>the</em> thing that makes the record sound the way it does, name it, link it, explain it, and absorb the example into the PRODUCTION note.
+See “Keeping the network alive” above.</li>
+</ul>
+</li>
+<li><strong>Genre name spelling.</strong> Follow RYM orthography: no hyphens by default (folk rock, blues rock, jazz rock, country rock, big band, jump blues, hard rock, art rock, progressive rock, trip hop, new wave, rhythm &amp; blues, dream pop). One-word forms where RYM spells them closed: synthpop, krautrock, electropop. Hyphenated exceptions where RYM uses a hyphen: singer-songwriter, doo-wop, post-punk, post-rock, post-bop, euro-disco, italo-disco, electro-disco, alt-country, blue-eyed soul. “Progressive rock” is the default; “prog rock” is informal shorthand only.</li>
+<li><strong>External-link audit pass.</strong> This principle applies to every note type, not just release notes. Scan the new or revised note for every named entity in the prose that (a) does not have its own MAP note and (b) is not already listed in <code>PLANS/External links audit.md</code> (the audit document). The entity types to sweep: songs (including singles), albums, artists, producers, songwriters, session musicians, labels, studios, and executives. This is not a grep for italics and quotes — producers, songwriters, session musicians, and executives typically appear as plain text, so the sweep follows the same entity-enumeration method as item 11 (the mechanical entity audit). The sweep must not skip entities that already carry an external link: if the current prose links something to RYM, Wikipedia, or Apple Music, check whether a MAP note for that entity now exists (it may have been created since the external link was first placed) and convert the external link to a wikilink if so. For each new entry that still needs a sourced link, add it to the correct section of the audit document (Songs, Albums, Artists, Producers, Songwriters, Session Musicians, Labels, Studios, Executives) with: name, year where relevant, artist-of-record for songs, and the note where it appears. Linking convention: songs → Apple Music; studios → Wikipedia; executives and other figures outside RYM’s taxonomy → Wikipedia; albums, artists, producers, songwriters, session musicians, labels → RYM. The audit is the single source of truth for “what entities have been named in the MAP but don’t yet have an external link.” Without this pass, the document drifts out of sync with the vault and the eventual link-sourcing pass has to re-sweep every note from scratch. <strong>Every external link Claude adds to a note (whether the note is new or being edited) must also be logged in the audit document’s “Recently added external links — awaiting Sha’s verification” section.</strong> Sha needs to verify each URL resolves to the correct page — that the RYM slug is right, that disambiguators are correct, that the page isn’t a stub. Without this verification step, a wrong-slug URL sits in a note indefinitely with no flag. The convention applies to high-confidence slugs too: do not skip the audit-doc entry just because the slug looks obvious, because the cost of a missed verification (a broken link sitting in a note) outweighs the cost of an unnecessary verification check. The audit doc’s “Recently added external links” section is the master checklist; Sha deletes each row from that section as she verifies. Cautionary precedent: the Crows’ “Gee” single note and Smile Sessions revisions (May 2026), where six unlinked entities (Mills Brothers, Brian Wilson Presents Smile, Lauryn Hill, <em>Black Album</em>, <em>Miseducation</em>, Panda Bear/Ariel Pink) accumulated across multiple edits without being logged anywhere, then surfaced only when Sha caught them by eye.</li>
+</ol>
+</li>
+</ul>
+<p><strong>Per-note audit tables — the default convention for new notes (May 12, 2026 onward).</strong> When writing a new MAP note, every external link the note introduces — Apple Music for songs, RYM for artists/albums/producers/songwriters/session musicians/labels, Wikipedia for studios/executives — goes into a single audit-doc table named after the note’s subject (e.g., an “Aretha Franklin” table for a new Aretha note). The table has columns: entity name, type (song/artist/album/producer/etc.), URL, location in the note. Sha verifies all links at once, marks the table <code>(done)</code>, Claude propagates and removes the table. This replaces the older topic-based grouping (Songs by topic → Chicago blues canon, Chuck Berry catalog, etc.) — those topic tables were efficient for batch retroactive verification across already-shipped notes but are the wrong unit for incremental new-note work, where every link is fresh and a single note’s links cohere as an audit unit. Once the retroactive topic-table backlog clears, all new notes follow the per-note pattern. The catalog-section linking rule (next bullet) is automatically respected when a single per-note table groups every link the note introduces, because propagation then knows which links are catalog-section vs. body-prose by reading the “location” column directly.</p>
+<p><strong>Catalog sections link independently from prose — applies during propagation, not just during authoring.</strong> When propagating a verified URL into a note that already contains another link to the same URL, do not skip the file. Check whether the URL is missing from any catalog section (Key artists, Foundational records, Key records, See also, Further reading) in the same note. Each catalog section has its own first-mention link, separate from body prose. Propagation scripts that use a coarse “if URL in file: skip” check will systematically miss these. The correct check is: “is this URL present in the same logical section (body prose vs. each catalog section)?” — not “is this URL anywhere in the file?” Cautionary precedent: May 12, 2026 — multiple propagation passes (Sun Records, Motown artists, Rhythm &amp; blues, Folk rock) silently skipped catalog-section first mentions whenever the body prose had linked first. 58 net catalog-section links had to be retroactively applied via a sweep across 26 files. The Sun Records Elvis Key artists bullet was the visible case (Sha noticed “That’s All Right” and “Blue Moon of Kentucky” were unlinked there despite being linked in the same note’s body); the systemic gap existed across every batch propagation that ran this day. Future propagation scripts must check catalog-section presence separately from body-prose presence.
+16. <strong>Cascade check — link-propagation from newly-threaded content.</strong> Items 12b, 13a, 13b, and 13c insert new example sentences into existing notes. Each such insertion MAY introduce a named entity into the target note that was not previously mentioned there — and that mention MAY be a fresh first-prose-mention that MAY need to carry an external link (or a wikilink, if a MAP note exists for it). Example: writing a <em>Revolver</em> note triggers threading “Eleanor Rigby” into the Baroque pop note as a new example; “Eleanor Rigby” was not previously named in Baroque pop, so its newly-added mention is its first in that note and needs to carry the Apple Music external link. The same cascade applies to IDEAS/THEORY/PRODUCTION threading and to genre/scene examples absorbed as living-document updates. This pass runs in TWO stages — do not collapse them, because bad links propagated to five target notes become five cleanups later.
+- <strong>Stage 1 — verify the source note first.</strong> Before propagating any external link to any other note, confirm the link in the newly-written or revised note itself is correct and complete. Run items 11 and 15 on the source note to settle its internal and external links. Only once the source note’s links are verified does propagation begin.
+- <strong>Stage 2 — propagate into each target.</strong> For every sentence added via 12b/13a/13b/13c, check whether it introduces a new first-prose-mention of a named entity in the target note. If yes, and a correct external link (or wikilink) exists, carry that link into the mention. If the new mention is an entity with no external link yet anywhere in the vault, add it to <code>PLANS/External links audit.md</code> — do not invent a URL to plug the gap.
+17. <strong>Target-note close-read — every threaded sentence or paragraph gets close-read in the target note that receives it.</strong> Items 12b, 13a, 13b, and 13c thread new sentences or short paragraphs into existing notes as the network grows. That threaded content is content that ships, and it gets the same close-reading standard as the source note’s prose — not just the link-cascade verification handled by item 16. The principle: any substantive change to any note (a sentence or more added via threading) gets close-read in the note it lands in. Notes evolve through threaded additions across many sessions; the close-reading standard cannot drop just because the change is small or the target note isn’t the session’s focus. For each target note that received a sentence or more of new content this session, run the following passes against the new content in its new context:
+- <strong>Read the touched paragraph plus its immediate neighbors.</strong> Insertions ripple — a new sentence can break the paragraph’s rhythm, repeat an argument the section already makes, or create a transition problem at the next paragraph boundary. Read the paragraph the new content lands in, the one before it, and the one after it.
+- <strong>AI-tic sweep on the new content</strong> (apply items 1–6 to the threaded sentences in the target’s context): “not X but Y” variants including the inverted <code>X, not Y</code>, rule of three, em-dash count in the paragraph (cumulative count after the insertion, not just within the new sentence), superlatives, throat-clearing, revelatory framing. Threading is one of the most common moments for these tics to slip in unaudited, because attention is on the connection-making rather than on the prose itself.
+- <strong>Web-verify every new factual claim in the target’s context</strong> (item 8 standard). Every new specific figure, date, chart position, sales number, quote attribution, or personnel credit gets a web check. Do not assume a fact verified in the source-note draft is verified in the target’s reframing — threading often paraphrases the fact, and a paraphrase can introduce a subtle error (a year off by one, a chart position swapped between Pop and R&amp;B, a credit transposed between two collaborators).
+- <strong>Sonic-claim verification</strong> (item 8a) — if the threaded sentence makes a specific sonic claim about a recording, verify against documented session details or the recording itself, exactly as in the source note.
+- <strong>Unsupported-claim check</strong> (item 7) — every assertion in the new content has to be earned by evidence in the surrounding paragraph. If the threaded sentence asserts something the rest of the paragraph doesn’t support, either add the evidence or cut the claim.
+- <strong>Repetition-inside-the-target-note check</strong> — does the threaded sentence say something the target note already argues elsewhere? Threading creates duplication risk specifically because the writer is approaching from the source note’s perspective and may not remember what the target already covers. If the target already makes the argument, tighten the existing mention rather than adding a parallel one, or drop the new sentence.
+- <strong>Grammatical and stylistic re-read of the threaded sentence in place.</strong> Read the new prose aloud (or silently with care) in its surrounding paragraph: does the sentence’s tense, voice, and register match what’s around it? Does the syntax connect cleanly to the sentences on either side? Threading from one note’s voice into another’s frequently produces register mismatches the eye glides over.
+- <strong>Repeat for every target note touched this session.</strong> When 12b and 13a–c together write to five target notes, every one of the five gets this pass before the source-note work is presented.</p>
+<pre><code>  The MAPmaking handoff (item 18) records both the source note and each target note that received threading, so Sha has a complete signal of which notes need her read-through.
+
+  This pass is the gap item 16 does not close. Item 16 handles LINK propagation from threaded content; item 17 handles PROSE quality, factual accuracy, and the absence of AI tics in the same content. Both run every time threading happens.
+</code></pre>
+<p>18. <strong>MAPmaking handoff</strong> — after completing any new note or substantial revision, update <a href="../../MUSIC/x.-META/MAPmaking" class="internal" data-slug="MUSIC/x.-META/MAPmaking">MAPmaking</a> in two places: mark the task done under the relevant section (To revise, To create), and add the note to “Sha to review” so it gets read through for voice, accuracy, and anything that needs adjustment. When the close-read involved threading sentences or paragraphs into target notes (items 12b/13a/13b/13c), the “Sha to review” entry must also list each target note that received new prose — phrased explicitly so Sha can spot-read the additions, not just the source note. Example clause: <code>threaded new prose into [[The Crystals]], [[Brill Building]], and [[(1963) &quot;Be My Baby&quot;]] — Sha to read those paragraphs</code>. Backlink-only touches (12a wikilink additions with no new prose) do not need this — only target notes that received a sentence or more of new content.</p>
+<p>Linking and target-note quality — items 11, 12, 13, 15, 16, and 17 — are part of the close-read, not separate steps that happen before or after. The passes catch different failure modes: item 11 catches entities named in the source note that should have been linked outward; item 12a catches grep-level backlinks in notes that already use the term; item 12b catches the failure mode where a target note should discuss the concept but doesn’t mention it at all; items 13a/13b/13c catch the inverse failure mode — where the <em>new</em> note should be naming and engaging with an IDEAS argument, a theory concept, or a production technique that its current prose leaves implicit; item 15 catches entities in the source note that lack an external link and need to be tracked in the audit document; item 16 catches the LINK cascade consequence — every sentence that 12b/13 threads into an existing note MAY create a new first-prose-mention in that note, and the link for that mention has to travel with the threaded sentence; item 17 catches the PROSE-QUALITY cascade consequence — the same threaded content has to meet the close-reading standard inside the target note where it now lives. All of them run every time.</p>
+<h4 id="graph-view-color-codes"><strong>Graph view color codes</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#graph-view-color-codes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Group</th><th>Hex</th><th>Color</th></tr></thead><tbody><tr><td>MUSIC/RELEASES/ALBUMS</td><td><code>#c44040</code></td><td>Red</td></tr><tr><td>MUSIC/RELEASES/SINGLES</td><td><code>#d46070</code></td><td>Coral</td></tr><tr><td>MUSIC/RELEASES/TRACKS</td><td><code>#e87890</code></td><td>Rose</td></tr><tr><td>MUSIC/ARTISTS</td><td><code>#d4952a</code></td><td>Amber</td></tr><tr><td>MUSIC/ARTISTS/SONGWRITERS</td><td><code>#c4a545</code></td><td>Soft gold</td></tr><tr><td>MUSIC/ARTISTS/PRODUCERS</td><td><code>#c4a545</code></td><td>Soft gold</td></tr><tr><td>MUSIC/ARTISTS/SESSION MUSICIANS</td><td><code>#c4a545</code></td><td>Soft gold</td></tr><tr><td>MUSIC/TAXONOMY/GENRES</td><td><code>#3a9c40</code></td><td>Forest green</td></tr><tr><td>MUSIC/TAXONOMY/SCENES</td><td><code>#6ab86a</code></td><td>Light green</td></tr><tr><td>MUSIC/TAXONOMY/ERAS</td><td><code>#2a8880</code></td><td>Teal</td></tr><tr><td>MUSIC/MOMENTS</td><td><code>#8b3a5a</code></td><td>Burgundy</td></tr><tr><td>MUSIC/IDEAS</td><td><code>#52a8d7</code></td><td>Sky blue</td></tr><tr><td>MUSIC/x. SOURCES</td><td><code>#4070c0</code></td><td>Deep blue</td></tr><tr><td>MUSIC/TECHNIQUES</td><td><code>#9858c8</code></td><td>Purple</td></tr><tr><td>MUSIC/TECHNIQUES/PRODUCTION</td><td><code>#9858c8</code></td><td>Light purple</td></tr><tr><td>MUSIC/TECHNIQUES/THEORY</td><td><code>#6a4cb8</code></td><td>Deep purple</td></tr><tr><td>MUSIC/INDUSTRY</td><td><code>#5a7a9a</code></td><td>Slate</td></tr></tbody></table></div></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2026</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript" data-persist="true">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module" data-persist="true">function E(a,e){if(!a)return;function t(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function n(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}a?.addEventListener("click",t),window.addCleanup(()=>a?.removeEventListener("click",t)),document.addEventListener("keydown",n),window.addCleanup(()=>document.removeEventListener("keydown",n))}function f(a){for(;a.firstChild;)a.removeChild(a.firstChild)}var m=class{constructor(e,t){this.container=e;this.content=t;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),t=this.onMouseMove.bind(this),n=this.onMouseUp.bind(this),o=this.onTouchStart.bind(this),r=this.onTouchMove.bind(this),i=this.onTouchEnd.bind(this),s=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",t),document.addEventListener("mouseup",n),this.container.addEventListener("touchstart",o,{passive:!1}),document.addEventListener("touchmove",r,{passive:!1}),document.addEventListener("touchend",i),window.addEventListener("resize",s),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",t),()=>document.removeEventListener("mouseup",n),()=>this.container.removeEventListener("touchstart",o),()=>document.removeEventListener("touchmove",r),()=>document.removeEventListener("touchend",i),()=>window.removeEventListener("resize",s))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let t=this.createButton("+",()=>this.zoom(.1)),n=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(n),e.appendChild(o),e.appendChild(t),this.container.appendChild(e)}createButton(e,t){let n=document.createElement("button");return n.textContent=e,n.className="mermaid-control-button",n.addEventListener("click",t),window.addCleanup(()=>n.removeEventListener("click",t)),n}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}onTouchStart(e){if(e.touches.length!==1)return;this.isDragging=!0;let t=e.touches[0];this.startPan={x:t.clientX-this.currentPan.x,y:t.clientY-this.currentPan.y}}onTouchMove(e){if(!this.isDragging||e.touches.length!==1)return;e.preventDefault();let t=e.touches[0];this.currentPan={x:t.clientX-this.startPan.x,y:t.clientY-this.startPan.y},this.updateTransform()}onTouchEnd(){this.isDragging=!1}zoom(e){let t=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),n=this.content.getBoundingClientRect(),o=n.width/2,r=n.height/2,i=t-this.scale;this.currentPan.x-=o*i,this.currentPan.y-=r*i,this.scale=t,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){let t=this.content.querySelector("svg").getBoundingClientRect(),n=t.width/this.scale,o=t.height/this.scale;this.scale=1,this.currentPan={x:(this.container.clientWidth-n)/2,y:(this.container.clientHeight-o)/2},this.updateTransform()}},T=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],y;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;y||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let t=y.default,n=new WeakMap;for(let r of e)n.set(r,r.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let c=n.get(s);c&&(s.innerHTML=c)}let r=T.reduce((s,c)=>(s[c]=window.getComputedStyle(document.documentElement).getPropertyValue(c),s),{}),i=document.documentElement.getAttribute("saved-theme")==="dark";t.initialize({startOnLoad:!1,securityLevel:"loose",theme:i?"dark":"base",themeVariables:{fontFamily:r["--codeFont"],primaryColor:r["--light"],primaryTextColor:r["--darkgray"],primaryBorderColor:r["--tertiary"],lineColor:r["--darkgray"],secondaryColor:r["--secondary"],tertiaryColor:r["--tertiary"],clusterBkg:r["--light"],edgeLabelBackground:r["--highlight"]}}),await t.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let r=0;r<e.length;r++){let v=function(){let g=l.querySelector("#mermaid-space"),h=l.querySelector(".mermaid-content");if(!h)return;f(h);let w=i.querySelector("svg").cloneNode(!0);h.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new m(g,h)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},i=e[r],s=i.parentElement,c=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(c),L=c.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),E(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript" data-persist="true"></script><script src="../../postscript.js" type="module" data-persist="true"></script></html>
