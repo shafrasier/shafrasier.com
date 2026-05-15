@@ -1,6 +1,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url>
     <loc>https://shafrasier.com/map/FILM/DIRECTORS/Agne%CC%80s-Varda</loc>
-    <lastmod>2026-02-26T04:45:40.000Z</lastmod>
+    <lastmod>2026-05-15T19:25:36.089Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/FILM/DIRECTORS/Akira-Kurosawa</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
@@ -30,13 +30,13 @@
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/FILM/DIRECTORS/E%CC%81ric-Rohmer</loc>
-    <lastmod>2026-02-05T07:26:31.000Z</lastmod>
+    <lastmod>2026-05-15T19:25:36.091Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/FILM/DIRECTORS/Federico-Fellini</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/FILM/DIRECTORS/Franc%CC%A7ois-Truffaut</loc>
-    <lastmod>2026-02-10T19:49:23.000Z</lastmod>
+    <lastmod>2026-05-15T19:25:36.091Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/FILM/DIRECTORS/Ingmar-Bergman</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
@@ -110,6 +110,9 @@
     <loc>https://shafrasier.com/map/FILM/FILMS/(1957)-The-Seventh-Seal</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
+    <loc>https://shafrasier.com/map/FILM/FILMS/(1957)-Wild-Strawberries</loc>
+    <lastmod>2026-05-15T19:25:36.047Z</lastmod>
+  </url><url>
     <loc>https://shafrasier.com/map/FILM/FILMS/(1958)-Vertigo</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
@@ -179,8 +182,11 @@
     <loc>https://shafrasier.com/map/FILM/FILMS/(1963)-The-Birds</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/FILM/FILMS/(1964)-A-Hard-Day's-Night</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/FILM/FILMS/(1963)-Winter-Light</loc>
+    <lastmod>2026-05-15T19:25:36.023Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/FILM/FILMS/(1964)-A-Hard-Day's-Night-(film)</loc>
+    <lastmod>2026-05-15T19:25:36.033Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/FILM/FILMS/(1964)-Red-Desert</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
@@ -380,59 +386,8 @@
     <loc>https://shafrasier.com/map/FILM/SOURCES/Schrader-%E2%80%94-Rethinking-Transcendental-Style</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1963)-A-Christmas-Gift-for-You-from-Philles-Records</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1963)-Please-Please-Me</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1963)-Presenting-Dionne-Warwick</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1964)-A-Hard-Day's-Night</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1964)-Presenting-the-Fabulous-Ronettes-Featuring-Veronica</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1964)-Where-Did-Our-Love-Go</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1965)-Rubber-Soul</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1965)-The-Beach-Boys-Today!</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1966)-Pet-Sounds</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1966)-Revolver</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1967)-Reach-Out</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1967)-Sgt.-Pepper's-Lonely-Hearts-Club-Band</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1968)-Eli-and-the-Thirteenth-Confession</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1968)-The-Beatles-(White-Album)</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1969)-Abbey-Road</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1969)-Dusty-in-Memphis</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(1971)-Tapestry</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ALBUMS/(2011)-The-Smile-Sessions</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Bob-Dylan</loc>
+    <lastmod>2026-05-15T19:25:35.975Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Brian-Wilson</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
@@ -440,11 +395,17 @@
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Carole-King</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Chuck-Berry</loc>
+    <lastmod>2026-05-15T19:25:35.973Z</lastmod>
+  </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Dionne-Warwick</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Dusty-Springfield</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Elvis-Presley</loc>
+    <lastmod>2026-05-15T19:25:35.971Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Laura-Nyro</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
@@ -475,6 +436,9 @@
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/SONGWRITERS/Holland-Dozier-Holland</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/ARTISTS/SONGWRITERS/Jeff-Barry</loc>
+    <lastmod>2026-05-15T19:25:35.966Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/SONGWRITERS/Lennon-McCartney</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
@@ -512,29 +476,14 @@
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/The-Who</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/ERAS/The-British-Invasion</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/GENRES/BLUES/British-blues</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/GENRES/POP/Brill-Building</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/GENRES/POP/Girl-group</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/GENRES/POP/Tin-Pan-Alley</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/GENRES/R-and-B/SOUL/Pop-soul</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/GENRES/R-and-B/SOUL/Soul</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/IDEAS/Authenticity-and-its-discontents</loc>
+    <lastmod>2026-05-15T19:25:35.981Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/IDEAS/Pop-as-craft</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/IDEAS/The-color-line-in-pop</loc>
+    <lastmod>2026-05-15T19:25:35.982Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/IDEAS/The-pop-factory</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
@@ -542,47 +491,200 @@
     <loc>https://shafrasier.com/map/MUSIC/IDEAS/The-songwriter-performer-divide</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/LABELS/Motown-Records</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/IDEAS/The-transatlantic-feedback-loop</loc>
+    <lastmod>2026-05-15T19:25:35.982Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/LABELS/Philles-Records</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/INDUSTRY/EXECUTIVES/Berry-Gordy</loc>
+    <lastmod>2026-05-15T19:25:35.961Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/META/Quartz-Setup-Guide</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/INDUSTRY/LABELS/Chess-Records</loc>
+    <lastmod>2026-05-15T19:25:35.959Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/META/Using-this-vault</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/INDUSTRY/LABELS/Motown-Records</loc>
+    <lastmod>2026-05-15T19:25:35.955Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/SCENES/Merseybeat</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/INDUSTRY/LABELS/Philles-Records</loc>
+    <lastmod>2026-05-15T19:25:35.957Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/SCENES/Mod</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/INDUSTRY/LABELS/Sun-Records</loc>
+    <lastmod>2026-05-15T19:25:35.957Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/SINGLES/(1963)-%22Be-My-Baby%22</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/INDUSTRY/STUDIOS/Abbey-Road-Studios</loc>
+    <lastmod>2026-05-15T19:25:35.954Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/SINGLES/(1964)-%22Leader-of-the-Pack%22</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/INDUSTRY/STUDIOS/Gold-Star-Studios</loc>
+    <lastmod>2026-05-15T19:25:35.955Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/SINGLES/(1964)-%22You-Really-Got-Me%22</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/MOMENTS/Dylan-at-Newport</loc>
+    <lastmod>2026-05-15T19:25:35.702Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/SINGLES/(1966)-%22Reach-Out,-I'll-Be-There%22</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1963)-A-Christmas-Gift-for-You-from-Philles-Records</loc>
+    <lastmod>2026-05-15T19:25:35.700Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/SINGLES/(1967)-%22Strawberry-Fields-Forever%22,-%22Penny-Lane%22</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1963)-Please-Please-Me</loc>
+    <lastmod>2026-05-15T19:25:35.699Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/SOURCES/Warwick---Girl-Groups,-Girl-Culture</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1963)-Presenting-Dionne-Warwick</loc>
+    <lastmod>2026-05-15T19:25:35.697Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/TECHNIQUES/The-Motown-Sound</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1964)-A-Hard-Day's-Night</loc>
+    <lastmod>2026-05-15T19:25:35.695Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/TECHNIQUES/Wall-of-Sound</loc>
-    <lastmod>2026-03-04T06:35:05.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1964)-Presenting-the-Fabulous-Ronettes-Featuring-Veronica</loc>
+    <lastmod>2026-05-15T19:25:35.700Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1964)-Where-Did-Our-Love-Go</loc>
+    <lastmod>2026-05-15T19:25:35.697Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1965)-Rubber-Soul</loc>
+    <lastmod>2026-05-15T19:25:35.695Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1965)-The-Beach-Boys-Today!</loc>
+    <lastmod>2026-05-15T19:25:35.697Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1966)-Pet-Sounds</loc>
+    <lastmod>2026-05-15T19:25:35.694Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1966)-Revolver</loc>
+    <lastmod>2026-05-15T19:25:35.701Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1967)-Reach-Out</loc>
+    <lastmod>2026-05-15T19:25:35.700Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1967)-Sgt.-Pepper's-Lonely-Hearts-Club-Band</loc>
+    <lastmod>2026-05-15T19:25:35.699Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1968)-Eli-and-the-Thirteenth-Confession</loc>
+    <lastmod>2026-05-15T19:25:35.698Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1968)-The-Beatles-(White-Album)</loc>
+    <lastmod>2026-05-15T19:25:35.696Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1969)-Abbey-Road</loc>
+    <lastmod>2026-05-15T19:25:35.696Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1969)-Dusty-in-Memphis</loc>
+    <lastmod>2026-05-15T19:25:35.696Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1971)-Tapestry</loc>
+    <lastmod>2026-05-15T19:25:35.698Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(2011)-The-Smile-Sessions</loc>
+    <lastmod>2026-05-15T19:25:35.694Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1953)-%22Gee%22</loc>
+    <lastmod>2026-05-15T19:25:35.691Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1958)-%22Johnny-B.-Goode%22</loc>
+    <lastmod>2026-05-15T19:25:35.691Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1960)-%22Will-You-Love-Me-Tomorrow%22</loc>
+    <lastmod>2026-05-15T19:25:35.689Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1963)-%22Be-My-Baby%22</loc>
+    <lastmod>2026-05-15T19:25:35.689Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1964)-%22Leader-of-the-Pack%22</loc>
+    <lastmod>2026-05-15T19:25:35.693Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1964)-%22You-Really-Got-Me%22</loc>
+    <lastmod>2026-05-15T19:25:35.692Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1965)-%22California-Girls%22</loc>
+    <lastmod>2026-05-15T19:25:35.692Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1966)-%22Reach-Out,-I'll-Be-There%22</loc>
+    <lastmod>2026-05-15T19:25:35.690Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1966)-%22You-Can't-Hurry-Love%22</loc>
+    <lastmod>2026-05-15T19:25:35.690Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1967)-%22Strawberry-Fields-Forever%22,-%22Penny-Lane%22</loc>
+    <lastmod>2026-05-15T19:25:35.689Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/TRACKS/(1966)-%22Tomorrow-Never-Knows%22</loc>
+    <lastmod>2026-05-15T19:25:35.688Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/ERAS/The-British-Invasion</loc>
+    <lastmod>2026-05-15T19:25:35.953Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/ELECTRIC/British-blues</loc>
+    <lastmod>2026-05-15T19:25:35.943Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/ELECTRIC/Chicago-blues</loc>
+    <lastmod>2026-05-15T19:25:35.942Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/ELECTRIC/Electric-blues</loc>
+    <lastmod>2026-05-15T19:25:35.942Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/Jump-blues</loc>
+    <lastmod>2026-05-15T19:25:35.941Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/FOLK/Skiffle</loc>
+    <lastmod>2026-05-15T19:25:35.952Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/POP/Brill-Building</loc>
+    <lastmod>2026-05-15T19:25:35.939Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/POP/Girl-group</loc>
+    <lastmod>2026-05-15T19:25:35.939Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/POP/Tin-Pan-Alley</loc>
+    <lastmod>2026-05-15T19:25:35.940Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/R-and-B/Doo-wop</loc>
+    <lastmod>2026-05-15T19:25:35.944Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/R-and-B/Rhythm--and--blues</loc>
+    <lastmod>2026-05-15T19:25:35.944Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/R-and-B/SOUL/Motown-sound</loc>
+    <lastmod>2026-05-15T19:25:35.945Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/R-and-B/SOUL/Pop-soul</loc>
+    <lastmod>2026-05-15T19:25:35.948Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/R-and-B/SOUL/Soul</loc>
+    <lastmod>2026-05-15T19:25:35.947Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/ROCK/Beat</loc>
+    <lastmod>2026-05-15T19:25:35.949Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/ROCK/Folk-rock</loc>
+    <lastmod>2026-05-15T19:25:35.949Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/ROCK/ROCK--and--ROLL/Rock--and--roll</loc>
+    <lastmod>2026-05-15T19:25:35.951Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/ROCK/ROCK--and--ROLL/Rockabilly</loc>
+    <lastmod>2026-05-15T19:25:35.950Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/SCENES/Greenwich-Village-folk-scene</loc>
+    <lastmod>2026-05-15T19:25:35.937Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/SCENES/Merseybeat</loc>
+    <lastmod>2026-05-15T19:25:35.936Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/SCENES/Mod</loc>
+    <lastmod>2026-05-15T19:25:35.937Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TECHNIQUES/PRODUCTION/Wall-of-Sound</loc>
+    <lastmod>2026-05-15T19:25:36.003Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/Backbeat</loc>
+    <lastmod>2026-05-15T19:25:36.002Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/Call-and-response</loc>
+    <lastmod>2026-05-15T19:25:36.001Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/I%E2%80%93vi%E2%80%93IV%E2%80%93V-progression</loc>
+    <lastmod>2026-05-15T19:25:35.999Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/Pentatonic-and-blues-scales</loc>
+    <lastmod>2026-05-15T19:25:36.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/Twelve-bar-blues</loc>
+    <lastmod>2026-05-15T19:25:36.001Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/</loc>
     <lastmod>2026-03-04T06:35:05.000Z</lastmod>
