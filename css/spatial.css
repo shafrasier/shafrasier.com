@@ -114,6 +114,12 @@ body:not(.light-mode) .canvas-wrapper {
   left: 40%;
 }
 
+/* MAP — floats above and to the right of SHEETS, links to the MAP */
+#map-btn {
+  top: 20%;
+  left: 50%;
+}
+
 /* Hover State - smooth scale up with gradual shadow */
 .floating-button:hover {
   transform: translateY(-5px) scale(1.08);

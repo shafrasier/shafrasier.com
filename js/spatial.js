@@ -246,6 +246,13 @@ document.addEventListener('DOMContentLoaded', () => {
   floatingButtons.forEach(button => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
+
+      // MAP button is a real link — navigate out instead of opening a section.
+      if (button.id === 'map-btn') {
+        window.location.href = button.getAttribute('href') || 'map/';
+        return;
+      }
+
       const section = button.getAttribute('data-section');
 
       // Get button position to determine zoom direction
