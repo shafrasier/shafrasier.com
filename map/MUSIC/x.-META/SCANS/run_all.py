@@ -38,6 +38,7 @@ import chronological_order
 import prose_formatting
 import audit_doc_sync
 import unlinked_entities
+import corpus_orphan_entities
 # import unlinked_titles  # DRAFT: enabled when noise tuning is complete
 
 
@@ -49,6 +50,7 @@ SECTIONS: list[tuple[str, object]] = [
     ("Linking — form",                linking_form),
     ("Linking — target",              linking_target),
     ("Unlinked entities & first-mention", unlinked_entities),
+    ("Orphan entities (no MAP note, no link anywhere)", corpus_orphan_entities),
     # ("Unlinked italic / quoted titles", unlinked_titles),  # DRAFT — disabled pending noise tuning
     ("Structural placement",          structural_placement),
     ("Ordering",                      chronological_order),
