@@ -100,23 +100,23 @@ body:not(.light-mode) .canvas-wrapper {
 
 /* Individual button positions (will be animated) */
 #sheets-btn {
-  top: 30%;
+  top: 40%;
   left: 35%;
 }
 
 #playlists-btn {
-  top: 38%;
+  top: 48%;
   left: 50%;
 }
 
 #writing-btn {
-  top: 50%;
+  top: 60%;
   left: 40%;
 }
 
-/* MAP — floats above and to the right of SHEETS, links to the MAP */
+/* MAP — sits at the horizon where SHEETS used to be, links to the MAP */
 #map-btn {
-  top: 20%;
+  top: 30%;
   left: 50%;
 }
 
@@ -638,21 +638,27 @@ body.light-mode .section-inner {
     font-size: 2rem;
   }
 
-  /* Stack buttons vertically on mobile */
+  /* Stack buttons vertically on mobile — MAP centered on top, tighter gaps */
+  #map-btn {
+    top: 17%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   #sheets-btn {
-    top: 25%;
+    top: 32%;
     left: 50%;
     transform: translateX(-50%);
   }
 
   #playlists-btn {
-    top: 45%;
+    top: 47%;
     left: 50%;
     transform: translateX(-50%);
   }
 
   #writing-btn {
-    top: 65%;
+    top: 62%;
     left: 50%;
     transform: translateX(-50%);
   }
