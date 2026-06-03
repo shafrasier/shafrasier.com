@@ -6,6 +6,36 @@
       <description>Last 10 notes on MAP</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Wald - Escaping the Delta</title>
+    <link>https://shafrasier.com/map/MUSIC/x-SOURCES/Wald---Escaping-the-Delta</link>
+    <guid>https://shafrasier.com/map/MUSIC/x-SOURCES/Wald---Escaping-the-Delta</guid>
+    <description><![CDATA[ Author: Elijah Wald Title: Escaping the Delta: Robert Johnson and the Invention of the Blues Year: 2004 Type: Book (Amistad / HarperCollins) The Robert Johnson the twentieth century learned to revere — the haunted Delta primitive channeling a suffering older than himself, the man who met the devil a... ]]></description>
+    <pubDate>Wed, 03 Jun 2026 06:11:50 GMT</pubDate>
+  </item><item>
+    <title>Muddy Waters</title>
+    <link>https://shafrasier.com/map/MUSIC/ARTISTS/Muddy-Waters</link>
+    <guid>https://shafrasier.com/map/MUSIC/ARTISTS/Muddy-Waters</guid>
+    <description><![CDATA[ Genres: Chicago blues, Electric blues, Delta blues Scene: Chicago (Chess Records) Era: 1948–1958 (Chess peak); active to 1983 RYM · Apple Music · Spotify A bottleneck slide rings out through a cranked amplifier, the note bending and sustaining far past anything an acoustic guitar could hold, and a v... ]]></description>
+    <pubDate>Wed, 03 Jun 2026 06:11:50 GMT</pubDate>
+  </item><item>
+    <title>Country blues</title>
+    <link>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/COUNTRY/Country-blues</link>
+    <guid>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/COUNTRY/Country-blues</guid>
+    <description><![CDATA[ Blues → Country blues Period: c. 1920s–1940s (recorded era); roots c. ]]></description>
+    <pubDate>Wed, 03 Jun 2026 06:11:50 GMT</pubDate>
+  </item><item>
+    <title>Delta blues</title>
+    <link>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/COUNTRY/Delta-blues</link>
+    <guid>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/COUNTRY/Delta-blues</guid>
+    <description><![CDATA[ Blues → Country blues → Delta blues Period: c. 1920s–1940s (recorded era); roots c. ]]></description>
+    <pubDate>Wed, 03 Jun 2026 06:11:50 GMT</pubDate>
+  </item><item>
+    <title>BLUES</title>
+    <link>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/</link>
+    <guid>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/</guid>
+    <description><![CDATA[ The blues began in the Deep South around 1900 and became the structural and emotional bedrock of nearly everything that followed — jazz, R&amp;B, rock &amp; roll, and rock all draw on its forms. ]]></description>
+    <pubDate>Wed, 03 Jun 2026 06:11:50 GMT</pubDate>
+  </item><item>
     <title>Abbey Road Studios</title>
     <link>https://shafrasier.com/map/MUSIC/INDUSTRY/STUDIOS/Abbey-Road-Studios</link>
     <guid>https://shafrasier.com/map/MUSIC/INDUSTRY/STUDIOS/Abbey-Road-Studios</guid>
@@ -35,36 +65,6 @@
     <guid>https://shafrasier.com/map/</guid>
     <description><![CDATA[ The MAP charts popular music as networks of influence, context, and argument. ]]></description>
     <pubDate>Wed, 03 Jun 2026 04:44:55 GMT</pubDate>
-  </item><item>
-    <title>ARTISTS</title>
-    <link>https://shafrasier.com/map/MUSIC/ARTISTS/</link>
-    <guid>https://shafrasier.com/map/MUSIC/ARTISTS/</guid>
-    <description><![CDATA[ Critical profiles that map influence in both directions: who shaped an artist, and whom they shaped. ]]></description>
-    <pubDate>Tue, 02 Jun 2026 18:37:43 GMT</pubDate>
-  </item><item>
-    <title>IDEAS</title>
-    <link>https://shafrasier.com/map/MUSIC/IDEAS/</link>
-    <guid>https://shafrasier.com/map/MUSIC/IDEAS/</guid>
-    <description><![CDATA[ The analytical core. ]]></description>
-    <pubDate>Tue, 02 Jun 2026 18:37:43 GMT</pubDate>
-  </item><item>
-    <title>INDUSTRY</title>
-    <link>https://shafrasier.com/map/MUSIC/INDUSTRY/</link>
-    <guid>https://shafrasier.com/map/MUSIC/INDUSTRY/</guid>
-    <description><![CDATA[ The business and physical infrastructure behind recorded music — the labels with an aesthetic identity, the studios whose rooms shaped a sound, and the executives whose decisions determined what got made and released. ]]></description>
-    <pubDate>Tue, 02 Jun 2026 18:37:43 GMT</pubDate>
-  </item><item>
-    <title>MOMENTS</title>
-    <link>https://shafrasier.com/map/MUSIC/MOMENTS/</link>
-    <guid>https://shafrasier.com/map/MUSIC/MOMENTS/</guid>
-    <description><![CDATA[ Discrete events — a concert, a broadcast, a festival — that changed the direction of music in hours or days rather than years. ]]></description>
-    <pubDate>Tue, 02 Jun 2026 18:37:43 GMT</pubDate>
-  </item><item>
-    <title>RELEASES</title>
-    <link>https://shafrasier.com/map/MUSIC/RELEASES/</link>
-    <guid>https://shafrasier.com/map/MUSIC/RELEASES/</guid>
-    <description><![CDATA[ The music itself. ]]></description>
-    <pubDate>Tue, 02 Jun 2026 18:37:43 GMT</pubDate>
   </item>
     </channel>
   </rss>

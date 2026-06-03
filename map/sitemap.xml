@@ -26,6 +26,9 @@
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Marvin-Gaye</loc>
     <lastmod>2026-06-02T17:23:28.000Z</lastmod>
   </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Muddy-Waters</loc>
+    <lastmod>2026-06-03T06:11:50.741Z</lastmod>
+  </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/PRODUCERS/George-Martin</loc>
     <lastmod>2026-06-02T17:23:28.000Z</lastmod>
   </url><url>
@@ -239,6 +242,12 @@
     <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/Blues</loc>
     <lastmod>2026-06-02T17:23:28.000Z</lastmod>
   </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/COUNTRY/Country-blues</loc>
+    <lastmod>2026-06-03T06:11:50.726Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/COUNTRY/Delta-blues</loc>
+    <lastmod>2026-06-03T06:11:50.726Z</lastmod>
+  </url><url>
     <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/ELECTRIC/British-blues</loc>
     <lastmod>2026-06-02T17:23:28.000Z</lastmod>
   </url><url>
@@ -250,6 +259,9 @@
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/Jump-blues</loc>
     <lastmod>2026-06-03T04:44:55.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/</loc>
+    <lastmod>2026-06-03T06:11:50.723Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/FOLK/Skiffle</loc>
     <lastmod>2026-06-02T17:23:28.000Z</lastmod>
@@ -361,6 +373,9 @@
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-SOURCES/Toynbee---Making-Popular-Music</loc>
     <lastmod>2026-06-02T17:23:28.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/x-SOURCES/Wald---Escaping-the-Delta</loc>
+    <lastmod>2026-06-03T06:11:50.755Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-SOURCES/Warwick---Girl-Groups-Girl-Culture</loc>
     <lastmod>2026-06-02T17:23:28.000Z</lastmod>
