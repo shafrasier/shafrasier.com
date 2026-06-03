@@ -6,6 +6,36 @@
       <description>Last 10 notes on MAP</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Abbey Road Studios</title>
+    <link>https://shafrasier.com/map/MUSIC/INDUSTRY/STUDIOS/Abbey-Road-Studios</link>
+    <guid>https://shafrasier.com/map/MUSIC/INDUSTRY/STUDIOS/Abbey-Road-Studios</guid>
+    <description><![CDATA[ Location: 3 Abbey Road, St John’s Wood, London Years of peak activity: 1931–present (as EMI Studios until 1970, Abbey Road Studios thereafter) Key engineers: Norman Smith, Geoff Emerick, Ken Townsend, Alan Parsons EMI opened Abbey Road Studios in 1931 in a converted Georgian townhouse, and for three... ]]></description>
+    <pubDate>Wed, 03 Jun 2026 04:44:55 GMT</pubDate>
+  </item><item>
+    <title>Jump blues</title>
+    <link>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/Jump-blues</link>
+    <guid>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/BLUES/Jump-blues</guid>
+    <description><![CDATA[ Blues → Jump blues Period: Late 1930s–mid-1950s Location: Kansas City, Los Angeles, New York, Chicago Key influences: Swing, big band, boogie woogie, blues RYM A saxophone honks a two-bar riff, a piano hammers boogie woogie patterns underneath, and a singer half-shouts a lyric about drinking, dancin... ]]></description>
+    <pubDate>Wed, 03 Jun 2026 04:44:55 GMT</pubDate>
+  </item><item>
+    <title>Brill Building</title>
+    <link>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/POP/Brill-Building</link>
+    <guid>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/POP/Brill-Building</guid>
+    <description><![CDATA[ Pop → Brill Building Location: 1619 Broadway, Manhattan, New York City Period: c. ]]></description>
+    <pubDate>Wed, 03 Jun 2026 04:44:55 GMT</pubDate>
+  </item><item>
+    <title>Pop soul</title>
+    <link>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/R-and-B/SOUL/Pop-soul</link>
+    <guid>https://shafrasier.com/map/MUSIC/TAXONOMY/GENRES/R-and-B/SOUL/Pop-soul</guid>
+    <description><![CDATA[ Pop | Soul → Pop soul Period: c. ]]></description>
+    <pubDate>Wed, 03 Jun 2026 04:44:55 GMT</pubDate>
+  </item><item>
+    <title>About the MAP</title>
+    <link>https://shafrasier.com/map/</link>
+    <guid>https://shafrasier.com/map/</guid>
+    <description><![CDATA[ The MAP charts popular music as networks of influence, context, and argument. ]]></description>
+    <pubDate>Wed, 03 Jun 2026 04:44:55 GMT</pubDate>
+  </item><item>
     <title>ARTISTS</title>
     <link>https://shafrasier.com/map/MUSIC/ARTISTS/</link>
     <guid>https://shafrasier.com/map/MUSIC/ARTISTS/</guid>
@@ -35,36 +65,6 @@
     <guid>https://shafrasier.com/map/MUSIC/RELEASES/</guid>
     <description><![CDATA[ The music itself. ]]></description>
     <pubDate>Tue, 02 Jun 2026 18:37:43 GMT</pubDate>
-  </item><item>
-    <title>TAXONOMY</title>
-    <link>https://shafrasier.com/map/MUSIC/TAXONOMY/</link>
-    <guid>https://shafrasier.com/map/MUSIC/TAXONOMY/</guid>
-    <description><![CDATA[ How the music is classified and periodized — the broad eras that frame everything else, the genres and their lineages, and the local scenes where geographic concentration produced something distinctive. ]]></description>
-    <pubDate>Tue, 02 Jun 2026 18:37:43 GMT</pubDate>
-  </item><item>
-    <title>TECHNIQUES</title>
-    <link>https://shafrasier.com/map/MUSIC/TECHNIQUES/</link>
-    <guid>https://shafrasier.com/map/MUSIC/TECHNIQUES/</guid>
-    <description><![CDATA[ The craft layer: the production innovations that changed what records could sound like, and the music-theory concepts that recur as connective tissue across genres, artists, and eras. ]]></description>
-    <pubDate>Tue, 02 Jun 2026 18:37:43 GMT</pubDate>
-  </item><item>
-    <title>SOURCES</title>
-    <link>https://shafrasier.com/map/MUSIC/x.-SOURCES/</link>
-    <guid>https://shafrasier.com/map/MUSIC/x.-SOURCES/</guid>
-    <description><![CDATA[ The scholarly backbone — argument maps of the books and essays the MAP thinks with. ]]></description>
-    <pubDate>Tue, 02 Jun 2026 18:37:43 GMT</pubDate>
-  </item><item>
-    <title>Bob Dylan</title>
-    <link>https://shafrasier.com/map/MUSIC/ARTISTS/Bob-Dylan</link>
-    <guid>https://shafrasier.com/map/MUSIC/ARTISTS/Bob-Dylan</guid>
-    <description><![CDATA[ Genres: folk rock, contemporary folk, singer-songwriter, blues rock, country rock Scene: Greenwich Village folk scene Era: 1961–present (primary period: 1962–1976) RYM · Apple Music · Spotify Bob Dylan arrived in New York in January 1961 as a nineteen-year-old from Hibbing, Minnesota, carrying an ac... ]]></description>
-    <pubDate>Tue, 02 Jun 2026 17:23:28 GMT</pubDate>
-  </item><item>
-    <title>Brian Wilson</title>
-    <link>https://shafrasier.com/map/MUSIC/ARTISTS/Brian-Wilson</link>
-    <guid>https://shafrasier.com/map/MUSIC/ARTISTS/Brian-Wilson</guid>
-    <description><![CDATA[ Genres: Baroque pop, sunshine pop, pop rock, psychedelic pop, progressive pop Scene: Hawthorne / Hollywood, California Era: 1962–2022 (primary period: 1963–1967) RYM · Apple Music · Spotify The opening chord of “God Only Knows” (1966) — an A major with a suspended fourth dropping to a third over a b... ]]></description>
-    <pubDate>Tue, 02 Jun 2026 17:23:28 GMT</pubDate>
   </item>
     </channel>
   </rss>
