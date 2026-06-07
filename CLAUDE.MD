@@ -110,6 +110,18 @@ For non-trivial changes: pause and ask "is there a more elegant way?"
 
 **Rule:** Autonomy applies when the problem is clear. When the problem itself is unclear, clarify first.
 
+### 7. Reviewer Gate (independent review before commit)
+
+For non-trivial **logic** changes (JS/TS, Quartz transformers/components, layout & build config — NOT pure CSS/visual tweaks), run an independent review pass BEFORE committing:
+
+- Spawn a reviewer subagent (or run `/code-review`) on the diff with a strict brief: **find problems, fix nothing** — bugs, edge cases, regressions, security, broken SPA/build assumptions. Fresh eyes, not the writer.
+- Triage the findings: fix the real ones; note/skip false positives with a one-line reason.
+- Then commit + push as usual (per auto-memory: always commit and push).
+
+**Skip** for: pure CSS/aesthetic changes (the human reviews those visually on-device), trivial one-liners, and docs.
+
+**Why:** the writer has the same blind spots reviewing its own diff that a human has reviewing their own PR. A separate role with no incentive to approve catches what self-review misses (e.g. the esbuild `__name` serialization crash, the graph "lines only appear after hover" bug).
+
 ---
 
 ## Task Management
