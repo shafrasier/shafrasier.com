@@ -158,39 +158,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===================================
   const floatingButtons = document.querySelectorAll('.floating-button');
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const canFloat = !prefersReducedMotion && !isMobile;
 
-  // Gentle floating motion for main nav buttons
-  // Skip on mobile (GSAP x/y overrides CSS translateX(-50%) centering) and reduced motion
-  if (!prefersReducedMotion && !isMobile) {
+  // Current section + a transition guard. While a section enter/return zoom is
+  // mid-flight we suspend the idle float and the mouse parallax so they can't
+  // fight the zoom — that conflict was what left buttons drifting sideways and
+  // snapping back to position at the end of the animation.
+  let currentSection = 'home';
+  let isTransitioning = false;
+
+  // Gentle idle float for the nav buttons. Wrapped in a function so it can be
+  // cleanly stopped during a transition and restarted once we're back home.
+  function startFloating() {
+    if (!canFloat) return;
     floatingButtons.forEach((button, index) => {
       // Subtle, constrained movement - no rotation to keep buttons level
-      const floatY = 8 + Math.random() * 6; // Subtle vertical movement
-      const floatX = 10 + Math.random() * 8; // Subtle horizontal movement
+      const floatY = 8 + Math.random() * 6;
+      const floatX = 10 + Math.random() * 8;
       const durationY = 3 + Math.random() * 1.5;
       const durationX = 3.5 + Math.random() * 2;
       const delay = index * 0.4;
-
-      // Vertical float - gentle bobbing
-      gsap.to(button, {
-        y: `+=${floatY}`,
-        duration: durationY,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: delay
-      });
-
-      // Horizontal drift - subtle
-      gsap.to(button, {
-        x: `+=${floatX}`,
-        duration: durationX,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: delay + 0.3
-      });
+      gsap.to(button, { y: `+=${floatY}`, duration: durationY, ease: 'sine.inOut', yoyo: true, repeat: -1, delay });
+      gsap.to(button, { x: `+=${floatX}`, duration: durationX, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: delay + 0.3 });
     });
   }
+  startFloating();
 
   // Name fade-in (only if element exists)
   const nameContainer = document.querySelector('.name-container');
@@ -210,6 +202,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Skip on mobile - no mouse, and GSAP x/y would override CSS centering
   if (!prefersReducedMotion && !isMobile) {
     document.addEventListener('mousemove', (e) => {
+      // Don't yank the buttons around while a section zoom is animating, or when
+      // we're not on the home screen.
+      if (isTransitioning || currentSection !== 'home') return;
       const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
       const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
 
@@ -239,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===================================
   // SINGLE-PAGE NAVIGATION WITH ZOOM
   // ===================================
-  let currentSection = 'home';
   // Track current lookAt target so returnToHome can interpolate from it
   const currentLookAt = { x: 0, y: 0, z: 0 };
 
@@ -254,6 +248,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const section = button.getAttribute('data-section');
+
+      // Stop the idle float + parallax so the clicked button zooms cleanly from
+      // where it is, instead of also drifting sideways mid-animation. Disable the
+      // CSS transform-transition too — it was easing every GSAP frame and then
+      // snapping when the transform got cleared (the "shrink then flash" on return).
+      isTransitioning = true;
+      gsap.killTweensOf(floatingButtons);
+      floatingButtons.forEach(b => { b.style.transition = 'none'; });
 
       // Get button position to determine zoom direction
       const rect = button.getBoundingClientRect();
@@ -385,6 +387,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Back button functionality - seamless zoom out
   window.returnToHome = function() {
+    isTransitioning = true;
+    // Stop any idle float/parallax tweens so they don't fight the zoom-out or
+    // leave a leftover offset that snaps at the end. Keep the CSS transition off
+    // so GSAP owns the transform with no per-frame easing/snap conflict.
+    gsap.killTweensOf(floatingButtons);
+    floatingButtons.forEach(b => { b.style.transition = 'none'; });
     const timeline = gsap.timeline();
     const floatingContainer = document.querySelector('.floating-container');
 
@@ -468,22 +476,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, 0.3);
 
-    // Fade in all home elements together smoothly
+    // Fade in all home elements together smoothly. Animate x/y back to 0 too, so
+    // the buttons land exactly at their base position — no leftover float/parallax
+    // offset to snap away when we clear the transform below.
     timeline.to(floatingButtons, {
       opacity: 1,
       scale: 1,
+      x: 0,
+      y: 0,
       duration: 1.0,
       ease: 'power2.out',
       stagger: 0.06,
       onComplete: function() {
-        // Remove inline transform so CSS transitions can work cleanly for hover
+        // Buttons are now at their base position (identity transform). Clear the
+        // inline transform, then restore the CSS transition so hover eases again.
         floatingButtons.forEach(btn => {
-          btn.style.transition = 'none';
           btn.style.transform = '';
-          // Force reflow then restore CSS transition
-          btn.offsetHeight;
+          btn.offsetHeight; // force reflow before re-enabling the transition
           btn.style.transition = '';
         });
+        // Settled on home — resume the gentle idle float + re-enable parallax.
+        isTransitioning = false;
+        startFloating();
       }
     }, 0.5);
 

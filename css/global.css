@@ -70,7 +70,12 @@
      Futura is the primary typeface (system font on macOS/iOS).
      On Windows/Android/Linux, the OS sans-serif fallback applies.
      Jost is bundled ONLY for the password field alt-font glyph. */
-  --font-family: Futura, sans-serif;
+  /* Source Serif 4 — shared with the MAP site so the two feel like one project. */
+  --font-family: "Source Serif 4", Georgia, serif;
+  /* All-caps labels use Futura (the original geometric typeface — system font on
+     macOS/iOS, which is what Sha and most visitors see), with Jost as the bundled
+     cross-platform fallback. Serif (--font-family) is for everything else. */
+  --font-display: "Futura", "Jost", "Helvetica Neue", sans-serif;
 
   /* Type Scale - Desktop */
   --font-size-display: 48px;
@@ -316,12 +321,15 @@ body.light-mode {
   align-items: center;
   width: 50px;
   height: 50px;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(1.6);
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.18);
   text-decoration: none;
   color: #ffffff;
   font-size: 20px;
@@ -335,9 +343,12 @@ body.light-mode {
 
 .back-button:hover {
   transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow:
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.7),
+    inset 0 0 14px rgba(255, 255, 255, 0.08),
+    0 8px 25px rgba(0, 0, 0, 0.2);
   color: #ffffff;
 }
 

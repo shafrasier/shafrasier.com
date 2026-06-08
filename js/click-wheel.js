@@ -513,6 +513,10 @@ document.addEventListener('DOMContentLoaded', () => {
     currentSubgenre = null;
     currentPlaylistView = targetViewId;
 
+    // Hide the wheel's back (×) button. The genre folder list has its own × that
+    // returns home; leaving the wheel's × visible showed TWO × buttons at once.
+    if (backToGenres) backToGenres.style.display = 'none';
+
     // Clear search bar state when returning to genre view
     if (searchBar) {
       searchBar.value = '';

@@ -31,7 +31,7 @@
 }
 
 .sheets-title {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 28px;
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -94,8 +94,8 @@
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   z-index: 100;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
   white-space: normal;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.2),
@@ -109,7 +109,7 @@
 }
 
 .sheets-info-popup p {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: 400;
   color: var(--color-text, #c8c8c8);
@@ -303,46 +303,61 @@ body.light-mode .sheets-info-popup p {
 }
 
 .playlist-nav-btn {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  /* Standardised: same transparent-glass recipe as the home nav buttons. */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 25px;
   padding: 20px 50px;
-  font-family: Futura, sans-serif;
+  font-family: var(--font-display);
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 0.1em;
   color: var(--color-text, #c8c8c8);
   cursor: none;
-  transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 6px 22px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, color 0.3s ease, background 0.4s ease, border-color 0.3s ease, box-shadow 0.4s ease;
 }
 
 .playlist-nav-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.08);
   color: var(--color-text-active, #ffffff);
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 16px 44px rgba(0, 0, 0, 0.32);
 }
 
 .playlist-nav-btn:active {
   transform: scale(0.95);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.25),
+    0 6px 18px rgba(0, 0, 0, 0.22);
 }
 
 body.light-mode .playlist-nav-btn {
-  background: rgba(255, 255, 255, 0.55);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   color: var(--color-text, #2a2a2a);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 5px 18px rgba(0, 0, 0, 0.08);
 }
 
 body.light-mode .playlist-nav-btn:hover {
   color: var(--color-text-active, #000000);
-  background: rgba(255, 255, 255, 0.55);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.32);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 14px 38px rgba(0, 0, 0, 0.12);
 }
 
 /* Playlists back button */
@@ -367,7 +382,7 @@ body.light-mode .playlist-nav-btn:hover {
 }
 
 .genre-view-title {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 28px;
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -384,7 +399,9 @@ body.light-mode .playlist-nav-btn:hover {
   gap: 14px;
   max-width: 700px;
   width: 100%;
-  margin-top: 60px;
+  /* Drop the cluster down so it straddles the wireframe horizon (grounded at the
+     skyline) rather than floating up in the empty sky. */
+  margin-top: 24vh;
   padding: 0 20px;
 }
 
@@ -446,9 +463,9 @@ body.light-mode .playlist-nav-btn:hover {
   white-space: nowrap;
 }
 
-/* Question mark in system font for cleaner glyph */
+/* Question mark uses the serif so it matches the rest of the diary text. */
 .password-placeholder-overlay .alt-font {
-  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-family);
   font-weight: 400;
 }
 
@@ -490,7 +507,7 @@ body.light-mode .playlist-nav-btn:hover {
 
 /* DIARY title - centered, with info button positioned absolutely */
 .diary-title {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 28px;
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -546,8 +563,8 @@ body.light-mode .playlist-nav-btn:hover {
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   z-index: 100;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
   white-space: normal;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.2),
@@ -561,7 +578,7 @@ body.light-mode .playlist-nav-btn:hover {
 }
 
 .diary-info-popup p {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: 400;
   color: var(--color-text, #c8c8c8);
@@ -571,7 +588,7 @@ body.light-mode .playlist-nav-btn:hover {
 
 /* Password message below field */
 .diary-password-message {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: 400;
   color: var(--color-text, #c8c8c8);
@@ -597,7 +614,7 @@ body.light-mode .playlist-nav-btn:hover {
 }
 
 .diary-year {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 28px;
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -697,7 +714,7 @@ body.light-mode .diary-year-section.expanded .diary-year {
 }
 
 .diary-playlist-number {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: 500;
   color: var(--color-text-muted, #999999);
@@ -857,7 +874,7 @@ body.light-mode .diary-info-popup p {
 }
 
 .moment-date {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 13px;
   font-weight: 500;
   color: var(--color-text-muted, #999999);
@@ -909,9 +926,16 @@ body.light-mode .moment-item:hover .moment-title {
   align-items: center;
   justify-content: center;
   padding: 14px 28px;
-  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
-  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
+  /* Clean transparent glass — low fill so the backdrop reads through, a soft
+     edge + gentle lift. No glossy inner highlight. */
+  background: var(--glass-bg, rgba(255, 255, 255, 0.06));
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.06));
   border-radius: 50px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 4px 14px rgba(0, 0, 0, 0.1);
   flex: 0 0 auto;
   cursor: none;
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
@@ -920,11 +944,14 @@ body.light-mode .moment-item:hover .moment-title {
 .genre-folder:hover {
   transform: scale(1.08);
   background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 10px 26px rgba(0, 0, 0, 0.14);
 }
 
 .folder-label {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: var(--font-size-callout, 16px);
   font-weight: 500;
   letter-spacing: var(--tracking-normal, 0.08em);
@@ -1035,7 +1062,7 @@ body.light-mode .moment-item:hover .moment-title {
 }
 
 .current-genre-label {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: var(--font-size-title2, 20px);
   font-weight: 500;
   letter-spacing: var(--tracking-wide, 0.12em);
@@ -1093,7 +1120,7 @@ body.light-mode .moment-item:hover .moment-title {
 }
 
 .playlist-name {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: var(--font-size-title2, 24px);
   font-weight: 500;
   margin-bottom: var(--space-2, 4px);
@@ -1388,7 +1415,7 @@ body.light-mode .moment-item:hover .moment-title {
 
 .publication-header .heading {
   margin: 0;
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 28px;
   color: var(--color-text-muted, #999999);
   text-transform: uppercase;
@@ -1510,7 +1537,7 @@ body.light-mode .moment-item:hover .moment-title {
 }
 
 .publication-info-popup p {
-  font-family: Futura, sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: 400;
   color: var(--color-text, #c8c8c8);
@@ -2354,4 +2381,24 @@ body.light-mode .article-link:active {
   .diary-password-input {
     max-width: 240px;
   }
+}
+
+/* ── All-caps labels → Futura (--font-display) ───────────────────────────────
+   At the END of the file so it wins over every earlier rule by source order —
+   several of these (.current-genre-label, .playlist-name, .folder-label, …) are
+   defined later in the file and were beating an earlier override. Every
+   uppercase label uses the geometric display face; prose/body keeps the serif.
+   (#wheel-view .playlist-name etc. don't set font-family, so no specificity clash.) */
+.floating-button,
+.playlist-nav-btn,
+.folder-label,
+.subgenre-pill,
+.name,
+.sheets-title,
+.sheets-link,
+.current-genre-label,
+.genre-view-title,
+.playlist-name,
+.publication-header .heading {
+  font-family: var(--font-display);
 }
