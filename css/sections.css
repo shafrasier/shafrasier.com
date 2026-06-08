@@ -2398,6 +2398,7 @@ body.light-mode .article-link:active {
 .sheets-link,
 .current-genre-label,
 .genre-view-title,
+.diary-title,
 .playlist-name,
 .publication-header .heading {
   font-family: var(--font-display);
