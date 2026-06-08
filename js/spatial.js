@@ -237,13 +237,61 @@ document.addEventListener('DOMContentLoaded', () => {
   // Track current lookAt target so returnToHome can interpolate from it
   const currentLookAt = { x: 0, y: 0, z: 0 };
 
+  // MAP button → a "liquid-glass" pop, then the MAP's colour bubbles out from the
+  // button to fill the screen before we navigate — so entering the MAP feels like
+  // a continuation, not an abrupt jump. (Stage A of the homepage/loading work.)
+  function playMapTransition(button) {
+    const dest = button.getAttribute('href') || 'map/';
+    if (prefersReducedMotion || typeof gsap === 'undefined') {
+      window.location.href = dest;
+      return;
+    }
+
+    const rect = button.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    // Radius that reaches the farthest screen corner from the button.
+    const r = Math.hypot(
+      Math.max(cx, window.innerWidth - cx),
+      Math.max(cy, window.innerHeight - cy),
+    );
+    // Fill in the MAP's own palette: cream in light mode, near-black in dark.
+    const fill = document.body.classList.contains('light-mode') ? '#f0efe4' : '#100e0b';
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText =
+      'position:fixed;inset:0;z-index:99999;pointer-events:none;background:' + fill +
+      ';clip-path:circle(0px at ' + cx + 'px ' + cy + 'px);' +
+      '-webkit-clip-path:circle(0px at ' + cx + 'px ' + cy + 'px);will-change:clip-path;';
+    document.body.appendChild(overlay);
+
+    gsap
+      .timeline()
+      // pop the button like a bubble…
+      .to(button, { scale: 1.14, duration: 0.14, ease: 'back.out(2.2)' })
+      .to(button, { scale: 0.9, opacity: 0.5, duration: 0.16, ease: 'power2.in' })
+      // …then bubble the MAP's colour out to fill the screen.
+      .add(() => {
+        overlay.style.transition =
+          'clip-path 0.5s cubic-bezier(0.4,0,0.2,1),-webkit-clip-path 0.5s cubic-bezier(0.4,0,0.2,1)';
+        const grown = 'circle(' + r + 'px at ' + cx + 'px ' + cy + 'px)';
+        overlay.style.clipPath = grown;
+        overlay.style.webkitClipPath = grown;
+      });
+
+    // Navigate once the colour has filled the screen (pop ~0.3s + fill ~0.5s).
+    setTimeout(() => {
+      window.location.href = dest;
+    }, 820);
+  }
+
   floatingButtons.forEach(button => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
 
-      // MAP button is a real link — navigate out instead of opening a section.
+      // MAP button → animated colour-fill transition into the MAP (see above).
       if (button.id === 'map-btn') {
-        window.location.href = button.getAttribute('href') || 'map/';
+        playMapTransition(button);
         return;
       }
 
