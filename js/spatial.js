@@ -273,16 +273,16 @@ document.addEventListener('DOMContentLoaded', () => {
       // …then bubble the MAP's colour out to fill the screen.
       .add(() => {
         overlay.style.transition =
-          'clip-path 0.5s cubic-bezier(0.4,0,0.2,1),-webkit-clip-path 0.5s cubic-bezier(0.4,0,0.2,1)';
+          'clip-path 0.9s cubic-bezier(0.33,0,0.2,1),-webkit-clip-path 0.9s cubic-bezier(0.33,0,0.2,1)';
         const grown = 'circle(' + r + 'px at ' + cx + 'px ' + cy + 'px)';
         overlay.style.clipPath = grown;
         overlay.style.webkitClipPath = grown;
       });
 
-    // Navigate once the colour has filled the screen (pop ~0.3s + fill ~0.5s).
+    // Navigate once the colour has filled the screen (pop ~0.3s + fill ~0.9s).
     setTimeout(() => {
       window.location.href = dest;
-    }, 820);
+    }, 1250);
   }
 
   floatingButtons.forEach(button => {
