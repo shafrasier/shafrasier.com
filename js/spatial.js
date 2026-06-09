@@ -242,6 +242,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // a continuation, not an abrupt jump. (Stage A of the homepage/loading work.)
   function playMapTransition(button) {
     const dest = button.getAttribute('href') || 'map/';
+    // Entering the MAP from the home page should always play its loading screen,
+    // so clear the once-per-session flag the MAP's loader checks (same origin).
+    try { sessionStorage.removeItem('map-loaded'); } catch (e) {}
     if (prefersReducedMotion || typeof gsap === 'undefined') {
       window.location.href = dest;
       return;
@@ -259,6 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fill = document.body.classList.contains('light-mode') ? '#f0efe4' : '#100e0b';
 
     const overlay = document.createElement('div');
+    overlay.className = 'map-transition-overlay';
     overlay.style.cssText =
       'position:fixed;inset:0;z-index:99999;pointer-events:none;background:' + fill +
       ';clip-path:circle(0px at ' + cx + 'px ' + cy + 'px);' +
@@ -284,6 +288,21 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = dest;
     }, 1250);
   }
+
+  // Pressing Back from the MAP restores this page from the bfcache with the cream
+  // transition overlay (and the popped MAP button) still frozen on screen. Clear
+  // them so Back lands on a clean home, not a full cream screen.
+  window.addEventListener('pageshow', () => {
+    const overlay = document.querySelector('.map-transition-overlay');
+    if (!overlay) return;
+    overlay.remove();
+    if (typeof gsap !== 'undefined') {
+      gsap.killTweensOf(floatingButtons);
+      gsap.set(floatingButtons, { clearProps: 'all' });
+      isTransitioning = false;
+      startFloating();
+    }
+  });
 
   floatingButtons.forEach(button => {
     button.addEventListener('click', (e) => {
