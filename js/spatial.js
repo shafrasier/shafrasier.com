@@ -268,6 +268,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ';clip-path:circle(0px at ' + cx + 'px ' + cy + 'px);' +
       '-webkit-clip-path:circle(0px at ' + cx + 'px ' + cy + 'px);will-change:clip-path;';
     document.body.appendChild(overlay);
+    // Cream the page root too. The home <html> is deliberately transparent (so
+    // Safari's toolbar uses Liquid Glass), which means the inter-page gap can
+    // flash the browser's white through it — painting it the fill colour closes
+    // that gap on the home side. The MAP side is handled by its own FOUC guard.
+    document.documentElement.style.backgroundColor = fill;
 
     gsap
       .timeline()
@@ -293,6 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // transition overlay (and the popped MAP button) still frozen on screen. Clear
   // them so Back lands on a clean home, not a full cream screen.
   window.addEventListener('pageshow', () => {
+    // Always undo the root cream we paint during the transition — the home <html>
+    // is normally transparent (light-mode canvas clears with alpha 0), so a
+    // leftover cream would tint the whole page after a bfcache Back.
+    document.documentElement.style.backgroundColor = '';
     const overlay = document.querySelector('.map-transition-overlay');
     if (!overlay) return;
     overlay.remove();
