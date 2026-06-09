@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.to(btn, {
         scale: 1.5,
         opacity: 0,
-        duration: 1.2,
+        duration: 1.3,
         ease: 'power2.inOut'
       });
       // Also fade out the playlists landing X button
@@ -211,7 +211,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         currentPlaylistView = targetViewId;
-      }, 500);
+        // ~1.3s before the target reveals, so the clicked button finishes its
+        // zoom first — matching the slower home→Playlists (3D camera-zoom) entry.
+        // The old 500ms felt abrupt and too quick next to it.
+      }, 1300);
     });
   });
 
