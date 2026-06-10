@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>MAP — Overnight proposals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400;1,600&family=IBM+Plex+Mono&display=swap">
+<style>
+  :root { --cream:#f0efe4; --light:#fefdfb; --dark:#111; --gray:#9a958a; --green:#2a6f4e; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:var(--dark); font-family:"Source Serif 4", Georgia, serif; line-height:1.62; }
+  .wrap { max-width:720px; margin:0 auto; padding:2.4rem 1.25rem 6rem; }
+  h1 { font-weight:500; font-size:1.7rem; line-height:1.25; margin:.4rem 0 0; }
+  .kicker { font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gray); }
+  h2 { font-weight:600; font-size:1.22rem; margin:2.6rem 0 .4rem; }
+  h3 { font-weight:600; font-size:1rem; margin:1.6rem 0 .3rem; }
+  p, li { font-size:.95rem; }
+  a { color:var(--green); }
+  .toc { margin:1.2rem 0 0; padding:.9rem 1.1rem; background:rgba(254,253,251,.7); border:1px solid rgba(110,105,95,.25); border-radius:12px; font-size:.88rem; }
+  .toc a { display:block; padding:.12rem 0; text-decoration:none; }
+  blockquote { margin:1rem 0; padding:.7rem 1rem; border-left:3px solid var(--dark); background:rgba(254,253,251,.6); border-radius:0 10px 10px 0; font-size:.92rem; }
+  pre { background:#1d1c18; color:#e8e6da; padding:1rem 1.2rem; border-radius:12px; overflow-x:auto; font-family:"IBM Plex Mono", monospace; font-size:.76rem; line-height:1.6; }
+  .verdict { font-weight:600; }
+  table { width:100%; border-collapse:collapse; font-size:.85rem; margin:.6rem 0; }
+  td, th { padding:.45rem .5rem; border-bottom:1px solid rgba(110,105,95,.25); text-align:left; vertical-align:top; }
+  th { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gray); font-weight:500; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">MAP · overnight lab · June 10, 2026</p>
+  <h1>Two proposals: the city as a map, and the shelf as an instrument</h1>
+
+  <nav class="toc">
+    <a href="#nyc">1 · MAP / NYC — the geographic layer</a>
+    <a href="#library">2 · The scholarly architecture</a>
+    <a href="#streaming">3 · The streaming toggle (shipped) + where it can go</a>
+    <a href="#questions">4 · Open questions for you</a>
+  </nav>
+
+  <h2 id="nyc">1 · MAP / NYC — the geographic layer</h2>
+  <p><strong>Try first:</strong> <a href="nyc/index.html">Lab A — the Atlas</a> (filters + year slider) and <a href="nyc/time.html">Lab B — the Time Machine</a> (scrub the century, press play). Same ~36 hand-curated sites; two different theories of the page.</p>
+
+  <h3>Why this belongs in the MAP</h3>
+  <p>The MAP's whole thesis is that context is the most important thing in engaging with music. Place is context made literal. "Greenwich Village folk scene" already exists as a note — but the fact that the Gaslight, Café Wha?, Gerde's, and Dylan's first apartment sit within four blocks of each other <em>is itself an argument</em> about how scenes work, and only a map can make it. Geography also solves a real reader problem: it gives a non-linear, joyful way in for people who would never open an essay first.</p>
+
+  <h3>The one architectural idea that matters</h3>
+  <blockquote>Places should be MAP notes, and the atlas should be a <em>view</em> — exactly as the graph is. Not a separate website bolted on.</blockquote>
+  <p>Concretely: a venue like Studio 54 becomes a note (a new PLACES category, or INDUSTRY/VENUES) with frontmatter — coordinates, address, years active. A Quartz transformer collects every note carrying a <code>location</code> into a generated <code>geo.json</code>, and the atlas page renders whatever exists. The payoff compounds: a place note appears in the network graph (linked to its scenes, artists, records), on the atlas, in search, in backlinks. Write once in Obsidian, every view updates. No parallel database to maintain — that's the trap most "music map" projects die in.</p>
+<pre>---
+title: Studio 54
+type: place
+category: venue
+address: 254 W 54th St, Manhattan
+location: [40.7649, -73.9836]
+active: [1977, 1980]
+neighborhood: Midtown
+---</pre>
+
+  <h3>Three directions (the labs test two)</h3>
+  <table>
+    <tr><th>Direction</th><th>What it is</th><th>Verdict</th></tr>
+    <tr><td><strong>A · Atlas</strong></td><td>Map-first explorer: category filters, optional year filter, neighborhood stories, every dot opens a note.</td><td class="verdict">The spine. Ship this one.</td></tr>
+    <tr><td><strong>B · Time Machine</strong></td><td>Timeline-first: a year scrubber with play, the city flickering on and off through a century.</td><td class="verdict">A feature, not a page — fold the scrubber into A as a mode.</td></tr>
+    <tr><td><strong>C · Neighborhood essays</strong></td><td>Written musical histories of the Village, Harlem, the Bronx… ("Liner Notes for the City") with inline mini-maps.</td><td class="verdict">The editorial soul — but it's writing, not engineering. Phase 3.</td></tr>
+  </table>
+
+  <h3>Honest notes on usefulness (you asked)</h3>
+  <p>Where this is genuinely strong: scenes (they're spatial by nature), the walking-tour reading on a phone, eras layered on the same block (52nd St jazz → Studio 54 within 600 feet), and the click-through into real notes — which is what no Google-My-Maps mashup has. Where it's weak: artists and records aren't inherently spatial; don't force every note onto the map. Rule of thumb — <em>the atlas earns a pin wherever place explains something</em>; it stays empty everywhere else. Precedents to be aware of (none integrated with a knowledge graph): one-off Google-Maps blog mashups of NYC venues, the Bowery-preservation history maps, Radio Garden (live radio by globe — great interaction, zero history).</p>
+
+  <h3>Tech choice</h3>
+  <p><strong>Leaflet + CARTO's light basemap</strong> (what the labs use): ~42&nbsp;KB, free with attribution, and the muted cartography already looks like the MAP's vellum. The upgrade path if you ever want fully custom map styling (cream land, taupe water, serif labels) is MapLibre&nbsp;GL + Protomaps — self-hostable single-file tiles, no API keys, no Google. I'd stay on Leaflet until the custom-cartography itch is real. Google's API: paid, branded, and wrong aesthetically — skip it.</p>
+
+  <h3>Phasing</h3>
+  <p><strong>1.</strong> You react to the labs → pick direction + trims. <strong>2.</strong> Add the PLACES schema to the vault (I can seed the ~36 sites as notes in one pass for your review). <strong>3.</strong> Quartz transformer → generated geo.json → an <code>/map/atlas</code> page wearing the MAP's real chrome (loader, fonts, dark mode). <strong>4.</strong> Neighborhood essays as notes, one at a time. <strong>5.</strong> Later: other cities (the schema doesn't care that it's New York).</p>
+
+  <h2 id="library">2 · The scholarly architecture</h2>
+  <p><strong>Try first:</strong> <a href="library/index.html">The Library lab</a> — your actual fifteen sources, each argument in one breath, and the "in conversation" rail that flips the shelf around an idea.</p>
+
+  <h3>What you have (audit)</h3>
+  <p>The source notes are genuinely good — consistent header (author/title/year/type), real summaries, "Key contributions," and "See also" links that already wire sources into ideas. What's missing is <em>structure the site can use</em>: the metadata lives in prose, so the Sources page can only be an alphabetical list; nothing can answer "show me the sociology," "what underwrites this idea," or "which notes cite this book." The x.&nbsp;prefix hack for sorting is a symptom of the same thing.</p>
+
+  <h3>Is anyone else doing this? (you asked to be corrected)</h3>
+  <p>You're essentially right. The closest things each lack half of yours: <em>Grove/Oxford Music Online</em> is authoritative but paywalled, unopinionated, and has no canon or listening layer. <em>RYM</em> has data with no argument; <em>Pitchfork's</em> Sunday Review has canon with no citations; <em>Genius</em> has annotation with no scholarship; <em>Wikipedia</em> has citations with no point of view (and proportion problems you've noted); <em>33⅓</em> does one album per book, offline; <em>Are.na</em> has the connective structure with no domain knowledge. A personal canon + scholarly apparatus + streaming links + a knowledge graph, in public — that combination is genuinely unoccupied. The defensible phrase is something like <strong>"a public musicology layer over a personal canon."</strong></p>
+
+  <h3>The four pieces I'd build (in order)</h3>
+  <p><strong>(1) Source frontmatter</strong> — the schema in the Library lab's footer: <code>type: source</code>, author, year, kind, discipline, <code>informs:</code> (wikilinks to ideas), goodreads/worldcat. One vault pass; I can draft it for your review since the vault isn't git-tracked.</p>
+  <p><strong>(2) "Cited in" — automatic.</strong> A Quartz transformer indexes every wikilink pointing <em>at</em> a source note and emits two things: a "Cited in 12 notes" line on the source page, and a generated <strong>Sources drawn on</strong> block at the foot of every note that links sources. Zero maintenance; the prose you already write becomes the citation graph.</p>
+  <p><strong>(3) The Library page</strong> — the lab, productionized as the SOURCES landing: argument-first cards, discipline/kind filters, the conversation rail, "start here" shelves (five books to understand the color line, three to understand authenticity…).</p>
+  <p><strong>(4) Claims with page numbers (the big one, phased).</strong> House style: load-bearing factual claims get an Obsidian footnote naming source + page — <code>[^1]: [[Wald — Escaping the Delta]], pp. 105–122</code>. Quartz renders footnotes already; the transformer can then count, link, and eventually <em>audit</em> them (a build report of claims-without-citations). That's the full answer to the AI-writing worry: not a disclaimer, an apparatus — arguments that show their work, checkable by anyone.</p>
+  <p>Two reader-facing graces once (1)–(3) exist: every source gets a <em>WorldCat / Open Library</em> link next to Goodreads (find it in a physical library — right gesture for this project), and ideas notes get a small "The shelf behind this" footer generated from <code>informs:</code>.</p>
+
+  <h2 id="streaming">3 · The streaming toggle — shipped tonight</h2>
+  <p>Already live on the real site (it rode the night's fix batch): a small <strong>♪ Apple Music / Spotify</strong> pill next to dark-mode (desktop sidebar + the home drawer). Flipping it rewrites every prose song link to a Spotify <em>search</em> for the title — no per-link manual work, never touches the explicit "Apple Music" metadata links on release pages, remembers the choice, flips back losslessly. The honest limitation: a search lands you one tap from the song rather than on it. The clean upgrade later is <a href="https://odesli.co">Odesli/song.link</a> — feed it the Apple URL you already have and it resolves the exact track on every service; a build-time pass could bake verified Spotify IDs in with no ongoing effort from you.</p>
+
+  <h2 id="questions">4 · Open questions for you</h2>
+  <p>1 · NYC: Atlas-as-spine with the time scrubber folded in — agree, or do you want B's full-screen time-first drama kept separate?<br>
+  2 · Should places be a new top-level <strong>PLACES</strong> category (my lean: yes — it earns a node color and a drawer row) or live under INDUSTRY?<br>
+  3 · The ~36 starter sites: want me to seed them as vault notes for your review, or do you want to hand-pick the first set?<br>
+  4 · Citations: comfortable with footnote page numbers as house style going forward (new notes first, backfill gradually)?<br>
+  5 · The Library replacing the current SOURCES landing — straight swap, or live alongside for a while?</p>
+
+  <p style="margin-top:2.5rem"><a href="index.html">← lab index</a> · <a href="/map/">the MAP</a></p>
+</div>
+</body>
+</html>
