@@ -1849,7 +1849,8 @@ body.light-mode .article-link:active {
   /* Header - genre label at top. Extra top padding accounts for the iOS
      safe area + Safari toolbar so the X button doesn't crowd the label. */
   .wheel-header {
-    padding: calc(100px + env(safe-area-inset-top, 0px)) 20px 0;
+    /* More top room so the genre label clears the fixed × button. */
+    padding: calc(128px + env(safe-area-inset-top, 0px)) 20px 0;
     gap: 6px;
   }
 
