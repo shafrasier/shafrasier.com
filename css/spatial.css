@@ -660,26 +660,50 @@ body.light-mode .section-inner {
   /* Stack buttons vertically on mobile — MAP centered on top, tighter gaps */
   #map-btn {
     top: 17%;
-    left: 50%;
-    transform: translateX(-50%);
+    /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
+       transform (scale on click, x/y on return) and would clobber a CSS transform,
+       which made the buttons jump to the right. Auto-margins don't conflict. */
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #sheets-btn {
     top: 32%;
-    left: 50%;
-    transform: translateX(-50%);
+    /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
+       transform (scale on click, x/y on return) and would clobber a CSS transform,
+       which made the buttons jump to the right. Auto-margins don't conflict. */
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #playlists-btn {
     top: 47%;
-    left: 50%;
-    transform: translateX(-50%);
+    /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
+       transform (scale on click, x/y on return) and would clobber a CSS transform,
+       which made the buttons jump to the right. Auto-margins don't conflict. */
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #writing-btn {
     top: 62%;
-    left: 50%;
-    transform: translateX(-50%);
+    /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
+       transform (scale on click, x/y on return) and would clobber a CSS transform,
+       which made the buttons jump to the right. Auto-margins don't conflict. */
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* Section content - reduce padding on mobile */

@@ -268,11 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ';clip-path:circle(0px at ' + cx + 'px ' + cy + 'px);' +
       '-webkit-clip-path:circle(0px at ' + cx + 'px ' + cy + 'px);will-change:clip-path;';
     document.body.appendChild(overlay);
-    // Cream the page root too. The home <html> is deliberately transparent (so
-    // Safari's toolbar uses Liquid Glass), which means the inter-page gap can
-    // flash the browser's white through it — painting it the fill colour closes
-    // that gap on the home side. The MAP side is handled by its own FOUC guard.
-    document.documentElement.style.backgroundColor = fill;
 
     gsap
       .timeline()
@@ -290,6 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navigate once the colour has filled the screen (pop ~0.3s + fill ~0.9s).
     setTimeout(() => {
+      // Cream the page root only NOW — the overlay already covers the screen, so
+      // this doesn't tint the (transparent-rooted) home content; it just closes the
+      // inter-page gap on the home side. Cleared again on pageshow (bfcache Back).
+      document.documentElement.style.backgroundColor = fill;
       window.location.href = dest;
     }, 1250);
   }

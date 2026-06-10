@@ -2136,7 +2136,7 @@ body.light-mode .article-link:active {
   }
 
   .diary-header .diary-title {
-    display: none;
+    display: block;
   }
 
   .genre-grid {
@@ -2206,10 +2206,11 @@ body.light-mode .article-link:active {
     display: none;
   }
 
-  /* Diary mobile - constrain password field and container */
+  /* Diary mobile - constrain password field and container. Extra top padding so
+     the DIARY title clears the fixed × button (top:30px) instead of crowding it. */
   .diary-container {
     width: 100%;
-    padding: 20px 0 100px;
+    padding: 64px 0 100px;
     box-sizing: border-box;
   }
 
