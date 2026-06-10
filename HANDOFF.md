@@ -1,5 +1,20 @@
 # MAP / shafrasier.com — Session Handoff
 
+## Overnight lab (June 10) — REVIEW FIRST
+- **Unlisted prototypes at `/labs/`** (site root, NOT under `map/` — quartz build wipes `map/`):
+  `labs/index.html` (landing) → `labs/nyc/` (Atlas + Time Machine, Leaflet+CARTO, curated 38-site
+  dataset in `data.js`) · `labs/library/` (sources-as-arguments + idea conversation rail) ·
+  `labs/proposals.html` (the full thinking + 5 open questions for Sha). Nothing on the live site
+  links to these; all carry `noindex`. Key architectural proposal: **places become MAP notes**
+  (frontmatter `location`/`active`) and the atlas is a generated *view*, like the graph.
+- **Shipped to the real site the same night**: graph pre-settle + label-resolution cap (load lag),
+  lighter idle lines (alpha .35), hover lines take the hovered node's colour, tap-drag no longer
+  navigates (<500ms AND <12px), centred Connections-chip glyph, drawer = drag-to-any-height grip
+  (two bars; tap toggles; resize-safe), home page scroll locked, Feedback pill hides while drawer
+  up, **StreamToggle** (Apple Music ↔ Spotify-search rewrite of prose song links; skips literal
+  service-name links; localStorage; pill next to dark-mode on desktop + home drawer; Formspree-style
+  endpoint NOT needed — works as-is).
+
 _Last updated: 2026-06-08. A continuity note for the next Claude Code session (and for Sha).
 This file is a local, untracked note — not part of the site. To pick up where we left off,
 tell Claude: **"read HANDOFF.md"**._
