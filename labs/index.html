@@ -13,7 +13,7 @@
   .wrap { max-width:620px; margin:0 auto; padding:3rem 1.25rem 5rem; }
   .wordmark { display:flex; align-items:center; gap:.55rem; font-size:1.5rem; font-weight:500; }
   .wordmark svg { width:1.5rem; height:1.5rem; }
-  h1 { font-weight:500; font-size:1.35rem; margin:1.2rem 0 .2rem; }
+  h1 { font-weight:500; font-size:1.35rem; margin:1.4rem 0 .2rem; }
   p { font-size:.95rem; color:rgba(17,17,17,.8); }
   .card { display:block; margin:1rem 0; padding:1.1rem 1.25rem; border-radius:14px; text-decoration:none; color:inherit;
     background:rgba(254,253,251,.75); border:1px solid rgba(110,105,95,.25); box-shadow:0 2px 12px rgba(17,17,17,.05);
@@ -21,6 +21,7 @@
   .card:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(17,17,17,.1); }
   .card b { font-size:1.02rem; font-weight:600; }
   .card span { display:block; font-size:.84rem; color:rgba(17,17,17,.65); margin-top:.2rem; }
+  .tag { display:inline-block; font-size:.62rem; letter-spacing:.1em; color:var(--green); border:1px solid rgba(42,111,78,.4); border-radius:99px; padding:.08rem .45rem; margin-left:.4rem; vertical-align:2px; }
   .foot { font-size:.78rem; color:var(--gray); margin-top:2rem; }
   .foot a { color:inherit; }
 </style>
@@ -37,17 +38,20 @@
     </svg>
     MAP — overnight lab
   </div>
-  <p>Built while you slept, June 10. Unlisted — nothing on the live site links here, and none of this touches the MAP itself until you say so.</p>
+  <p>Night two, June 11. Everything you approved went out: the scholarly architecture is LIVE on the real site, and the Atlas was rebuilt here with the custom cartography you asked for.</p>
 
-  <h1>Play with these</h1>
-  <a class="card" href="nyc/index.html"><b>MAP / NYC · Lab A — the Atlas</b><span>The city as the MAP sees it: ~36 curated sites, category filters that double as a legend, a year filter, neighborhood stories, every dot a door into a note.</span></a>
-  <a class="card" href="nyc/time.html"><b>MAP / NYC · Lab B — the Time Machine</b><span>Same city, time-first: scrub a century, press play, watch venues flicker on and off from Tin Pan Alley to now.</span></a>
-  <a class="card" href="library/index.html"><b>The Library</b><span>Your fifteen real sources as an argument-first shelf — and an “in conversation” rail that flips it around any idea note.</span></a>
+  <h1>In the lab — play with this</h1>
+  <a class="card" href="nyc/"><b>MAP / NYC — Atlas v2</b><span>MapLibre + self-hosted tiles: vellum land, taupe water, Libre Baskerville street labels. Real neighborhood borders (official NTA polygons, 12 storied neighborhoods), one-word categories in the proposed PLACES palette (the legend doubles as the color proposal), and the time scrubber folded in — era chips link to notes where they exist. The old Leaflet pair stays at <i>leaflet.html</i> / <i>time.html</i> for comparison.</span></a>
 
-  <h1>Then read</h1>
-  <a class="card" href="proposals.html"><b>The proposals</b><span>The full thinking: places as MAP notes (the atlas as a view, like the graph), the four-piece scholarly architecture, citations with page numbers, what no other site does, and five questions for you.</span></a>
+  <h1>Live on the MAP — go look</h1>
+  <a class="card" href="/map/MUSIC/x-SOURCES/"><b>The Library <span class="tag">LIVE</span></b><span>The SOURCES landing, replaced. Cards render from real frontmatter (all 15 sources got the schema), with kind/discipline filters, search, and the conversation rail — dimmed cards are now inert. Every argues line was drafted and adversarially checked against Using the MAP's prose rules.</span></a>
+  <a class="card" href="/map/MUSIC/IDEAS/Authenticity-and-its-discontents"><b>The shelf behind this <span class="tag">LIVE</span></b><span>Ideas notes now end with their generated shelf; every other note that cites sources gets a "Sources drawn on" block. Source pages show "Cited in N notes" plus WorldCat / Open Library find-it links.</span></a>
+  <a class="card" href="/map/MUSIC/ARTISTS/Bob-Dylan"><b>Four-service streaming <span class="tag">LIVE</span></b><span>The settings toggle now offers Apple, Spotify, YouTube, and Tidal. Tidal links are EXACT tracks (baked from Odesli); the others fall back to title+artist searches until a free Odesli key unlocks exact links for them too. Try it on the Dylan page.</span></a>
 
-  <p class="foot">Also shipped to the real site overnight (separate from these labs): lighter graph lines · hover lines take the node's colour · tap-drag no longer opens notes · graph load-in stutter fix · drawer is now drag-to-any-height with two-bar grip · home page no longer scrolls under the drawer · Feedback pill hides while the drawer is up · centred glyph in the Connections chip · the ♪ Apple Music/Spotify toggle. <a href="/map/">Open the MAP →</a></p>
+  <h1>Read</h1>
+  <a class="card" href="proposals.html"><b>The proposals (night one)</b><span>Still current for the conceptual background; the PLACES taxonomy and note templates now live in Using the MAP in your vault, ready for your read.</span></a>
+
+  <p class="foot">Also in the vault: PLACES architecture + SOURCES schema + citations house style written into Using the MAP; the citation report (data/citation-report.md in the MAP repo) lists the 81 substantive notes awaiting scholarly grounding. <a href="/map/">Open the MAP →</a></p>
 </div>
 </body>
 </html>
