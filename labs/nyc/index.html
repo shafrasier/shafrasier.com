@@ -85,7 +85,7 @@
   .caption { font-size:.74rem; color:var(--gray); min-height:1.1em; }
   .caption a { color:#2a6f4e; }
 
-  /* ── Popups: vellum cards ── */
+  /* ── Popups: cream cards ── */
   .maplibregl-popup-content {
     font-family:var(--serif); color:var(--dark); background:var(--light);
     border-radius:12px; box-shadow:0 10px 36px rgba(17,17,17,.22); padding:.95rem 1.05rem;
@@ -114,7 +114,7 @@
     </svg>
     MAP&nbsp;/&nbsp;NYC <span class="lab">ATLAS&nbsp;v2</span>
   </h1>
-  <p class="lede">The city in the MAP's own cartography — vellum land, taupe water, serif streets. Tap a dot; tap a neighborhood for its story.</p>
+  <p class="lede">The city in the MAP's own cartography — cream land, taupe water, serif streets. Tap a dot; tap a neighborhood for its story.</p>
 
   <div class="chips" id="chips"></div>
 
@@ -141,14 +141,14 @@
 <script src="data.js"></script>
 <script>
 (async () => {
-  // ── Tiles: self-hosted Protomaps extract; vellum-recolored light flavor ──
+  // ── Tiles: self-hosted Protomaps extract; recolored to the MAP's cream palette ──
   const protocol = new pmtiles.Protocol();
   maplibregl.addProtocol("pmtiles", protocol.tile);
   const tilesUrl = new URL("nyc.pmtiles", location).href;
   const fontsUrl = new URL("fonts/", location).href;
 
   // Every key below verified against @protomaps/basemaps@5.7.2's Flavor shape.
-  const VELLUM = {
+  const CREAM_PALETTE = {
     background: "#f0efe4", earth: "#f0efe4",
     water: "#cdc5b1",
     landcover: {
@@ -183,7 +183,7 @@
     ocean_label: "#8e8672",
     address_label: "#9a9282", address_label_halo: "#f0efe4",
   };
-  const flavor = { ...basemaps.namedFlavor("light"), ...VELLUM };
+  const flavor = { ...basemaps.namedFlavor("light"), ...CREAM_PALETTE };
 
   let layers = basemaps.layers("protomaps", flavor, { lang: "en" });
   // No generic POI pins — the music sites are the only points this map argues for.
@@ -247,7 +247,13 @@
       paint: { "fill-color": "#6e6657", "fill-opacity": 0.06 } });
     map.addLayer({ id: "hood-line", type: "line", source: "hoods",
       paint: { "line-color": "#6e6657", "line-opacity": 0.55, "line-width": 1.2, "line-dasharray": [3, 3] } });
-    map.addLayer({ id: "hood-label", type: "symbol", source: "hoods",
+    // Labels come from a separate POINT source — one hand-pinned anchor per
+    // neighborhood at its cultural center. Labeling the polygons directly placed
+    // a copy on every polygon part and tile (merged hoods showed two or three
+    // names), and the geometric centroids drifted toward whichever official
+    // sub-area happened to be biggest.
+    map.addSource("hood-labels", { type: "geojson", data: new URL("neighborhood-labels.geojson", location).href });
+    map.addLayer({ id: "hood-label", type: "symbol", source: "hood-labels",
       layout: {
         "text-field": ["get", "name"],
         "text-font": ["libre_baskerville_regular_italic"],
