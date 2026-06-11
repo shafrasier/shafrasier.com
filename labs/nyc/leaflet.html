@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>MAP / NYC — Atlas (lab)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root {
+    --cream:#f0efe4; --light:#fefdfb; --dark:#111111; --gray:#9a958a;
+    --serif:"Source Serif 4", Georgia, serif;
+  }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:var(--cream); font-family:var(--serif); color:var(--dark); }
+  #map { position:fixed; inset:0; background:var(--cream); }
+  .leaflet-container { font:inherit; }
+
+  /* ── Frosted control panel ── */
+  .panel {
+    position:fixed; top:0; left:0; z-index:1000;
+    width:min(330px, calc(100vw - 24px)); max-height:calc(100% - 24px);
+    margin:12px; padding:1.1rem 1.15rem 1rem; overflow-y:auto;
+    background:color-mix(in srgb, var(--light) 72%, transparent);
+    -webkit-backdrop-filter:blur(16px) saturate(1.3); backdrop-filter:blur(16px) saturate(1.3);
+    border:1px solid rgba(110,105,95,.25); border-radius:16px;
+    box-shadow:0 8px 30px rgba(17,17,17,.10);
+  }
+  .wordmark { display:flex; align-items:center; gap:.5rem; margin:0 0 .2rem; font-size:1.45rem; font-weight:500; letter-spacing:-0.01em; }
+  .wordmark svg { width:1.5rem; height:1.5rem; transform:translateY(-1px); }
+  .wordmark .lab { font-size:.66rem; letter-spacing:.12em; color:var(--gray); border:1px solid rgba(110,105,95,.4); padding:.1rem .4rem; border-radius:99px; margin-left:.2rem; }
+  .lede { margin:.3rem 0 .9rem; font-size:.86rem; line-height:1.5; color:rgba(17,17,17,.74); }
+
+  .chips { display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:.9rem; }
+  .chip {
+    display:inline-flex; align-items:center; gap:.42rem; padding:.3rem .65rem;
+    font:inherit; font-size:.8rem; border-radius:999px; cursor:pointer;
+    border:1px solid rgba(110,105,95,.35); background:rgba(254,253,251,.5); color:var(--dark);
+    transition:background .15s ease, opacity .15s ease;
+  }
+  .chip .dot { width:9px; height:9px; border-radius:50%; }
+  .chip.off { opacity:.38; }
+  .chip:hover { background:var(--light); }
+
+  .row { display:flex; align-items:center; gap:.6rem; margin:.2rem 0 .55rem; }
+  .row label { font-size:.8rem; color:rgba(17,17,17,.74); }
+  .switch { display:inline-flex; align-items:center; gap:.45rem; font-size:.8rem; cursor:pointer; user-select:none; }
+  .switch input { accent-color:#3a3a35; }
+
+  /* year slider */
+  .yearbox { border-top:1px solid rgba(110,105,95,.25); padding-top:.75rem; margin-top:.2rem; }
+  .yearbox .readout { display:flex; align-items:baseline; gap:.5rem; }
+  .yearbox .readout b { font-size:1.5rem; font-weight:600; letter-spacing:.02em; }
+  .yearbox .readout span { font-size:.78rem; color:var(--gray); }
+  input[type=range] { width:100%; accent-color:#3a3a35; margin:.45rem 0 .1rem; }
+  .hint { font-size:.72rem; color:var(--gray); margin:.5rem 0 0; line-height:1.45; }
+  .hint a { color:inherit; }
+
+  /* ── Popup styling ── */
+  .leaflet-popup-content-wrapper { background:var(--light); color:var(--dark); border-radius:12px; box-shadow:0 10px 36px rgba(17,17,17,.22); }
+  .leaflet-popup-content { margin:.95rem 1.05rem; font-family:var(--serif); }
+  .pp-name { font-size:1.02rem; font-weight:600; margin:0; }
+  .pp-meta { font-size:.74rem; color:var(--gray); margin:.15rem 0 .45rem; letter-spacing:.02em; }
+  .pp-blurb { font-size:.85rem; line-height:1.5; margin:0; }
+  .pp-link { display:inline-block; margin-top:.55rem; font-size:.8rem; color:#2a6f4e; text-decoration:none; border-bottom:1px solid rgba(42,111,78,.4); }
+  .pp-link.soon { color:var(--gray); border-bottom-color:rgba(154,149,138,.4); pointer-events:none; }
+
+  @media (max-width:640px) {
+    .panel { max-height:46vh; }
+  }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<aside class="panel">
+  <h1 class="wordmark">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <line x1="7.5" y1="13" x2="4" y2="6.5" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="7.5" y1="13" x2="16.5" y2="9" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="7.5" y1="13" x2="11" y2="20" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+      <circle cx="7.5" cy="13" r="2.6" fill="#111"/><circle cx="4" cy="6.5" r="1.5" fill="#111"/>
+      <circle cx="16.5" cy="9" r="1.7" fill="#111"/><circle cx="11" cy="20" r="1.4" fill="#111"/>
+    </svg>
+    MAP&nbsp;/&nbsp;NYC <span class="lab">LAB&nbsp;A</span>
+  </h1>
+  <p class="lede">The city as the MAP sees it — venues, studios, scenes, and homes, each one a door into a note. Tap a dot.</p>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="row">
+    <label class="switch"><input type="checkbox" id="hoods"> Neighborhood stories</label>
+  </div>
+
+  <div class="yearbox">
+    <label class="switch" style="margin-bottom:.25rem"><input type="checkbox" id="timeOn"> Filter by year</label>
+    <div class="readout" id="readout" style="display:none"><b id="yearVal">1961</b><span id="activeCount"></span></div>
+    <input type="range" id="year" min="1885" max="2026" value="1961" style="display:none">
+  </div>
+
+  <p class="hint">Lab prototype — data is a curated starter set (~36 sites). Compare <a href="time.html">Lab B: the Time Machine</a> · <a href="../proposals.html">read the proposal</a> · <a href="/map/">back to the MAP</a></p>
+</aside>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="data.js"></script>
+<script>
+  const map = L.map('map', { zoomControl:false, attributionControl:true })
+    .setView([40.7560, -73.9700], 12);
+  L.control.zoom({ position:'bottomright' }).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    maxZoom:19,
+  }).addTo(map);
+
+  const state = { cats:new Set(Object.keys(CATEGORIES)), timeOn:false, year:1961, hoods:false };
+  const markers = [];
+
+  function popupHtml(s) {
+    const years = s.from + '–' + (s.to ?? 'now');
+    const link = s.note
+      ? '<a class="pp-link" href="' + s.note + '">Open in the MAP →</a>'
+      : '<span class="pp-link soon">MAP note coming</span>';
+    return '<p class="pp-name">' + s.name + '</p>'
+      + '<p class="pp-meta">' + years + ' · ' + s.addr + ' · ' + s.hood + '</p>'
+      + '<p class="pp-blurb">' + s.blurb + '</p>' + link;
+  }
+
+  SITES.forEach(s => {
+    const c = CATEGORIES[s.cat].color;
+    const m = L.circleMarker([s.lat, s.lng], {
+      radius:8, color:'#fefdfb', weight:1.6, fillColor:c, fillOpacity:.92,
+    }).bindPopup(popupHtml(s), { maxWidth:300 });
+    m.__site = s;
+    m.addTo(map);
+    markers.push(m);
+  });
+
+  // Neighborhood story circles (off by default)
+  const hoodLayer = L.layerGroup(NEIGHBORHOODS.map(h => {
+    const circ = L.circle([h.lat, h.lng], {
+      radius:h.r, color:'#6e695f', weight:1, dashArray:'4 5', fillColor:'#6e695f', fillOpacity:.07,
+    });
+    const link = h.note ? '<a class="pp-link" href="' + h.note + '">Open in the MAP →</a>' : '';
+    circ.bindPopup('<p class="pp-name">' + h.name + '</p><p class="pp-blurb">' + h.story + '</p>' + link, { maxWidth:300 });
+    return circ;
+  }));
+
+  function apply() {
+    let shown = 0;
+    markers.forEach(m => {
+      const s = m.__site;
+      const catOk = state.cats.has(s.cat);
+      const timeOk = !state.timeOn || (s.from <= state.year && state.year <= (s.to ?? 2026));
+      const on = catOk && timeOk;
+      if (on) { m.addTo(map); shown++; } else { map.removeLayer(m); }
+    });
+    document.getElementById('activeCount').textContent = shown + ' of ' + SITES.length + ' sites';
+  }
+
+  // Category chips double as the legend
+  const chipBox = document.getElementById('chips');
+  Object.entries(CATEGORIES).forEach(([key, cat]) => {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.innerHTML = '<span class="dot" style="background:' + cat.color + '"></span>' + cat.label;
+    b.onclick = () => {
+      state.cats.has(key) ? state.cats.delete(key) : state.cats.add(key);
+      b.classList.toggle('off', !state.cats.has(key));
+      apply();
+    };
+    chipBox.appendChild(b);
+  });
+
+  const yearEl = document.getElementById('year');
+  const timeEl = document.getElementById('timeOn');
+  timeEl.onchange = () => {
+    state.timeOn = timeEl.checked;
+    yearEl.style.display = state.timeOn ? '' : 'none';
+    document.getElementById('readout').style.display = state.timeOn ? '' : 'none';
+    apply();
+  };
+  yearEl.oninput = () => {
+    state.year = +yearEl.value;
+    document.getElementById('yearVal').textContent = state.year;
+    apply();
+  };
+  document.getElementById('hoods').onchange = (e) => {
+    e.target.checked ? hoodLayer.addTo(map) : map.removeLayer(hoodLayer);
+  };
+
+  apply();
+</script>
+</body>
+</html>
