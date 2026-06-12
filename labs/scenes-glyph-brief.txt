@@ -1,0 +1,144 @@
+THE MAP — SCENE GLYPHS: DESIGN BRIEF
+=====================================
+(For prompting an image model. One glyph per scene. Current versions are
+hand-drawn inline SVG vectors; these are the rules they follow and the spec
+improved versions should meet.)
+
+
+THE ONE-SENTENCE THESIS
+-----------------------
+A scene glyph is a cartographic monogram: the smallest hand-drawn map that
+makes you say the place's name before you read it — recognition over accuracy,
+the way a fake-book lead sheet implies a song in eight bars.
+
+
+WHAT A GLYPH IS (AND ISN'T)
+---------------------------
+- It is an ESTABLISHING SHOT, not a map. One or two geographic signatures only
+  — the single coastline kink, river bend, or street-grid quirk that everyone
+  who knows the place recognizes instantly. The Mersey's bottleneck estuary IS
+  Liverpool; the Thames's double-S IS London; the off-grid wedge below 14th
+  Street IS the Village. Everything else is omitted on purpose.
+- It is DRAWN, not plotted. A confident single-weight ink line with slight
+  hand-wobble, like a thought sketched on a napkin by someone who has walked
+  the place — not GIS data, not a logo, not an icon.
+- It is QUIET. It sits at 112px beside a serif headline and must not compete
+  with it. If it reads as an "illustration," it's too much.
+
+STYLE RULES (match these exactly)
+---------------------------------
+1. CANVAS: square-ish, 120×120 (the UK archipelago may run 120×140 portrait).
+   Generous empty margin — the drawing floats; nothing touches the edge.
+2. BACKGROUND: none (transparent), composited onto warm cream #f0efe4.
+   Never draw a frame or border around the glyph.
+3. INK: near-black #111 at 70–80% opacity, single stroke weight ≈1.6 units
+   (≈1.5% of canvas width), round caps and joins. The line may vary ±0.2 in
+   weight but never tapers calligraphically.
+4. SECONDARY INK (optional, sparing): the same #111 at 25–35% opacity for one
+   supporting texture — hatching that suggests water beside a coast, a dashed
+   boundary ring. Short parallel ticks, 3–6 of them, not fills.
+5. THE SCENE MARK: the only color is the MAP's scene green #6ab86a.
+   - The scene's epicenter: one solid green dot (r ≈ 3.5–4% of canvas),
+     optionally ringed by a thin green halo circle at 45% opacity.
+   - Secondary cities/sites (only when the scene is genuinely multi-sited):
+     smaller solid dots, r ≈ 2%.
+   - A neighborhood-scale scene may instead tint its blocks: a small polygon
+     filled green at 20% opacity with a 1.4-weight green outline.
+   - Motion/diffusion (a sound spreading) may be ONE dashed green arc,
+     1.2 weight, dashes ≈1.5 on / 4 off, 70% opacity.
+6. NOTHING ELSE: no text, no compass, no scale bar, no roads-as-network, no
+   shading, no gradients, no perspective. Flat orthographic, north-up-ish but
+   rotated freely if the silhouette reads better.
+
+COMPOSITION RECIPE (per glyph)
+------------------------------
+- ONE dominant line: the geographic signature, drawn in 1–3 strokes max.
+- ONE supporting texture (optional): water hatching or a boundary hint.
+- ONE green statement: where the scene lived.
+- Density check: count your strokes; if more than ~8 paths, simplify.
+
+DELIVERABLE FORMAT
+------------------
+Vector strongly preferred: SVG with plain <path> strokes (no filters, no
+embedded raster, no clip masks). If the model can only produce raster: PNG at
+1024×1024 minimum, transparent background, lines crisp (no anti-alias halos
+against cream). They will be hand-traced back to SVG if needed.
+
+
+THE FOUR CURRENT GLYPHS — WHAT EACH ENCODES
+--------------------------------------------
+1. GREENWICH VILLAGE FOLK SCENE (Greenwich Village, Manhattan)
+   - Dominant line: the lower-Manhattan wedge — the island tapering to its
+     southern tip, drawn as one wandering vertical outline.
+   - Supporting: a dashed horizontal across the top = 14th Street, the
+     Village's customary northern border; short ticks either side = the
+     Hudson and East rivers.
+   - Green: a tilted quadrilateral filled 20% green = the Village's off-grid
+     street pocket (the only part of Manhattan that refuses the grid), with
+     two thin green lines inside (Bleecker/MacDougal gesture) and a small
+     solid square = Washington Square Park.
+   - Improvement wishes: the island outline could be more recognizably
+     Manhattan (currently reads slightly like a sock); keep the wedge tilt of
+     the Village pocket — its NOT lining up with the page grid is the point.
+
+2. MERSEYBEAT (Liverpool)
+   - Dominant line: the Mersey estuary's bottleneck — the river narrowing
+     between Liverpool and the Wirral then ballooning inland; drawn as one
+     continuous coast stroke with the round tidal pool.
+   - Supporting: 3–4 short hatch ticks on the seaward side = the Irish Sea.
+   - Green: one solid dot + halo on the east bank = the city (the Cavern).
+   - Improvement wishes: current version is the most abstract of the four —
+     the estuary shape could be tightened toward the real bottleneck profile
+     (wide bay → pinch at the city → bulge inland) so Liverpudlians recognize
+     their river.
+
+3. MOD (Soho & the West End, London)
+   - Dominant line: the Thames through central London — the famous double
+     bend (the S around Westminster and the U of the Isle of Dogs is too far
+     east; use the Westminster S only), drawn as one bold stroke crossing the
+     full canvas.
+   - Supporting: a large dashed circle = the informal boundary of inner
+     London (reads as "the city" without drawing it).
+   - Green: dot + 20%-fill halo just NORTH of the river bend = Soho/West End.
+   - Improvement wishes: the Thames line is the identity — make its bends
+     unmistakably the central-London profile (Battersea up, Westminster down,
+     the long straight past the City).
+
+4. BRITISH BEAT BOOM (the whole UK)
+   - Dominant line: Great Britain's coast as a single jagged silhouette —
+     deliberately crude, 30–40 line segments, like a woodcut. Scotland's
+     northwest fray, the Welsh bump, the southwest toe.
+   - Green: city dots scaled by role — Liverpool (dot + halo, the origin),
+     Manchester, Newcastle, Birmingham small, London larger; ONE dashed green
+     arc from Liverpool curving down to London = the sound traveling.
+   - NOTE ON THE GRAY LINE (Sha asked): the earlier draft included a faint
+     curved line to the LEFT of Britain — a low-opacity gesture at the island
+     of IRELAND's east coast, there so Britain wouldn't float in a void, plus
+     a stray green dot on it. It read as noise (and the dot, sitting around
+     Dublin, was geographically wrong for a UK-chart scene), so both were
+     REMOVED in the live version. If a regenerated glyph wants Ireland for
+     context, draw it as a complete faint closed outline at 25% opacity with
+     NO dots on it — or leave it out entirely.
+
+FUTURE GLYPHS (same recipe)
+---------------------------
+- Haight-Ashbury: the SF peninsula tip, one fog hatch, green dot at the
+  Panhandle.
+- Laurel Canyon: two ridgeline strokes converging on a canyon notch above a
+  dashed LA basin grid-fragment.
+- Motown's Detroit: the Detroit river's gentle elbow + the radiating avenue
+  fan; green dot on West Grand Boulevard.
+- Muscle Shoals: the Tennessee River's wide horizontal band with the shoals
+  as 3 short ticks across it; green dot on the south bank.
+
+PROMPT SKELETON FOR AN IMAGE MODEL
+----------------------------------
+"Minimal hand-drawn map glyph of [PLACE]: a single confident near-black ink
+line (slight hand wobble, round caps, uniform ~1.5% stroke weight, 75%
+opacity) drawing only [THE ONE GEOGRAPHIC SIGNATURE]; [ONE SUPPORTING TEXTURE]
+in the same ink at 30% opacity; one solid muted-green (#6ab86a) dot with a
+thin green halo marking [THE SCENE'S EPICENTER]; flat orthographic, no text,
+no border, no shading, no fills except a single optional 20% green polygon;
+transparent background designed to sit on warm cream (#f0efe4); composition
+floats with generous margins in a 120×120 frame; editorial fake-book-lead-
+sheet austerity, recognition over accuracy. Vector-style SVG line art."

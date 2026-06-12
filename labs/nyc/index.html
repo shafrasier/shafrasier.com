@@ -187,7 +187,10 @@
 
   let layers = basemaps.layers("protomaps", flavor, { lang: "en" });
   // No generic POI pins — the music sites are the only points this map argues for.
-  layers = layers.filter((l) => !/pois|address/.test(l.id));
+  // Also drop the basemap's own neighborhood labels (places_subplace: kind
+  // neighbourhood/macrohood) — our hand-pinned NTA labels replace them, and
+  // keeping both printed "East Village" twice. City/borough labels stay.
+  layers = layers.filter((l) => !/pois|address|places_subplace/.test(l.id));
   // Serif cartography: swap every label font for Libre Baskerville.
   for (const l of layers) {
     const tf = l.layout && l.layout["text-font"];
@@ -241,12 +244,20 @@
   const state = { cats: new Set(Object.keys(CATEGORIES)), timeOn: false, year: 1926 };
 
   map.on("load", () => {
-    // Neighborhoods (under the dots)
-    map.addSource("hoods", { type: "geojson", data: new URL("neighborhoods.geojson", location).href });
+    // Neighborhoods (under the dots). promoteId lets feature-state key off the
+    // name (the geojson features carry no ids of their own).
+    map.addSource("hoods", { type: "geojson", data: new URL("neighborhoods.geojson", location).href, promoteId: "name" });
     map.addLayer({ id: "hood-fill", type: "fill", source: "hoods",
       paint: { "fill-color": "#6e6657", "fill-opacity": 0.06 } });
     map.addLayer({ id: "hood-line", type: "line", source: "hoods",
       paint: { "line-color": "#6e6657", "line-opacity": 0.55, "line-width": 1.2, "line-dasharray": [3, 3] } });
+    // Hover: a solid taupe outline traces the boundary of whichever
+    // neighborhood the cursor is over (invisible until feature-state flips).
+    map.addLayer({ id: "hood-hover", type: "line", source: "hoods",
+      paint: {
+        "line-color": "#6e6657", "line-width": 1.8,
+        "line-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.9, 0],
+      } });
     // Labels come from a separate POINT source — one hand-pinned anchor per
     // neighborhood at its cultural center. Labeling the polygons directly placed
     // a copy on every polygon part and tile (merged hoods showed two or three
@@ -310,6 +321,20 @@
     });
     map.on("mouseenter", "site-dots", () => (map.getCanvas().style.cursor = "pointer"));
     map.on("mouseleave", "site-dots", () => (map.getCanvas().style.cursor = ""));
+
+    // Hover state for the neighborhood outline.
+    let hoveredHood = null;
+    map.on("mousemove", "hood-fill", (e) => {
+      const id = e.features[0].id;
+      if (id === hoveredHood) return;
+      if (hoveredHood !== null) map.setFeatureState({ source: "hoods", id: hoveredHood }, { hover: false });
+      hoveredHood = id;
+      map.setFeatureState({ source: "hoods", id }, { hover: true });
+    });
+    map.on("mouseleave", "hood-fill", () => {
+      if (hoveredHood !== null) map.setFeatureState({ source: "hoods", id: hoveredHood }, { hover: false });
+      hoveredHood = null;
+    });
   });
 
   // ── Filters: categories × optional year ──
@@ -352,7 +377,7 @@
   // Neighborhood toggle.
   document.getElementById("hoods").onchange = (e) => {
     const vis = e.target.checked ? "visible" : "none";
-    for (const id of ["hood-fill", "hood-line", "hood-label"])
+    for (const id of ["hood-fill", "hood-line", "hood-hover", "hood-label"])
       if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", vis);
   };
 
