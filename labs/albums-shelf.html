@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>MAP — Albums shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root {
+    --cream:#f0efe4; --light:#fefdfb; --dark:#111; --gray:#9a958a;
+    --accent:#c44040;            /* Releases red */
+    --line:rgba(110,105,95,.25);
+    --gap:1.7rem;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:var(--dark); font-family:"Source Serif 4", Georgia, serif; line-height:1.6; }
+  .wrap { max-width:1080px; margin:0 auto; padding:3rem 1.25rem 5rem; }
+
+  /* ---------- header ---------- */
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .wordmark { display:flex; align-items:center; gap:.55rem; font-size:1.5rem; font-weight:500; color:inherit; text-decoration:none; }
+  .wordmark svg { width:1.5rem; height:1.5rem; }
+  .back { font-size:.85rem; color:rgba(17,17,17,.6); text-decoration:none; border-bottom:1px solid rgba(110,105,95,.4); padding-bottom:1px; }
+  .back:hover { color:var(--dark); border-color:var(--dark); }
+
+  .eyebrow { margin:2.4rem 0 0; font-size:.68rem; letter-spacing:.22em; font-weight:600; color:var(--accent); }
+  h1 { font-weight:500; font-size:clamp(1.7rem, 4vw, 2.3rem); margin:.15rem 0 .25rem; }
+  .lede { font-size:.95rem; color:rgba(17,17,17,.7); margin:0; max-width:46rem; }
+
+  /* ---------- rationale ---------- */
+  details.rationale { margin:1.5rem 0 0; border-radius:14px; background:rgba(254,253,251,.75);
+    border:1px solid var(--line); box-shadow:0 2px 12px rgba(17,17,17,.05); }
+  details.rationale summary { cursor:pointer; padding:.8rem 1.25rem; font-size:.8rem; letter-spacing:.14em; font-weight:600;
+    color:rgba(17,17,17,.55); list-style:none; }
+  details.rationale summary::-webkit-details-marker { display:none; }
+  details.rationale summary::before { content:"+"; display:inline-block; width:1.1rem; color:var(--accent); }
+  details.rationale[open] summary::before { content:"–"; }
+  details.rationale .body { padding:0 1.25rem 1.1rem; }
+  details.rationale p { font-size:.9rem; color:rgba(17,17,17,.78); margin:.65rem 0; max-width:48rem; }
+
+  /* ---------- filters ---------- */
+  .filters { margin:2.4rem 0 0; }
+  .chip-row { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; }
+  .chip-row + .chip-row { margin-top:.6rem; }
+  .chip { font-family:inherit; font-size:.82rem; padding:.28rem .85rem; border-radius:99px; cursor:pointer;
+    background:rgba(254,253,251,.6); border:1px solid rgba(110,105,95,.35); color:rgba(17,17,17,.75);
+    transition:background .15s ease, color .15s ease, border-color .15s ease; }
+  .chip small { color:var(--gray); font-size:.72rem; margin-left:.25rem; }
+  .chip:hover { border-color:rgba(17,17,17,.45); color:var(--dark); }
+  .chip.active { background:var(--accent); border-color:var(--accent); color:var(--light); }
+  .chip.active small { color:rgba(254,253,251,.75); }
+  .chip-row.years .chip { font-size:.76rem; padding:.18rem .7rem; }
+  .status { font-size:.78rem; color:var(--gray); margin:.9rem 0 0; }
+
+  /* ---------- the shelf ---------- */
+  .shelf { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+    column-gap:var(--gap); row-gap:2.7rem; margin-top:1.6rem; }
+  .album { display:block; text-decoration:none; color:inherit; }
+  .cover { position:relative; }
+  .cover img { display:block; width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:10px;
+    border:1px solid var(--line); background:rgba(254,253,251,.6);
+    box-shadow:0 2px 12px rgba(17,17,17,.08);
+    transition:transform .25s ease, box-shadow .25s ease; }
+  /* the shelf line: spans half a gutter past each cover so it reads as one rail per row */
+  .cover::after { content:""; position:absolute; left:calc(var(--gap) / -2); right:calc(var(--gap) / -2);
+    bottom:-11px; height:2px; border-radius:2px; background:rgba(110,105,95,.45); }
+  .album:hover .cover img, .album:focus-visible .cover img { transform:translateY(-5px); box-shadow:0 12px 26px rgba(17,17,17,.16); }
+  .album:focus-visible { outline:2px solid var(--accent); outline-offset:4px; border-radius:12px; }
+  .caption { margin-top:1.35rem; }
+  .caption .title { font-size:.92rem; font-weight:600; line-height:1.3; }
+  .caption .artist { font-size:.84rem; color:rgba(17,17,17,.65); margin-top:.15rem; }
+  .caption .date { font-size:.72rem; color:var(--gray); margin-top:.3rem; letter-spacing:.04em; }
+
+  /* ---------- pagination ---------- */
+  .more-wrap { text-align:center; margin-top:3rem; }
+  button.more { font-family:inherit; font-size:.85rem; padding:.45rem 1.4rem; border-radius:99px; cursor:pointer;
+    background:rgba(254,253,251,.75); border:1px solid rgba(110,105,95,.35); color:rgba(17,17,17,.75);
+    box-shadow:0 2px 12px rgba(17,17,17,.05); transition:border-color .15s ease, color .15s ease; }
+  button.more:hover { border-color:rgba(17,17,17,.45); color:var(--dark); }
+  .empty { font-size:.9rem; color:var(--gray); font-style:italic; margin-top:2rem; }
+
+  .foot { font-size:.78rem; color:var(--gray); margin-top:4rem; }
+  .foot a { color:inherit; }
+
+  @media (max-width:480px) {
+    .wrap { padding:2.2rem 1rem 4rem; }
+    .shelf { grid-template-columns:repeat(auto-fill, minmax(132px, 1fr)); column-gap:1.1rem; row-gap:2.2rem; }
+    :root { --gap:1.1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cover img, .chip, button.more { transition:none; }
+    .album:hover .cover img { transform:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="wordmark" href="./index.html">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="7.5" y1="13" x2="4" y2="6.5" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7.5" y1="13" x2="16.5" y2="9" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7.5" y1="13" x2="11" y2="20" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="7.5" cy="13" r="2.6" fill="#111"/><circle cx="4" cy="6.5" r="1.5" fill="#111"/>
+        <circle cx="16.5" cy="9" r="1.7" fill="#111"/><circle cx="11" cy="20" r="1.4" fill="#111"/>
+      </svg>
+      MAP — overnight lab
+    </a>
+    <a class="back" href="./index.html">← Lab index</a>
+  </div>
+
+  <p class="eyebrow">RELEASES · ALBUMS</p>
+  <h1>The shelf</h1>
+  <p class="lede">Every album on the MAP, shelved in release order — cover, title, artist, exact date. Eighteen records today; built to hold five hundred.</p>
+
+  <details class="rationale">
+    <summary>DESIGN RATIONALE</summary>
+    <div class="body">
+      <p>The ALBUMS landing is the one category page where a text list actively destroys information. Album covers are the strongest recall key the collection owns — you remember the Pet Sounds goats and the white void of the White Album long before you remember filenames — and a list flattens every record into equal, invisible weight. The shelf inverts that: artwork first, square and large, in strict release order, so the page reads like the wall of a good record shop. The chronology becomes an argument you can see — the 1963–66 Beatles/Beach Boys arms race plays out left to right across two rows, and Tapestry and The Smile Sessions sit visibly apart as the codas they are.</p>
+      <p>The form stays editorial rather than skeuomorphic. No wood grain — one thin rail under each row, drawn half a gutter past the covers so it reads as a continuous ledge the records stand on, on the same cream the whole MAP lives on. The caption stack (title, artist, exact date) deliberately mirrors the header block of every album note — <i>Artist:</i>, <i>Released:</i> — so the shelf is the index of the notes, not a separate design system. On hover the record lifts off the ledge; the ledge stays put. Click-through goes to the live note.</p>
+      <p>The infrastructure is the half of the brief you can't see at 18 albums, so it's wired to be visible: the page never renders the whole collection. Decade chips narrow to year chips — a bounded UI no matter how large the catalog grows, since a decade can never produce more than ten year chips — and the grid appends in batches of twelve via an IntersectionObserver on the "More" button (which doubles as a manual fallback). Cover images load lazily. At 500 albums the first paint costs exactly what it costs today: twelve covers. The data is a single flat array of slug/artist/date — precisely what the Quartz build already knows from frontmatter, so going live means emitting one JSON file at build time, same pattern as the Library cards.</p>
+    </div>
+  </details>
+
+  <div class="filters">
+    <div class="chip-row decades" id="decadeRow" role="group" aria-label="Filter by decade"></div>
+    <div class="chip-row years" id="yearRow" role="group" aria-label="Filter by year"></div>
+    <p class="status" id="status"></p>
+  </div>
+
+  <div class="shelf" id="shelf"></div>
+  <div class="more-wrap" id="moreWrap"></div>
+
+  <p class="foot">Prototype — all 18 covers, artists and release dates pulled from the live album notes. <a href="../map/MUSIC/RELEASES/ALBUMS/">Open the live ALBUMS section →</a></p>
+</div>
+
+<script>
+(function () {
+  // slug doubles as cover filename (../map/MUSIC/x-META/COVERS/<slug>.png)
+  // and live note path (../map/MUSIC/RELEASES/ALBUMS/<slug>) — verified 1:1.
+  var ALBUMS = [
+    { slug:"(1963)-Presenting-Dionne-Warwick", title:"Presenting Dionne Warwick", artist:"Dionne Warwick", date:"February 10, 1963", iso:"1963-02-10" },
+    { slug:"(1963)-Please-Please-Me", title:"Please Please Me", artist:"The Beatles", date:"March 22, 1963", iso:"1963-03-22" },
+    { slug:"(1963)-A-Christmas-Gift-for-You-from-Philles-Records", title:"A Christmas Gift for You from Philles Records", artist:"Various Artists", date:"November 22, 1963", iso:"1963-11-22" },
+    { slug:"(1964)-A-Hard-Days-Night", title:"A Hard Day's Night", artist:"The Beatles", date:"July 10, 1964", iso:"1964-07-10" },
+    { slug:"(1964)-Where-Did-Our-Love-Go", title:"Where Did Our Love Go", artist:"The Supremes", date:"August 31, 1964", iso:"1964-08-31" },
+    { slug:"(1964)-Presenting-the-Fabulous-Ronettes-Featuring-Veronica", title:"Presenting the Fabulous Ronettes Featuring Veronica", artist:"The Ronettes", date:"November 1964", iso:"1964-11-00" },
+    { slug:"(1965)-The-Beach-Boys-Today!", title:"The Beach Boys Today!", artist:"The Beach Boys", date:"March 8, 1965", iso:"1965-03-08" },
+    { slug:"(1965)-Rubber-Soul", title:"Rubber Soul", artist:"The Beatles", date:"December 3, 1965", iso:"1965-12-03" },
+    { slug:"(1966)-Pet-Sounds", title:"Pet Sounds", artist:"The Beach Boys", date:"May 16, 1966", iso:"1966-05-16" },
+    { slug:"(1966)-Revolver", title:"Revolver", artist:"The Beatles", date:"August 5, 1966", iso:"1966-08-05" },
+    { slug:"(1967)-Sgt-Peppers-Lonely-Hearts-Club-Band", title:"Sgt. Pepper's Lonely Hearts Club Band", artist:"The Beatles", date:"May 26, 1967", iso:"1967-05-26" },
+    { slug:"(1967)-Reach-Out", title:"Reach Out", artist:"The Four Tops", date:"July 1967", iso:"1967-07-00" },
+    { slug:"(1968)-Eli-and-the-Thirteenth-Confession", title:"Eli and the Thirteenth Confession", artist:"Laura Nyro", date:"March 13, 1968", iso:"1968-03-13" },
+    { slug:"(1968)-The-Beatles-(White-Album)", title:"The Beatles (White Album)", artist:"The Beatles", date:"November 22, 1968", iso:"1968-11-22" },
+    { slug:"(1969)-Dusty-in-Memphis", title:"Dusty in Memphis", artist:"Dusty Springfield", date:"March 31, 1969", iso:"1969-03-31" },
+    { slug:"(1969)-Abbey-Road", title:"Abbey Road", artist:"The Beatles", date:"September 26, 1969", iso:"1969-09-26" },
+    { slug:"(1971)-Tapestry", title:"Tapestry", artist:"Carole King", date:"February 10, 1971", iso:"1971-02-10" },
+    { slug:"(2011)-The-Smile-Sessions", title:"The Smile Sessions", artist:"The Beach Boys", date:"November 1, 2011", iso:"2011-11-01" }
+  ];
+
+  var PAGE_SIZE = 12; // 24 at production scale; 12 here so the pattern is visible with 18 records
+  var COVER_BASE = "../map/MUSIC/x-META/COVERS/";
+  var NOTE_BASE = "../map/MUSIC/RELEASES/ALBUMS/";
+
+  ALBUMS.sort(function (a, b) { return a.iso < b.iso ? -1 : 1; });
+  ALBUMS.forEach(function (a) {
+    a.year = parseInt(a.iso, 10);
+    a.decade = Math.floor(a.year / 10) * 10;
+  });
+
+  var state = { decade:null, year:null, shown:PAGE_SIZE };
+
+  var shelf = document.getElementById("shelf");
+  var decadeRow = document.getElementById("decadeRow");
+  var yearRow = document.getElementById("yearRow");
+  var statusEl = document.getElementById("status");
+  var moreWrap = document.getElementById("moreWrap");
+
+  function esc(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function filtered() {
+    return ALBUMS.filter(function (a) {
+      if (state.decade !== null && a.decade !== state.decade) return false;
+      if (state.year !== null && a.year !== state.year) return false;
+      return true;
+    });
+  }
+
+  function chip(label, count, active, onClick) {
+    var b = document.createElement("button");
+    b.className = "chip" + (active ? " active" : "");
+    b.innerHTML = esc(label) + (count != null ? " <small>" + count + "</small>" : "");
+    b.addEventListener("click", onClick);
+    return b;
+  }
+
+  function renderFilters() {
+    decadeRow.innerHTML = "";
+    decadeRow.appendChild(chip("All", ALBUMS.length, state.decade === null, function () {
+      state.decade = null; state.year = null; state.shown = PAGE_SIZE; renderAll();
+    }));
+    var decades = [];
+    ALBUMS.forEach(function (a) { if (decades.indexOf(a.decade) === -1) decades.push(a.decade); });
+    decades.sort();
+    decades.forEach(function (d) {
+      var count = ALBUMS.filter(function (a) { return a.decade === d; }).length;
+      decadeRow.appendChild(chip(d + "s", count, state.decade === d, function () {
+        state.decade = d; state.year = null; state.shown = PAGE_SIZE; renderAll();
+      }));
+    });
+
+    yearRow.innerHTML = "";
+    if (state.decade === null) return;
+    var years = [];
+    ALBUMS.forEach(function (a) { if (a.decade === state.decade && years.indexOf(a.year) === -1) years.push(a.year); });
+    years.sort();
+    if (years.length < 2) return; // single-year decade: chips would be redundant
+    yearRow.appendChild(chip("All " + state.decade + "s", null, state.year === null, function () {
+      state.year = null; state.shown = PAGE_SIZE; renderAll();
+    }));
+    years.forEach(function (y) {
+      var count = ALBUMS.filter(function (a) { return a.year === y; }).length;
+      yearRow.appendChild(chip(String(y), count, state.year === y, function () {
+        state.year = y; state.shown = PAGE_SIZE; renderAll();
+      }));
+    });
+  }
+
+  function card(a) {
+    var el = document.createElement("a");
+    el.className = "album";
+    el.href = NOTE_BASE + a.slug;
+    el.innerHTML =
+      '<div class="cover"><img loading="lazy" src="' + COVER_BASE + esc(a.slug) + '.png" alt="' + esc(a.title) + ' — album cover"></div>' +
+      '<div class="caption">' +
+        '<div class="title">' + esc(a.title) + '</div>' +
+        '<div class="artist">' + esc(a.artist) + '</div>' +
+        '<div class="date">' + esc(a.date) + '</div>' +
+      '</div>';
+    return el;
+  }
+
+  var observer = null;
+
+  function renderShelf() {
+    var list = filtered();
+    var visible = list.slice(0, state.shown);
+    shelf.innerHTML = "";
+    visible.forEach(function (a) { shelf.appendChild(card(a)); });
+
+    statusEl.textContent = list.length === 0 ? "" :
+      "Showing " + visible.length + " of " + list.length + " album" + (list.length === 1 ? "" : "s");
+
+    moreWrap.innerHTML = "";
+    if (observer) { observer.disconnect(); observer = null; }
+    if (list.length === 0) {
+      var empty = document.createElement("p");
+      empty.className = "empty";
+      empty.textContent = "Nothing on this shelf yet.";
+      moreWrap.appendChild(empty);
+      return;
+    }
+    if (visible.length < list.length) {
+      var btn = document.createElement("button");
+      btn.className = "more";
+      btn.textContent = "More records (" + (list.length - visible.length) + ")";
+      btn.addEventListener("click", function () { state.shown += PAGE_SIZE; renderShelf(); });
+      moreWrap.appendChild(btn);
+      // lazy-load: when the button scrolls into view, load the next batch automatically
+      if ("IntersectionObserver" in window) {
+        observer = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { state.shown += PAGE_SIZE; renderShelf(); }
+        }, { rootMargin:"200px" });
+        observer.observe(btn);
+      }
+    }
+  }
+
+  function renderAll() { renderFilters(); renderShelf(); }
+  renderAll();
+})();
+</script>
+</body>
+</html>
