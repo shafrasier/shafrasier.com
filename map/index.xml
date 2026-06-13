@@ -6,16 +6,22 @@
       <description>Last 10 notes on MAP</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
-    <title>Delta blues</title>
-    <link>https://shafrasier.com/map/MUSIC/GENRES/BLUES/COUNTRY/Delta-blues</link>
-    <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/COUNTRY/Delta-blues</guid>
-    <description><![CDATA[ Blues → Country blues → Delta blues Period: c. 1920s–1940s (recorded era); roots c. ]]></description>
-    <pubDate>Sat, 13 Jun 2026 21:03:54 GMT</pubDate>
-  </item><item>
     <title>Girl group</title>
     <link>https://shafrasier.com/map/MUSIC/GENRES/POP/Girl-group</link>
     <guid>https://shafrasier.com/map/MUSIC/GENRES/POP/Girl-group</guid>
     <description><![CDATA[ Pop → Girl group Period: c. ]]></description>
+    <pubDate>Sat, 13 Jun 2026 22:03:56 GMT</pubDate>
+  </item><item>
+    <title>Motown Records</title>
+    <link>https://shafrasier.com/map/MUSIC/INDUSTRY/LABELS/Motown-Records</link>
+    <guid>https://shafrasier.com/map/MUSIC/INDUSTRY/LABELS/Motown-Records</guid>
+    <description><![CDATA[ Founded: 1959 Location: Detroit, Michigan (2648 West Grand Boulevard — “Hitsville U.S.A.”) Founder: Berry Gordy Jr. ]]></description>
+    <pubDate>Sat, 13 Jun 2026 22:03:56 GMT</pubDate>
+  </item><item>
+    <title>Delta blues</title>
+    <link>https://shafrasier.com/map/MUSIC/GENRES/BLUES/COUNTRY/Delta-blues</link>
+    <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/COUNTRY/Delta-blues</guid>
+    <description><![CDATA[ Blues → Country blues → Delta blues Period: c. 1920s–1940s (recorded era); roots c. ]]></description>
     <pubDate>Sat, 13 Jun 2026 21:03:54 GMT</pubDate>
   </item><item>
     <title>Cultural capital</title>
@@ -59,12 +65,6 @@
     <guid>https://shafrasier.com/map/MUSIC/RELEASES/</guid>
     <description><![CDATA[ The music itself. ]]></description>
     <pubDate>Fri, 12 Jun 2026 18:08:16 GMT</pubDate>
-  </item><item>
-    <title>Dylan at Newport</title>
-    <link>https://shafrasier.com/map/MUSIC/MOMENTS/Dylan-at-Newport</link>
-    <guid>https://shafrasier.com/map/MUSIC/MOMENTS/Dylan-at-Newport</guid>
-    <description><![CDATA[ Date: July 25, 1965 Location: Freebody Park, Newport, Rhode Island (Newport Folk Festival) Key figures: Bob Dylan, Mike Bloomfield, Al Kooper, Pete Seeger, Alan Lomax, Peter Yarrow, Albert Grossman On a Sunday evening in Newport, Bob Dylan walked onstage with a Fender Stratocaster and a five-piece e... ]]></description>
-    <pubDate>Fri, 12 Jun 2026 17:59:49 GMT</pubDate>
   </item>
     </channel>
   </rss>
