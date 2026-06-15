@@ -6,6 +6,12 @@
       <description>Last 10 notes on MAP</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Vaudeville blues</title>
+    <link>https://shafrasier.com/map/MUSIC/GENRES/BLUES/Vaudeville-blues</link>
+    <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/Vaudeville-blues</guid>
+    <description><![CDATA[ Blues → Vaudeville blues Period: c. ]]></description>
+    <pubDate>Mon, 15 Jun 2026 16:37:05 GMT</pubDate>
+  </item><item>
     <title>Boogie woogie</title>
     <link>https://shafrasier.com/map/MUSIC/GENRES/BLUES/Boogie-woogie</link>
     <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/Boogie-woogie</guid>
@@ -59,12 +65,6 @@
     <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/COUNTRY/Bentonia-school</guid>
     <description><![CDATA[ Blues → Country blues → Delta blues → Bentonia school Period: c. ]]></description>
     <pubDate>Mon, 15 Jun 2026 05:04:31 GMT</pubDate>
-  </item><item>
-    <title>Piedmont blues</title>
-    <link>https://shafrasier.com/map/MUSIC/GENRES/BLUES/COUNTRY/Piedmont-blues</link>
-    <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/COUNTRY/Piedmont-blues</guid>
-    <description><![CDATA[ Blues → Country blues → Piedmont blues Period: c. ]]></description>
-    <pubDate>Sun, 14 Jun 2026 22:16:57 GMT</pubDate>
   </item>
     </channel>
   </rss>
