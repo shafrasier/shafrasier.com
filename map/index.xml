@@ -6,6 +6,12 @@
       <description>Last 10 notes on MAP</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Boogie woogie</title>
+    <link>https://shafrasier.com/map/MUSIC/GENRES/BLUES/Boogie-woogie</link>
+    <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/Boogie-woogie</guid>
+    <description><![CDATA[ Blues → Boogie woogie Period: c. ]]></description>
+    <pubDate>Mon, 15 Jun 2026 16:08:18 GMT</pubDate>
+  </item><item>
     <title>Piano blues</title>
     <link>https://shafrasier.com/map/MUSIC/GENRES/BLUES/Piano-blues</link>
     <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/Piano-blues</guid>
@@ -59,12 +65,6 @@
     <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/COUNTRY/Piedmont-blues</guid>
     <description><![CDATA[ Blues → Country blues → Piedmont blues Period: c. ]]></description>
     <pubDate>Sun, 14 Jun 2026 22:16:57 GMT</pubDate>
-  </item><item>
-    <title>Bob Dylan</title>
-    <link>https://shafrasier.com/map/MUSIC/ARTISTS/Bob-Dylan</link>
-    <guid>https://shafrasier.com/map/MUSIC/ARTISTS/Bob-Dylan</guid>
-    <description><![CDATA[ Genres: folk rock, contemporary folk, singer-songwriter, blues rock, country rock Scene: Greenwich Village folk scene Era: 1961–present (primary period: 1962–1976) RYM · Apple Music · Spotify Bob Dylan arrived in New York in January 1961 as a nineteen-year-old from Hibbing, Minnesota, carrying an ac... ]]></description>
-    <pubDate>Sun, 14 Jun 2026 08:49:50 GMT</pubDate>
   </item>
     </channel>
   </rss>
