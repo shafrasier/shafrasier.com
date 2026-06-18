@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-  <!-- Opt this page into cross-document view transitions. The MAP opts in too, so
-       entering/leaving it cross-fades across the inter-page gap instead of
-       flashing white. Scoped to the home index only (not the section pages), so
-       their existing slide transitions are untouched. No-op where unsupported. -->
-  <style>@view-transition { navigation: auto; }</style>
+  <!-- No cross-document @view-transition. The MAP button's cream bubble-fill already
+       covers the screen cream before navigating, and the browser's paint-holding keeps
+       that cream frame until the MAP's (also-cream, via its FOUC guard) first paint — so
+       the inter-page gap stays cream both ways. The VT's default cross-fade layered a
+       one-frame white artifact on top of that, so it's removed. -->
+  <!-- (intentionally no @view-transition rule here) -->
 
   <!-- Source Serif 4 — matches the MAP site's typeface for a consistent feel -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
