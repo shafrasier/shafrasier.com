@@ -194,7 +194,9 @@
   ];
   const panel=document.getElementById('panel'), actions=panel.querySelector('.actions');
   FEATS.forEach(f=>{
-    const lab=el('label',{class:'toggle'}); const inp=document.createElement('input');
+    // Real HTML label (NOT el(), which is SVG-namespaced — that rendered the
+    // per-feature toggles invisibly, leaving only the All on/off buttons usable).
+    const lab=document.createElement('label'); lab.className='toggle'; const inp=document.createElement('input');
     inp.type='checkbox'; inp.dataset.k=f.k;
     inp.addEventListener('change',()=>{ svg.classList.toggle('show-'+f.k, inp.checked); lab.classList.toggle('on', inp.checked); });
     lab.appendChild(inp); lab.appendChild(document.createTextNode(f.n));
