@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>MAP — Note masthead lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
+<style>
+  :root{ --cream:#f0efe4; --light:#fefdfb; --dark:#111; --gray:#9a958a; --darkgray:#6e695f; --lightgray:#d9d6cb; --genre:#3a9c40; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--cream); color:var(--dark); font-family:"Source Serif 4", Georgia, serif; line-height:1.6; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:1.6rem 1.6rem 5rem; }
+  header{ display:flex; align-items:baseline; gap:1rem; flex-wrap:wrap; margin-bottom:.2rem; }
+  .wordmark{ font-size:1.4rem; font-weight:600; letter-spacing:.02em; }
+  .back{ font-size:.85rem; color:rgba(17,17,17,.55); text-decoration:none; border-bottom:1px solid rgba(110,105,95,.4); }
+  h1{ font-size:1.45rem; font-weight:600; margin:.8rem 0 .2rem; }
+  .sub{ color:var(--darkgray); font-size:.95rem; max-width:66ch; margin:0 0 1.2rem; }
+
+  /* jump-nav chips */
+  .chips{ display:flex; flex-wrap:wrap; gap:.4rem; padding:.85rem 1rem; background:color-mix(in srgb, var(--cream) 55%, var(--light)); border:1px solid var(--lightgray); border-radius:12px; margin-bottom:1.8rem; position:sticky; top:0; z-index:5; backdrop-filter:blur(6px); }
+  .chips .chips-title{ flex-basis:100%; font-size:.72rem; text-transform:uppercase; letter-spacing:.12em; color:var(--gray); margin-bottom:.1rem; }
+  .chip{ display:inline-flex; align-items:center; gap:.35rem; padding:.22rem .65rem; border:1px solid var(--lightgray); border-radius:999px; font-size:.8rem; color:var(--darkgray); text-decoration:none; background:var(--light); transition:border-color .15s, color .15s; }
+  .chip:hover{ border-color:var(--c); color:var(--dark); }
+  .chip .cdot{ width:8px; height:8px; border-radius:50%; background:var(--c); }
+
+  /* ─── the masthead card (mirrors the live AlbumMeta block, adapted per type) ─── */
+  .mh{ --accent:#888; background:var(--light); border:1px solid var(--lightgray); border-left:4px solid var(--accent); border-radius:12px; padding:1.5rem 1.6rem 1.4rem; margin:0 0 1.5rem; box-shadow:0 1px 2px rgba(17,17,17,.03), 0 10px 26px -12px rgba(17,17,17,.12); scroll-margin-top:5.5rem; }
+  .mh-type{ display:inline-flex; align-items:center; gap:.5rem; font-size:.72rem; font-weight:600; letter-spacing:.13em; text-transform:uppercase; color:var(--accent); margin-bottom:.45rem; }
+  .mh-type .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); }
+  .mh-title{ font-size:1.7rem; font-weight:700; line-height:1.15; margin:0 0 .15rem; }
+  .mh-lead{ font-size:1rem; color:var(--darkgray); margin:.35rem 0 .2rem; max-width:74ch; }
+  .mh-lead.italic{ font-style:italic; }
+  .mh-lead.tree{ font-style:italic; color:var(--darkgray); }
+  .mh-lead.tree b{ font-style:normal; font-weight:700; color:var(--dark); }
+  .mh-beforeafter{ display:flex; flex-wrap:wrap; gap:.6rem 1rem; margin:.5rem 0 .2rem; }
+  .mh-ba{ flex:1 1 260px; font-size:.92rem; line-height:1.45; padding:.55rem .75rem; border-radius:9px; background:color-mix(in srgb, var(--accent) 5%, var(--light)); border:1px solid color-mix(in srgb, var(--accent) 18%, var(--lightgray)); }
+  .mh-ba .bal{ display:block; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gray); margin-bottom:.2rem; }
+
+  .mh-grid{ display:grid; grid-template-columns:1fr 1fr; gap:.85rem 2.4rem; padding-top:1.05rem; margin-top:1rem; border-top:1px solid color-mix(in srgb, var(--gray) 38%, transparent); }
+  .mh-fact{ display:flex; flex-direction:column; gap:.18rem; min-width:0; }
+  .mh-k{ font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--gray); }
+  .mh-v{ font-size:.96rem; color:var(--darkgray); line-height:1.32; }
+  .mh-v a, .mh-v .lk{ color:var(--darkgray); text-decoration:underline; text-decoration-color:color-mix(in srgb,var(--gray) 55%, transparent); text-underline-offset:2.5px; }
+
+  .mh-pills-group{ margin-top:1.25rem; }
+  .mh-pills-label{ font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--gray); margin-bottom:.4rem; }
+  .mh-pills{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .mh-pill{ display:inline-flex; align-items:center; padding:.17rem .72rem; border-radius:999px; font-size:.82rem; line-height:1.25; border:1px solid color-mix(in srgb, var(--gray) 48%, transparent); color:color-mix(in srgb, var(--dark) 78%, transparent); background:var(--light); white-space:nowrap; }
+  /* a pill whose entity HAS a MAP note is filled in its group's colour */
+  .mh-pill.note{ border-color:color-mix(in srgb, var(--pc) 38%, var(--lightgray)); background:color-mix(in srgb, var(--pc) 11%, transparent); color:color-mix(in srgb, var(--dark) 82%, transparent); }
+  .mh-tag{ font-size:.7rem; color:var(--gray); padding-left:.2rem; }
+
+  .mh-links{ display:flex; align-items:baseline; flex-wrap:wrap; gap:.1rem; margin-top:1.35rem; padding-top:.9rem; border-top:1px solid color-mix(in srgb, var(--gray) 38%, transparent); }
+  .mh-links-lbl{ font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--gray); margin-right:.85rem; position:relative; top:-1px; }
+  .mh-links a{ font-size:.86rem; color:var(--accent); text-decoration:none; font-weight:500; padding:0 .1rem; }
+  .mh-links .sep{ color:var(--gray); margin:0 .5rem; font-size:.8rem; }
+  .mh-empty{ margin-top:1rem; font-size:.85rem; color:var(--gray); font-style:italic; }
+  .note{ color:var(--darkgray); font-size:.85rem; margin:2rem 0 0; max-width:70ch; }
+  .note b{ color:var(--dark); }
+  @media (max-width:640px){ .mh-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="wordmark">⁂ MAP</span>
+    <a class="back" href="/map/">← back to the MAP</a>
+  </header>
+  <h1>Note masthead — every note type</h1>
+  <p class="sub">The album / single / track notes already open with a designed masthead (artist · fact grid · genre pills · links). Here is that same card <b>adapted to every other note type</b>, using each type's real metadata. The card stays recognisably one design but leads with the right field per type, turns date/place lines into facts, genres / roles / people into pills, and the external links into a footer. A sandbox — nothing here is live yet; it shows how #53 would extend.</p>
+
+  <div class="chips" id="chips"><span class="chips-title">Jump to a type</span></div>
+  <div id="gallery"></div>
+
+  <p class="note"><b>How it adapts:</b> the <b>lead</b> changes per type — a Genre/Scene shows its italic lineage breadcrumb, an Era shows its defining tension, a Moment shows its before→after, a theory Idea shows its plain-language gloss. <b>Facts</b> (dates, places) fall into the grid; <b>genres / influences</b> become green pills (filled when the genre has its own note), <b>roles / people / institutions</b> become accent pills. The <b>links</b> footer handles the streaming row, a lone RYM, or a Wikipedia-led row. A plain Idea with no metadata degrades gracefully to just its title + type.</p>
+</div>
+
+<script>
+(function(){
+  // colours = the live category palette (NoteTypeBar / graph folderColors)
+  const C = { artist:'#d4952a', credit:'#c4a545', industry:'#5a7a9a', genre:'#3a9c40', scene:'#6ab86a', era:'#2a8880', moment:'#8b3a5a', idea:'#52a8d7' };
+
+  // n:true on a pill = the entity has its own MAP note (renders filled)
+  const g = (s,n)=>({t:s,n:!!n});
+
+  const DATA = [
+    { id:'artist', type:'Artist', c:C.artist, title:'Marvin Gaye',
+      grid:[ ['Scene','Detroit / <span class="lk">Motown Records</span>'], ['Era','1961–1984 <span style="color:var(--gray)">(primary 1964–1973)</span>'] ],
+      pills:[ {label:'Genres', c:C.genre, items:[g('Soul',1),g('Pop soul',1),g('Psychedelic soul'),g('Quiet storm')]} ],
+      linksLabel:'Listen', links:['RYM','Apple Music','Spotify'] },
+
+    { id:'songwriter', type:'Songwriter', c:C.credit, title:'Burt Bacharach',
+      grid:[ ['Scene','<span class="lk">Brill Building</span>'], ['Era','1957–2023'] ],
+      pills:[ {label:'Genres', c:C.genre, items:[g('Pop soul',1),g('Traditional pop'),g('Film score')]} ],
+      linksLabel:'Listen', links:['RYM','Apple Music','Spotify'] },
+
+    { id:'producer', type:'Producer', c:C.credit, title:'George Martin',
+      grid:[ ['Era','1950s–1998 <span style="color:var(--gray)">(primary 1962–1970)</span>'] ],
+      pills:[ {label:'Genres', c:C.genre, items:[g('Pop rock'),g('Merseybeat',1),g('Psychedelic pop'),g('Art rock'),g('Baroque pop')]},
+              {label:'Key artists', c:C.artist, items:[g('The Beatles',1)]} ],
+      linksLabel:'Listen', links:['RYM','Apple Music','Spotify'] },
+
+    { id:'session', type:'Session musician', c:C.credit, title:'The Funk Brothers',
+      grid:[ ['Location','<span class="lk">Hitsville U.S.A.</span>, Detroit, Michigan'], ['Period','1959–1972'] ],
+      pills:[ {label:'Key members', c:C.credit, items:[g('James Jamerson <span class="mh-tag">bass</span>'),g('Benny Benjamin <span class="mh-tag">drums</span>'),g('Earl Van Dyke <span class="mh-tag">keys</span>'),g('Robert White <span class="mh-tag">guitar</span>'),g('Joe Messina <span class="mh-tag">guitar</span>'),g('Jack Ashford <span class="mh-tag">perc.</span>'),g('Uriel Jones <span class="mh-tag">drums</span>')]} ],
+      linksLabel:'Links', links:['RYM'] },
+
+    { id:'label', type:'Label', c:C.industry, title:'Motown Records',
+      grid:[ ['Founded','1959'], ['Location','Detroit, MI — 2648 West Grand Blvd ("Hitsville U.S.A.")'], ['Key years','1959–1972 <span style="color:var(--gray)">(Detroit era)</span>'] ],
+      pills:[ {label:'Founder', c:C.industry, items:[g('Berry Gordy Jr.',1)]} ],
+      linksLabel:'Links', links:['RYM'] },
+
+    { id:'studio', type:'Studio', c:C.industry, title:'Abbey Road Studios',
+      grid:[ ['Location','3 Abbey Road, St John’s Wood, London'], ['Years of peak activity','1931–present <span style="color:var(--gray)">(EMI Studios until 1970)</span>'] ],
+      pills:[ {label:'Key engineers', c:C.industry, items:[g('Norman Smith'),g('Geoff Emerick'),g('Ken Townsend'),g('Alan Parsons')]} ],
+      linksLabel:'Links', links:['Wikipedia'] },
+
+    { id:'executive', type:'Executive', c:C.industry, title:'Berry Gordy',
+      grid:[ ['Born','November 28, 1929 <span style="color:var(--gray)">(Detroit, MI)</span>'], ['Active','1957–present <span style="color:var(--gray)">(label era 1959–1988)</span>'], ['Role','Label founder, songwriter, producer'] ],
+      pills:[ {label:'Key institutions', c:C.industry, items:[g('Motown Records',1),g('Jobete Music'),g('Motown Productions')]} ],
+      linksLabel:'Links', links:['Wikipedia','RYM'] },
+
+    { id:'genre', type:'Genre', c:C.genre, title:'Girl group',
+      lead:{cls:'tree', html:'Pop → <b>Girl group</b>'},
+      grid:[ ['Period','c. 1958–1966'], ['Location','New York City, Los Angeles, Detroit'] ],
+      pills:[ {label:'Key influences', c:C.genre, items:[g('Doo-wop',1),g('Brill Building',1),g('Rock & roll',1)]} ],
+      linksLabel:'Listen', links:['GIRL (playlist)','RYM'] },
+
+    { id:'scene', type:'Scene', c:C.scene, title:'Merseybeat',
+      lead:{cls:'tree', html:'Pop | Rock → Pop rock → <b>Beat</b> → <b>Merseybeat</b>'},
+      essence:'The sound of a port that heard America first: rock and roll carried off the Atlantic boats, sped up and sung back in a Scouse accent before the rest of Britain had the records.',
+      grid:[ ['Location','Liverpool, England'], ['Period','1958–1966'] ],
+      pills:[ {label:'Key genres', c:C.genre, items:[g('Beat music',1),g('Rock & roll',1),g('Pop rock')]} ],
+      linksLabel:'Listen', links:['RYM'] },
+
+    { id:'era', type:'Era', c:C.era, title:'British Invasion',
+      lead:{cls:'italic', html:'<b style="color:var(--dark);font-style:normal">Defining tension.</b> American popular music reimagined through British ears and sold back to America, collapsing the <span class="lk">songwriter-performer divide</span> in the process.'},
+      grid:[ ['Scope','c. 1964–1967 · United Kingdom → United States'] ] },
+
+    { id:'moment', type:'Moment', c:C.moment, title:'Dylan at Newport',
+      beforeAfter:[ ['Before','Dylan is the folk revival’s anointed conscience — acoustic by an unwritten contract his audience believes it holds.'], ['After','Three songs, fifteen minutes. No audience will ever again hold veto power over an artist’s direction, and folk rock is legitimate.'] ],
+      grid:[ ['Date','July 25, 1965'], ['Location','Freebody Park, Newport, Rhode Island'] ],
+      pills:[ {label:'Key figures', c:C.moment, items:[g('Bob Dylan',1),g('Mike Bloomfield'),g('Al Kooper'),g('Pete Seeger'),g('Alan Lomax'),g('Albert Grossman')]} ] },
+
+    { id:'theory', type:'Idea · theory', c:C.idea, title:'Cultural capital',
+      lead:{cls:'italic', html:'The advantages that aren’t money — the ease in a gallery, the unspoken sense of what’s worth knowing — that families pass to their children and that schools reward as if it were talent.'},
+      foot:'The lineage timeline + state-of-debate panel render below the masthead (the existing Theory apparatus), so the masthead here is just the gloss.' },
+
+    { id:'idea', type:'Idea · plain', c:C.idea, title:'Authenticity and its discontents',
+      empty:'A plain Idea carries no metadata block — the masthead degrades gracefully to the title + type dot, and the prose begins immediately.' },
+  ];
+
+  const esc = s => s; // values are authored, trusted
+  const gallery = document.getElementById('gallery');
+  const chips = document.getElementById('chips');
+
+  DATA.forEach(d => {
+    // jump chip
+    const chip = document.createElement('a');
+    chip.className = 'chip'; chip.href = '#' + d.id; chip.style.setProperty('--c', d.c);
+    chip.innerHTML = '<span class="cdot"></span>' + d.type;
+    chips.appendChild(chip);
+
+    // card
+    const a = document.createElement('article');
+    a.className = 'mh'; a.id = d.id; a.style.setProperty('--accent', d.c);
+    let h = '';
+    h += '<div class="mh-type"><span class="dot"></span>' + d.type + '</div>';
+    h += '<h2 class="mh-title">' + d.title + '</h2>';
+    if (d.lead) h += '<p class="mh-lead ' + (d.lead.cls||'') + '">' + d.lead.html + '</p>';
+    if (d.essence) h += '<p class="mh-lead italic">“' + d.essence + '”</p>';
+    if (d.beforeAfter){
+      h += '<div class="mh-beforeafter">';
+      d.beforeAfter.forEach(([l,t]) => h += '<div class="mh-ba"><span class="bal">' + l + '</span>' + t + '</div>');
+      h += '</div>';
+    }
+    if (d.grid && d.grid.length){
+      h += '<div class="mh-grid">';
+      d.grid.forEach(([k,v]) => h += '<div class="mh-fact"><span class="mh-k">' + k + '</span><span class="mh-v">' + v + '</span></div>');
+      h += '</div>';
+    }
+    if (d.pills) d.pills.forEach(pg => {
+      h += '<div class="mh-pills-group"><div class="mh-pills-label">' + pg.label + '</div><div class="mh-pills" style="--pc:' + pg.c + '">';
+      pg.items.forEach(it => h += '<span class="mh-pill' + (it.n ? ' note' : '') + '">' + it.t + '</span>');
+      h += '</div></div>';
+    });
+    if (d.links){
+      h += '<div class="mh-links"><span class="mh-links-lbl">' + d.linksLabel + '</span>';
+      d.links.forEach((l,i) => { if (i) h += '<span class="sep">·</span>'; h += '<a href="javascript:void 0">' + l + '</a>'; });
+      h += '</div>';
+    }
+    if (d.foot) h += '<p class="mh-empty">' + d.foot + '</p>';
+    if (d.empty) h += '<p class="mh-empty">' + d.empty + '</p>';
+    a.innerHTML = h;
+    gallery.appendChild(a);
+  });
+})();
+</script>
+</body>
+</html>
