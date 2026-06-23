@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>MAP — Album cover → theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700&display=swap">
+<style>
+  :root{ --cream:#f0efe4; --light:#fefdfb; --dark:#111; --gray:#9a958a; --darkgray:#6e695f; --lightgray:#d9d6cb; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--cream); color:var(--dark); font-family:"Source Serif 4", Georgia, serif; line-height:1.55; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:1.6rem 1.6rem 5rem; }
+  header{ display:flex; align-items:baseline; gap:1rem; flex-wrap:wrap; margin-bottom:.2rem; }
+  .wordmark{ font-size:1.4rem; font-weight:600; letter-spacing:.02em; }
+  .back{ font-size:.85rem; color:rgba(17,17,17,.55); text-decoration:none; border-bottom:1px solid rgba(110,105,95,.4); }
+  h1{ font-size:1.45rem; font-weight:600; margin:.8rem 0 .2rem; }
+  .sub{ color:var(--darkgray); font-size:.95rem; max-width:74ch; margin:0 0 1.4rem; }
+  .layout{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:1.4rem; align-items:start; }
+  @media (max-width:900px){ .layout{ grid-template-columns:1fr; } }
+  .card{ background:color-mix(in srgb, var(--cream) 50%, var(--light)); border:1px solid var(--lightgray); border-radius:14px; padding:1.1rem 1.2rem 1.2rem; }
+  .card + .card{ margin-top:1.2rem; }
+  .card h2{ font-size:.78rem; text-transform:uppercase; letter-spacing:.12em; color:var(--gray); margin:0 0 .2rem; }
+  .card .hint{ font-size:.82rem; color:var(--darkgray); margin:0 0 .9rem; }
+
+  /* drop / load */
+  #drop{ border:1.5px dashed var(--lightgray); border-radius:12px; padding:1.4rem; text-align:center; color:var(--darkgray); font-size:.9rem; cursor:pointer; transition:border-color .15s, background .15s; }
+  #drop.drag{ border-color:#6a4cb8; background:color-mix(in srgb,#6a4cb8 6%, transparent); }
+  #drop input{ display:none; }
+  .stage{ position:relative; margin-top:.9rem; }
+  canvas#art{ max-width:100%; border-radius:10px; display:block; cursor:crosshair; box-shadow:0 4px 14px rgba(17,17,17,.14); }
+  /* loupe: a floating swatch following the cursor */
+  #loupe{ position:fixed; pointer-events:none; width:54px; height:54px; border-radius:50%; border:3px solid #fff; box-shadow:0 2px 10px rgba(0,0,0,.35); transform:translate(-50%,-130%); display:none; z-index:50; }
+
+  /* slots */
+  .slots{ display:flex; flex-direction:column; gap:.6rem; margin-top:1rem; }
+  .slot{ display:flex; align-items:center; gap:.7rem; padding:.55rem .7rem; border:1px solid var(--lightgray); border-radius:10px; background:var(--light); cursor:pointer; }
+  .slot.active{ border-color:#6a4cb8; box-shadow:0 0 0 2px color-mix(in srgb,#6a4cb8 25%, transparent); }
+  .slot .dot{ width:30px; height:30px; border-radius:7px; border:1px solid var(--lightgray); flex:0 0 auto; }
+  .slot .lab{ flex:1; min-width:0; }
+  .slot .lab b{ display:block; font-size:.92rem; }
+  .slot .lab span{ font-size:.76rem; color:var(--darkgray); }
+  .slot input[type=text]{ width:96px; font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.78rem; padding:.28rem .4rem; border:1px solid var(--lightgray); border-radius:7px; background:var(--cream); color:var(--dark); }
+  .slot .clr{ font-size:.74rem; color:var(--gray); background:none; border:none; cursor:pointer; text-decoration:underline; }
+
+  /* preview = a mock album card */
+  .pv-frame{ border-radius:14px; padding:1.1rem; transition:background .2s; }
+  .pv-card{ border-radius:10px; padding:1.2rem 1.3rem 1.4rem; transition:background .2s; }
+  .pv-cover{ width:100%; aspect-ratio:1/1; border-radius:8px; object-fit:cover; box-shadow:0 4px 14px rgba(17,17,17,.18),0 22px 50px rgba(17,17,17,.26); display:block; margin-bottom:1rem; background:#ddd; }
+  .pv-title{ font-size:1.5rem; font-weight:600; font-style:italic; margin:.2rem 0 .1rem; }
+  .pv-artist{ font-size:1rem; color:#444; margin:0 0 1rem; }
+  .pv-sidehead{ font-size:.7rem; font-weight:600; letter-spacing:.13em; text-transform:uppercase; padding-bottom:.25rem; margin:1rem 0 .4rem; }
+  .pv-row{ display:flex; justify-content:space-between; font-size:.86rem; color:#333; padding:.12rem 0; border-bottom:1px solid rgba(0,0,0,.06); }
+  .pv-row a{ text-decoration:none; }
+  .pv-glow{ height:8px; border-radius:6px; margin:.2rem 0 .9rem; }
+
+  /* output */
+  pre#fm{ background:#15130f; color:#f1ede2; border-radius:10px; padding:.9rem 1rem; font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:.82rem; overflow:auto; margin:.3rem 0 .6rem; }
+  button.copy{ font-family:inherit; font-size:.85rem; padding:.45rem .9rem; border:1px solid var(--lightgray); border-radius:8px; background:var(--light); color:var(--dark); cursor:pointer; }
+  button.copy:hover{ border-color:#6a4cb8; }
+  .note{ font-size:.78rem; color:var(--darkgray); margin-top:.6rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="wordmark">MAP</span>
+    <a class="back" href="./index.html">← labs</a>
+  </header>
+  <h1>Album cover → theme</h1>
+  <p class="sub">Sample two colours straight off the artwork to override an album's auto-generated theme. Pick a <b>light-background</b> colour and an <b>accent</b> colour (the SIDE&nbsp;ONE headers, links, and rules); the MAP lightens them into the page exactly as the preview shows. Drop a cover, click to sample into the active slot, then paste the frontmatter into the album note. Leave a slot blank to keep that half auto-sampled.</p>
+
+  <div class="layout">
+    <div>
+      <div class="card">
+        <h2>1 · Load the cover</h2>
+        <p class="hint">Drop a cover image (the file from <code>x. META/COVERS</code>) or click to choose.</p>
+        <label id="drop">Drop cover here, or click to choose a file
+          <input type="file" id="file" accept="image/*">
+        </label>
+        <div class="stage"><canvas id="art" width="0" height="0"></canvas></div>
+      </div>
+
+      <div class="card">
+        <h2>2 · Sample two colours</h2>
+        <p class="hint">Click the slot to make it active, then click the artwork. Or type a hex.</p>
+        <div class="slots">
+          <div class="slot active" data-slot="bg">
+            <span class="dot" id="dot-bg"></span>
+            <span class="lab"><b>Light background</b><span>the page &amp; card wash (lightened)</span></span>
+            <input type="text" id="hex-bg" placeholder="#cccccc">
+            <button class="clr" data-clr="bg">clear</button>
+          </div>
+          <div class="slot" data-slot="accent">
+            <span class="dot" id="dot-accent"></span>
+            <span class="lab"><b>Accent — SIDE ONE text</b><span>headers, links, rules, glow</span></span>
+            <input type="text" id="hex-accent" placeholder="#cccccc">
+            <button class="clr" data-clr="accent">clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2>3 · Preview (what ships)</h2>
+        <p class="hint">The same derivation the build uses — washes from the background colour, coloured text from the accent.</p>
+        <div class="pv-frame" id="pvFrame">
+          <div class="pv-card" id="pvCard">
+            <img class="pv-cover" id="pvCover" alt="">
+            <div class="pv-title">Album Title</div>
+            <div class="pv-artist">Artist Name</div>
+            <div class="pv-glow" id="pvGlow"></div>
+            <div class="pv-sidehead" id="pvSide1">Side one</div>
+            <div class="pv-row"><span>1 · <a id="pvLink" href="#">A linked track</a></span><span>2:51</span></div>
+            <div class="pv-row"><span>2 · Another track</span><span>3:09</span></div>
+            <div class="pv-sidehead" id="pvSide2">Side two</div>
+            <div class="pv-row"><span>1 · Third track</span><span>2:22</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>4 · Frontmatter</h2>
+        <p class="hint">Paste into the album note's frontmatter (top of the file, inside the <code>---</code> fences).</p>
+        <pre id="fm">themeBg: "#…"
+themeAccent: "#…"</pre>
+        <button class="copy" id="copy">Copy frontmatter</button>
+        <p class="note">Set only one to override just that half. Rebuild the MAP to see it live.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="loupe"></div>
+
+<script>
+(() => {
+  const clamp = (n,lo,hi)=>Math.max(lo,Math.min(hi,n))
+  // hex → [h(0-360), s(0-1), l(0-1)]
+  function hexToHsl(hex){
+    const m=(hex||"").trim().replace(/^#/,"")
+    const six = m.length===3 ? m.split("").map(c=>c+c).join("") : m
+    if(!/^[0-9a-fA-F]{6}$/.test(six)) return null
+    let r=parseInt(six.slice(0,2),16)/255, g=parseInt(six.slice(2,4),16)/255, b=parseInt(six.slice(4,6),16)/255
+    const max=Math.max(r,g,b),min=Math.min(r,g,b); let h=0,s=0,l=(max+min)/2,d=max-min
+    if(d!==0){ s=l>.5? d/(2-max-min): d/(max+min)
+      h = max===r ? (g-b)/d+(g<b?6:0) : max===g ? (b-r)/d+2 : (r-g)/d+4; h/=6 }
+    return [h*360, s, l]
+  }
+  const hsl=(h,s,l)=>`hsl(${Math.round(h)}, ${Math.round(s*100)}%, ${Math.round(l*100)}%)`
+  const rgbToHex=(r,g,b)=>"#"+[r,g,b].map(x=>x.toString(16).padStart(2,"0")).join("")
+
+  // SAME math as quartz/plugins/transformers/releaseCover.ts → themeFromPicks
+  function derive(bgHex, accentHex){
+    const t={}
+    const bg=hexToHsl(bgHex), ac=hexToHsl(accentHex)
+    if(bg){ const [h,s]=bg
+      t.tint=hsl(h, clamp(s*0.55,0.2,0.45), 0.94)
+      t.frame=hsl(h, clamp(s*0.7,0.28,0.55), 0.84)
+    }
+    if(ac){ const [h,s,l]=ac; const aS=clamp(s,0.35,0.85)
+      t.accent=hsl(h,aS,clamp(l,0.34,0.48))
+      t.accentSoft=hsl(h,aS,clamp(l+0.1,0.44,0.58))
+      t.glow=hsl(h,clamp(aS*0.9,0.4,0.72),0.66)
+    }
+    return t
+  }
+
+  const state={ bg:"", accent:"", active:"bg" }
+  const $=s=>document.querySelector(s)
+  const art=$("#art"), ctx=art.getContext("2d", {willReadFrequently:true})
+  let imgEl=null
+
+  // ---- load image (drop + file) ----
+  const drop=$("#drop"), file=$("#file")
+  drop.addEventListener("click",()=>file.click())
+  ;["dragover","dragenter"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add("drag")}))
+  ;["dragleave","drop"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove("drag")}))
+  drop.addEventListener("drop",ev=>{ const f=ev.dataTransfer.files[0]; if(f) loadFile(f) })
+  file.addEventListener("change",()=>{ if(file.files[0]) loadFile(file.files[0]) })
+  function loadFile(f){
+    const url=URL.createObjectURL(f)
+    const im=new Image()
+    im.onload=()=>{ imgEl=im
+      const W=Math.min(440, im.naturalWidth)
+      const scale=W/im.naturalWidth
+      art.width=Math.round(im.naturalWidth*scale); art.height=Math.round(im.naturalHeight*scale)
+      ctx.drawImage(im,0,0,art.width,art.height)
+      $("#pvCover").src=url
+      render()
+    }
+    im.src=url
+  }
+
+  // ---- sampling ----
+  const loupe=$("#loupe")
+  function colorAt(ev){
+    const r=art.getBoundingClientRect()
+    const x=Math.round((ev.clientX-r.left)*(art.width/r.width))
+    const y=Math.round((ev.clientY-r.top)*(art.height/r.height))
+    if(x<0||y<0||x>=art.width||y>=art.height) return null
+    const d=ctx.getImageData(x,y,1,1).data
+    return rgbToHex(d[0],d[1],d[2])
+  }
+  art.addEventListener("mousemove",ev=>{ if(!imgEl) return
+    const hex=colorAt(ev); if(!hex) return
+    loupe.style.display="block"; loupe.style.left=ev.clientX+"px"; loupe.style.top=ev.clientY+"px"; loupe.style.background=hex
+  })
+  art.addEventListener("mouseleave",()=>loupe.style.display="none")
+  art.addEventListener("click",ev=>{ if(!imgEl) return
+    const hex=colorAt(ev); if(!hex) return
+    state[state.active]=hex; sync()
+  })
+
+  // ---- slots ----
+  document.querySelectorAll(".slot").forEach(s=>{
+    s.addEventListener("click",ev=>{ if(ev.target.tagName==="INPUT"||ev.target.tagName==="BUTTON") return
+      state.active=s.dataset.slot; paintSlots() })
+  })
+  document.querySelectorAll(".clr").forEach(b=>b.addEventListener("click",()=>{ state[b.dataset.clr]=""; sync() }))
+  $("#hex-bg").addEventListener("input",e=>{ state.bg=normalize(e.target.value); render() })
+  $("#hex-accent").addEventListener("input",e=>{ state.accent=normalize(e.target.value); render() })
+  function normalize(v){ v=(v||"").trim(); if(v&&!v.startsWith("#")) v="#"+v; return v }
+
+  function paintSlots(){
+    document.querySelectorAll(".slot").forEach(s=>s.classList.toggle("active", s.dataset.slot===state.active))
+    $("#dot-bg").style.background=state.bg||"transparent"
+    $("#dot-accent").style.background=state.accent||"transparent"
+  }
+  function sync(){ $("#hex-bg").value=state.bg; $("#hex-accent").value=state.accent; render() }
+
+  // ---- preview + output ----
+  function render(){
+    paintSlots()
+    const t=derive(state.bg, state.accent)
+    const tint=t.tint||"var(--cream)", frame=t.frame||"#e6e3d5"
+    const accent=t.accent||"#6f6a5c", soft=t.accentSoft||accent, glow=t.glow||"#d9d6cb"
+    $("#pvFrame").style.background=frame
+    $("#pvCard").style.background=tint
+    $("#pvGlow").style.background=`linear-gradient(90deg, ${glow}, color-mix(in srgb, ${glow} 20%, transparent))`
+    ;[ "#pvSide1","#pvSide2" ].forEach(id=>{ const el=$(id); el.style.color=accent; el.style.borderBottom="1px solid color-mix(in srgb, "+accent+" 35%, transparent)" })
+    $("#pvLink").style.color=accent
+    // frontmatter output
+    const lines=[]
+    if(state.bg) lines.push(`themeBg: "${state.bg}"`)
+    if(state.accent) lines.push(`themeAccent: "${state.accent}"`)
+    $("#fm").textContent = lines.length ? lines.join("\n") : 'themeBg: "#…"\nthemeAccent: "#…"'
+  }
+  $("#copy").addEventListener("click",()=>{ navigator.clipboard.writeText($("#fm").textContent)
+    const b=$("#copy"); const t=b.textContent; b.textContent="Copied ✓"; setTimeout(()=>b.textContent=t,1200) })
+
+  render()
+})()
+</script>
+</body>
+</html>
