@@ -25,7 +25,7 @@
   .card .hint{ font-size:.82rem; color:var(--darkgray); margin:0 0 .9rem; }
 
   /* drop / load */
-  #drop{ border:1.5px dashed var(--lightgray); border-radius:12px; padding:1.4rem; text-align:center; color:var(--darkgray); font-size:.9rem; cursor:pointer; transition:border-color .15s, background .15s; }
+  #drop{ display:flex; align-items:center; justify-content:center; min-height:84px; border:1.5px dashed var(--lightgray); border-radius:12px; padding:1.1rem 1.4rem; text-align:center; color:var(--darkgray); font-size:.9rem; cursor:pointer; transition:border-color .15s, background .15s; }
   #drop.drag{ border-color:#6a4cb8; background:color-mix(in srgb,#6a4cb8 6%, transparent); }
   #drop input{ display:none; }
   .stage{ position:relative; margin-top:.9rem; }
@@ -51,7 +51,12 @@
   .pv-title{ font-size:1.5rem; font-weight:600; font-style:italic; margin:.2rem 0 .1rem; }
   .pv-artist{ font-size:1rem; color:#444; margin:0 0 1rem; }
   .pv-sidehead{ font-size:.7rem; font-weight:600; letter-spacing:.13em; text-transform:uppercase; padding-bottom:.25rem; margin:1rem 0 .4rem; }
-  .pv-row{ display:flex; justify-content:space-between; font-size:.86rem; color:#333; padding:.12rem 0; border-bottom:1px solid rgba(0,0,0,.06); }
+  /* track rows — the hover mirrors a real album page: the whole row washes to the
+     accent at 7% (eased 0.28s) and the title text turns the accent (eased 0.15s). */
+  .pv-row{ display:flex; justify-content:space-between; gap:1rem; font-size:.86rem; color:#333; padding:.32rem .5rem; margin:0 -.5rem; border-bottom:1px solid rgba(0,0,0,.06); font-variant-numeric:tabular-nums; transition:background-color .28s ease; }
+  .pv-row:hover{ background-color:color-mix(in srgb, var(--pv-accent, #6f6a5c) 7%, transparent); }
+  .pv-tt{ color:inherit; text-decoration:none; cursor:default; transition:color .15s ease; }
+  .pv-tt:hover{ color:var(--pv-accent, #6f6a5c); }
   .pv-row a{ text-decoration:none; }
   .pv-glow{ height:8px; border-radius:6px; margin:.2rem 0 .9rem; }
 
@@ -76,9 +81,9 @@
       <div class="card">
         <h2>1 · Load the cover</h2>
         <p class="hint">Drop a cover image (the file from <code>x. META/COVERS</code>) or click to choose.</p>
-        <label id="drop">Drop cover here, or click to choose a file
+        <div id="drop">Drop cover here, or click to choose a file
           <input type="file" id="file" accept="image/*">
-        </label>
+        </div>
         <div class="stage"><canvas id="art" width="0" height="0"></canvas></div>
       </div>
 
@@ -88,13 +93,13 @@
         <div class="slots">
           <div class="slot active" data-slot="bg">
             <span class="dot" id="dot-bg"></span>
-            <span class="lab"><b>Light background</b><span>the page &amp; card wash (lightened)</span></span>
+            <span class="lab"><b>Light background</b><span id="sub-bg">the page &amp; card wash (lightened)</span></span>
             <input type="text" id="hex-bg" placeholder="#cccccc">
             <button class="clr" data-clr="bg">clear</button>
           </div>
           <div class="slot" data-slot="accent">
             <span class="dot" id="dot-accent"></span>
-            <span class="lab"><b>Accent — SIDE ONE text</b><span>headers, links, rules, glow</span></span>
+            <span class="lab"><b>Accent — SIDE ONE text</b><span id="sub-accent">headers, links, rules, glow</span></span>
             <input type="text" id="hex-accent" placeholder="#cccccc">
             <button class="clr" data-clr="accent">clear</button>
           </div>
@@ -105,7 +110,7 @@
     <div>
       <div class="card">
         <h2>3 · Preview (what ships)</h2>
-        <p class="hint">The same derivation the build uses — washes from the background colour, coloured text from the accent.</p>
+        <p class="hint">The same derivation the build uses — washes from the background colour, coloured text from the accent. Hover a track to preview the row highlight.</p>
         <div class="pv-frame" id="pvFrame">
           <div class="pv-card" id="pvCard">
             <img class="pv-cover" id="pvCover" alt="">
@@ -113,10 +118,10 @@
             <div class="pv-artist">Artist Name</div>
             <div class="pv-glow" id="pvGlow"></div>
             <div class="pv-sidehead" id="pvSide1">Side one</div>
-            <div class="pv-row"><span>1 · <a id="pvLink" href="#">A linked track</a></span><span>2:51</span></div>
-            <div class="pv-row"><span>2 · Another track</span><span>3:09</span></div>
+            <div class="pv-row"><span>1&nbsp;· <span class="pv-tt">A linked track</span></span><span>2:51</span></div>
+            <div class="pv-row"><span>2&nbsp;· <span class="pv-tt">Another track</span></span><span>3:09</span></div>
             <div class="pv-sidehead" id="pvSide2">Side two</div>
-            <div class="pv-row"><span>1 · Third track</span><span>2:22</span></div>
+            <div class="pv-row"><span>1&nbsp;· <span class="pv-tt">Third track</span></span><span>2:22</span></div>
           </div>
         </div>
       </div>
@@ -152,18 +157,23 @@ themeAccent: "#…"</pre>
   const hsl=(h,s,l)=>`hsl(${Math.round(h)}, ${Math.round(s*100)}%, ${Math.round(l*100)}%)`
   const rgbToHex=(r,g,b)=>"#"+[r,g,b].map(x=>x.toString(16).padStart(2,"0")).join("")
 
-  // SAME math as quartz/plugins/transformers/releaseCover.ts → themeFromPicks
+  // SAME math as quartz/plugins/transformers/releaseCover.ts → themeFromPicks.
+  // A near-black / near-white / near-grey pick carries no usable hue (its hue is just
+  // noise from tiny channel differences), so the saturation floors below would invent a
+  // colour from nothing — a B&W cover sampled white → pink, near-black → green. Match the
+  // build: treat achromatic picks as the same warm neutral a greyscale cover auto-samples.
+  const NEUTRAL={ accent:"hsl(28, 18%, 42%)", accentSoft:"hsl(28, 16%, 52%)", tint:"hsl(40, 24%, 96%)", frame:"hsl(40, 20%, 93%)", glow:"hsl(34, 22%, 80%)" }
+  const achromatic=(s,l)=> l<0.1 || l>0.92 || s<0.12
   function derive(bgHex, accentHex){
     const t={}
     const bg=hexToHsl(bgHex), ac=hexToHsl(accentHex)
-    if(bg){ const [h,s]=bg
-      t.tint=hsl(h, clamp(s*0.55,0.2,0.45), 0.94)
-      t.frame=hsl(h, clamp(s*0.7,0.28,0.55), 0.84)
+    if(bg){ const [h,s,l]=bg
+      if(achromatic(s,l)){ t.tint=NEUTRAL.tint; t.frame=NEUTRAL.frame; t.neutralBg=true }
+      else { t.tint=hsl(h, clamp(s*0.55,0.2,0.45), 0.94); t.frame=hsl(h, clamp(s*0.7,0.28,0.55), 0.84) }
     }
-    if(ac){ const [h,s,l]=ac; const aS=clamp(s,0.35,0.85)
-      t.accent=hsl(h,aS,clamp(l,0.34,0.48))
-      t.accentSoft=hsl(h,aS,clamp(l+0.1,0.44,0.58))
-      t.glow=hsl(h,clamp(aS*0.9,0.4,0.72),0.66)
+    if(ac){ const [h,s,l]=ac
+      if(achromatic(s,l)){ t.accent=NEUTRAL.accent; t.accentSoft=NEUTRAL.accentSoft; t.glow=NEUTRAL.glow; t.neutralAccent=true }
+      else { const aS=clamp(s,0.35,0.85); t.accent=hsl(h,aS,clamp(l,0.34,0.48)); t.accentSoft=hsl(h,aS,clamp(l+0.1,0.44,0.58)); t.glow=hsl(h,clamp(aS*0.9,0.4,0.72),0.66) }
     }
     return t
   }
@@ -175,7 +185,10 @@ themeAccent: "#…"</pre>
 
   // ---- load image (drop + file) ----
   const drop=$("#drop"), file=$("#file")
-  drop.addEventListener("click",()=>file.click())
+  // Open the picker once. #drop is a plain <div> (not a <label>, which would forward
+  // a second native click to the nested input → two dialogs). Guard against the
+  // synthetic click file.click() bubbles back up through #drop re-opening it.
+  drop.addEventListener("click",e=>{ if(e.target!==file) file.click() })
   ;["dragover","dragenter"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add("drag")}))
   ;["dragleave","drop"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove("drag")}))
   drop.addEventListener("drop",ev=>{ const f=ev.dataTransfer.files[0]; if(f) loadFile(f) })
@@ -241,7 +254,11 @@ themeAccent: "#…"</pre>
     $("#pvCard").style.background=tint
     $("#pvGlow").style.background=`linear-gradient(90deg, ${glow}, color-mix(in srgb, ${glow} 20%, transparent))`
     ;[ "#pvSide1","#pvSide2" ].forEach(id=>{ const el=$(id); el.style.color=accent; el.style.borderBottom="1px solid color-mix(in srgb, "+accent+" 35%, transparent)" })
-    $("#pvLink").style.color=accent
+    // drive the track-row hover (background wash + title colour) off the picked accent
+    $("#pvCard").style.setProperty("--pv-accent", accent)
+    // flag achromatic picks so the user sees WHY a grey/B&W sample themes neutral
+    $("#sub-bg").textContent = t.neutralBg ? "grey/B&W pick → neutral wash (no hue)" : "the page & card wash (lightened)"
+    $("#sub-accent").textContent = t.neutralAccent ? "grey/B&W pick → neutral ink (no hue)" : "headers, links, rules, glow"
     // frontmatter output
     const lines=[]
     if(state.bg) lines.push(`themeBg: "${state.bg}"`)
