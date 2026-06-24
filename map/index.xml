@@ -6,6 +6,12 @@
       <description>Last 10 notes on MAP</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>The Beatles</title>
+    <link>https://shafrasier.com/map/MUSIC/ARTISTS/The-Beatles</link>
+    <guid>https://shafrasier.com/map/MUSIC/ARTISTS/The-Beatles</guid>
+    <description><![CDATA[ Genres: Pop rock, psychedelic pop, art rock Scene: Merseybeat Movement: British beat boom Era: British Invasion (1963–1970) Playlist: FAB RYM · Apple Music · Spotify One chord opens A Hard Day’s Night, and no two musicians have ever agreed how to name it. ]]></description>
+    <pubDate>Wed, 24 Jun 2026 04:44:15 GMT</pubDate>
+  </item><item>
     <title>Laura Nyro</title>
     <link>https://shafrasier.com/map/MUSIC/ARTISTS/Laura-Nyro</link>
     <guid>https://shafrasier.com/map/MUSIC/ARTISTS/Laura-Nyro</guid>
@@ -59,12 +65,6 @@
     <guid>https://shafrasier.com/map/MUSIC/GENRES/R-and-B/SOUL/Pop-soul</guid>
     <description><![CDATA[  Periodc. ]]></description>
     <pubDate>Tue, 23 Jun 2026 21:14:50 GMT</pubDate>
-  </item><item>
-    <title>Acoustic Chicago blues</title>
-    <link>https://shafrasier.com/map/MUSIC/GENRES/BLUES/ACOUSTIC/Acoustic-Chicago-blues</link>
-    <guid>https://shafrasier.com/map/MUSIC/GENRES/BLUES/ACOUSTIC/Acoustic-Chicago-blues</guid>
-    <description><![CDATA[  Periodc. 1928–1950LocationChicagoInfluencesCountry bluesRagtimeHokumLinksRYM A guitar that swings instead of moans. ]]></description>
-    <pubDate>Tue, 23 Jun 2026 19:51:34 GMT</pubDate>
   </item>
     </channel>
   </rss>
