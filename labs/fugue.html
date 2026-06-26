@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Fugue Listening Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Caveat:wght@500;600&display=swap">
+<style>
+  :root{
+    --paper:#f6efe1;        /* sunlit cream */
+    --card:#fdfaf2;         /* lighter paper for cards */
+    --ink:#2b2620;          /* warm near-black */
+    --soft:#75695b;         /* muted ink */
+    --sun:#cd7f33;          /* warm amber accent */
+    --sun-deep:#a85c1d;
+    --sage:#7f8a66;         /* secondary marker (non-session events) */
+    --line:rgba(80,70,58,.20);
+    --maxw:860px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; color:var(--ink);
+    font-family:"Fraunces",Georgia,serif; font-optical-sizing:auto;
+    font-size:1.06rem; line-height:1.72; font-weight:400;
+    background:var(--paper);
+    /* soft sunlit glow from the top */
+    background-image:radial-gradient(120% 70% at 50% -10%, rgba(214,150,70,.20), rgba(214,150,70,0) 60%);
+    background-attachment:fixed;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 1.4rem;}
+  a{color:var(--sun-deep); text-decoration:none; border-bottom:1px solid rgba(168,92,29,.35); transition:color .2s ease,border-color .2s ease;}
+  a:hover{color:var(--sun); border-color:var(--sun);}
+  h1,h2,h3{font-weight:500; line-height:1.15; margin:0;}
+  .hand{font-family:"Caveat",cursive; font-weight:600;}
+  .eyebrow{font-family:"Caveat",cursive; font-size:1.5rem; color:var(--sun-deep); display:block;}
+
+  /* ---------- top nav ---------- */
+  nav{position:sticky; top:0; z-index:30; backdrop-filter:blur(8px);
+    background:rgba(246,239,225,.78); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding-top:.8rem; padding-bottom:.8rem;}
+  nav .mark{font-size:1.15rem; letter-spacing:.02em;}
+  nav .links{display:flex; gap:1.4rem; font-size:.82rem; text-transform:uppercase; letter-spacing:.13em;}
+  nav .links a{border:none; color:var(--soft);}
+  nav .links a:hover{color:var(--sun-deep);}
+  @media(max-width:620px){ nav .links a:not(.nav-reserve){display:none;} }
+  .nav-reserve{border:1px solid var(--sun) !important; color:var(--sun-deep) !important; padding:.3rem .8rem; border-radius:999px;}
+  .nav-reserve:hover{background:var(--sun); color:#fff !important;}
+
+  /* ---------- hero ---------- */
+  header.hero{text-align:center; padding:5.5rem 0 3.5rem;}
+  .sun-doodle{width:60px; height:60px; margin:0 auto 1.4rem; display:block; color:var(--sun);}
+  .sun-doodle path,.sun-doodle circle{stroke:currentColor; stroke-width:2.2; fill:none; stroke-linecap:round;}
+  header.hero h1{font-size:clamp(2.7rem,8vw,4.6rem); letter-spacing:-.01em;}
+  header.hero .sub{font-size:.92rem; text-transform:uppercase; letter-spacing:.32em; color:var(--soft); margin-top:.5rem;}
+  header.hero .tagline{font-family:"Caveat",cursive; font-size:1.7rem; color:var(--sun-deep); margin-top:1.2rem;}
+  .squiggle{width:200px; max-width:62%; height:14px; margin:.5rem auto 0; display:block; color:var(--sun);}
+  .squiggle path{stroke:currentColor; stroke-width:2.4; fill:none; stroke-linecap:round;}
+  .hero-cta{margin-top:2.2rem; display:flex; gap:.9rem; justify-content:center; flex-wrap:wrap;}
+
+  .btn{font-family:"Fraunces",serif; font-size:.82rem; text-transform:uppercase; letter-spacing:.16em;
+    padding:.78rem 1.5rem; border-radius:999px; cursor:pointer; transition:transform .15s ease, background .2s ease, box-shadow .2s ease; border:1px solid var(--sun);}
+  .btn-primary{background:var(--sun); color:#fff; box-shadow:0 6px 18px rgba(168,92,29,.22);}
+  .btn-primary:hover{background:var(--sun-deep); transform:translateY(-1px); box-shadow:0 10px 24px rgba(168,92,29,.28);}
+  .btn-ghost{background:transparent; color:var(--sun-deep);}
+  .btn-ghost:hover{background:rgba(205,127,51,.10); transform:translateY(-1px);}
+  .btn:active{transform:translateY(0) scale(.98);}
+
+  /* ---------- sections ---------- */
+  section{padding:2.6rem 0;}
+  .lede{font-size:1.18rem; line-height:1.75;}
+  .hours{font-family:"Caveat",cursive; font-size:1.65rem; color:var(--sun-deep); text-align:center; margin:.4rem 0;}
+  p{margin:0 0 1.1rem;}
+  .center{text-align:center;}
+  .divider{border:none; height:1px; background:var(--line); max-width:120px; margin:2.4rem auto;
+    /* dashed, hand-drawn feel */
+    background:none; border-top:2px dotted var(--line);}
+  h2.section-title{font-size:1.05rem; text-transform:uppercase; letter-spacing:.2em; color:var(--soft); margin-bottom:1.3rem; font-weight:500;}
+
+  /* "good for" + "we ask" lists */
+  ul.quiet{list-style:none; padding:0; margin:0; display:grid; gap:.7rem;}
+  ul.quiet li{padding-left:1.6rem; position:relative;}
+  ul.quiet li::before{content:""; position:absolute; left:.1rem; top:.66em; width:7px; height:7px; border-radius:50%; background:var(--sun);}
+  .aside{font-family:"Caveat",cursive; font-size:1.3rem; color:var(--soft); margin-top:1.2rem;}
+
+  /* ---------- calendar ---------- */
+  .cal-grid{display:grid; grid-template-columns:1fr 1fr; gap:2.6rem; align-items:start;}
+  @media(max-width:720px){ .cal-grid{grid-template-columns:1fr; gap:2rem;} }
+
+  .month{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.3rem 1.3rem 1.5rem; box-shadow:0 10px 30px rgba(80,60,30,.06);}
+  .month-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:.9rem;}
+  .month-head .mname{font-size:1.35rem; font-weight:500;}
+  .month-nav{display:flex; gap:.4rem;}
+  .month-nav button{font-family:inherit; width:30px; height:30px; border-radius:50%; border:1px solid var(--line); background:transparent; color:var(--soft); cursor:pointer; font-size:1rem; line-height:1; transition:background .2s,color .2s;}
+  .month-nav button:hover{background:var(--sun); color:#fff; border-color:var(--sun);}
+  table.cal{width:100%; border-collapse:collapse; text-align:center;}
+  table.cal th{font-size:.62rem; text-transform:uppercase; letter-spacing:.1em; color:var(--soft); font-weight:500; padding-bottom:.5rem;}
+  table.cal td{padding:2px; height:38px;}
+  .day{width:34px; height:34px; line-height:34px; margin:0 auto; border-radius:9px; font-size:.92rem; color:var(--ink); position:relative;}
+  .day.empty{color:transparent;}
+  .day.event{cursor:pointer; transition:transform .12s ease;}
+  .day.session{background:var(--sun); color:#fff; font-weight:500; box-shadow:0 3px 8px rgba(168,92,29,.25);}
+  .day.gallery{box-shadow:inset 0 0 0 2px var(--sage); color:var(--sage);}
+  .day.event:hover{transform:scale(1.12);}
+  .day.is-active{outline:2px solid var(--sun-deep); outline-offset:2px;}
+  .cal-legend{display:flex; gap:1.2rem; margin-top:1rem; font-size:.72rem; color:var(--soft); flex-wrap:wrap;}
+  .cal-legend span{display:inline-flex; align-items:center; gap:.4rem;}
+  .swatch{width:14px; height:14px; border-radius:5px; display:inline-block;}
+  .swatch.s{background:var(--sun);} .swatch.g{box-shadow:inset 0 0 0 2px var(--sage);}
+
+  .events{display:grid; gap:1.1rem;}
+  .event-card{border-left:2px solid var(--sun); padding:.2rem 0 .2rem 1rem; transition:background .2s ease;}
+  .event-card.gallery-card{border-left-color:var(--sage);}
+  .event-card.is-active{background:rgba(205,127,51,.08); border-radius:0 8px 8px 0;}
+  .event-card .date{font-family:"Caveat",cursive; font-size:1.3rem; color:var(--sun-deep); line-height:1.1;}
+  .event-card .etitle{font-weight:500; font-size:1.12rem; font-style:italic; margin:.15rem 0;}
+  .event-card .roles{font-size:.92rem; color:var(--soft);}
+  .event-card .roles b{color:var(--ink); font-weight:500;}
+  .cal-foot{margin-top:1.6rem; font-size:.95rem; color:var(--soft);}
+
+  /* ---------- footer ---------- */
+  footer{padding:3.5rem 0 4rem; border-top:1px solid var(--line); margin-top:1.5rem; text-align:center;}
+  footer .links{display:flex; gap:1.1rem 1.6rem; justify-content:center; flex-wrap:wrap; margin:1.1rem 0 1.6rem; font-size:.82rem; text-transform:uppercase; letter-spacing:.12em;}
+  footer .visit{font-size:.95rem; color:var(--soft);}
+  footer .signoff{font-family:"Caveat",cursive; font-size:1.45rem; color:var(--sun-deep); margin-top:1.8rem; line-height:1.4;}
+
+  /* ---------- reserve modal ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(43,38,32,.45); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; z-index:50; padding:1.2rem; opacity:0; transition:opacity .25s ease;}
+  .overlay.open{display:flex; opacity:1;}
+  .modal{background:var(--card); border-radius:18px; max-width:440px; width:100%; padding:2rem 1.9rem 1.9rem; box-shadow:0 30px 70px rgba(40,28,12,.3); transform:translateY(12px) scale(.98); transition:transform .28s cubic-bezier(.2,.7,.2,1);}
+  .overlay.open .modal{transform:none;}
+  .modal h3{font-size:1.7rem; margin-bottom:.2rem;}
+  .modal .m-sub{color:var(--soft); font-size:.98rem; margin-bottom:1.3rem;}
+  .modal label{display:block; font-size:.72rem; text-transform:uppercase; letter-spacing:.12em; color:var(--soft); margin:.9rem 0 .3rem;}
+  .modal input,.modal select,.modal textarea{width:100%; font-family:inherit; font-size:1rem; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:.6rem .7rem;}
+  .modal textarea{resize:vertical; min-height:62px;}
+  .modal .m-actions{margin-top:1.4rem; display:flex; gap:.7rem; align-items:center;}
+  .modal .m-note{font-size:.78rem; color:var(--soft); margin-top:.9rem;}
+  .modal .x{position:absolute;}
+  .modal-wrap{position:relative;}
+  .closex{background:none; border:none; color:var(--soft); font-size:1.5rem; cursor:pointer; position:absolute; right:1.1rem; top:.9rem; line-height:1;}
+  .closex:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="mark hand" href="#top" style="border:none;font-size:1.5rem;color:var(--ink);">Fugue</a>
+    <div class="links">
+      <a href="#visit">Visit</a>
+      <a href="#calendar">Calendar</a>
+      <a href="#" class="nav-reserve" data-reserve>Reserve</a>
+    </div>
+  </div>
+</nav>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="wrap">
+    <svg class="sun-doodle" viewBox="0 0 60 60" aria-hidden="true">
+      <circle cx="30" cy="30" r="11"></circle>
+      <path d="M30 4 V12 M30 48 V56 M4 30 H12 M48 30 H56 M11 11 L16 16 M44 44 L49 49 M49 11 L44 16 M16 44 L11 49"></path>
+    </svg>
+    <h1>Fugue Listening&nbsp;Room</h1>
+    <div class="sub">Fugue Gallery · Manhattan</div>
+    <div class="tagline">a sunlit listening room in New York</div>
+    <svg class="squiggle" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 30 1, 50 13, 78 7 S 130 1, 158 8 S 190 11, 198 5"></path></svg>
+    <div class="hero-cta">
+      <button class="btn btn-primary" data-reserve>Reserve a spot</button>
+      <a href="#calendar" class="btn btn-ghost" style="border-bottom:1px solid var(--sun);">See the calendar</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <p class="lede">Welcome to the Listening Room at Fugue Gallery — an environment for discovery, connection, and interdisciplinary experience. At its center is a 6.1 spatial audio system designed and hand-built by <a href="#visit">Otis Studio</a>; around it hang more than fifteen artworks and design objects created by artists from Brooklyn to Berlin. Come engage with transformative art among other curious and open individuals. We hope you leave grounded and inspired.</p>
+
+    <p class="hours">Daylight listening — every Sunday in July &amp; August, 11am–4pm.</p>
+
+    <p>The room runs quiet and unhurried. Come and go anytime. Spend an afternoon with a carefully sequenced program of music in an intimate room. No reservation required, though reserving ahead helps us hold space for you.</p>
+
+    <p>We pour chilled traditional teas and sparkling water. Outlets and Wi-Fi are here; books, journaling, and small crafts are welcome. To preserve the listening environment, we ask you to leave calls, meetings, and anything that pulls you out of it at the door.</p>
+
+    <p class="center hand" style="font-size:1.4rem;color:var(--soft);">Come alone or with company.</p>
+  </div>
+</section>
+
+<div class="wrap"><hr class="divider"></div>
+
+<section id="for">
+  <div class="wrap">
+    <h2 class="section-title">These sessions are for those who want to —</h2>
+    <ul class="quiet">
+      <li>hear music in a human way, past the algorithm</li>
+      <li>meet people, make friends</li>
+      <li>tune out the noise of Manhattan</li>
+      <li>sit with new sounds and arrive at their own meaning</li>
+    </ul>
+    <p class="aside">The room runs calm and unhurried — come ready to give the music your attention, and others theirs.</p>
+  </div>
+</section>
+
+<div class="wrap"><hr class="divider"></div>
+
+<section id="calendar">
+  <div class="wrap">
+    <h2 class="section-title">Calendar</h2>
+    <div class="cal-grid">
+      <div class="events" id="events"><!-- events injected --></div>
+      <div>
+        <div class="month">
+          <div class="month-head">
+            <div class="mname" id="mname"></div>
+            <div class="month-nav"><button id="prev" aria-label="previous month">‹</button><button id="next" aria-label="next month">›</button></div>
+          </div>
+          <table class="cal"><thead><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody id="calbody"></tbody></table>
+        </div>
+        <div class="cal-legend">
+          <span><i class="swatch s"></i> Listening session</span>
+          <span><i class="swatch g"></i> Gallery event</span>
+        </div>
+        <p class="cal-foot">Daylight listening runs every Sunday through the summer. To get the monthly calendar, <a href="#visit">join the email list</a>.</p>
+      </div>
+    </div>
+    <div class="center" style="margin-top:2.2rem;">
+      <button class="btn btn-primary" data-reserve>Reserve a spot</button>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><hr class="divider"></div>
+
+<section id="ask">
+  <div class="wrap">
+    <h2 class="section-title">A few things we ask —</h2>
+    <ul class="quiet">
+      <li>Please, no shoes inside the listening room.</li>
+      <li>Keep your voice low, so everyone can sink into the music.</li>
+      <li>Bring a book, a sketchbook, a film camera — whatever lets you settle in.</li>
+      <li>Parties of four or fewer; for a larger group, please <a href="#" data-reserve>book a consultation</a>.</li>
+      <li>Questions? Please <a href="mailto:frasier.sha@gmail.com">contact us</a>.</li>
+    </ul>
+  </div>
+</section>
+
+<footer id="visit">
+  <div class="wrap">
+    <svg class="sun-doodle" viewBox="0 0 60 60" aria-hidden="true" style="width:42px;height:42px;margin-bottom:1rem;">
+      <circle cx="30" cy="30" r="11"></circle>
+      <path d="M30 4 V12 M30 48 V56 M4 30 H12 M48 30 H56 M11 11 L16 16 M44 44 L49 49 M49 11 L44 16 M16 44 L11 49"></path>
+    </svg>
+    <p class="visit"><b>Fugue Gallery</b> — 4th floor, Mulberry Street, Chinatown · Manhattan, NY<br><span style="font-size:.85rem;">[confirm exact address]</span></p>
+    <div class="links">
+      <a href="#" data-reserve>Reserve</a>
+      <a href="mailto:frasier.sha@gmail.com">Contact</a>
+      <a href="#" data-placeholder>Email list</a>
+      <a href="#" data-placeholder>Spotify</a>
+      <a href="#" data-placeholder>Apple Music</a>
+      <a href="#" data-placeholder>Instagram</a>
+    </div>
+    <p class="visit" style="font-size:.85rem;">If you'd like to teach a workshop or host an event, please <a href="mailto:frasier.sha@gmail.com">get in touch</a>.</p>
+    <p class="signoff">see you in the sun ☼</p>
+  </div>
+</footer>
+
+<!-- reserve modal -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Reserve a spot">
+  <div class="modal modal-wrap">
+    <button class="closex" id="closex" aria-label="close">×</button>
+    <h3>Reserve a spot</h3>
+    <p class="m-sub">Not required — it just helps us hold space. Pick a Sunday and we'll see you there.</p>
+    <form id="resform">
+      <label for="r-date">Which session</label>
+      <select id="r-date"></select>
+      <label for="r-size">Party size</label>
+      <select id="r-size"><option>1</option><option>2</option><option>3</option><option>4</option><option>5 or more (consultation)</option></select>
+      <label for="r-name">Your name</label>
+      <input id="r-name" type="text" autocomplete="name" placeholder="Name">
+      <label for="r-email">Your email</label>
+      <input id="r-email" type="email" autocomplete="email" placeholder="you@email.com">
+      <label for="r-note">Anything else (optional)</label>
+      <textarea id="r-note" placeholder="A note for us…"></textarea>
+      <div class="m-actions">
+        <button type="submit" class="btn btn-primary">Send request</button>
+        <button type="button" class="btn btn-ghost" id="cancel" style="border-bottom:1px solid var(--sun);">Cancel</button>
+      </div>
+      <p class="m-note">This opens your email to send the request to <b>frasier.sha@gmail.com</b>. We'll confirm by reply.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ---- events data (edit/add here; non-Sunday gallery events get kind:'gallery') ----
+  const EVENTS = [
+    {date:"2026-07-05", kind:"session", time:"11am–4pm", sound:"Sha Frasier", theme:"Tracing a 40-year history of reggae and dub", extra:["Tea — William Hu"]},
+    {date:"2026-07-12", kind:"session", time:"11am–4pm", sound:"Joseph Branciforte with Greyfade", theme:"Deep listening with 20 strings", extra:["Movement — Etai Atula · Introduction to Transcendental Meditation (12–2pm)"]},
+    {date:"2026-07-19", kind:"session", time:"11am–4pm", sound:"Sha Frasier", theme:"", extra:["Teaching — Tina Scepanovica · Making sculpture with clay (12–2pm)"]},
+    {date:"2026-07-26", kind:"session", time:"11am–4pm", sound:"Aedi Records", theme:"", extra:["Movement — Etai Atula"]},
+    {date:"2026-08-02", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
+    {date:"2026-08-09", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
+    {date:"2026-08-16", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
+    {date:"2026-08-23", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
+    {date:"2026-08-30", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
+  ];
+
+  const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const byDate = Object.fromEntries(EVENTS.map(e=>[e.date,e]));
+  const fmtLong = iso=>{const [y,m,d]=iso.split("-").map(Number); const dt=new Date(y,m-1,d);
+    return dt.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});};
+
+  // ---- events list ----
+  function renderEvents(){
+    const host=document.getElementById("events");
+    const detailed = EVENTS.filter(e=>e.sound);   // only sessions with programming
+    host.innerHTML = detailed.map(e=>{
+      const roles = [ e.sound?`<b>Sound</b> — ${e.sound}`:"" , ...(e.extra||[]) ].filter(Boolean)
+        .map(r=>`<div>${r}</div>`).join("");
+      return `<div class="event-card${e.kind==='gallery'?' gallery-card':''}" data-date="${e.date}">
+        <div class="date">${fmtLong(e.date)} · ${e.time}</div>
+        ${e.theme?`<div class="etitle">${e.theme}</div>`:""}
+        <div class="roles">${roles}</div>
+      </div>`;
+    }).join("");
+    host.querySelectorAll(".event-card").forEach(c=>{
+      c.addEventListener("mouseenter",()=>highlight(c.dataset.date));
+      c.addEventListener("mouseleave",clearHighlight);
+    });
+  }
+
+  // ---- month grid ----
+  let viewY=2026, viewM=7;  // July 2026
+  function renderMonth(){
+    document.getElementById("mname").textContent = `${MONTHS[viewM-1]} ${viewY}`;
+    const first=new Date(viewY,viewM-1,1).getDay();      // 0=Sun
+    const days=new Date(viewY,viewM,0).getDate();
+    let cells=[], i;
+    for(i=0;i<first;i++) cells.push(`<td><div class="day empty">·</div></td>`);
+    for(let d=1;d<=days;d++){
+      const iso=`${viewY}-${String(viewM).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      const ev=byDate[iso];
+      const cls = ev ? `day event ${ev.kind}` : "day";
+      cells.push(`<td><div class="${cls}" data-date="${ev?iso:""}">${d}</div></td>`);
+    }
+    while(cells.length%7) cells.push(`<td><div class="day empty">·</div></td>`);
+    let rows="";
+    for(i=0;i<cells.length;i+=7) rows+=`<tr>${cells.slice(i,i+7).join("")}</tr>`;
+    const body=document.getElementById("calbody"); body.innerHTML=rows;
+    body.querySelectorAll(".day.event").forEach(el=>{
+      el.addEventListener("mouseenter",()=>highlight(el.dataset.date));
+      el.addEventListener("mouseleave",clearHighlight);
+      el.addEventListener("click",()=>{const card=document.querySelector(`.event-card[data-date="${el.dataset.date}"]`);
+        if(card){card.scrollIntoView({behavior:"smooth",block:"center"}); highlight(el.dataset.date);}});
+    });
+  }
+  function highlight(date){ if(!date) return; clearHighlight();
+    document.querySelectorAll(`[data-date="${date}"]`).forEach(el=>{
+      if(el.classList.contains("day")) el.classList.add("is-active");
+      if(el.classList.contains("event-card")) el.classList.add("is-active");});
+  }
+  function clearHighlight(){ document.querySelectorAll(".is-active").forEach(el=>el.classList.remove("is-active")); }
+  document.getElementById("prev").onclick=()=>{viewM--; if(viewM<1){viewM=12;viewY--;} renderMonth();};
+  document.getElementById("next").onclick=()=>{viewM++; if(viewM>12){viewM=1;viewY++;} renderMonth();};
+
+  // ---- reserve modal ----
+  const overlay=document.getElementById("overlay");
+  function openModal(){
+    const sel=document.getElementById("r-date");
+    sel.innerHTML = EVENTS.filter(e=>{const [y,m,d]=e.date.split("-").map(Number); return new Date(y,m-1,d)>=new Date(new Date().toDateString());})
+      .map(e=>`<option value="${e.date}">${fmtLong(e.date)}${e.sound?" — "+e.sound:""}</option>`).join("")
+      || EVENTS.map(e=>`<option value="${e.date}">${fmtLong(e.date)}</option>`).join("");
+    overlay.classList.add("open"); document.body.style.overflow="hidden";
+    setTimeout(()=>document.getElementById("r-name").focus(),200);
+  }
+  function closeModal(){ overlay.classList.remove("open"); document.body.style.overflow=""; }
+  document.querySelectorAll("[data-reserve]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();openModal();}));
+  document.getElementById("closex").onclick=closeModal;
+  document.getElementById("cancel").onclick=closeModal;
+  overlay.addEventListener("click",e=>{if(e.target===overlay) closeModal();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&overlay.classList.contains("open")) closeModal();});
+  document.querySelectorAll("[data-placeholder]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();}));
+
+  document.getElementById("resform").addEventListener("submit",e=>{
+    e.preventDefault();
+    const date=document.getElementById("r-date").value;
+    const size=document.getElementById("r-size").value;
+    const name=document.getElementById("r-name").value||"(no name given)";
+    const email=document.getElementById("r-email").value||"(no email given)";
+    const note=document.getElementById("r-note").value;
+    const subject=`Listening Room reservation — ${fmtLong(date)}`;
+    const body=`Hi Fugue,\n\nI'd like to reserve a spot for the Listening Room.\n\nSession: ${fmtLong(date)}\nParty size: ${size}\nName: ${name}\nEmail: ${email}\n${note?("\nNote: "+note+"\n"):""}\nThank you!`;
+    window.location.href=`mailto:frasier.sha@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    closeModal();
+  });
+
+  renderEvents(); renderMonth();
+</script>
+</body>
+</html>
