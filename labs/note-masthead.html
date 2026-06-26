@@ -85,28 +85,10 @@
   // n:true on a pill = the entity has its own MAP note (renders filled)
   const g = (s,n)=>({t:s,n:!!n});
 
+  // NOTE: the Artist / Songwriter / Producer / Session-musician cards shipped LIVE
+  // (June 26, 2026) via the NoteMasthead transformer — removed from this lab so they
+  // no longer read as pending review. The types below are still awaiting Sha's pick.
   const DATA = [
-    { id:'artist', type:'Artist', c:C.artist, title:'Marvin Gaye',
-      grid:[ ['Scene','Detroit / <span class="lk">Motown Records</span>'], ['Era','1961–1984 <span style="color:var(--gray)">(primary 1964–1973)</span>'] ],
-      pills:[ {label:'Genres', c:C.genre, items:[g('Soul',1),g('Pop soul',1),g('Psychedelic soul'),g('Quiet storm')]} ],
-      linksLabel:'Listen', links:['RYM','Apple Music','Spotify'] },
-
-    { id:'songwriter', type:'Songwriter', c:C.credit, title:'Burt Bacharach',
-      grid:[ ['Scene','<span class="lk">Brill Building</span>'], ['Era','1957–2023'] ],
-      pills:[ {label:'Genres', c:C.genre, items:[g('Pop soul',1),g('Traditional pop'),g('Film score')]} ],
-      linksLabel:'Listen', links:['RYM','Apple Music','Spotify'] },
-
-    { id:'producer', type:'Producer', c:C.credit, title:'George Martin',
-      grid:[ ['Era','1950s–1998 <span style="color:var(--gray)">(primary 1962–1970)</span>'] ],
-      pills:[ {label:'Genres', c:C.genre, items:[g('Pop rock'),g('Merseybeat',1),g('Psychedelic pop'),g('Art rock'),g('Baroque pop')]},
-              {label:'Key artists', c:C.artist, items:[g('The Beatles',1)]} ],
-      linksLabel:'Listen', links:['RYM','Apple Music','Spotify'] },
-
-    { id:'session', type:'Session musician', c:C.credit, title:'The Funk Brothers',
-      grid:[ ['Location','<span class="lk">Hitsville U.S.A.</span>, Detroit, Michigan'], ['Period','1959–1972'] ],
-      pills:[ {label:'Key members', c:C.credit, items:[g('James Jamerson <span class="mh-tag">bass</span>'),g('Benny Benjamin <span class="mh-tag">drums</span>'),g('Earl Van Dyke <span class="mh-tag">keys</span>'),g('Robert White <span class="mh-tag">guitar</span>'),g('Joe Messina <span class="mh-tag">guitar</span>'),g('Jack Ashford <span class="mh-tag">perc.</span>'),g('Uriel Jones <span class="mh-tag">drums</span>')]} ],
-      linksLabel:'Links', links:['RYM'] },
-
     { id:'label', type:'Label', c:C.industry, title:'Motown Records',
       grid:[ ['Founded','1959'], ['Location','Detroit, MI — 2648 West Grand Blvd ("Hitsville U.S.A.")'], ['Key years','1959–1972 <span style="color:var(--gray)">(Detroit era)</span>'] ],
       pills:[ {label:'Founder', c:C.industry, items:[g('Berry Gordy Jr.',1)]} ],
