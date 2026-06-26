@@ -51,23 +51,26 @@
   .btn:active{opacity:.6;}
 
   /* ---------- top nav ---------- */
-  nav.bar{position:fixed; top:0; left:0; right:0; z-index:40;
+  nav.bar{position:fixed; top:0; left:0; right:0; z-index:40; color:#fff;
     display:flex; align-items:center; justify-content:space-between;
-    padding:1.05rem 2rem; transition:background .4s var(--ease), padding .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+    padding:1.1rem 2rem; transition:background .4s var(--ease), padding .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease), color .4s var(--ease);
     border-bottom:1px solid transparent;}
   @media(max-width:640px){ nav.bar{padding:.85rem 1.3rem;} }
-  nav.bar .logo img{height:18px; display:block; filter:brightness(0) invert(1); transition:filter .4s var(--ease);}
-  nav.bar .actions{display:flex; align-items:center; gap:.6rem;}
-  /* over the photo */
-  nav.bar .btn{border-color:rgba(255,255,255,.55); color:#fff;}
-  nav.bar .btn.solid{background:#fff; color:var(--ink); border-color:#fff;}
-  nav.bar .btn.outline:hover{background:#fff; color:var(--ink); border-color:#fff;}
+  nav.bar .logo{display:flex; align-items:center; gap:.55rem;}
+  nav.bar .logo img{display:block; filter:brightness(0) invert(1); transition:filter .4s var(--ease);}
+  nav.bar .logo-word{height:30px;}
+  nav.bar .logo-star{height:23px;}
+  nav.bar .actions{display:flex; align-items:center; gap:1.5rem;}
+  .navlink{font-family:var(--label); text-transform:uppercase; letter-spacing:.13em; font-size:.7rem; font-weight:400;
+    background:none; border:none; padding:.2rem 0; cursor:pointer; color:inherit; line-height:1;}
+  .navlink:active{opacity:.6;}
   /* scrolled past hero */
-  nav.bar.scrolled{background:rgba(244,242,236,.85); backdrop-filter:blur(12px) saturate(1.4); -webkit-backdrop-filter:blur(12px) saturate(1.4); border-bottom-color:var(--line); box-shadow:0 1px 0 rgba(0,0,0,.02);}
+  nav.bar.scrolled{color:var(--ink); background:rgba(244,242,236,.85); backdrop-filter:blur(12px) saturate(1.4); -webkit-backdrop-filter:blur(12px) saturate(1.4); border-bottom-color:var(--line); box-shadow:0 1px 0 rgba(0,0,0,.02);}
   nav.bar.scrolled .logo img{filter:none;}
-  nav.bar.scrolled .btn{border-color:var(--ink); color:var(--ink);}
-  nav.bar.scrolled .btn.solid{background:var(--ink); color:var(--paper);}
-  nav.bar.scrolled .btn.outline:hover{background:var(--ink); color:var(--paper);}
+  /* underline drawn from the left on hover */
+  .ulink{position:relative;}
+  .ulink::after{content:""; position:absolute; left:0; bottom:-3px; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:left center; transition:transform .35s var(--ease);}
+  .ulink:hover::after,.ulink:focus-visible::after{transform:scaleX(1);}
 
   /* ---------- hero ---------- */
   header.hero{position:relative; height:94vh; min-height:580px; overflow:hidden; display:flex; align-items:flex-end;}
@@ -79,8 +82,7 @@
   .hero .wrap{position:relative; z-index:3; width:100%; padding-bottom:clamp(2.4rem,6vh,4.2rem);}
   .hero .eyebrow{color:rgba(255,255,255,.82); font-size:.72rem; margin-bottom:1rem;}
   .hero h1{color:#fff; font-size:clamp(2.9rem,8.5vw,6.2rem); font-weight:500; letter-spacing:-.02em; text-shadow:0 2px 30px rgba(0,0,0,.25);}
-  .hero .tagline{color:rgba(255,255,255,.9); font-style:italic; font-size:clamp(1.1rem,2.4vw,1.5rem); margin-top:.9rem; max-width:34ch;}
-  .hero-cta{margin-top:2rem; display:flex; gap:.8rem; flex-wrap:wrap;}
+  .hero .tagline{color:rgba(255,255,255,.9); font-style:italic; font-size:clamp(1.1rem,2.4vw,1.5rem); margin-top:1rem; max-width:42ch;}
   .scroll-cue{position:absolute; left:50%; bottom:1.4rem; transform:translateX(-50%); z-index:3;
     color:rgba(255,255,255,.8); font-family:var(--label); font-size:.6rem; letter-spacing:.3em; text-transform:uppercase;
     display:flex; flex-direction:column; align-items:center; gap:.5rem; transition:opacity .5s var(--ease);}
@@ -90,21 +92,19 @@
   /* ---------- sections ---------- */
   main{padding:clamp(4rem,9vh,7rem) 0 1rem;}
   section{padding:clamp(2.6rem,6vh,4.4rem) 0;}
-  .lede{font-size:clamp(1.3rem,2.6vw,1.7rem); line-height:1.5; letter-spacing:-.01em; max-width:var(--measure);}
   .body{max-width:var(--measure); color:var(--ink-2);}
   .body p{margin:0 0 1.15rem;}
-  .hours{font-family:var(--label); font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink);
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:1rem 0; margin:2rem 0; max-width:var(--measure);}
-  .pull{font-style:italic; font-size:1.35rem; color:var(--soft); max-width:var(--measure);}
+  .body p:last-child{margin-bottom:0;}
   .rule{display:flex; align-items:center; gap:1.2rem; color:var(--soft); margin:clamp(2rem,5vh,3.4rem) 0;}
   .rule::before,.rule::after{content:""; height:1px; background:var(--line); flex:1;}
   .rule span{font-size:.85rem;}
   h2.eyebrow{font-family:var(--label); font-size:.74rem; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); font-weight:500; margin-bottom:1.6rem;}
 
-  ul.list{list-style:none; padding:0; margin:0; max-width:var(--measure); display:grid; gap:0;}
-  ul.list li{padding:1rem 0 1rem 2.1rem; position:relative; border-top:1px solid var(--line-2); font-size:1.12rem;}
+  ul.list{list-style:none; padding:0; margin:0; max-width:var(--measure);}
+  ul.list li{display:grid; grid-template-columns:1.3rem 1fr; gap:0 1rem; align-items:center;
+    padding:1rem 0; border-top:1px solid var(--line-2); font-size:1.12rem;}
   ul.list li:first-child{border-top:none;}
-  ul.list li::before{content:"✱"; position:absolute; left:0; top:1rem; color:var(--soft); font-size:.85rem;}
+  ul.list li::before{content:"✱"; color:var(--soft); font-size:.8rem; line-height:1;}
   .aside{font-style:italic; color:var(--soft); margin-top:1.5rem; max-width:var(--measure);}
 
   /* ---------- footer ---------- */
@@ -113,8 +113,8 @@
   footer .addr{color:var(--soft); font-size:.98rem; line-height:1.6;}
   footer .addr .flag{font-size:.82rem; opacity:.7;}
   footer .flinks{display:flex; gap:1rem 1.8rem; justify-content:center; flex-wrap:wrap; margin:1.8rem 0; }
-  footer .flinks a{font-family:var(--label); font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--soft); border-bottom:1px solid transparent; padding-bottom:2px; transition:color .25s var(--ease), border-color .25s var(--ease);}
-  footer .flinks a:hover{color:var(--ink); border-bottom-color:var(--ink);}
+  footer .flinks a{font-family:var(--label); font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--soft); transition:color .25s var(--ease);}
+  footer .flinks a:hover{color:var(--ink);}
   footer .coda{color:var(--soft); font-size:.95rem; max-width:46ch; margin:0 auto;}
 
   /* ---------- modals (floating cards) ---------- */
@@ -189,26 +189,30 @@
     .hero .eyebrow{animation:rise .9s var(--ease) both; animation-delay:.55s;}
     .hero h1{animation:rise 1s var(--ease) both; animation-delay:.7s;}
     .hero .tagline{animation:rise 1s var(--ease) both; animation-delay:.86s;}
-    .hero-cta{animation:rise 1s var(--ease) both; animation-delay:1.02s;}
     nav.bar{animation:fade 1s var(--ease) both; animation-delay:.9s;}
     .scroll-cue{animation:fade 1s var(--ease) both; animation-delay:1.3s;}
+    .logo-star{animation:spin 16s linear infinite;}
     @keyframes heroSettle{from{transform:scale(1.14)}to{transform:scale(1)}}
     @keyframes veilLift{from{opacity:1}60%{opacity:.5}to{opacity:0}}
     @keyframes rise{from{opacity:0; transform:translateY(24px)}to{opacity:1; transform:none}}
     @keyframes fade{from{opacity:0}to{opacity:1}}
+    @keyframes spin{to{transform:rotate(360deg)}}
     body.js .reveal{opacity:0; transform:translateY(26px); transition:opacity .9s var(--ease), transform .9s var(--ease);}
     body.js .reveal.in{opacity:1; transform:none;}
   }
-  @media(max-width:640px){ nav.bar .btn{padding:.6rem .8rem; font-size:.58rem; letter-spacing:.08em;} }
+  @media(max-width:640px){ .navlink{font-size:.62rem; letter-spacing:.1em;} nav.bar .actions{gap:1.1rem;} nav.bar .logo-word{height:24px;} nav.bar .logo-star{height:18px;} }
 </style>
 </head>
 <body>
 
 <nav class="bar" id="nav">
-  <a class="logo" href="#top" aria-label="Fugue"><img src="assets/fugue-logo.png" alt="Fugue"></a>
+  <a class="logo" href="#top" aria-label="Fugue">
+    <img class="logo-star" src="assets/fugue-star.png" alt="">
+    <img class="logo-word" src="assets/fugue-word.png" alt="Fugue">
+  </a>
   <div class="actions">
-    <button class="btn outline" data-cal>Calendar</button>
-    <button class="btn solid" data-reserve>Reserve</button>
+    <button class="navlink ulink" data-cal>Calendar</button>
+    <button class="navlink ulink" data-reserve>Reserve</button>
   </div>
 </nav>
 
@@ -221,11 +225,7 @@
   <div class="wrap">
     <p class="eyebrow label">Fugue Gallery · Manhattan</p>
     <h1>The Listening&nbsp;Room</h1>
-    <p class="tagline">A sunlit room for hearing music the way it was meant to be heard.</p>
-    <div class="hero-cta">
-      <button class="btn solid" data-reserve>Reserve a spot</button>
-      <button class="btn outline" data-cal>See the calendar</button>
-    </div>
+    <p class="tagline">A new environment for discovery, connection, and interdisciplinary experience.</p>
   </div>
   <div class="scroll-cue" id="cue"><span class="dot"></span>Scroll</div>
 </header>
@@ -233,17 +233,13 @@
 <main>
   <section id="about">
     <div class="wrap">
-      <p class="lede reveal">Welcome to the Listening Room at Fugue Gallery — an environment for discovery, connection, and interdisciplinary experience. At its center is a 6.1 spatial audio system designed and hand-built by Otis Studio; around it hang more than fifteen artworks and design objects created by artists from Brooklyn to Berlin.</p>
-
-      <div class="hours label reveal">Daylight listening — every Sunday in July &amp; August, 11am–4pm</div>
-
       <div class="body reveal">
+        <p>Welcome to the Listening Room at Fugue Gallery. At its center is a 6.1 spatial audio system designed and hand-built by Otis Studio; around it hang more than fifteen artworks and design objects created by artists from Brooklyn to Berlin.</p>
         <p>Come engage with transformative art among other curious and open individuals. We hope you leave grounded and inspired.</p>
         <p>The room runs quiet and unhurried. Come and go anytime. Spend an afternoon with a carefully sequenced program of music in an intimate room. No reservation required, though reserving ahead helps us hold space for you.</p>
         <p>We pour chilled traditional teas and sparkling water. Outlets and Wi-Fi are here; books, journaling, and small crafts are welcome. To preserve the listening environment, we ask you to leave calls, meetings, and anything that pulls you out of it at the door.</p>
+        <p>Daylight listening runs every Sunday in July and August, 11am–4pm. Come alone or with company.</p>
       </div>
-
-      <p class="pull reveal">Come alone or with company.</p>
     </div>
   </section>
 
@@ -281,14 +277,14 @@
 <footer>
   <div class="wrap">
     <div class="mark"><img src="assets/fugue-logo.png" alt="Fugue"></div>
-    <p class="addr"><b>Fugue Gallery</b> — 4th floor, Mulberry Street, Chinatown · Manhattan, NY<br><span class="flag">[confirm exact address]</span></p>
+    <p class="addr"><b>Fugue Gallery</b> — 132 Mulberry St #4C, New York, NY 10013</p>
     <div class="flinks">
-      <a href="#" data-reserve>Reserve</a>
-      <a href="mailto:frasier.sha@gmail.com">Contact</a>
-      <a href="#" data-placeholder>Mailing list</a>
-      <a href="#" data-placeholder>Spotify</a>
-      <a href="#" data-placeholder>Apple Music</a>
-      <a href="#" data-placeholder>Instagram</a>
+      <a class="ulink" href="#" data-reserve>Reserve</a>
+      <a class="ulink" href="mailto:frasier.sha@gmail.com">Contact</a>
+      <a class="ulink" href="#" data-placeholder>Mailing list</a>
+      <a class="ulink" href="#" data-placeholder>Spotify</a>
+      <a class="ulink" href="#" data-placeholder>Apple Music</a>
+      <a class="ulink" href="#" data-placeholder>Instagram</a>
     </div>
     <p class="coda">If you'd like to teach a workshop or host an event, please <a class="link" href="mailto:frasier.sha@gmail.com">get in touch</a>.</p>
   </div>
