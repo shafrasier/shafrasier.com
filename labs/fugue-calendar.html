@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Calendar — The Clearing at Fugue Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="assets/fugue.css">
+</head>
+<body>
+
+<div id="veil"></div>
+
+<nav class="bar" id="nav">
+  <a class="logo" href="fugue.html" data-nav="fugue.html" aria-label="Fugue — home">
+    <img class="logo-star" src="assets/fugue-star.png" alt="">
+    <img class="logo-word" src="assets/fugue-word.png" alt="Fugue">
+  </a>
+  <div class="actions">
+    <button class="navlink ulink" data-nav="fugue.html">Home</button>
+    <button class="navlink ulink" data-reserve>Reserve</button>
+  </div>
+</nav>
+
+<main>
+  <section class="cal-page">
+    <div class="wrap">
+      <p class="kicker reveal">The Clearing at Fugue Gallery</p>
+      <h1 class="reveal">Calendar</h1>
+      <p class="lede reveal">Daylight listening runs every Sunday through the summer. Click a date to see its program.</p>
+      <div class="cal-grid reveal">
+        <div class="events" id="events"><!-- injected --></div>
+        <div>
+          <div class="month-head">
+            <div class="mname" id="mname"></div>
+            <div class="month-nav"><button id="prev" aria-label="previous month">‹</button><button id="next" aria-label="next month">›</button></div>
+          </div>
+          <table class="cal"><thead><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody id="calbody"></tbody></table>
+          <div class="cal-legend">
+            <span><i class="swatch s"></i> Listening session</span>
+            <span><i class="swatch g"></i> Gallery event</span>
+          </div>
+          <p class="cal-foot">To get the monthly calendar, <a class="link" href="#" data-placeholder>join the mailing list</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="mark"><img src="assets/fugue-logo.png" alt="Fugue"></div>
+    <div class="flinks">
+      <a class="ulink" href="mailto:frasier.sha@gmail.com">Contact</a>
+      <a class="ulink" href="#" data-placeholder>Mailing list</a>
+      <a class="ulink" href="#" data-placeholder>Instagram</a>
+    </div>
+    <p class="coda">If you'd like to teach a workshop or host an event, please <a class="link" href="mailto:frasier.sha@gmail.com">get in touch</a>.</p>
+  </div>
+</footer>
+
+<!-- reserve: slides down over the whole page -->
+<div id="reserve" aria-label="Reserve">
+  <button class="r-close" data-rclose aria-label="close">×</button>
+  <div class="r-inner">
+    <p class="r-kicker">The Clearing at Fugue Gallery</p>
+    <h2>Reserve</h2>
+    <p class="r-sub">Not required. It just helps us hold space. Pick a Sunday and we'll see you there.</p>
+    <div class="r-field"><label for="r-date">Session</label><select id="r-date"></select></div>
+    <div class="r-field"><label>Party</label><div class="dots"><button type="button" class="dot" aria-label="1"></button><button type="button" class="dot" aria-label="2"></button><button type="button" class="dot" aria-label="3"></button><button type="button" class="dot" aria-label="4"></button></div></div>
+    <div class="r-field"><label for="r-name">Name</label><input id="r-name" type="text" autocomplete="name"></div>
+    <div class="r-field"><label for="r-email">Email</label><input id="r-email" type="email" autocomplete="email"></div>
+    <div class="r-field"><label for="r-note">Anything else?</label><textarea id="r-note" rows="1"></textarea></div>
+    <div class="slide" aria-label="slide to reserve"><div class="slide-fill"></div><div class="slide-label">slide to reserve</div><div class="slide-thumb" role="button">→</div></div>
+    <p class="r-note">For parties of five or more, please <a class="link" href="mailto:frasier.sha@gmail.com">book a consultation</a>.</p>
+  </div>
+</div>
+
+<div id="confirm" aria-live="polite"><div class="confirm-inner"></div></div>
+
+<script src="assets/fugue.js"></script>
+</body>
+</html>

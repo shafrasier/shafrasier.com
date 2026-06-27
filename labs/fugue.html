@@ -4,215 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>The Listening Room — Fugue Gallery</title>
-<meta name="description" content="A room for the collective ceremony of pure sound. Daylight listening every Sunday in July & August — Fugue Gallery, Manhattan.">
+<title>The Clearing — Fugue Gallery</title>
+<meta name="description" content="A room for the collective ceremony of pure sound. At Fugue Gallery.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://shafrasier.com/labs/fugue.html">
-<meta property="og:title" content="The Listening Room — Fugue Gallery">
-<meta property="og:description" content="A room for the collective ceremony of pure sound. Daylight listening every Sunday in July & August — Fugue Gallery, Manhattan.">
+<meta property="og:title" content="The Clearing — Fugue Gallery">
+<meta property="og:description" content="A room for the collective ceremony of pure sound. At Fugue Gallery.">
 <meta property="og:image" content="https://shafrasier.com/labs/assets/fugue-og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The Listening Room at Fugue Gallery">
+<meta property="og:image:alt" content="The Clearing at Fugue Gallery">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Listening Room — Fugue Gallery">
-<meta name="twitter:description" content="A room for the collective ceremony of pure sound. Fugue Gallery, Manhattan.">
+<meta name="twitter:title" content="The Clearing — Fugue Gallery">
+<meta name="twitter:description" content="A room for the collective ceremony of pure sound. At Fugue Gallery.">
 <meta name="twitter:image" content="https://shafrasier.com/labs/assets/fugue-og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
-<style>
-  :root{
-    --paper:#f4f2ec;        /* warm gallery white */
-    --paper-2:#efece4;
-    --card:#fbfaf6;
-    --ink:#1a1815;          /* near-black */
-    --ink-2:#322e28;
-    --soft:#6f6a60;         /* muted ink */
-    --line:rgba(26,22,16,.14);
-    --line-2:rgba(26,22,16,.08);
-    --maxw:1080px;
-    --measure:680px;
-    --ease:cubic-bezier(.22,1,.32,1);
-    --serif:"Source Serif 4",Georgia,serif;
-    --label:"Space Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0; color:var(--ink); background:var(--paper);
-    font-family:var(--serif); font-optical-sizing:auto;
-    font-size:1.07rem; line-height:1.72; font-weight:400;
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  }
-  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 2rem;}
-  @media(max-width:640px){ .wrap{padding:0 1.3rem;} }
-  h1,h2,h3{font-weight:500; line-height:1.12; margin:0; letter-spacing:-.01em;}
-  a{color:inherit; text-decoration:none;}
-  .label{font-family:var(--label); text-transform:uppercase; letter-spacing:.18em; font-weight:500;}
-  .link{border-bottom:1px solid var(--line); transition:border-color .25s var(--ease), color .25s var(--ease);}
-  .link:hover{border-color:var(--ink); color:var(--ink);}
-
-  /* ---------- buttons ---------- */
-  .btn{font-family:var(--label); text-transform:uppercase; letter-spacing:.13em; font-size:.66rem; font-weight:400;
-    padding:.74rem 1.25rem; border-radius:0; cursor:pointer; line-height:1; white-space:nowrap;
-    border:1px solid var(--ink); background:transparent; color:var(--ink);
-    transition:background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), opacity .2s var(--ease);}
-  .btn.solid{background:var(--ink); color:var(--paper);}
-  .btn.solid:hover{background:var(--ink-2);}
-  .btn.outline:hover{background:var(--ink); color:var(--paper);}
-  .btn:active{opacity:.6;}
-
-  /* ---------- top nav ---------- */
-  nav.bar{position:fixed; top:0; left:0; right:0; z-index:40; color:#fff;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:1.1rem 2rem; transition:background .4s var(--ease), padding .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease), color .4s var(--ease);
-    border-bottom:1px solid transparent;}
-  @media(max-width:640px){ nav.bar{padding:.85rem 1.3rem;} }
-  nav.bar .logo{display:flex; align-items:center; gap:3px;}
-  nav.bar .logo img{display:block; filter:brightness(0) invert(1); transition:filter .4s var(--ease);}
-  nav.bar .logo-word{height:30px;}
-  nav.bar .logo-star{height:16px; margin-bottom:12px;}
-  nav.bar .actions{display:flex; align-items:center; gap:1.5rem;}
-  .navlink{font-family:var(--label); text-transform:uppercase; letter-spacing:.13em; font-size:.7rem; font-weight:400;
-    background:none; border:none; padding:.2rem 0; cursor:pointer; color:inherit; line-height:1;}
-  .navlink:active{opacity:.6;}
-  /* scrolled past hero */
-  nav.bar.scrolled{color:var(--ink); background:rgba(244,242,236,.85); backdrop-filter:blur(12px) saturate(1.4); -webkit-backdrop-filter:blur(12px) saturate(1.4); border-bottom-color:var(--line); box-shadow:0 1px 0 rgba(0,0,0,.02);}
-  nav.bar.scrolled .logo img{filter:none;}
-  /* underline drawn from the left on hover */
-  .ulink{position:relative;}
-  .ulink::after{content:""; position:absolute; left:0; bottom:-3px; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:left center; transition:transform .35s var(--ease);}
-  .ulink:hover::after,.ulink:focus-visible::after{transform:scaleX(1);}
-
-  /* ---------- hero ---------- */
-  header.hero{position:relative; height:94vh; min-height:580px; overflow:hidden; display:flex; align-items:flex-end;}
-  .hero-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform-origin:center 40%; will-change:transform;}
-  .hero-scrim{position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 48%, rgba(0,0,0,.16) 66%, rgba(0,0,0,.62) 100%);}
-  .hero-veil{position:absolute; inset:0; background:var(--ink); z-index:2; opacity:0; pointer-events:none;}
-  .hero-grain{position:absolute; inset:0; z-index:2; pointer-events:none; opacity:.16; mix-blend-mode:overlay; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");}
-  .hero .wrap{position:relative; z-index:3; width:100%; padding-bottom:clamp(2rem,4.5vh,3rem);}
-  .hero .eyebrow{color:rgba(255,255,255,.82); font-size:.72rem; margin-bottom:1rem;}
-  .hero h1{color:#fff; font-size:clamp(2.9rem,8.5vw,6.2rem); font-weight:500; letter-spacing:-.02em; text-shadow:0 2px 30px rgba(0,0,0,.25);}
-  .hero h1 .venue{display:block; font-size:clamp(1.1rem,2.7vw,2rem); font-weight:400; letter-spacing:0; color:rgba(255,255,255,.82); margin-top:.45rem; text-shadow:0 2px 20px rgba(0,0,0,.25);}
-  .hero h1 .venue .city{display:block; font-size:.7em; color:rgba(255,255,255,.72); margin-top:.5rem;}
-  .hero .tagline{color:rgba(255,255,255,.9); font-style:italic; font-size:clamp(1.05rem,2vw,1.4rem); margin-top:1rem;}
-
-  /* ---------- sections ---------- */
-  main{padding:clamp(2.2rem,5vh,3.4rem) 0 1rem;}
-  section{padding:clamp(1.3rem,3vh,2.2rem) 0;}
-  .mv{max-width:var(--measure);}
-  .mv .mvlabel{font-style:italic; color:var(--soft); font-size:.95rem; margin:0 0 .25rem;}
-  .mv .mission{font-size:clamp(1.25rem,2.2vw,1.6rem); line-height:1.4; color:var(--ink); margin:0;}
-  .mv .mission + .mvlabel{margin-top:1.5rem;}
-  .mv .vision{color:var(--ink-2); margin:0;}
-  .body{max-width:var(--measure); color:var(--ink-2);}
-  .body p{margin:0 0 1.15rem;}
-  .body p:last-child{margin-bottom:0;}
-  h2.eyebrow{font-family:var(--serif); font-size:1.12rem; font-weight:400; color:var(--ink-2); margin-bottom:.7rem;}
-
-  ul.list{list-style:none; padding:0; margin:0 0 0 1.7rem; max-width:var(--measure);}
-  ul.list li{position:relative; padding:.22rem 0 .22rem .95rem; font-size:1.1rem; line-height:1.6;}
-  ul.list li::before{content:"✱"; position:absolute; left:0; top:.22rem; height:1.76rem; display:flex; align-items:center; font-size:.5rem; color:var(--ink);}
-
-  /* ---------- footer ---------- */
-  footer{border-top:1px solid var(--line); margin-top:clamp(2rem,5vh,3.4rem); padding:clamp(2rem,4.5vh,3rem) 0 3rem; text-align:center;}
-  footer .mark img{height:54px; opacity:.9; margin-bottom:1.1rem;}
-  footer .addr{color:var(--soft); font-size:.98rem; line-height:1.6;}
-  footer .addr .flag{font-size:.82rem; opacity:.7;}
-  footer .flinks{display:flex; gap:1rem 1.8rem; justify-content:center; flex-wrap:wrap; margin:1.8rem 0; }
-  footer .flinks a{font-family:var(--label); font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--soft); transition:color .25s var(--ease);}
-  footer .flinks a:hover{color:var(--ink);}
-  footer .coda{color:var(--soft); font-size:.95rem; max-width:46ch; margin:0 auto;}
-
-  /* ---------- modals (floating cards) ---------- */
-  .overlay{position:fixed; inset:0; z-index:60; display:none; align-items:flex-start; justify-content:center;
-    padding:clamp(1rem,5vh,3.5rem) 1.2rem; overflow:auto;
-    background:rgba(20,17,13,.5); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
-    opacity:0; transition:opacity .3s var(--ease);}
-  .overlay.open{display:flex; opacity:1;}
-  .modal{position:relative; background:var(--card); border:1px solid var(--ink); border-radius:0;
-    width:100%; box-shadow:0 30px 80px rgba(20,14,6,.3); padding:2.2rem 2.1rem;
-    transform:translateY(18px) scale(.985); transition:transform .35s var(--ease); margin:auto;}
-  .overlay.open .modal{transform:none;}
-  .modal-res{max-width:460px;}
-  .modal-cal{max-width:840px;}
-  .modal .kicker{font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--soft); margin-bottom:.4rem;}
-  .modal h3{font-size:1.9rem; margin-bottom:.3rem;}
-  .modal .m-sub{color:var(--soft); margin-bottom:1.4rem; max-width:46ch;}
-  .closex{position:absolute; right:1.1rem; top:.9rem; width:32px; height:32px; border:none;
-    background:transparent; color:var(--soft); font-size:1.4rem; line-height:1; cursor:pointer; transition:color .2s var(--ease), opacity .2s var(--ease);}
-  .closex:hover{color:var(--ink);}
-  .closex:active{opacity:.6;}
-
-  /* form */
-  .modal label{display:block; font-family:var(--label); font-size:.66rem; text-transform:uppercase; letter-spacing:.14em; color:var(--soft); margin:1rem 0 .35rem;}
-  .modal input,.modal select,.modal textarea{width:100%; font-family:var(--serif); font-size:1rem; color:var(--ink);
-    background:var(--paper); border:1px solid var(--line); border-radius:0; padding:.62rem .75rem; transition:border-color .2s var(--ease);}
-  .modal input:focus,.modal select:focus,.modal textarea:focus{outline:none; border-color:var(--ink);}
-  .modal textarea{resize:vertical; min-height:64px;}
-  .m-actions{margin-top:1.6rem; display:flex; gap:1.6rem; align-items:center;}
-  .m-note{font-size:.78rem; color:var(--soft); margin-top:1rem;}
-
-  /* calendar inside modal */
-  .cal-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:2.4rem; align-items:start; margin-top:.4rem;}
-  @media(max-width:680px){ .cal-grid{grid-template-columns:1fr; gap:1.8rem;} }
-  .events{display:grid; gap:0;}
-  .event-card{padding:.95rem 0; border-top:1px solid var(--line-2); cursor:default; transition:opacity .2s var(--ease);}
-  .event-card:first-child{border-top:none;}
-  .event-card .date{font-family:var(--label); font-size:.66rem; letter-spacing:.13em; text-transform:uppercase; color:var(--soft);}
-  .event-card .etitle{font-style:italic; font-size:1.12rem; margin:.25rem 0 .35rem;}
-  .event-card .roles{font-size:.95rem; color:var(--soft); display:grid; gap:.12rem;}
-  .event-card .roles b{color:var(--ink); font-weight:600;}
-  .event-card.is-active{opacity:1;}
-  .event-card.is-active .date{color:var(--ink);}
-
-  .month{}
-  .month-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;}
-  .month-head .mname{font-size:1.25rem;}
-  .month-nav{display:flex; gap:.4rem;}
-  .month-nav button{font-family:inherit; width:30px; height:30px; border-radius:0; border:1px solid var(--line);
-    background:transparent; color:var(--soft); cursor:pointer; font-size:1rem; line-height:1; transition:background .2s var(--ease), color .2s var(--ease);}
-  .month-nav button:hover{background:var(--ink); color:var(--paper); border-color:var(--ink);}
-  table.cal{width:100%; border-collapse:collapse; text-align:center;}
-  table.cal th{font-family:var(--label); font-size:.56rem; letter-spacing:.08em; text-transform:uppercase; color:var(--soft); font-weight:500; padding-bottom:.6rem;}
-  table.cal td{padding:2px; height:40px;}
-  .day{width:36px; height:36px; line-height:36px; margin:0 auto; border-radius:0; font-size:.92rem; color:var(--ink-2);}
-  .day.empty{color:transparent;}
-  .day.event{cursor:pointer; transition:transform .14s var(--ease);}
-  .day.session{background:var(--ink); color:var(--paper); font-weight:600;}
-  .day.gallery{box-shadow:inset 0 0 0 1.5px var(--ink); color:var(--ink);}
-  .day.event:hover{transform:scale(1.14);}
-  .day.is-active{outline:2px solid var(--ink); outline-offset:2px;}
-  .cal-legend{display:flex; gap:1.4rem; margin-top:1.1rem; font-family:var(--label); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--soft); flex-wrap:wrap;}
-  .cal-legend span{display:inline-flex; align-items:center; gap:.45rem;}
-  .swatch{width:13px; height:13px; border-radius:0; display:inline-block;}
-  .swatch.s{background:var(--ink);} .swatch.g{box-shadow:inset 0 0 0 1.5px var(--ink);}
-  .cal-foot{margin-top:1.6rem; padding-top:1.3rem; border-top:1px solid var(--line-2); font-size:.95rem; color:var(--soft); display:flex; gap:1rem; align-items:center; justify-content:space-between; flex-wrap:wrap;}
-
-  /* ---------- motion (only when the visitor is OK with it) ---------- */
-  @media (prefers-reduced-motion: no-preference){
-    .hero-img{animation:heroSettle 2.4s var(--ease) both;}
-    .hero-veil{animation:veilLift 1.5s var(--ease) both; animation-delay:.1s;}
-    .hero .eyebrow{animation:rise .9s var(--ease) both; animation-delay:.55s;}
-    .hero h1{animation:rise 1s var(--ease) both; animation-delay:.7s;}
-    .hero .tagline{animation:rise 1s var(--ease) both; animation-delay:.86s;}
-    nav.bar{animation:fade 1s var(--ease) both; animation-delay:.9s;}
-    .scroll-cue{animation:fade 1s var(--ease) both; animation-delay:1.3s;}
-    .logo-star{animation:spin 16s linear infinite;}
-    @keyframes heroSettle{from{transform:scale(1.14)}to{transform:scale(1)}}
-    @keyframes veilLift{from{opacity:1}60%{opacity:.5}to{opacity:0}}
-    @keyframes rise{from{opacity:0; transform:translateY(24px)}to{opacity:1; transform:none}}
-    @keyframes fade{from{opacity:0}to{opacity:1}}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    body.js .reveal{opacity:0; transform:translateY(26px); transition:opacity .9s var(--ease), transform .9s var(--ease);}
-    body.js .reveal.in{opacity:1; transform:none;}
-  }
-  @media(max-width:640px){ .navlink{font-size:.62rem; letter-spacing:.1em;} nav.bar .actions{gap:1.1rem;} nav.bar .logo-word{height:24px;} nav.bar .logo-star{height:13px; margin-bottom:9px;} .hero h1{font-size:8vw;} }
-</style>
+<link rel="stylesheet" href="assets/fugue.css">
 </head>
 <body>
+
+<div id="veil"></div>
+<div id="loader"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg><div class="fillwhite"></div></div>
 
 <nav class="bar" id="nav">
   <a class="logo" href="#top" aria-label="Fugue">
@@ -220,20 +34,19 @@
     <img class="logo-word" src="assets/fugue-word.png" alt="Fugue">
   </a>
   <div class="actions">
-    <button class="navlink ulink" data-cal>Calendar</button>
+    <button class="navlink ulink" data-nav="fugue-calendar.html">Calendar</button>
     <button class="navlink ulink" data-reserve>Reserve</button>
   </div>
 </nav>
 
 <a id="top"></a>
 <header class="hero">
-  <img class="hero-img" src="assets/fugue-room.jpg" alt="The listening room at Fugue Gallery — red leather chairs around hand-built loudspeakers, sunlit loft windows and brick walls.">
+  <img class="hero-img" src="assets/fugue-room.jpg" alt="The Clearing at Fugue Gallery — red leather chairs around hand-built loudspeakers, sunlit loft windows and brick walls.">
   <div class="hero-scrim"></div>
-  <div class="hero-veil"></div>
   <div class="hero-grain"></div>
   <div class="wrap">
-    <h1>The Listening&nbsp;Room<span class="venue">at Fugue Gallery.<span class="city">Manhattan</span></span></h1>
-    <p class="tagline">A new environment for discovery, connection, and interdisciplinary experience.</p>
+    <h1 class="rise d2">The Clearing<span class="venue">at Fugue Gallery</span></h1>
+    <p class="tagline rise d3">A new environment for discovery, connection, and interdisciplinary experience.</p>
   </div>
 </header>
 
@@ -241,15 +54,13 @@
   <section id="about">
     <div class="wrap">
       <div class="body reveal">
-        <p>Welcome to the Listening Room at Fugue Gallery. At its center is a 6.1 spatial audio system designed and hand-built by Otis Studio; around it hang more than fifteen artworks and design objects created by artists from Brooklyn to Berlin.</p>
+        <p>Welcome to The Clearing at Fugue Gallery. At its center is a 6.1 spatial audio system designed and hand-built by Otis Studio; around it hang more than fifteen artworks and design objects created by artists from Brooklyn to Berlin.</p>
         <p>Come engage with transformative art among other curious and open individuals. We hope you leave grounded and inspired.</p>
         <p>Spend an afternoon with a carefully sequenced program of music in an intimate room. Come alone or with company. The room runs quiet and unhurried, so come and go anytime. No reservation required, though reserving ahead helps us hold space for you.</p>
         <p>We pour chilled traditional teas and sparkling water. Outlets and Wi-Fi are here; books, journaling, and small crafts are welcome. To preserve the listening environment, we ask you to leave calls, meetings, and anything that pulls you out of it at the door.</p>
-        <p>Daylight listening runs every Sunday in July and August, 11am–4pm.</p>
       </div>
     </div>
   </section>
-
 
   <section id="for">
     <div class="wrap">
@@ -263,12 +74,11 @@
     </div>
   </section>
 
-
   <section id="ask">
     <div class="wrap">
       <h2 class="eyebrow reveal">We ask that you</h2>
       <ul class="list reveal">
-        <li>remove your shoes upon entering the listening room.</li>
+        <li>remove your shoes upon entering the clearing.</li>
         <li>keep your voice low, so everyone can sink into the music.</li>
         <li>bring a book, a sketchbook, a journal — whatever lets you settle in.</li>
         <li>come in parties of four or fewer. For a larger group, please <a class="link" href="#" data-reserve>book a consultation</a>.</li>
@@ -281,7 +91,7 @@
     <div class="wrap">
       <div class="mv reveal">
         <p class="mvlabel">Mission</p>
-        <p class="mission">The Listening Room exists to provide a physical space for the collective ceremony of pure sound.</p>
+        <p class="mission">The Clearing exists to provide a physical space for the collective ceremony of pure sound.</p>
         <p class="mvlabel">Vision</p>
         <p class="vision">We imagine a city with room to listen: gatherings where strangers settle around sound, and everyone leaves more present to the music, each other, and themselves.</p>
       </div>
@@ -292,201 +102,35 @@
 <footer>
   <div class="wrap">
     <div class="mark"><img src="assets/fugue-logo.png" alt="Fugue"></div>
-    <p class="addr">132 Mulberry St #4C, New York, NY 10013</p>
     <div class="flinks">
-      <a class="ulink" href="#" data-reserve>Reserve</a>
       <a class="ulink" href="mailto:frasier.sha@gmail.com">Contact</a>
       <a class="ulink" href="#" data-placeholder>Mailing list</a>
-      <a class="ulink" href="#" data-placeholder>Spotify</a>
-      <a class="ulink" href="#" data-placeholder>Apple Music</a>
       <a class="ulink" href="#" data-placeholder>Instagram</a>
     </div>
     <p class="coda">If you'd like to teach a workshop or host an event, please <a class="link" href="mailto:frasier.sha@gmail.com">get in touch</a>.</p>
   </div>
 </footer>
 
-<!-- ===== calendar floating card ===== -->
-<div class="overlay" id="cal-overlay" role="dialog" aria-modal="true" aria-label="Calendar">
-  <div class="modal modal-cal">
-    <button class="closex" data-close aria-label="close">×</button>
-    <p class="kicker">The Listening Room at Fugue Gallery</p>
-    <h3>Calendar</h3>
-    <p class="m-sub">Daylight listening runs every Sunday through the summer. Click a date to see its program.</p>
-    <div class="cal-grid">
-      <div class="events" id="events"><!-- injected --></div>
-      <div>
-        <div class="month">
-          <div class="month-head">
-            <div class="mname" id="mname"></div>
-            <div class="month-nav"><button id="prev" aria-label="previous month">‹</button><button id="next" aria-label="next month">›</button></div>
-          </div>
-          <table class="cal"><thead><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody id="calbody"></tbody></table>
-        </div>
-        <div class="cal-legend">
-          <span><i class="swatch s"></i> Listening session</span>
-          <span><i class="swatch g"></i> Gallery event</span>
-        </div>
-      </div>
-    </div>
-    <div class="cal-foot">
-      <span>To get the monthly calendar, <a class="link" href="#" data-placeholder>join the mailing list</a>.</span>
-      <button class="navlink ulink" data-reserve>Reserve</button>
-    </div>
+<!-- reserve: slides down over the whole page -->
+<div id="reserve" aria-label="Reserve">
+  <button class="r-close" data-rclose aria-label="close">×</button>
+  <div class="r-inner">
+    <p class="r-kicker">The Clearing at Fugue Gallery</p>
+    <h2>Reserve</h2>
+    <p class="r-sub">Not required. It just helps us hold space. Pick a Sunday and we'll see you there.</p>
+    <div class="r-field"><label for="r-date">Session</label><select id="r-date"></select></div>
+    <div class="r-field"><label>Party</label><div class="dots"><button type="button" class="dot" aria-label="1"></button><button type="button" class="dot" aria-label="2"></button><button type="button" class="dot" aria-label="3"></button><button type="button" class="dot" aria-label="4"></button></div></div>
+    <div class="r-field"><label for="r-name">Name</label><input id="r-name" type="text" autocomplete="name"></div>
+    <div class="r-field"><label for="r-email">Email</label><input id="r-email" type="email" autocomplete="email"></div>
+    <div class="r-field"><label for="r-note">Anything else?</label><textarea id="r-note" rows="1"></textarea></div>
+    <div class="slide" aria-label="slide to reserve"><div class="slide-fill"></div><div class="slide-label">slide to reserve</div><div class="slide-thumb" role="button">→</div></div>
+    <p class="r-note">For parties of five or more, please <a class="link" href="mailto:frasier.sha@gmail.com">book a consultation</a>.</p>
   </div>
 </div>
 
-<!-- ===== reserve floating card ===== -->
-<div class="overlay" id="res-overlay" role="dialog" aria-modal="true" aria-label="Reserve a spot">
-  <div class="modal modal-res">
-    <button class="closex" data-close aria-label="close">×</button>
-    <p class="kicker">The Listening Room at Fugue Gallery</p>
-    <h3>Reserve</h3>
-    <p class="m-sub">Not required. It just helps us hold space. Pick a Sunday and we'll see you there.</p>
-    <form id="resform">
-      <label for="r-date">Session</label>
-      <select id="r-date"></select>
-      <label for="r-size">Party size</label>
-      <select id="r-size"><option>1</option><option>2</option><option>3</option><option>4</option><option>5 or more (consultation)</option></select>
-      <label for="r-name">Name</label>
-      <input id="r-name" type="text" autocomplete="name" placeholder="">
-      <label for="r-email">Email</label>
-      <input id="r-email" type="email" autocomplete="email" placeholder="">
-      <label for="r-note">Anything else?</label>
-      <textarea id="r-note" placeholder="…"></textarea>
-      <div class="m-actions">
-        <button type="submit" class="navlink ulink">Send request</button>
-        <button type="button" class="navlink ulink" data-close>Cancel</button>
-      </div>
-      <p class="m-note">This opens your email to send the request to <b>frasier.sha@gmail.com</b>. We'll confirm by reply.</p>
-    </form>
-  </div>
-</div>
+<!-- confirmation: fills the screen, types your details -->
+<div id="confirm" aria-live="polite"><div class="confirm-inner"></div></div>
 
-<script>
-  document.body.classList.add("js");
-
-  // ---- events data (edit/add here; non-Sunday gallery events get kind:'gallery') ----
-  const EVENTS = [
-    {date:"2026-07-05", kind:"session", time:"11am–4pm", sound:"Sha Frasier", theme:"Tracing a 40-year history of reggae and dub", extra:["Tea — William Hu"]},
-    {date:"2026-07-12", kind:"session", time:"11am–4pm", sound:"Joseph Branciforte with Greyfade", theme:"Deep listening with 20 strings", extra:["Movement — Etai Atula · Introduction to Transcendental Meditation (12–2pm)"]},
-    {date:"2026-07-19", kind:"session", time:"11am–4pm", sound:"Sha Frasier", theme:"", extra:["Teaching — Tina Scepanovica · Making sculpture with clay (12–2pm)"]},
-    {date:"2026-07-26", kind:"session", time:"11am–4pm", sound:"Aedi Records", theme:"", extra:["Movement — Etai Atula"]},
-    {date:"2026-08-02", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
-    {date:"2026-08-09", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
-    {date:"2026-08-16", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
-    {date:"2026-08-23", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
-    {date:"2026-08-30", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
-  ];
-
-  const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const byDate = Object.fromEntries(EVENTS.map(e=>[e.date,e]));
-  const fmtLong = iso=>{const [y,m,d]=iso.split("-").map(Number); const dt=new Date(y,m-1,d);
-    return dt.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});};
-  // bold the role label (text before " — ") so Tea / Movement / Teaching read as dark as Sound
-  const roleLine = s=>{ const i=s.indexOf(" — "); return i<0 ? s : `<b>${s.slice(0,i)}</b>${s.slice(i)}`; };
-
-  // ---- events list ----
-  function renderEvents(){
-    const host=document.getElementById("events");
-    const detailed = EVENTS.filter(e=>e.sound);   // only sessions with announced programming
-    host.innerHTML = detailed.map(e=>{
-      const roles = [ e.sound?`<b>Sound</b> — ${e.sound}`:"" , ...(e.extra||[]).map(roleLine) ].filter(Boolean)
-        .map(r=>`<div>${r}</div>`).join("");
-      return `<div class="event-card${e.kind==='gallery'?' gallery-card':''}" data-date="${e.date}">
-        <div class="date">${fmtLong(e.date)} · ${e.time}</div>
-        ${e.theme?`<div class="etitle">${e.theme}</div>`:""}
-        <div class="roles">${roles}</div>
-      </div>`;
-    }).join("");
-    host.querySelectorAll(".event-card").forEach(c=>{
-      c.addEventListener("mouseenter",()=>highlight(c.dataset.date));
-      c.addEventListener("mouseleave",clearHighlight);
-    });
-  }
-
-  // ---- month grid ----
-  let viewY=2026, viewM=7;  // July 2026
-  function renderMonth(){
-    document.getElementById("mname").textContent = `${MONTHS[viewM-1]} ${viewY}`;
-    const first=new Date(viewY,viewM-1,1).getDay();      // 0=Sun
-    const days=new Date(viewY,viewM,0).getDate();
-    let cells=[], i;
-    for(i=0;i<first;i++) cells.push(`<td><div class="day empty">·</div></td>`);
-    for(let d=1;d<=days;d++){
-      const iso=`${viewY}-${String(viewM).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-      const ev=byDate[iso];
-      const cls = ev ? `day event ${ev.kind}` : "day";
-      cells.push(`<td><div class="${cls}" data-date="${ev?iso:""}">${d}</div></td>`);
-    }
-    while(cells.length%7) cells.push(`<td><div class="day empty">·</div></td>`);
-    let rows="";
-    for(i=0;i<cells.length;i+=7) rows+=`<tr>${cells.slice(i,i+7).join("")}</tr>`;
-    const body=document.getElementById("calbody"); body.innerHTML=rows;
-    body.querySelectorAll(".day.event").forEach(el=>{
-      el.addEventListener("mouseenter",()=>highlight(el.dataset.date));
-      el.addEventListener("mouseleave",clearHighlight);
-      el.addEventListener("click",()=>{const card=document.querySelector(`.event-card[data-date="${el.dataset.date}"]`);
-        if(card){card.scrollIntoView({behavior:"smooth",block:"center"}); highlight(el.dataset.date);}});
-    });
-  }
-  function highlight(date){ if(!date) return; clearHighlight();
-    document.querySelectorAll(`[data-date="${date}"]`).forEach(el=>{
-      if(el.classList.contains("day")) el.classList.add("is-active");
-      if(el.classList.contains("event-card")) el.classList.add("is-active");});
-  }
-  function clearHighlight(){ document.querySelectorAll(".is-active").forEach(el=>el.classList.remove("is-active")); }
-  document.getElementById("prev").onclick=()=>{viewM--; if(viewM<1){viewM=12;viewY--;} renderMonth();};
-  document.getElementById("next").onclick=()=>{viewM++; if(viewM>12){viewM=1;viewY++;} renderMonth();};
-
-  // ---- modals ----
-  const calOv=document.getElementById("cal-overlay");
-  const resOv=document.getElementById("res-overlay");
-  let lastFocus=null;
-  function open(ov){ lastFocus=document.activeElement; ov.classList.add("open"); document.body.style.overflow="hidden"; }
-  function closeAll(){ calOv.classList.remove("open"); resOv.classList.remove("open"); document.body.style.overflow=""; if(lastFocus) lastFocus.focus(); }
-  function openReserve(){
-    const sel=document.getElementById("r-date");
-    const today=new Date(new Date().toDateString());
-    const upcoming=EVENTS.filter(e=>{const [y,m,d]=e.date.split("-").map(Number); return new Date(y,m-1,d)>=today;});
-    sel.innerHTML=(upcoming.length?upcoming:EVENTS).map(e=>`<option value="${e.date}">${fmtLong(e.date)}${e.sound?" — "+e.sound:""}</option>`).join("");
-    open(resOv); setTimeout(()=>document.getElementById("r-name").focus(),220);
-  }
-  function openCalendar(){ open(calOv); }
-
-  document.querySelectorAll("[data-reserve]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();openReserve();}));
-  document.querySelectorAll("[data-cal]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();openCalendar();}));
-  document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();closeAll();}));
-  [calOv,resOv].forEach(ov=>ov.addEventListener("click",e=>{if(e.target===ov) closeAll();}));
-  document.addEventListener("keydown",e=>{if(e.key==="Escape") closeAll();});
-  document.querySelectorAll("[data-placeholder]").forEach(a=>a.addEventListener("click",e=>e.preventDefault()));
-
-  document.getElementById("resform").addEventListener("submit",e=>{
-    e.preventDefault();
-    const date=document.getElementById("r-date").value;
-    const size=document.getElementById("r-size").value;
-    const name=document.getElementById("r-name").value||"(no name given)";
-    const email=document.getElementById("r-email").value||"(no email given)";
-    const note=document.getElementById("r-note").value;
-    const subject=`Listening Room reservation — ${fmtLong(date)}`;
-    const body=`Hi Fugue,\n\nI'd like to reserve a spot for the Listening Room.\n\nSession: ${fmtLong(date)}\nParty size: ${size}\nName: ${name}\nEmail: ${email}\n${note?("\nNote: "+note+"\n"):""}\nThank you!`;
-    window.location.href=`mailto:frasier.sha@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    closeAll();
-  });
-
-  // ---- nav over hero -> solid on scroll; hide scroll cue ----
-  const nav=document.getElementById("nav"), cue=document.getElementById("cue");
-  function onScroll(){
-    const past=window.scrollY > window.innerHeight*0.7;
-    nav.classList.toggle("scrolled", past);
-    if(cue) cue.style.opacity = window.scrollY>40 ? "0" : "";
-  }
-  window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
-
-  // ---- scroll reveals ----
-  const io=new IntersectionObserver((ents)=>{ents.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target);} });},{rootMargin:"0px 0px -8% 0px", threshold:.08});
-  document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
-
-  renderEvents(); renderMonth();
-</script>
+<script src="assets/fugue.js"></script>
 </body>
 </html>
