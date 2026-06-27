@@ -83,7 +83,7 @@
   .hero .eyebrow{color:rgba(255,255,255,.82); font-size:.72rem; margin-bottom:1rem;}
   .hero h1{color:#fff; font-size:clamp(2.9rem,8.5vw,6.2rem); font-weight:500; letter-spacing:-.02em; text-shadow:0 2px 30px rgba(0,0,0,.25);}
   .hero h1 .venue{display:block; font-size:clamp(1.1rem,2.7vw,2rem); font-weight:400; letter-spacing:0; color:rgba(255,255,255,.82); margin-top:.45rem; text-shadow:0 2px 20px rgba(0,0,0,.25);}
-  .hero h1 .venue .city{display:block; font-size:.7em; color:rgba(255,255,255,.72); margin-top:.05rem;}
+  .hero h1 .venue .city{display:block; font-size:.7em; color:rgba(255,255,255,.72); margin-top:.5rem;}
   .hero .tagline{color:rgba(255,255,255,.9); font-style:italic; font-size:clamp(1.05rem,2vw,1.4rem); margin-top:1rem;}
 
   /* ---------- sections ---------- */
@@ -139,7 +139,7 @@
     background:var(--paper); border:1px solid var(--line); border-radius:0; padding:.62rem .75rem; transition:border-color .2s var(--ease);}
   .modal input:focus,.modal select:focus,.modal textarea:focus{outline:none; border-color:var(--ink);}
   .modal textarea{resize:vertical; min-height:64px;}
-  .m-actions{margin-top:1.5rem; display:flex; gap:.7rem; align-items:center;}
+  .m-actions{margin-top:1.6rem; display:flex; gap:1.6rem; align-items:center;}
   .m-note{font-size:.78rem; color:var(--soft); margin-top:1rem;}
 
   /* calendar inside modal */
@@ -196,7 +196,7 @@
     body.js .reveal{opacity:0; transform:translateY(26px); transition:opacity .9s var(--ease), transform .9s var(--ease);}
     body.js .reveal.in{opacity:1; transform:none;}
   }
-  @media(max-width:640px){ .navlink{font-size:.62rem; letter-spacing:.1em;} nav.bar .actions{gap:1.1rem;} nav.bar .logo-word{height:24px;} nav.bar .logo-star{height:13px; margin-bottom:9px;} }
+  @media(max-width:640px){ .navlink{font-size:.62rem; letter-spacing:.1em;} nav.bar .actions{gap:1.1rem;} nav.bar .logo-word{height:24px;} nav.bar .logo-star{height:13px; margin-bottom:9px;} .hero h1{font-size:8vw;} }
 </style>
 </head>
 <body>
@@ -264,13 +264,13 @@
 
   <section id="ask">
     <div class="wrap">
-      <h2 class="eyebrow reveal">A few things we ask</h2>
+      <h2 class="eyebrow reveal">We ask that you</h2>
       <ul class="list reveal">
-        <li>Please, no shoes inside the listening room.</li>
-        <li>Keep your voice low, so everyone can sink into the music.</li>
-        <li>Bring a book, a sketchbook, a journal — whatever lets you settle in.</li>
-        <li>Parties of four or fewer; for a larger group, please <a class="link" href="#" data-reserve>book a consultation</a>.</li>
-        <li>Questions? Please <a class="link" href="mailto:frasier.sha@gmail.com">contact us</a>.</li>
+        <li>remove your shoes upon entering the listening room.</li>
+        <li>keep your voice low, so everyone can sink into the music.</li>
+        <li>bring a book, a sketchbook, a journal — whatever lets you settle in.</li>
+        <li>come in parties of four or fewer. For a larger group, please <a class="link" href="#" data-reserve>book a consultation</a>.</li>
+        <li>please <a class="link" href="mailto:frasier.sha@gmail.com">contact us</a> with any questions.</li>
       </ul>
     </div>
   </section>
@@ -327,22 +327,22 @@
   <div class="modal modal-res">
     <button class="closex" data-close aria-label="close">×</button>
     <p class="kicker">The Listening Room at Fugue Gallery</p>
-    <h3>Reserve a spot</h3>
-    <p class="m-sub">Not required — it just helps us hold space. Pick a Sunday and we'll see you there.</p>
+    <h3>Reserve</h3>
+    <p class="m-sub">Not required. It just helps us hold space. Pick a Sunday and we'll see you there.</p>
     <form id="resform">
-      <label for="r-date">Which session</label>
+      <label for="r-date">Session</label>
       <select id="r-date"></select>
       <label for="r-size">Party size</label>
       <select id="r-size"><option>1</option><option>2</option><option>3</option><option>4</option><option>5 or more (consultation)</option></select>
-      <label for="r-name">Your name</label>
-      <input id="r-name" type="text" autocomplete="name" placeholder="Name">
-      <label for="r-email">Your email</label>
-      <input id="r-email" type="email" autocomplete="email" placeholder="you@email.com">
-      <label for="r-note">Anything else (optional)</label>
-      <textarea id="r-note" placeholder="A note for us…"></textarea>
+      <label for="r-name">Name</label>
+      <input id="r-name" type="text" autocomplete="name" placeholder="">
+      <label for="r-email">Email</label>
+      <input id="r-email" type="email" autocomplete="email" placeholder="">
+      <label for="r-note">Anything else?</label>
+      <textarea id="r-note" placeholder="…"></textarea>
       <div class="m-actions">
-        <button type="submit" class="btn solid">Send request</button>
-        <button type="button" class="btn outline" data-close>Cancel</button>
+        <button type="submit" class="navlink ulink">Send request</button>
+        <button type="button" class="navlink ulink" data-close>Cancel</button>
       </div>
       <p class="m-note">This opens your email to send the request to <b>frasier.sha@gmail.com</b>. We'll confirm by reply.</p>
     </form>
