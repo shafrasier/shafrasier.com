@@ -83,6 +83,7 @@
   .hero .eyebrow{color:rgba(255,255,255,.82); font-size:.72rem; margin-bottom:1rem;}
   .hero h1{color:#fff; font-size:clamp(2.9rem,8.5vw,6.2rem); font-weight:500; letter-spacing:-.02em; text-shadow:0 2px 30px rgba(0,0,0,.25);}
   .hero h1 .venue{display:block; font-size:clamp(1.1rem,2.7vw,2rem); font-weight:400; letter-spacing:0; color:rgba(255,255,255,.82); margin-top:.45rem; text-shadow:0 2px 20px rgba(0,0,0,.25);}
+  .hero h1 .venue .city{display:block; font-size:.7em; color:rgba(255,255,255,.72); margin-top:.05rem;}
   .hero .tagline{color:rgba(255,255,255,.9); font-style:italic; font-size:clamp(1.05rem,2vw,1.4rem); margin-top:1rem;}
 
   /* ---------- sections ---------- */
@@ -124,7 +125,7 @@
   .overlay.open .modal{transform:none;}
   .modal-res{max-width:460px;}
   .modal-cal{max-width:840px;}
-  .modal .kicker{font-family:var(--label); font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; color:var(--soft); margin-bottom:.5rem;}
+  .modal .kicker{font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--soft); margin-bottom:.4rem;}
   .modal h3{font-size:1.9rem; margin-bottom:.3rem;}
   .modal .m-sub{color:var(--soft); margin-bottom:1.4rem; max-width:46ch;}
   .closex{position:absolute; right:1.1rem; top:.9rem; width:32px; height:32px; border:none;
@@ -218,7 +219,7 @@
   <div class="hero-veil"></div>
   <div class="hero-grain"></div>
   <div class="wrap">
-    <h1>The Listening&nbsp;Room<span class="venue">at Fugue Gallery, Manhattan</span></h1>
+    <h1>The Listening&nbsp;Room<span class="venue">at Fugue Gallery.<span class="city">Manhattan.</span></span></h1>
     <p class="tagline">A new environment for discovery, connection, and interdisciplinary experience.</p>
   </div>
 </header>
@@ -295,7 +296,7 @@
 <div class="overlay" id="cal-overlay" role="dialog" aria-modal="true" aria-label="Calendar">
   <div class="modal modal-cal">
     <button class="closex" data-close aria-label="close">×</button>
-    <p class="kicker">Fugue Listening Room</p>
+    <p class="kicker">The Listening Room at Fugue Gallery</p>
     <h3>Calendar</h3>
     <p class="m-sub">Daylight listening runs every Sunday through the summer. Click a date to see its program.</p>
     <div class="cal-grid">
@@ -316,7 +317,7 @@
     </div>
     <div class="cal-foot">
       <span>To get the monthly calendar, <a class="link" href="#" data-placeholder>join the mailing list</a>.</span>
-      <button class="btn solid" data-reserve>Reserve a spot</button>
+      <button class="navlink ulink" data-reserve>Reserve</button>
     </div>
   </div>
 </div>
@@ -325,7 +326,7 @@
 <div class="overlay" id="res-overlay" role="dialog" aria-modal="true" aria-label="Reserve a spot">
   <div class="modal modal-res">
     <button class="closex" data-close aria-label="close">×</button>
-    <p class="kicker">Fugue Listening Room</p>
+    <p class="kicker">The Listening Room at Fugue Gallery</p>
     <h3>Reserve a spot</h3>
     <p class="m-sub">Not required — it just helps us hold space. Pick a Sunday and we'll see you there.</p>
     <form id="resform">
