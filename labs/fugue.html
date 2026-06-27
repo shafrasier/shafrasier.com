@@ -95,20 +95,15 @@
   .body{max-width:var(--measure); color:var(--ink-2);}
   .body p{margin:0 0 1.15rem;}
   .body p:last-child{margin-bottom:0;}
-  .rule{display:flex; align-items:center; gap:1.2rem; color:var(--soft); margin:clamp(2rem,5vh,3.4rem) 0;}
-  .rule::before,.rule::after{content:""; height:1px; background:var(--line); flex:1;}
-  .rule span{font-size:.85rem;}
-  h2.eyebrow{font-family:var(--label); font-size:.74rem; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); font-weight:500; margin-bottom:1.6rem;}
+  h2.eyebrow{font-family:var(--serif); font-size:1.12rem; font-weight:400; color:var(--ink-2); margin-bottom:.7rem;}
 
   ul.list{list-style:none; padding:0; margin:0; max-width:var(--measure);}
-  ul.list li{display:grid; grid-template-columns:1.3rem 1fr; gap:0 1rem; align-items:center;
-    padding:1rem 0; border-top:1px solid var(--line-2); font-size:1.12rem;}
-  ul.list li:first-child{border-top:none;}
-  ul.list li::before{content:"✱"; color:var(--soft); font-size:.8rem; line-height:1;}
+  ul.list li{position:relative; padding:.3rem 0 .3rem .95rem; font-size:1.1rem; line-height:1.6;}
+  ul.list li::before{content:"✱"; position:absolute; left:0; top:.3rem; height:1.76rem; display:flex; align-items:center; font-size:.5rem; color:var(--soft);}
 
   /* ---------- footer ---------- */
   footer{border-top:1px solid var(--line); margin-top:clamp(3rem,8vh,6rem); padding:clamp(3rem,7vh,5rem) 0 4rem; text-align:center;}
-  footer .mark img{height:22px; opacity:.9; margin-bottom:1.6rem;}
+  footer .mark img{height:44px; opacity:.9; margin-bottom:1.6rem;}
   footer .addr{color:var(--soft); font-size:.98rem; line-height:1.6;}
   footer .addr .flag{font-size:.82rem; opacity:.7;}
   footer .flinks{display:flex; gap:1rem 1.8rem; justify-content:center; flex-wrap:wrap; margin:1.8rem 0; }
@@ -235,18 +230,17 @@
       <div class="body reveal">
         <p>Welcome to the Listening Room at Fugue Gallery. At its center is a 6.1 spatial audio system designed and hand-built by Otis Studio; around it hang more than fifteen artworks and design objects created by artists from Brooklyn to Berlin.</p>
         <p>Come engage with transformative art among other curious and open individuals. We hope you leave grounded and inspired.</p>
-        <p>The room runs quiet and unhurried. Come and go anytime. Spend an afternoon with a carefully sequenced program of music in an intimate room. No reservation required, though reserving ahead helps us hold space for you.</p>
+        <p>Spend an afternoon with a carefully sequenced program of music in an intimate room. The room runs quiet and unhurried, so come and go anytime. No reservation required, though reserving ahead helps us hold space for you.</p>
         <p>We pour chilled traditional teas and sparkling water. Outlets and Wi-Fi are here; books, journaling, and small crafts are welcome. To preserve the listening environment, we ask you to leave calls, meetings, and anything that pulls you out of it at the door.</p>
-        <p>Daylight listening runs every Sunday in July and August, 11am–4pm. Come alone or with company.</p>
+        <p>Daylight listening runs every Sunday in July and August, 11am–4pm.</p>
       </div>
     </div>
   </section>
 
-  <div class="wrap"><div class="rule reveal"><span>✱</span></div></div>
 
   <section id="for">
     <div class="wrap">
-      <h2 class="eyebrow reveal">These sessions are for those who want to —</h2>
+      <h2 class="eyebrow reveal">These sessions are for those who want to;</h2>
       <ul class="list reveal">
         <li>hear music in a human way, past the algorithm</li>
         <li>meet people, make friends</li>
@@ -256,11 +250,10 @@
     </div>
   </section>
 
-  <div class="wrap"><div class="rule reveal"><span>✱</span></div></div>
 
   <section id="ask">
     <div class="wrap">
-      <h2 class="eyebrow reveal">A few things we ask —</h2>
+      <h2 class="eyebrow reveal">A few things we ask;</h2>
       <ul class="list reveal">
         <li>Please, no shoes inside the listening room.</li>
         <li>Keep your voice low, so everyone can sink into the music.</li>
