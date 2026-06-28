@@ -195,27 +195,31 @@
     const W = window.innerWidth, H = window.innerHeight;
     svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
     const rnd=(a,b)=>a+Math.random()*(b-a);
+    // a jittered grid so the strokes cover the ENTIRE screen, filled in scattered order
+    const cols=Math.max(7, Math.round(W/175)), rows=Math.max(6, Math.round(H/150));
+    const cw=W/cols, ch=H/rows, cells=[];
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) cells.push([c,r]);
+    for(let i=cells.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=cells[i]; cells[i]=cells[j]; cells[j]=t; }
     const frag = [];
-    const N = Math.round(rnd(28,38));
-    for(let i=0;i<N;i++){
-      const x=rnd(.04,.96)*W, y=rnd(.08,.92)*H, s=rnd(30,104), dir=Math.random()<.5?1:-1;
-      // an abstracted note: a swooping stroke + a small note-head arc
+    cells.forEach(([c,r])=>{
+      const x=(c+rnd(.12,.88))*cw, y=(r+rnd(.12,.88))*ch, s=rnd(38, Math.min(cw,ch)*1.15), dir=Math.random()<.5?1:-1;
       const d = `M ${x} ${y} c ${dir*s*.5} ${-s*.7}, ${dir*s*1.1} ${-s*.2}, ${dir*s*1.3} ${s*.35} s ${-dir*s*.3} ${s*.8}, ${-dir*s*.1} ${s*1.05}`;
       frag.push(`<path class="note" d="${d}"/>`);
-      if(Math.random()<.6){ const r=rnd(4,8); frag.push(`<ellipse class="note" cx="${x}" cy="${y}" rx="${r*1.3}" ry="${r}" transform="rotate(${rnd(-25,25)} ${x} ${y})"/>`); }
-    }
+      if(Math.random()<.7){ const rr=rnd(4,9); frag.push(`<ellipse class="note" cx="${x}" cy="${y}" rx="${rr*1.3}" ry="${rr}" transform="rotate(${rnd(-25,25)} ${x} ${y})"/>`); }
+    });
     svg.innerHTML = frag.join("");
     const notes = $$("#loader .note");
-    // pass 1 — hide each stroke (fully undrawn)
+    // pass 1 — hide each stroke (undrawn)
     notes.forEach(el=>{ let len; try{len=el.getTotalLength();}catch(_){len=420;} if(!len||len<1) len=420; el.style.strokeDasharray=len; el.style.strokeDashoffset=len; });
-    svg.getBoundingClientRect();   // FORCE a layout flush so the draw actually animates
-    // pass 2 — draw them all, rapidly, lightly staggered
-    notes.forEach(el=>{ const dur=rnd(.30,.50), delay=Math.random()*.55; el.style.transition="stroke-dashoffset "+dur.toFixed(2)+"s cubic-bezier(.4,0,.2,1) "+delay.toFixed(2)+"s"; el.style.strokeDashoffset=0; });
-   }catch(e){}
-    // draws finish ~1.1s; THEN the whole screen fills white; THEN the white lifts into the page
-    setTimeout(()=> loader.classList.add("fill"), 1150);
-    setTimeout(()=> reveal(), 1650);                        // page choreography begins beneath the white
-    setTimeout(()=> loader.classList.add("done"), 1700);    // white fades into the page
-    setTimeout(()=>{ loader.style.display="none"; }, 2350);
+    svg.getBoundingClientRect();   // FORCE a layout flush so the draws actually animate
+    // pass 2 — sketch them out one at a time, rapidly, until they take over the whole screen
+    const STEP=13;  // ms between each stroke beginning to draw
+    notes.forEach((el,i)=>{ el.style.transition="stroke-dashoffset "+rnd(.16,.26).toFixed(2)+"s ease "+(i*STEP/1000).toFixed(3)+"s"; el.style.strokeDashoffset=0; });
+    const allDrawn = notes.length*STEP + 300;   // when the last stroke finishes
+    setTimeout(()=> loader.classList.add("fill"), Math.max(900, allDrawn-250));  // less and less black, washing to pure white
+    setTimeout(()=> reveal(), allDrawn+450);
+    setTimeout(()=> loader.classList.add("done"), allDrawn+520);
+    setTimeout(()=>{ loader.style.display="none"; }, allDrawn+1150);
+   }catch(e){ if(loader) loader.style.display="none"; reveal(); }
   }
 })();
