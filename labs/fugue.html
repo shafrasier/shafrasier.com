@@ -103,10 +103,40 @@
     <div class="mark"><img src="assets/fugue-logo.png" alt="Fugue"></div>
     <div class="flinks">
       <a class="ulink" href="mailto:frasier.sha@gmail.com">Contact</a>
-      <a class="ulink" href="#" data-placeholder>Mailing list</a>
+      <button class="ulink nl-toggle" type="button" data-newsletter aria-expanded="false" aria-controls="newsletter">Newsletter</button>
       <a class="ulink" href="#" data-placeholder>Instagram</a>
     </div>
     <p class="coda">If you'd like to teach a workshop or host an event, please <a class="link" href="mailto:frasier.sha@gmail.com">get in touch</a>.</p>
+
+    <!-- newsletter: a quiet extension of the page, not a popup -->
+    <section id="newsletter" class="nl" aria-hidden="true">
+      <div class="nl-inner">
+        <a class="nl-ce" href="https://bringrecords.com" target="_blank" rel="noopener noreferrer" aria-label="Continuing Education at Bring Records">
+          <img src="assets/ce.svg" alt="Continuing Education">
+        </a>
+        <p class="nl-kicker">The newsletter</p>
+        <p class="nl-sub">Notes on the music, the room, and what's coming next — a few times a season, nothing more.</p>
+        <form class="nl-form" novalidate>
+          <div class="nl-names">
+            <div class="nl-field">
+              <label for="nl-first">First name <span>optional</span></label>
+              <input id="nl-first" name="first_name" type="text" autocomplete="given-name">
+            </div>
+            <div class="nl-field">
+              <label for="nl-last">Last name <span>optional</span></label>
+              <input id="nl-last" name="last_name" type="text" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="nl-field">
+            <label for="nl-email">Email</label>
+            <input id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <button class="nl-submit" type="submit">Subscribe</button>
+          <p class="nl-msg" role="status" aria-live="polite"></p>
+        </form>
+        <p class="nl-fine">Double opt-in — we'll send a confirmation link. Unsubscribe anytime. We'll never share your address.</p>
+      </div>
+    </section>
   </div>
 </footer>
 

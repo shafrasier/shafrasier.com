@@ -61,6 +61,64 @@
   $$("[data-nav]").forEach(a=> a.addEventListener("click", e=>{ e.preventDefault(); fadeTo(a.getAttribute("data-nav")); }));
   $$("[data-placeholder]").forEach(a=> a.addEventListener("click", e=> e.preventDefault()));
 
+  /* ---------- newsletter: a quiet inline expansion (not a popup) ---------- */
+  const nl = $("#newsletter");
+  const nlToggle = $("[data-newsletter]");
+  if(nl && nlToggle){
+    const setAria = open=>{ nlToggle.setAttribute("aria-expanded", open?"true":"false"); nl.setAttribute("aria-hidden", open?"false":"true"); };
+    function openNl(focus){
+      nl.classList.add("open");
+      nl.style.maxHeight = motionOK ? nl.scrollHeight + "px" : "none";
+      setAria(true);
+      setTimeout(()=>{ nl.scrollIntoView({behavior: motionOK?"smooth":"auto", block:"center"}); if(focus) $("#nl-email", nl).focus({preventScroll:true}); }, 90);
+    }
+    function closeNl(){
+      nl.style.maxHeight = nl.scrollHeight + "px"; void nl.offsetHeight;   // pin current height, then collapse
+      nl.classList.remove("open"); nl.style.maxHeight = "0px"; setAria(false);
+    }
+    nl.addEventListener("transitionend", e=>{ if(e.propertyName==="max-height" && nl.classList.contains("open")) nl.style.maxHeight = "none"; });
+    nlToggle.addEventListener("click", e=>{ e.preventDefault(); nl.classList.contains("open") ? closeNl() : openNl(true); });
+    // deep link (#newsletter): wait for the loader/arrival to finish, then open into view
+    if(location.hash === "#newsletter"){
+      if(document.body.classList.contains("go")) openNl(true);
+      else{
+        const obs = new MutationObserver(()=>{ if(document.body.classList.contains("go")){ obs.disconnect(); setTimeout(()=> openNl(true), 350); } });
+        obs.observe(document.body, {attributes:true, attributeFilter:["class"]});
+      }
+    }
+
+    /* Backend: set NEWSLETTER.endpoint to a URL that accepts the JSON record below
+       (a Cloudflare Worker / serverless proxy / Resend-backed function). For a hosted
+       provider such as Buttondown, use their own embed form instead — wire it in when
+       you pick one. Until an endpoint is set, this runs in CONCEPT mode: it validates
+       and captures to localStorage (key "fugueNewsletter") so nothing is lost. */
+    const NEWSLETTER = { endpoint:"" };
+    const form = $(".nl-form", nl), msg = $(".nl-msg", nl), btn = $(".nl-submit", nl);
+    // setting a message also lifts the height pin so the panel can't clip it mid-animation
+    const say = (t,cls)=>{ msg.textContent = t; msg.className = "nl-msg" + (cls?" "+cls:""); if(nl.classList.contains("open")) nl.style.maxHeight = "none"; };
+    function subscribe(rec){
+      if(!NEWSLETTER.endpoint){
+        try{ const all = JSON.parse(localStorage.getItem("fugueNewsletter")||"[]"); all.push(rec); localStorage.setItem("fugueNewsletter", JSON.stringify(all)); }catch(e){}
+        console.info("[newsletter] concept mode — no endpoint set; captured locally:", rec);
+        return new Promise(r=> setTimeout(r, 550));
+      }
+      return fetch(NEWSLETTER.endpoint, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(rec)})
+        .then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); });
+    }
+    form.addEventListener("submit", e=>{
+      e.preventDefault();
+      const email = $("#nl-email", nl).value.trim();
+      const firstName = $("#nl-first", nl).value.trim();
+      const lastName  = $("#nl-last", nl).value.trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ say("Please enter a valid email address.", "err"); $("#nl-email", nl).focus(); return; }
+      btn.disabled = true; say("One moment…");
+      subscribe({ email, firstName, lastName, source:"fugue-concept", subscribedAt:new Date().toISOString(), page:location.pathname })
+        .then(()=>{ form.reset(); say("Almost there — check your inbox for a confirmation link.", "ok"); })
+        .catch(err=>{ console.error("[newsletter] subscribe failed:", err); say("Something went wrong. Please try again, or email us.", "err"); })
+        .finally(()=>{ btn.disabled = false; });
+    });
+  }
+
   /* ---------- calendar (calendar page) ---------- */
   function renderCalendar(){
     const host = $("#events"); if(!host) return;
