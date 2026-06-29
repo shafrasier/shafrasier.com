@@ -87,36 +87,52 @@
       }
     }
 
-    /* Backend: set NEWSLETTER.endpoint to a URL that accepts the JSON record below
-       (a Cloudflare Worker / serverless proxy / Resend-backed function). For a hosted
-       provider such as Buttondown, use their own embed form instead — wire it in when
-       you pick one. Until an endpoint is set, this runs in CONCEPT mode: it validates
-       and captures to localStorage (key "fugueNewsletter") so nothing is lost. */
+    /* Backend: set NEWSLETTER.endpoint to your Cloudflare Worker's /subscribe URL to go
+       live (see newsletter/ in the repo for the Worker, schema, and deploy guide). It
+       accepts the JSON record below. Until an endpoint is set, this runs in CONCEPT
+       mode: it validates and captures to localStorage (key "fugueNewsletter") so
+       nothing is lost. */
     const NEWSLETTER = { endpoint:"" };
-    const form = $(".nl-form", nl), msg = $(".nl-msg", nl), btn = $(".nl-submit", nl);
+    const form = $(".nl-form", nl), msg = $(".nl-msg", nl);
+    const slide = $(".nl-slide", nl), dot = $(".nl-dot", nl), word = $(".nl-word", nl);
     // setting a message also lifts the height pin so the panel can't clip it mid-animation
     const say = (t,cls)=>{ msg.textContent = t; msg.className = "nl-msg" + (cls?" "+cls:""); if(nl.classList.contains("open")) nl.style.maxHeight = "none"; };
     function subscribe(rec){
       if(!NEWSLETTER.endpoint){
         try{ const all = JSON.parse(localStorage.getItem("fugueNewsletter")||"[]"); all.push(rec); localStorage.setItem("fugueNewsletter", JSON.stringify(all)); }catch(e){}
         console.info("[newsletter] concept mode — no endpoint set; captured locally:", rec);
-        return new Promise(r=> setTimeout(r, 550));
+        return new Promise(r=> setTimeout(r, 600));
       }
       return fetch(NEWSLETTER.endpoint, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(rec)})
         .then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); });
     }
-    form.addEventListener("submit", e=>{
-      e.preventDefault();
-      const email = $("#nl-email", nl).value.trim();
-      const firstName = $("#nl-first", nl).value.trim();
-      const lastName  = $("#nl-last", nl).value.trim();
-      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ say("Please enter a valid email address.", "err"); $("#nl-email", nl).focus(); return; }
-      btn.disabled = true; say("One moment…");
+
+    /* slide to subscribe — drag the dot to the right end (the serif "subscribe") */
+    let dragging=false, originX=0, x=0, maxX=0, done=false;
+    const measure = ()=>{ maxX = slide.clientWidth - dot.offsetWidth; };
+    function place(v){ x = Math.max(0, Math.min(maxX, v)); dot.style.transform = "translateX("+x+"px)";
+      if(word){ const p = maxX ? x/maxX : 0; word.style.opacity = String(Math.max(0, 1 - p*1.5)); } }
+    function resetSlide(){ done=false; slide.classList.remove("done"); dot.style.transition=""; place(0); if(word) word.style.opacity=""; }
+    function onDown(e){ if(done) return; measure(); dragging=true; dot.style.transition="none"; originX = e.clientX - x;
+      if(e.pointerId!=null && dot.setPointerCapture){ try{ dot.setPointerCapture(e.pointerId); }catch(_){ } } e.preventDefault(); }
+    function onMove(e){ if(!dragging) return; place(e.clientX - originX); }
+    function onUp(){ if(!dragging) return; dragging=false; dot.style.transition=""; if(x >= maxX-2) complete(); else place(0); }
+    function complete(){ if(done) return; done=true; slide.classList.add("done"); measure(); place(maxX); fire(); }
+    function fire(){
+      const email = $("#nl-email", nl).value.trim(), firstName = $("#nl-first", nl).value.trim(), lastName = $("#nl-last", nl).value.trim();
+      if($(".nl-hp", nl).value){ say("Please see your email to confirm receipt.", "ok"); return; }   // honeypot: feign success
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ resetSlide(); say("Please enter your email above first.", "err"); $("#nl-email", nl).focus(); return; }
+      say("One moment…");
       subscribe({ email, firstName, lastName, source:"fugue-concept", subscribedAt:new Date().toISOString(), page:location.pathname })
-        .then(()=>{ form.reset(); say("Almost there — check your inbox for a confirmation link.", "ok"); })
-        .catch(err=>{ console.error("[newsletter] subscribe failed:", err); say("Something went wrong. Please try again, or email us.", "err"); })
-        .finally(()=>{ btn.disabled = false; });
-    });
+        .then(()=> say("Please see your email to confirm receipt.", "ok"))
+        .catch(err=>{ console.error("[newsletter] subscribe failed:", err); resetSlide(); say("Something went wrong. Please try again.", "err"); });
+    }
+    dot.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    slide.addEventListener("keydown", e=>{ if(e.key==="Enter" || e.key===" "){ e.preventDefault(); complete(); } });
+    form.addEventListener("submit", e=>{ e.preventDefault(); complete(); });   // Enter in a field also subscribes
+    window.addEventListener("resize", ()=>{ if(!dragging && !done){ measure(); place(x); } });
   }
 
   /* ---------- calendar (calendar page) ---------- */

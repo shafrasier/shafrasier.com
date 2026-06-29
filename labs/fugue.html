@@ -115,7 +115,6 @@
           <img src="assets/ce.svg" alt="Continuing Education">
         </a>
         <p class="nl-kicker">The newsletter</p>
-        <p class="nl-sub">Notes on the music, the room, and what's coming next — a few times a season, nothing more.</p>
         <form class="nl-form" novalidate>
           <div class="nl-names">
             <div class="nl-field">
@@ -131,10 +130,14 @@
             <label for="nl-email">Email</label>
             <input id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required>
           </div>
-          <button class="nl-submit" type="submit">Subscribe</button>
+          <input type="text" class="nl-hp" name="nl_extra" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="nl-slide" role="button" tabindex="0" aria-label="Slide to subscribe">
+            <div class="nl-track"></div>
+            <div class="nl-word">subscribe</div>
+            <div class="nl-dot"></div>
+          </div>
           <p class="nl-msg" role="status" aria-live="polite"></p>
         </form>
-        <p class="nl-fine">Double opt-in — we'll send a confirmation link. Unsubscribe anytime. We'll never share your address.</p>
       </div>
     </section>
   </div>

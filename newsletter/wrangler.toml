@@ -1,0 +1,29 @@
+# Cloudflare Worker for the newsletter. Fill in the two PASTE_… values, then deploy.
+# See README.md for the full step-by-step.
+name = "fugue-newsletter"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+# Created by `wrangler d1 create fugue-newsletter` — paste the database_id it prints.
+[[d1_databases]]
+binding = "DB"
+database_name = "fugue-newsletter"
+database_id = "PASTE_YOUR_D1_DATABASE_ID"
+
+[vars]
+SITE_NAME   = "the Clearing — Fugue Gallery"
+FROM_NAME   = "the Clearing"
+# Must be an address on a domain you've verified in Resend (e.g. on bringrecords.com):
+FROM_EMAIL  = "newsletter@bringrecords.com"
+# Public URL of THIS Worker — used to build confirm/unsubscribe links inside emails.
+# After your first deploy, set this to the workers.dev URL (or your custom domain) and redeploy.
+PUBLIC_BASE = "https://fugue-newsletter.PASTE_YOUR_SUBDOMAIN.workers.dev"
+# Where to send people after they confirm / unsubscribe:
+SITE_URL    = "https://shafrasier.com/labs/fugue.html"
+# Comma-separated allowlist of site origins that may POST to /subscribe. Use "*" only for
+# local dev. Add fuguegallery.com here when the page moves.
+ALLOW_ORIGIN = "https://shafrasier.com"
+
+# Secrets (do NOT put these here) — set once with:
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put ADMIN_PASSWORD
