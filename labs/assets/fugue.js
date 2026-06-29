@@ -26,13 +26,15 @@
   let spinDir = 1;
   try{ if(localStorage.getItem("fugueReserved")==="1"){ document.body.classList.add("reserved"); spinDir = -1; } }catch(e){}
 
-  /* ---------- spinning asterisk (faster as you scroll) ---------- */
+  /* ---------- spinning asterisk (constant everywhere; faster only while scrolling) ---------- */
   const star = $(".logo-star");
   if(star && motionOK){
-    let a = 0;
+    let a = 0, lastY = window.scrollY, boost = 0;
     (function loop(){
-      const boost = 1 + Math.min(window.scrollY/260, 6);   // subtly accelerates with scroll
-      a += spinDir * 0.09 * boost;
+      const y = window.scrollY;
+      const vel = Math.abs(y - lastY); lastY = y;             // px scrolled this frame (up or down)
+      boost = Math.max(boost * 0.9, Math.min(vel * 0.25, 6)); // spikes with scroll speed, eases back to 0
+      a += spinDir * 0.25 * (1 + boost);                      // 0.25 = constant base rate everywhere
       star.style.transform = "rotate("+a+"deg)";
       requestAnimationFrame(loop);
     })();
