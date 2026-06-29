@@ -98,10 +98,23 @@ Re-run `wrangler deploy` after any `wrangler.toml` change.
 
 - **See your subscribers:** visit `https://<your-worker>/admin` (browser will prompt for the
   password you set). Download CSV from the link there.
-- **Sending the actual newsletter:** this service handles signup/confirm/unsubscribe and owns the
-  list. To send a broadcast, export the confirmed subscribers (CSV) and send via Resend's
-  Broadcasts UI, or ask and I'll add a `POST /admin/broadcast` route that sends to all confirmed
-  subscribers through Resend.
+- **Send a broadcast:** `POST /admin/broadcast` (HTTP Basic auth, same password) with
+  `{ "subject": "...", "html": "..." }`. It sends to every **confirmed** subscriber in batches of
+  100 through Resend, each with their own one-click unsubscribe link + `List-Unsubscribe` header.
+  Always do a preview to yourself first with `"testTo"`:
+  ```bash
+  # preview to yourself
+  curl -u ":$ADMIN_PASSWORD" https://<your-worker>/admin/broadcast \
+    -H 'Content-Type: application/json' \
+    -d '{"subject":"This month at the Clearing","html":"<p>Hello…</p>","testTo":"you@example.com"}'
+
+  # send to everyone confirmed (omit testTo)
+  curl -u ":$ADMIN_PASSWORD" https://<your-worker>/admin/broadcast \
+    -H 'Content-Type: application/json' \
+    -d '{"subject":"This month at the Clearing","html":"<p>Hello…</p>"}'
+  ```
+  Returns `{ ok, sent, failed, total }`. (Resend's free tier caps daily volume — check your plan
+  before a large send.)
 
 ## Local development
 ```bash

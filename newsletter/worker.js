@@ -35,6 +35,7 @@ export default {
       if (path === "/unsubscribe" && (method === "GET" || method === "POST")) return handleUnsubscribe(request, env);
       if (path === "/admin" && method === "GET") return handleAdmin(request, env);
       if (path === "/admin/export.csv" && method === "GET") return handleExport(request, env);
+      if (path === "/admin/broadcast" && method === "POST") return handleBroadcast(request, env);
       return new Response("Not found", { status: 404 });
     } catch (err) {
       return json({ error: "server_error", detail: String(err && err.message || err) }, 500, env, request);
@@ -179,6 +180,55 @@ async function handleExport(request, env) {
   return new Response(lines.join("\r\n"), {
     headers: { "Content-Type": "text/csv; charset=utf-8", "Content-Disposition": 'attachment; filename="subscribers.csv"', "Cache-Control": "no-store", "X-Frame-Options": "DENY", "Referrer-Policy": "no-referrer" },
   });
+}
+
+// POST /admin/broadcast  { subject, html, testTo? }
+// Sends to all confirmed subscribers (or only testTo, for a preview), each with their own
+// one-click unsubscribe link + List-Unsubscribe header, in batches of 100 via Resend.
+async function handleBroadcast(request, env) {
+  if (!checkAdmin(request, env)) return authChallenge();
+  let body;
+  try { body = await request.json(); } catch { return json({ error: "bad_json" }, 400, env, request); }
+  const subject = String(body.subject || "").trim();
+  const html = String(body.html || "");
+  if (!subject || !html) return json({ error: "subject_and_html_required" }, 400, env, request);
+
+  let recipients;
+  if (body.testTo) {
+    const t = normalizeEmail(body.testTo);
+    if (!validEmail(t)) return json({ error: "invalid_testTo" }, 400, env, request);
+    recipients = [{ email: t, token: "preview" }];
+  } else {
+    const { results } = await env.DB.prepare(
+      "SELECT email, token FROM subscribers WHERE status = 'confirmed' ORDER BY created_at"
+    ).all();
+    recipients = results;
+  }
+  if (!recipients.length) return json({ ok: true, sent: 0, failed: 0, note: "no confirmed subscribers" }, 200, env, request);
+
+  let sent = 0, failed = 0;
+  for (let i = 0; i < recipients.length; i += 100) {
+    const batch = recipients.slice(i, i + 100).map(r => {
+      const unsubUrl = `${env.PUBLIC_BASE}/unsubscribe?token=${encodeURIComponent(r.token)}`;
+      const footer = `<div style="margin-top:32px;padding-top:16px;border-top:1px solid rgba(26,22,16,.12);font-family:Georgia,serif;font-size:12px;color:#9b958a"><a href="${escapeAttr(unsubUrl)}" style="color:#9b958a">Unsubscribe</a></div>`;
+      return {
+        from: `${env.FROM_NAME || "Newsletter"} <${env.FROM_EMAIL}>`,
+        to: [r.email],
+        subject,
+        html: html + footer,
+        headers: { "List-Unsubscribe": `<${unsubUrl}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
+      };
+    });
+    try {
+      const res = await fetch("https://api.resend.com/emails/batch", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify(batch),
+      });
+      if (res.ok) sent += batch.length; else failed += batch.length;
+    } catch { failed += recipients.slice(i, i + 100).length; }
+  }
+  return json({ ok: true, sent, failed, total: recipients.length }, 200, env, request);
 }
 
 /* ----------------------------- email ----------------------------- */

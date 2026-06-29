@@ -94,7 +94,7 @@
        nothing is lost. */
     const NEWSLETTER = { endpoint:"" };
     const form = $(".nl-form", nl), msg = $(".nl-msg", nl);
-    const slide = $(".nl-slide", nl), dot = $(".nl-dot", nl), word = $(".nl-word", nl);
+    const slide = $(".nl-slide", nl), dot = $(".nl-dot", nl), track = $(".nl-track", nl);
     // setting a message also lifts the height pin so the panel can't clip it mid-animation
     const say = (t,cls)=>{ msg.textContent = t; msg.className = "nl-msg" + (cls?" "+cls:""); if(nl.classList.contains("open")) nl.style.maxHeight = "none"; };
     function subscribe(rec){
@@ -110,13 +110,14 @@
     /* slide to subscribe — drag the dot to the right end (the serif "subscribe") */
     let dragging=false, originX=0, x=0, maxX=0, done=false;
     const measure = ()=>{ maxX = slide.clientWidth - dot.offsetWidth; };
-    function place(v){ x = Math.max(0, Math.min(maxX, v)); dot.style.transform = "translateX("+x+"px)";
-      if(word){ const p = maxX ? x/maxX : 0; word.style.opacity = String(Math.max(0, 1 - p*1.5)); } }
-    function resetSlide(){ done=false; slide.classList.remove("done"); dot.style.transition=""; place(0); if(word) word.style.opacity=""; }
-    function onDown(e){ if(done) return; measure(); dragging=true; dot.style.transition="none"; originX = e.clientX - x;
+    // the line starts at the dot's right edge, so only the line to the right of the dot shows
+    function place(v){ x = Math.max(0, Math.min(maxX, v)); dot.style.transform = "translateX("+x+"px)"; track.style.left = (x + dot.offsetWidth) + "px"; }
+    function glide(on){ const t = on ? "" : "none"; dot.style.transition = t; track.style.transition = t; }
+    function resetSlide(){ done=false; slide.classList.remove("done"); glide(true); place(0); }
+    function onDown(e){ if(done) return; measure(); dragging=true; glide(false); originX = e.clientX - x;
       if(e.pointerId!=null && dot.setPointerCapture){ try{ dot.setPointerCapture(e.pointerId); }catch(_){ } } e.preventDefault(); }
     function onMove(e){ if(!dragging) return; place(e.clientX - originX); }
-    function onUp(){ if(!dragging) return; dragging=false; dot.style.transition=""; if(x >= maxX-2) complete(); else place(0); }
+    function onUp(){ if(!dragging) return; dragging=false; glide(true); if(x >= maxX-2) complete(); else place(0); }
     function complete(){ if(done) return; done=true; slide.classList.add("done"); measure(); place(maxX); fire(); }
     function fire(){
       const email = $("#nl-email", nl).value.trim(), firstName = $("#nl-first", nl).value.trim(), lastName = $("#nl-last", nl).value.trim();
