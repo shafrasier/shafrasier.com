@@ -117,13 +117,19 @@
         <p class="nl-kicker">The newsletter</p>
         <form class="nl-form" novalidate>
           <div class="nl-names">
-            <div class="nl-field">
-              <label for="nl-first">First name <span>optional</span></label>
-              <input id="nl-first" name="first_name" type="text" autocomplete="given-name">
+            <div class="nl-field nl-inline">
+              <label for="nl-first">First name</label>
+              <span class="nl-ph-wrap">
+                <input id="nl-first" name="first_name" type="text" autocomplete="given-name" placeholder=" ">
+                <span class="nl-ph" aria-hidden="true">optional</span>
+              </span>
             </div>
-            <div class="nl-field">
-              <label for="nl-last">Last name <span>optional</span></label>
-              <input id="nl-last" name="last_name" type="text" autocomplete="family-name">
+            <div class="nl-field nl-inline">
+              <label for="nl-last">Last name</label>
+              <span class="nl-ph-wrap">
+                <input id="nl-last" name="last_name" type="text" autocomplete="family-name" placeholder=" ">
+                <span class="nl-ph" aria-hidden="true">optional</span>
+              </span>
             </div>
           </div>
           <div class="nl-field">

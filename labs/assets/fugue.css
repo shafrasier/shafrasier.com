@@ -217,10 +217,16 @@ table.cal td{padding:2px; height:42px;}
 .nl-names .nl-field{flex:1; min-width:0;}
 .nl-field{margin-bottom:1.5rem;}
 .nl-field > label{display:block; font-family:var(--label); font-size:.62rem; text-transform:uppercase; letter-spacing:.14em; color:var(--soft); margin-bottom:.55rem;}
-.nl-field > label span{text-transform:none; letter-spacing:0; font-family:var(--serif); font-style:italic; font-size:.82rem; opacity:.7; margin-left:.35rem;}
 .nl-field input{width:100%; font-family:var(--serif); font-size:1.05rem; color:var(--ink); background:transparent;
   border:none; border-bottom:1px solid var(--line); border-radius:0; padding:.5rem 0; transition:border-color .25s var(--ease);}
 .nl-field input:focus{outline:none; border-bottom-color:var(--ink);}
+/* optional name fields: label inline, you type where "optional" sits, and it fades on input */
+.nl-inline{display:flex; align-items:baseline; gap:.85rem;}
+.nl-inline > label{margin-bottom:0; flex:none; white-space:nowrap;}
+.nl-ph-wrap{position:relative; flex:1; min-width:0;}
+.nl-ph{position:absolute; left:0; top:0; bottom:0; display:flex; align-items:center; pointer-events:none;
+  font-family:var(--serif); font-style:italic; font-size:1.02rem; color:var(--soft); opacity:.6; transition:opacity .25s var(--ease);}
+.nl-ph-wrap input:not(:placeholder-shown) + .nl-ph{opacity:0;}
 .nl-hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none;}
 /* slide to subscribe: drag the dot along the line. the line only shows to the RIGHT of the
    dot — it erases as the dot advances and redraws as it slides back. the serif "subscribe"
