@@ -218,7 +218,7 @@ table.cal td{padding:2px; height:42px;}
 .nl-field{margin-bottom:1.5rem;}
 .nl-field > label{display:block; font-family:var(--label); font-size:.62rem; text-transform:uppercase; letter-spacing:.14em; color:var(--soft); margin-bottom:.55rem;}
 .nl-field input{width:100%; font-family:var(--serif); font-size:1.05rem; color:var(--ink); background:transparent;
-  border:none; border-bottom:1px solid var(--line); border-radius:0; padding:.5rem 0; transition:border-color .25s var(--ease);}
+  border:none; border-bottom:1px solid var(--line); border-radius:0; padding:.05rem 0 .2rem; transition:border-color .25s var(--ease);}
 .nl-field input:focus{outline:none; border-bottom-color:var(--ink);}
 /* optional name fields: label inline, you type where "optional" sits, and it fades on input */
 .nl-inline{display:flex; align-items:baseline; gap:.85rem;}
