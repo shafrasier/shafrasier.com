@@ -94,7 +94,7 @@
        nothing is lost. */
     const NEWSLETTER = { endpoint:"" };
     const form = $(".nl-form", nl), msg = $(".nl-msg", nl);
-    const slide = $(".nl-slide", nl), dot = $(".nl-dot", nl), track = $(".nl-track", nl);
+    const slide = $(".nl-slide", nl), dot = $(".nl-dot", nl), track = $(".nl-track", nl), word = $(".nl-word", nl);
     // setting a message also lifts the height pin so the panel can't clip it mid-animation
     const say = (t,cls)=>{ msg.textContent = t; msg.className = "nl-msg" + (cls?" "+cls:""); if(nl.classList.contains("open")) nl.style.maxHeight = "none"; };
     function subscribe(rec){
@@ -113,19 +113,22 @@
     // the line starts at the dot's right edge, so only the line to the right of the dot shows
     function place(v){ x = Math.max(0, Math.min(maxX, v)); dot.style.transform = "translateX("+x+"px)"; track.style.left = (x + dot.offsetWidth) + "px"; }
     function glide(on){ const t = on ? "" : "none"; dot.style.transition = t; track.style.transition = t; }
-    function resetSlide(){ done=false; slide.classList.remove("done"); glide(true); place(0); }
+    function resetSlide(){ done=false; slide.classList.remove("done"); glide(true); place(0); if(word){ word.textContent="subscribe"; word.style.opacity=""; } }
     function onDown(e){ if(done) return; measure(); dragging=true; glide(false); originX = e.clientX - x;
       if(e.pointerId!=null && dot.setPointerCapture){ try{ dot.setPointerCapture(e.pointerId); }catch(_){ } } e.preventDefault(); }
     function onMove(e){ if(!dragging) return; place(e.clientX - originX); }
     function onUp(){ if(!dragging) return; dragging=false; glide(true); if(x >= maxX-2) complete(); else place(0); }
     function complete(){ if(done) return; done=true; slide.classList.add("done"); measure(); place(maxX); fire(); }
+    // success: word reads "subscribed", holds ~1s, fades out, then the confirmation line appears
+    function finishSent(){ if(word) word.style.opacity = "0"; setTimeout(()=> say("Please see your email to confirm receipt.", "ok"), 320); }
     function fire(){
       const email = $("#nl-email", nl).value.trim(), firstName = $("#nl-first", nl).value.trim(), lastName = $("#nl-last", nl).value.trim();
-      if($(".nl-hp", nl).value){ say("Please see your email to confirm receipt.", "ok"); return; }   // honeypot: feign success
+      if($(".nl-hp", nl).value){ if(word) word.textContent="subscribed"; setTimeout(finishSent, 1000); return; }   // honeypot: feign success
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ resetSlide(); say("Please enter your email above first.", "err"); $("#nl-email", nl).focus(); return; }
-      say("One moment…");
-      subscribe({ email, firstName, lastName, source:"fugue-concept", subscribedAt:new Date().toISOString(), page:location.pathname })
-        .then(()=> say("Please see your email to confirm receipt.", "ok"))
+      if(word) word.textContent = "subscribed";
+      const hold = new Promise(r=> setTimeout(r, 1000));   // keep "subscribed" up for at least a beat
+      Promise.all([subscribe({ email, firstName, lastName, source:"fugue-concept", subscribedAt:new Date().toISOString(), page:location.pathname }), hold])
+        .then(finishSent)
         .catch(err=>{ console.error("[newsletter] subscribe failed:", err); resetSlide(); say("Something went wrong. Please try again.", "err"); });
     }
     dot.addEventListener("pointerdown", onDown);
