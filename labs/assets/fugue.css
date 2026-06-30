@@ -87,7 +87,8 @@ footer .flinks{display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; marg
 footer .coda{color:var(--soft); font-size:.98rem; margin:0;}
 
 /* three slowly-spinning asterisks — a quiet divider between the page and the footer */
-.fdiv{display:flex; justify-content:center; gap:.95rem; align-items:center; color:var(--soft); font-size:.66rem; max-width:var(--measure); margin:0 0 1.9rem;}
+.ftop{width:fit-content; max-width:100%;}
+.fdiv{display:flex; justify-content:center; gap:.95rem; align-items:center; color:var(--soft); font-size:.66rem; margin:0 0 1.9rem;}
 .fdiv span{display:inline-block;}
 @media (prefers-reduced-motion: no-preference){
   .fdiv span{animation:fspin 17s linear infinite;}
