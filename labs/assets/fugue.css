@@ -62,7 +62,7 @@ header.hero{position:relative; height:94vh; min-height:580px; overflow:hidden; d
 @media(max-width:640px){ .hero h1{font-size:8vw;} }
 
 /* ---------- sections ---------- */
-main{padding:clamp(2.2rem,5vh,3.4rem) 0 1rem;}
+main{padding:clamp(2.2rem,5vh,3.4rem) 0 .25rem;}
 section{padding:clamp(1.3rem,3vh,2.2rem) 0;}
 .body{max-width:var(--measure); color:var(--ink-2);}
 .body p{margin:0 0 1.15rem;}
@@ -78,16 +78,16 @@ ul.list li::before{content:"✱"; position:absolute; left:0; top:.3rem; height:1
 .mv .vision{color:var(--ink-2); margin:0;}
 
 /* ---------- footer ---------- */
-footer{margin-top:clamp(1rem,2.5vh,1.8rem); padding:clamp(1.4rem,3vh,2rem) 0 3.5rem;}
-footer .flinks{display:flex; align-items:center; gap:.85rem; flex-wrap:wrap; margin:0 0 1rem;}
+footer{margin-top:clamp(.2rem,.6vh,.45rem); padding:clamp(.45rem,1.1vh,.7rem) 0 3.5rem;}
+footer .flinks{display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; margin:0 0 1rem;}
 .flink{font-family:var(--serif); font-size:1.02rem; color:var(--soft); background:none; border:none; padding:.1rem 0; cursor:pointer; line-height:1.4; transition:color .25s var(--ease);}
-.flink:not(:first-child)::before{content:"·"; margin-right:.85rem; color:var(--soft); display:inline-block;}
 .flink:hover{color:var(--ink);}
 .flink[aria-expanded="true"]{color:var(--ink);}
+.fsep{color:var(--soft); user-select:none; position:relative; top:.12em; font-size:.95em; line-height:1;}
 footer .coda{color:var(--soft); font-size:.98rem; margin:0;}
 
 /* three slowly-spinning asterisks — a quiet divider between the page and the footer */
-.fdiv{display:flex; gap:.95rem; align-items:center; color:var(--soft); font-size:.66rem; margin:0 0 1.9rem;}
+.fdiv{display:flex; justify-content:center; gap:.95rem; align-items:center; color:var(--soft); font-size:.66rem; max-width:var(--measure); margin:0 0 1.9rem;}
 .fdiv span{display:inline-block;}
 @media (prefers-reduced-motion: no-preference){
   .fdiv span{animation:fspin 17s linear infinite;}
