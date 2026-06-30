@@ -29,14 +29,10 @@
 <div id="loader"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg><div class="fillwhite"></div></div>
 
 <nav class="bar" id="nav">
-  <a class="logo" href="#top" aria-label="Fugue">
+  <a class="logo" href="https://fuguegallery.com/" target="_blank" rel="noopener noreferrer" aria-label="Fugue Gallery">
     <img class="logo-star" src="assets/fugue-star.png" alt="">
     <img class="logo-word" src="assets/fugue-word.png" alt="Fugue">
   </a>
-  <div class="actions">
-    <button class="navlink ulink" data-nav="fugue-calendar.html">Calendar</button>
-    <button class="navlink ulink" data-reserve>Reserve</button>
-  </div>
 </nav>
 
 <a id="top"></a>
@@ -68,21 +64,59 @@
 
 <footer>
   <div class="wrap">
-    <div class="mark"><img src="assets/fugue-logo.png" alt="Fugue"></div>
-    <div class="flinks">
-      <a class="ulink" href="mailto:frasier.sha@gmail.com">Contact</a>
-      <button class="ulink nl-toggle" type="button" data-newsletter aria-expanded="false" aria-controls="newsletter">Newsletter</button>
-      <a class="ulink" href="#" data-placeholder>Instagram</a>
-    </div>
-    <p class="coda">If you'd like to teach a workshop or host an event, please <a class="link" href="mailto:frasier.sha@gmail.com">get in touch</a>.</p>
+    <nav class="flinks" aria-label="Calendar, reserve, and connect">
+      <button class="flink ulink" type="button" data-panel="calendar" aria-expanded="false" aria-controls="panel-calendar">calendar</button>
+      <button class="flink ulink" type="button" data-panel="reserve" aria-expanded="false" aria-controls="panel-reserve">reserve</button>
+      <button class="flink ulink" type="button" data-panel="newsletter" aria-expanded="false" aria-controls="panel-newsletter">newsletter</button>
+      <button class="flink ulink" type="button" data-panel="contact" aria-expanded="false" aria-controls="panel-contact">contact</button>
+      <a class="flink ulink" href="https://www.instagram.com/fugue_gallery" target="_blank" rel="noopener noreferrer">instagram</a>
+    </nav>
+    <p class="coda">if you'd like to teach a workshop or host an event, please get in touch.</p>
 
-    <!-- newsletter: a quiet extension of the page, not a popup -->
-    <section id="newsletter" class="nl" aria-hidden="true">
+    <!-- calendar -->
+    <section id="panel-calendar" class="panel" aria-hidden="true">
+      <div class="panel-inner">
+        <p class="panel-kicker">the calendar</p>
+        <p class="panel-lede">Daylight listening runs every Sunday through the summer. Click a date to see its program.</p>
+        <div class="cal-grid">
+          <div class="events" id="events"></div>
+          <div>
+            <div class="month-head">
+              <div class="mname" id="mname"></div>
+              <div class="month-nav"><button id="prev" aria-label="previous month">‹</button><button id="next" aria-label="next month">›</button></div>
+            </div>
+            <table class="cal"><thead><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody id="calbody"></tbody></table>
+            <div class="cal-legend">
+              <span><i class="swatch s"></i> Listening session</span>
+              <span><i class="swatch g"></i> Gallery event</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- reserve -->
+    <section id="panel-reserve" class="panel" aria-hidden="true">
+      <div class="panel-inner r-inner">
+        <p class="panel-kicker">reserve</p>
+        <p class="r-sub">Not required. It just helps us hold space. Pick a Sunday and we'll see you there.</p>
+        <div class="r-field"><label for="r-date">Session</label><select id="r-date"></select></div>
+        <div class="r-field"><label>Party</label><div class="dots"><button type="button" class="dot" aria-label="1"></button><button type="button" class="dot" aria-label="2"></button><button type="button" class="dot" aria-label="3"></button><button type="button" class="dot" aria-label="4"></button></div></div>
+        <div class="r-field"><label for="r-name">Name</label><input id="r-name" type="text" autocomplete="name"></div>
+        <div class="r-field"><label for="r-email">Email</label><input id="r-email" type="email" autocomplete="email"></div>
+        <div class="r-field"><label for="r-note">Anything else?</label><textarea id="r-note" rows="1"></textarea></div>
+        <div class="slide" aria-label="slide to reserve"><div class="slide-fill"></div><div class="slide-label">slide to reserve</div><div class="slide-thumb" role="button">→</div></div>
+        <p class="r-note">For parties of five or more, please <a class="link" href="mailto:frasier.sha@gmail.com">book a consultation</a>.</p>
+      </div>
+    </section>
+
+    <!-- newsletter -->
+    <section id="panel-newsletter" class="panel" aria-hidden="true">
       <div class="nl-inner">
         <a class="nl-ce" href="https://bringrecords.com" target="_blank" rel="noopener noreferrer" aria-label="Continuing Education at Bring Records">
           <img src="assets/ce.svg" alt="Continuing Education">
         </a>
-        <p class="nl-kicker">The newsletter</p>
+        <p class="nl-kicker">the newsletter</p>
         <form class="nl-form" novalidate>
           <div class="nl-names">
             <div class="nl-field nl-inline">
@@ -116,25 +150,22 @@
         </form>
       </div>
     </section>
+
+    <!-- contact (first pass) -->
+    <section id="panel-contact" class="panel" aria-hidden="true">
+      <div class="panel-inner r-inner">
+        <p class="panel-kicker">contact</p>
+        <form class="c-form" novalidate>
+          <div class="r-field"><label for="c-name">Name</label><input id="c-name" type="text" autocomplete="name"></div>
+          <div class="r-field"><label for="c-email">Email</label><input id="c-email" type="email" autocomplete="email"></div>
+          <div class="r-field"><label for="c-msg">Message</label><textarea id="c-msg" rows="3"></textarea></div>
+          <button class="flink ulink c-send" type="submit">send</button>
+          <p class="r-note">or write to <a class="link" href="mailto:frasier.sha@gmail.com">frasier.sha@gmail.com</a>.</p>
+        </form>
+      </div>
+    </section>
   </div>
 </footer>
-
-<!-- reserve: slides down over the whole page -->
-<div id="reserve" aria-label="Reserve">
-  <button class="r-close" data-rclose aria-label="close">×</button>
-  <div class="r-inner">
-    <p class="r-kicker">the Clearing at Fugue Gallery</p>
-    <h2>Reserve</h2>
-    <p class="r-sub">Not required. It just helps us hold space. Pick a Sunday and we'll see you there.</p>
-    <div class="r-field"><label for="r-date">Session</label><select id="r-date"></select></div>
-    <div class="r-field"><label>Party</label><div class="dots"><button type="button" class="dot" aria-label="1"></button><button type="button" class="dot" aria-label="2"></button><button type="button" class="dot" aria-label="3"></button><button type="button" class="dot" aria-label="4"></button></div></div>
-    <div class="r-field"><label for="r-name">Name</label><input id="r-name" type="text" autocomplete="name"></div>
-    <div class="r-field"><label for="r-email">Email</label><input id="r-email" type="email" autocomplete="email"></div>
-    <div class="r-field"><label for="r-note">Anything else?</label><textarea id="r-note" rows="1"></textarea></div>
-    <div class="slide" aria-label="slide to reserve"><div class="slide-fill"></div><div class="slide-label">slide to reserve</div><div class="slide-thumb" role="button">→</div></div>
-    <p class="r-note">For parties of five or more, please <a class="link" href="mailto:frasier.sha@gmail.com">book a consultation</a>.</p>
-  </div>
-</div>
 
 <!-- confirmation: fills the screen, types your details -->
 <div id="confirm" aria-live="polite"><div class="confirm-inner"></div></div>

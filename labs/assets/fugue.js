@@ -1,4 +1,4 @@
-/* ============ The Clearing @ Fugue Gallery — shared behavior ============ */
+/* ============ the Clearing @ Fugue Gallery — shared behavior ============ */
 (function(){
   const motionOK = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.body.classList.add("js");
@@ -32,9 +32,9 @@
     let a = 0, lastY = window.scrollY, boost = 0;
     (function loop(){
       const y = window.scrollY;
-      const vel = Math.abs(y - lastY); lastY = y;             // px scrolled this frame (up or down)
-      boost = Math.max(boost * 0.9, Math.min(vel * 0.25, 6)); // spikes with scroll speed, eases back to 0
-      a += spinDir * 0.25 * (1 + boost);                      // 0.25 = constant base rate everywhere
+      const vel = Math.abs(y - lastY); lastY = y;
+      boost = Math.max(boost * 0.9, Math.min(vel * 0.25, 6));
+      a += spinDir * 0.25 * (1 + boost);
       star.style.transform = "rotate("+a+"deg)";
       requestAnimationFrame(loop);
     })();
@@ -55,47 +55,57 @@
   const io = new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }), {rootMargin:"0px 0px -8% 0px", threshold:.06});
   $$(".reveal").forEach(el=>io.observe(el));
 
-  /* ---------- page-transition veil ---------- */
   const veil = $("#veil");
-  function fadeTo(url){ if(veil) veil.classList.remove("gone"); setTimeout(()=>{ window.location.href=url; }, 540); }
-  $$("[data-nav]").forEach(a=> a.addEventListener("click", e=>{ e.preventDefault(); fadeTo(a.getAttribute("data-nav")); }));
+  function reveal(){ if(veil) veil.classList.add("gone"); document.body.classList.add("go"); }
   $$("[data-placeholder]").forEach(a=> a.addEventListener("click", e=> e.preventDefault()));
 
-  /* ---------- newsletter: a quiet inline expansion (not a popup) ---------- */
-  const nl = $("#newsletter");
-  const nlToggle = $("[data-newsletter]");
-  if(nl && nlToggle){
-    const setAria = open=>{ nlToggle.setAttribute("aria-expanded", open?"true":"false"); nl.setAttribute("aria-hidden", open?"false":"true"); };
-    function openNl(focus){
-      nl.classList.add("open");
-      nl.style.maxHeight = motionOK ? nl.scrollHeight + "px" : "none";
-      setAria(true);
-      setTimeout(()=>{ nl.scrollIntoView({behavior: motionOK?"smooth":"auto", block:"center"}); if(focus) $("#nl-email", nl).focus({preventScroll:true}); }, 90);
-    }
-    function closeNl(){
-      nl.style.maxHeight = nl.scrollHeight + "px"; void nl.offsetHeight;   // pin current height, then collapse
-      nl.classList.remove("open"); nl.style.maxHeight = "0px"; setAria(false);
-    }
-    nl.addEventListener("transitionend", e=>{ if(e.propertyName==="max-height" && nl.classList.contains("open")) nl.style.maxHeight = "none"; });
-    nlToggle.addEventListener("click", e=>{ e.preventDefault(); nl.classList.contains("open") ? closeNl() : openNl(true); });
-    // deep link (#newsletter): wait for the loader/arrival to finish, then open into view
-    if(location.hash === "#newsletter"){
-      if(document.body.classList.contains("go")) openNl(true);
-      else{
-        const obs = new MutationObserver(()=>{ if(document.body.classList.contains("go")){ obs.disconnect(); setTimeout(()=> openNl(true), 350); } });
-        obs.observe(document.body, {attributes:true, attributeFilter:["class"]});
-      }
-    }
+  /* ---------- footer push-down panels (one open at a time, like the newsletter) ---------- */
+  const panelOf = name => $("#panel-"+name);
+  function collapse(name){
+    const p=panelOf(name); if(!p || !p.classList.contains("open")) return;
+    p.style.maxHeight = p.scrollHeight+"px"; void p.offsetHeight;   // pin height, then collapse
+    p.classList.remove("open"); p.style.maxHeight = "0px"; p.setAttribute("aria-hidden","true");
+    const t=$('[data-panel="'+name+'"]'); if(t) t.setAttribute("aria-expanded","false");
+  }
+  function openPanel(name, focus){
+    const p=panelOf(name); if(!p) return;
+    $$("[data-panel]").forEach(t=>{ const n=t.dataset.panel; if(n!==name) collapse(n); });   // accordion
+    if(name==="reserve") populateSessions();
+    p.classList.add("open"); p.style.maxHeight = motionOK ? p.scrollHeight+"px" : "none"; p.setAttribute("aria-hidden","false");
+    const t=$('[data-panel="'+name+'"]'); if(t) t.setAttribute("aria-expanded","true");
+    setTimeout(()=>{ p.scrollIntoView({behavior: motionOK?"smooth":"auto", block:"nearest"});
+      if(focus){ const f = name==="newsletter" ? $("#nl-email",p) : p.querySelector("input,select"); if(f){ try{ f.focus({preventScroll:true}); }catch(_){ } } } }, 110);
+  }
+  // when open, lift the height pin so dynamic content (month change, confirm message) can't clip
+  $$(".panel").forEach(p=> p.addEventListener("transitionend", e=>{ if(e.propertyName==="max-height" && p.classList.contains("open")) p.style.maxHeight="none"; }));
+  $$("[data-panel]").forEach(btn=> btn.addEventListener("click", e=>{ e.preventDefault();
+    const name=btn.dataset.panel, p=panelOf(name); (p && p.classList.contains("open")) ? collapse(name) : openPanel(name,true); }));
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape") $$("[data-panel]").forEach(t=> collapse(t.dataset.panel)); });
 
-    /* Backend: set NEWSLETTER.endpoint to your Cloudflare Worker's /subscribe URL to go
-       live (see newsletter/ in the repo for the Worker, schema, and deploy guide). It
-       accepts the JSON record below. Until an endpoint is set, this runs in CONCEPT
-       mode: it validates and captures to localStorage (key "fugueNewsletter") so
-       nothing is lost. */
+  function populateSessions(){
+    const sel = $("#r-date"); if(!sel) return;
+    const today=new Date(new Date().toDateString());
+    const up = EVENTS.filter(e=>{const [y,m,d]=e.date.split("-").map(Number); return new Date(y,m-1,d)>=today;});
+    sel.innerHTML=(up.length?up:EVENTS).map(e=>`<option value="${e.date}">${fmtLong(e.date)}${e.sound?" — "+e.sound:""}</option>`).join("");
+  }
+
+  /* deep link (#calendar / #reserve / #newsletter / #contact) — open after arrival */
+  (function(){
+    const name = location.hash.replace(/^#(panel-)?/, "");
+    if(!name || !panelOf(name)) return;
+    const go = ()=> setTimeout(()=> openPanel(name, true), 350);
+    if(document.body.classList.contains("go")) go();
+    else { const obs=new MutationObserver(()=>{ if(document.body.classList.contains("go")){ obs.disconnect(); go(); } }); obs.observe(document.body,{attributes:true,attributeFilter:["class"]}); }
+  })();
+
+  /* ---------- newsletter: slide to subscribe ---------- */
+  const nl = $("#panel-newsletter");
+  if(nl){
+    /* Backend: set NEWSLETTER.endpoint to your Worker's /subscribe URL to go live. Until then,
+       CONCEPT mode validates and captures to localStorage ("fugueNewsletter") so nothing is lost. */
     const NEWSLETTER = { endpoint:"" };
     const form = $(".nl-form", nl), msg = $(".nl-msg", nl);
     const slide = $(".nl-slide", nl), dot = $(".nl-dot", nl), track = $(".nl-track", nl), word = $(".nl-word", nl);
-    // setting a message also lifts the height pin so the panel can't clip it mid-animation
     const say = (t,cls)=>{ msg.textContent = t; msg.className = "nl-msg" + (cls?" "+cls:""); if(nl.classList.contains("open")) nl.style.maxHeight = "none"; };
     function subscribe(rec){
       if(!NEWSLETTER.endpoint){
@@ -106,11 +116,8 @@
       return fetch(NEWSLETTER.endpoint, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(rec)})
         .then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); });
     }
-
-    /* slide to subscribe — drag the dot to the right end (the serif "subscribe") */
     let dragging=false, originX=0, x=0, maxX=0, done=false;
     const measure = ()=>{ maxX = slide.clientWidth - dot.offsetWidth; };
-    // the line starts at the dot's right edge, so only the line to the right of the dot shows
     function place(v){ x = Math.max(0, Math.min(maxX, v)); dot.style.transform = "translateX("+x+"px)"; track.style.left = (x + dot.offsetWidth) + "px"; }
     function glide(on){ const t = on ? "" : "none"; dot.style.transition = t; track.style.transition = t; }
     function resetSlide(){ done=false; slide.classList.remove("done"); glide(true); place(0); if(word){ word.textContent="subscribe"; word.style.opacity=""; } }
@@ -119,14 +126,13 @@
     function onMove(e){ if(!dragging) return; place(e.clientX - originX); }
     function onUp(){ if(!dragging) return; dragging=false; glide(true); if(x >= maxX-2) complete(); else place(0); }
     function complete(){ if(done) return; done=true; slide.classList.add("done"); measure(); place(maxX); fire(); }
-    // success: word reads "subscribed", holds ~1s, fades out, then the confirmation line appears
     function finishSent(){ if(word) word.style.opacity = "0"; setTimeout(()=> say("Please see your email to confirm receipt.", "ok"), 320); }
     function fire(){
       const email = $("#nl-email", nl).value.trim(), firstName = $("#nl-first", nl).value.trim(), lastName = $("#nl-last", nl).value.trim();
-      if($(".nl-hp", nl).value){ if(word) word.textContent="subscribed"; setTimeout(finishSent, 1000); return; }   // honeypot: feign success
+      if($(".nl-hp", nl).value){ if(word) word.textContent="subscribed"; setTimeout(finishSent, 1000); return; }
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ resetSlide(); say("Please enter your email above first.", "err"); $("#nl-email", nl).focus(); return; }
       if(word) word.textContent = "subscribed";
-      const hold = new Promise(r=> setTimeout(r, 1000));   // keep "subscribed" up for at least a beat
+      const hold = new Promise(r=> setTimeout(r, 1000));
       Promise.all([subscribe({ email, firstName, lastName, source:"fugue-concept", subscribedAt:new Date().toISOString(), page:location.pathname }), hold])
         .then(finishSent)
         .catch(err=>{ console.error("[newsletter] subscribe failed:", err); resetSlide(); say("Something went wrong. Please try again.", "err"); });
@@ -135,11 +141,11 @@
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
     slide.addEventListener("keydown", e=>{ if(e.key==="Enter" || e.key===" "){ e.preventDefault(); complete(); } });
-    form.addEventListener("submit", e=>{ e.preventDefault(); complete(); });   // Enter in a field also subscribes
+    form.addEventListener("submit", e=>{ e.preventDefault(); complete(); });
     window.addEventListener("resize", ()=>{ if(!dragging && !done){ measure(); place(x); } });
   }
 
-  /* ---------- calendar (calendar page) ---------- */
+  /* ---------- calendar render ---------- */
   function renderCalendar(){
     const host = $("#events"); if(!host) return;
     const detailed = EVENTS.filter(e=>e.sound);
@@ -169,29 +175,16 @@
   }
   renderCalendar();
 
-  /* ---------- reserve panel ---------- */
-  const reserve = $("#reserve");
+  /* ---------- reserve: party dots + slide to reserve + confirmation ---------- */
+  const reserve = $("#panel-reserve");
   if(reserve){
-    const sel = $("#r-date");
-    let party = 1;
-    const dots = $$(".dot");
-    dots.forEach((d,i)=> d.addEventListener("click", ()=>{ party=i+1; dots.forEach((x,j)=>x.classList.toggle("on", j<=i)); }));
-    function setParty(n){ party=n; dots.forEach((x,j)=>x.classList.toggle("on", j<n)); }
-    setParty(1);
+    const sel = $("#r-date", reserve);
+    const dots = $$(".dot", reserve);
+    dots.forEach((d,i)=> d.addEventListener("click", ()=>{ dots.forEach((x,j)=>x.classList.toggle("on", j<=i)); }));
+    dots.forEach((x,j)=>x.classList.toggle("on", j<1));   // default: party of 1
+    populateSessions();
 
-    function openReserve(){
-      const today=new Date(new Date().toDateString());
-      const up = EVENTS.filter(e=>{const [y,m,d]=e.date.split("-").map(Number); return new Date(y,m-1,d)>=today;});
-      sel.innerHTML=(up.length?up:EVENTS).map(e=>`<option value="${e.date}">${fmtLong(e.date)}${e.sound?" — "+e.sound:""}</option>`).join("");
-      reserve.classList.add("open"); document.body.style.overflow="hidden";
-    }
-    function closeReserve(){ reserve.classList.remove("open"); document.body.style.overflow=""; }
-    $$("[data-reserve]").forEach(b=> b.addEventListener("click", e=>{ e.preventDefault(); openReserve(); }));
-    $$("[data-rclose]").forEach(b=> b.addEventListener("click", e=>{ e.preventDefault(); closeReserve(); }));
-    document.addEventListener("keydown", e=>{ if(e.key==="Escape" && reserve.classList.contains("open")) closeReserve(); });
-
-    /* slide to reserve */
-    const slide=$(".slide"), thumb=$(".slide-thumb"), fillEl=$(".slide-fill");
+    const slide=$(".slide", reserve), thumb=$(".slide-thumb", reserve), fillEl=$(".slide-fill", reserve);
     let dragging=false, sx=0, x=0, done=false;
     const maxX=()=> slide.clientWidth - thumb.offsetWidth;
     function paint(){ thumb.style.left=x+"px"; fillEl.style.width=(x+thumb.offsetWidth)+"px"; }
@@ -208,7 +201,6 @@
     const confirmEl=$("#confirm"), cin=$(".confirm-inner");
     const ELEVATOR = '<svg class="elevator" viewBox="0 0 120 162" aria-hidden="true"><rect x="44" y="4" width="32" height="11"/><path d="M54 11 l6 -6 l6 6"/><rect x="12" y="24" width="96" height="134"/><line x1="60" y1="24" x2="60" y2="158"/><line x1="24" y1="40" x2="24" y2="142"/><line x1="96" y1="40" x2="96" y2="142"/></svg>';
     function drawElevator(){ $$("#confirm .elevator *").forEach((el,i)=>{ let len; try{len=el.getTotalLength();}catch(_){len=180;} el.style.strokeDasharray=len; el.style.strokeDashoffset=len; el.style.transition="stroke-dashoffset .8s ease"; el.style.transitionDelay=(i*0.16)+"s"; setTimeout(()=>{ el.style.strokeDashoffset=0; }, 40); }); }
-
     function typeLines(lines, after){
       let li=0;
       (function nextLine(){
@@ -226,7 +218,6 @@
         })();
       })();
     }
-
     function startConfirm(){
       const date = sel.value || EVENTS[0].date;
       cin.innerHTML="";
@@ -243,20 +234,30 @@
       ];
       typeLines(lines, ()=> setTimeout(finishReserve, 1300));
     }
-
     function finishReserve(){
       try{ localStorage.setItem("fugueReserved","1"); }catch(_){}
       document.body.classList.add("reserved");
       spinDir = -1;                               // the asterisk now turns the other way
-      closeReserve();
+      collapse("reserve");
       confirmEl.style.display="flex";             // keep painted while it fades
       confirmEl.classList.remove("show");
       setTimeout(()=>{ confirmEl.style.display="none"; cin.innerHTML=""; }, 900);
     }
   }
 
+  /* ---------- contact (first pass: opens your mail client) ---------- */
+  const cForm = $(".c-form");
+  if(cForm){
+    cForm.addEventListener("submit", e=>{
+      e.preventDefault();
+      const name=(($("#c-name")||{}).value||"").trim(), email=(($("#c-email")||{}).value||"").trim(), message=(($("#c-msg")||{}).value||"").trim();
+      const subject = "the Clearing — a note" + (name?(" from "+name):"");
+      const body = (message?message+"\n\n":"") + "— " + (name||"") + (email?(" ("+email+")"):"");
+      window.location.href = "mailto:frasier.sha@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+    });
+  }
+
   /* ---------- arrival choreography / loader ---------- */
-  function reveal(){ if(veil) veil.classList.add("gone"); document.body.classList.add("go"); }
   const loader = $("#loader");
   let played=false; try{ played = sessionStorage.getItem("fugueLoaded")==="1"; }catch(_){}
 
@@ -289,14 +290,12 @@
     });
     svg.innerHTML = frag.join("");
     const notes = $$("#loader .note");
-    // pass 1 — hide each stroke (undrawn)
     notes.forEach(el=>{ let len; try{len=el.getTotalLength();}catch(_){len=420;} if(!len||len<1) len=420; el.style.strokeDasharray=len; el.style.strokeDashoffset=len; });
-    svg.getBoundingClientRect();   // FORCE a layout flush so the draws actually animate
-    // pass 2 — sketch them out one at a time, rapidly, until they take over the whole screen
+    svg.getBoundingClientRect();   // force a layout flush so the draws animate
     const STEP=13;  // ms between each stroke beginning to draw
     notes.forEach((el,i)=>{ el.style.transition="stroke-dashoffset "+rnd(.16,.26).toFixed(2)+"s ease "+(i*STEP/1000).toFixed(3)+"s"; el.style.strokeDashoffset=0; });
-    const allDrawn = notes.length*STEP + 300;   // when the last stroke finishes
-    setTimeout(()=> loader.classList.add("fill"), Math.max(900, allDrawn-250));  // less and less black, washing to pure white
+    const allDrawn = notes.length*STEP + 300;
+    setTimeout(()=> loader.classList.add("fill"), Math.max(900, allDrawn-250));
     setTimeout(()=> reveal(), allDrawn+450);
     setTimeout(()=> loader.classList.add("done"), allDrawn+520);
     setTimeout(()=>{ loader.style.display="none"; }, allDrawn+1150);
