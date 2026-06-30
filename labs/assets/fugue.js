@@ -59,7 +59,7 @@
   function reveal(){ if(veil) veil.classList.add("gone"); document.body.classList.add("go"); }
   $$("[data-placeholder]").forEach(a=> a.addEventListener("click", e=> e.preventDefault()));
 
-  /* ---------- footer push-down panels (one open at a time, like the newsletter) ---------- */
+  /* ---------- footer push-down panels (one open at a time, accordion) ---------- */
   const panelOf = name => $("#panel-"+name);
   function collapse(name){
     const p=panelOf(name); if(!p || !p.classList.contains("open")) return;
@@ -78,7 +78,7 @@
       // only scroll into view on a first open; when switching between already-open panels, stay
       // put (the links above don't move; the content just swaps below) so the page doesn't jump
       if(fresh) p.scrollIntoView({behavior: motionOK?"smooth":"auto", block:"nearest"});
-      if(focus){ const f = name==="newsletter" ? $("#nl-email",p) : p.querySelector("input,select"); if(f){ try{ f.focus({preventScroll:true}); }catch(_){ } } }
+      if(focus){ const f = p.querySelector("input,select"); if(f){ try{ f.focus({preventScroll:true}); }catch(_){ } } }
     }, 110);
   }
   // when open, lift the height pin so dynamic content (month change, confirm message) can't clip
@@ -94,7 +94,7 @@
     sel.innerHTML=(up.length?up:EVENTS).map(e=>`<option value="${e.date}">${fmtLong(e.date)}${e.sound?" — "+e.sound:""}</option>`).join("");
   }
 
-  /* deep link (#calendar / #reserve / #newsletter / #contact) — open after arrival */
+  /* deep link (#calendar / #reserve / #contact) — open after arrival */
   (function(){
     const name = location.hash.replace(/^#(panel-)?/, "");
     if(!name || !panelOf(name)) return;
@@ -102,53 +102,6 @@
     if(document.body.classList.contains("go")) go();
     else { const obs=new MutationObserver(()=>{ if(document.body.classList.contains("go")){ obs.disconnect(); go(); } }); obs.observe(document.body,{attributes:true,attributeFilter:["class"]}); }
   })();
-
-  /* ---------- newsletter: slide to subscribe ---------- */
-  const nl = $("#panel-newsletter");
-  if(nl){
-    /* Backend: set NEWSLETTER.endpoint to your Worker's /subscribe URL to go live. Until then,
-       CONCEPT mode validates and captures to localStorage ("fugueNewsletter") so nothing is lost. */
-    const NEWSLETTER = { endpoint:"" };
-    const form = $(".nl-form", nl), msg = $(".nl-msg", nl);
-    const slide = $(".nl-slide", nl), dot = $(".nl-dot", nl), track = $(".nl-track", nl), word = $(".nl-word", nl);
-    const say = (t,cls)=>{ msg.textContent = t; msg.className = "nl-msg" + (cls?" "+cls:""); if(nl.classList.contains("open")) nl.style.maxHeight = "none"; };
-    function subscribe(rec){
-      if(!NEWSLETTER.endpoint){
-        try{ const all = JSON.parse(localStorage.getItem("fugueNewsletter")||"[]"); all.push(rec); localStorage.setItem("fugueNewsletter", JSON.stringify(all)); }catch(e){}
-        console.info("[newsletter] concept mode — no endpoint set; captured locally:", rec);
-        return new Promise(r=> setTimeout(r, 600));
-      }
-      return fetch(NEWSLETTER.endpoint, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(rec)})
-        .then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); });
-    }
-    let dragging=false, originX=0, x=0, maxX=0, done=false;
-    const measure = ()=>{ maxX = slide.clientWidth - dot.offsetWidth; };
-    function place(v){ x = Math.max(0, Math.min(maxX, v)); dot.style.transform = "translateX("+x+"px)"; track.style.left = (x + dot.offsetWidth) + "px"; }
-    function glide(on){ const t = on ? "" : "none"; dot.style.transition = t; track.style.transition = t; }
-    function resetSlide(){ done=false; slide.classList.remove("done"); glide(true); place(0); if(word){ word.textContent="subscribe"; word.style.opacity=""; } }
-    function onDown(e){ if(done) return; measure(); dragging=true; glide(false); originX = e.clientX - x;
-      if(e.pointerId!=null && dot.setPointerCapture){ try{ dot.setPointerCapture(e.pointerId); }catch(_){ } } e.preventDefault(); }
-    function onMove(e){ if(!dragging) return; place(e.clientX - originX); }
-    function onUp(){ if(!dragging) return; dragging=false; glide(true); if(x >= maxX-2) complete(); else place(0); }
-    function complete(){ if(done) return; done=true; slide.classList.add("done"); measure(); place(maxX); fire(); }
-    function finishSent(){ if(word) word.style.opacity = "0"; setTimeout(()=> say("Please see your email to confirm receipt.", "ok"), 320); }
-    function fire(){
-      const email = $("#nl-email", nl).value.trim(), firstName = $("#nl-first", nl).value.trim(), lastName = $("#nl-last", nl).value.trim();
-      if($(".nl-hp", nl).value){ if(word) word.textContent="subscribed"; setTimeout(finishSent, 1000); return; }
-      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ resetSlide(); say("Please enter your email above first.", "err"); $("#nl-email", nl).focus(); return; }
-      if(word) word.textContent = "subscribed";
-      const hold = new Promise(r=> setTimeout(r, 1000));
-      Promise.all([subscribe({ email, firstName, lastName, source:"fugue-concept", subscribedAt:new Date().toISOString(), page:location.pathname }), hold])
-        .then(finishSent)
-        .catch(err=>{ console.error("[newsletter] subscribe failed:", err); resetSlide(); say("Something went wrong. Please try again.", "err"); });
-    }
-    dot.addEventListener("pointerdown", onDown);
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerup", onUp);
-    slide.addEventListener("keydown", e=>{ if(e.key==="Enter" || e.key===" "){ e.preventDefault(); complete(); } });
-    form.addEventListener("submit", e=>{ e.preventDefault(); complete(); });
-    window.addEventListener("resize", ()=>{ if(!dragging && !done){ measure(); place(x); } });
-  }
 
   /* ---------- calendar render ---------- */
   function renderCalendar(){
@@ -189,17 +142,37 @@
     dots.forEach((x,j)=>x.classList.toggle("on", j<1));   // default: party of 1
     populateSessions();
 
-    const slide=$(".slide", reserve), thumb=$(".slide-thumb", reserve), fillEl=$(".slide-fill", reserve);
-    let dragging=false, sx=0, x=0, done=false;
-    const maxX=()=> slide.clientWidth - thumb.offsetWidth;
-    function paint(){ thumb.style.left=x+"px"; fillEl.style.width=(x+thumb.offsetWidth)+"px"; }
-    function complete(){ if(done) return; done=true; slide.classList.add("done"); x=maxX(); paint(); startConfirm(); }
-    if(thumb){
-      thumb.addEventListener("pointerdown", e=>{ if(done) return; dragging=true; sx=e.clientX-x; try{thumb.setPointerCapture(e.pointerId);}catch(_){}});
-      window.addEventListener("pointermove", e=>{ if(!dragging) return; x=Math.max(0, Math.min(maxX(), e.clientX-sx)); paint(); });
-      window.addEventListener("pointerup", ()=>{ if(!dragging) return; dragging=false; if(x>=maxX()*0.9) complete(); else { x=0; paint(); } });
-      thumb.setAttribute("tabindex","0");
-      thumb.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); complete(); } });
+    /* slide to reserve — a circular dial. Drag the dot counter-clockwise from 12 o'clock,
+       a full turn back to 12, to confirm. Progress is tracked in degrees CCW from the top. */
+    const circ=$(".rcirc", reserve);
+    if(circ){
+      const svg=$("svg", circ), prog=$(".rc-prog", circ), thumb=$(".rc-thumb", circ), label=$(".rc-label", circ);
+      const CX=74, CY=74, R=58;
+      let dragging=false, progress=0, prevAng=0, done=false, raf=0;
+      const rad=d=> d*Math.PI/180;
+      const ptAt=p=>{ const a=rad(p); return [CX - R*Math.sin(a), CY - R*Math.cos(a)]; };       // p° CCW from top
+      function angOf(e){ const r=svg.getBoundingClientRect();
+        const sx=(e.clientX-r.left)/r.width*148, sy=(e.clientY-r.top)/r.height*148;
+        return [(Math.atan2(-(sx-CX), -(sy-CY))*180/Math.PI+360)%360, Math.hypot(sx-CX, sy-CY)]; }
+      function arcPath(p){ if(p<=0.5) return ""; const [sx,sy]=ptAt(0), [ex,ey]=ptAt(Math.min(p,359.99));
+        return "M "+sx+" "+sy+" A "+R+" "+R+" 0 "+(p>180?1:0)+" 0 "+ex+" "+ey; }
+      function paint(){ const [tx,ty]=ptAt(progress); thumb.setAttribute("cx",tx); thumb.setAttribute("cy",ty); prog.setAttribute("d", arcPath(progress)); }
+      function setP(p){ progress=Math.max(0, Math.min(360, p)); paint(); }
+      function complete(){ if(done) return; done=true; circ.classList.add("done"); setP(360); if(label) label.style.opacity="0"; startConfirm(); }
+      function onDown(e){ if(done) return; const [a,dist]=angOf(e); if(dist < R*0.45) return;          // ignore presses near the center
+        dragging=true; prevAng=a; cancelAnimationFrame(raf); try{circ.setPointerCapture(e.pointerId);}catch(_){} e.preventDefault(); }
+      function onMove(e){ if(!dragging) return; const a=angOf(e)[0]; let d=a-prevAng;
+        if(d>180) d-=360; else if(d<-180) d+=360; prevAng=a; setP(progress+d);                       // CCW travel accumulates; CW backs it off
+        if(progress>=358){ dragging=false; complete(); } }
+      function onUp(){ if(!dragging) return; dragging=false; if(progress>=345) complete(); else glideBack(); }
+      function glideBack(){ const start=progress, t0=performance.now(); cancelAnimationFrame(raf);
+        (function step(now){ const k=Math.min(1,(now-t0)/420), e=1-Math.pow(1-k,3); setP(start*(1-e)); if(k<1) raf=requestAnimationFrame(step); })(performance.now()); }
+      paint();
+      circ.addEventListener("pointerdown", onDown);
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
+      window.addEventListener("pointercancel", ()=>{ if(!dragging) return; dragging=false; glideBack(); });   // iOS/edge-gesture safety: a cancelled drag must not stay armed
+      circ.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); complete(); } });
     }
 
     /* confirmation: black screen + typewriter + elevator sketch */
@@ -224,8 +197,8 @@
       })();
     }
     /* stopgap so reservations aren't lost before the email backend exists — capture locally.
-       TODO: POST to the reservations endpoint + send an email confirmation once the newsletter
-       Worker/email system is in place. */
+       TODO: POST to the reservations endpoint + send an email confirmation once the shared
+       email backend exists (the Worker being built for the bringrecords newsletter). */
     function captureReservation(date){
       const party = $$(".dot.on", reserve).length;
       const rec = { date, dateLabel: fmtLong(date), party,
@@ -240,6 +213,7 @@
       const date = sel.value || EVENTS[0].date;
       captureReservation(date);
       cin.innerHTML="";
+      confirmEl.style.transition="";              // (fast CSS fade-in; finishReserve slows the fade-out)
       confirmEl.style.display="flex";
       setTimeout(()=> confirmEl.classList.add("show"), 30);
       const lines = [
@@ -258,9 +232,12 @@
       document.body.classList.add("reserved");
       spinDir = -1;                               // the asterisk now turns the other way
       collapse("reserve");
+      const fl=$(".flinks .flink"); if(fl){ try{ fl.focus({preventScroll:true}); }catch(_){ } }   // don't orphan keyboard focus when the dial is removed
       confirmEl.style.display="flex";             // keep painted while it fades
+      confirmEl.style.transition = motionOK ? "opacity 2.4s ease" : "none";   // slow, gradual return — but honor reduced motion
+      void confirmEl.offsetHeight;                // commit the transition before the fade starts
       confirmEl.classList.remove("show");
-      setTimeout(()=>{ confirmEl.style.display="none"; cin.innerHTML=""; }, 900);
+      setTimeout(()=>{ confirmEl.style.display="none"; confirmEl.style.transition=""; cin.innerHTML=""; }, motionOK ? 2600 : 60);
     }
   }
 

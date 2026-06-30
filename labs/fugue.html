@@ -71,8 +71,6 @@
       <span class="fsep" aria-hidden="true">·</span>
       <button class="flink ulink" type="button" data-panel="reserve" aria-expanded="false" aria-controls="panel-reserve">reserve</button>
       <span class="fsep" aria-hidden="true">·</span>
-      <button class="flink ulink" type="button" data-panel="newsletter" aria-expanded="false" aria-controls="panel-newsletter">newsletter</button>
-      <span class="fsep" aria-hidden="true">·</span>
       <button class="flink ulink" type="button" data-panel="contact" aria-expanded="false" aria-controls="panel-contact">contact</button>
       <span class="fsep" aria-hidden="true">·</span>
       <a class="flink ulink" href="https://www.instagram.com/fugue_gallery" target="_blank" rel="noopener noreferrer">instagram</a>
@@ -106,55 +104,21 @@
     <section id="panel-reserve" class="panel" aria-hidden="true">
       <div class="panel-inner r-inner">
         <p class="panel-kicker">reserve</p>
-        <p class="r-sub">Not required. It just helps us hold space. Pick a Sunday and we'll see you there.</p>
+        <p class="r-sub">not required. It just helps us hold space. Pick a Sunday and we'll see you there.</p>
         <div class="r-field"><label for="r-date">Session</label><select id="r-date"></select></div>
         <div class="r-field"><label>Party</label><div class="dots"><button type="button" class="dot" aria-label="1"></button><button type="button" class="dot" aria-label="2"></button><button type="button" class="dot" aria-label="3"></button><button type="button" class="dot" aria-label="4"></button></div></div>
         <div class="r-field"><label for="r-name">Name</label><input id="r-name" type="text" autocomplete="name"></div>
         <div class="r-field"><label for="r-email">Email</label><input id="r-email" type="email" autocomplete="email"></div>
         <div class="r-field"><label for="r-note">Anything else?</label><textarea id="r-note" rows="1"></textarea></div>
-        <div class="slide" aria-label="slide to reserve"><div class="slide-fill"></div><div class="slide-label">slide to reserve</div><div class="slide-thumb" role="button">→</div></div>
+        <div class="rcirc" role="button" tabindex="0" aria-label="Drag the dot counter-clockwise, all the way around, to reserve — or press Enter to confirm">
+          <svg viewBox="0 0 148 148" aria-hidden="true">
+            <circle class="rc-track" cx="74" cy="74" r="58"/>
+            <path class="rc-prog" d=""/>
+            <circle class="rc-thumb" cx="74" cy="16" r="8"/>
+          </svg>
+          <div class="rc-label">slide to reserve</div>
+        </div>
         <p class="r-note">For parties of five or more, please <a class="link" href="mailto:frasier.sha@gmail.com">book a consultation</a>.</p>
-      </div>
-    </section>
-
-    <!-- newsletter -->
-    <section id="panel-newsletter" class="panel" aria-hidden="true">
-      <div class="nl-inner">
-        <a class="nl-ce" href="https://bringrecords.com" target="_blank" rel="noopener noreferrer" aria-label="Continuing Education at Bring Records">
-          <img src="assets/ce.svg" alt="Continuing Education">
-        </a>
-        <p class="nl-kicker">the newsletter</p>
-        <form class="nl-form" novalidate>
-          <div class="nl-names">
-            <div class="nl-field nl-inline">
-              <label for="nl-first">First name</label>
-              <span class="nl-ph-wrap">
-                <input id="nl-first" name="first_name" type="text" autocomplete="given-name" placeholder=" ">
-                <span class="nl-ph" aria-hidden="true">optional</span>
-              </span>
-            </div>
-            <div class="nl-field nl-inline">
-              <label for="nl-last">Last name</label>
-              <span class="nl-ph-wrap">
-                <input id="nl-last" name="last_name" type="text" autocomplete="family-name" placeholder=" ">
-                <span class="nl-ph" aria-hidden="true">optional</span>
-              </span>
-            </div>
-          </div>
-          <div class="nl-field nl-inline">
-            <label for="nl-email">Email</label>
-            <span class="nl-ph-wrap">
-              <input id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required>
-            </span>
-          </div>
-          <input type="text" class="nl-hp" name="nl_extra" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <div class="nl-slide" role="button" tabindex="0" aria-label="Slide to subscribe">
-            <div class="nl-track"></div>
-            <div class="nl-word">subscribe</div>
-            <div class="nl-dot"></div>
-          </div>
-          <p class="nl-msg" role="status" aria-live="polite"></p>
-        </form>
       </div>
     </section>
 

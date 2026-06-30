@@ -41,15 +41,16 @@ nav.bar{position:fixed; top:0; left:0; right:0; z-index:40; color:#fff;
   padding:1.1rem 2rem; transition:background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease);
   border-bottom:1px solid transparent;}
 @media(max-width:640px){ nav.bar{padding:.85rem 1.3rem;} }
-nav.bar .logo{display:flex; align-items:center; gap:3px; transition:transform .8s var(--ease);}
+nav.bar .logo{display:flex; align-items:center; gap:3px;}
 nav.bar .logo img{display:block; filter:brightness(0) invert(1); transition:filter .4s var(--ease);}
 nav.bar .logo-word{height:30px;}
 nav.bar .logo-star{height:16px; margin-bottom:12px; will-change:transform;}
 nav.bar .actions{display:flex; align-items:center; gap:1.5rem;}
 nav.bar.scrolled{color:var(--ink); background:rgba(244,242,236,.85); backdrop-filter:blur(12px) saturate(1.4); -webkit-backdrop-filter:blur(12px) saturate(1.4); border-bottom-color:var(--line);}
 nav.bar.scrolled .logo img{filter:none;}
-/* magical-realism: after a reservation, the mark hangs upside down */
-body.reserved nav.bar .logo{transform:rotate(180deg);}
+/* magical-realism: after a reservation, the mark reads backwards — mirrored across the
+   y-axis (no transition, so it's simply already like that when the screen fades back) */
+body.reserved nav.bar .logo{transform:scaleX(-1);}
 body.reserved [data-panel="reserve"]{display:none !important;}
 body.reserved [data-panel="reserve"] + .fsep{display:none !important;}   /* drop the now-orphaned separator */
 @media(max-width:640px){ .navlink{font-size:.62rem; letter-spacing:.1em;} nav.bar .actions{gap:1.1rem;} nav.bar .logo-word{height:24px;} nav.bar .logo-star{height:13px; margin-bottom:9px;} }
@@ -62,7 +63,8 @@ body.reserved .hero-img{filter:grayscale(0);}   /* the room blooms into color on
   background:linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 48%, rgba(0,0,0,.16) 66%, rgba(0,0,0,.62) 100%);}
 .hero-grain{position:absolute; inset:0; z-index:2; pointer-events:none; opacity:.16; mix-blend-mode:overlay; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");}
 .hero .wrap{position:relative; z-index:3; width:100%; padding-bottom:clamp(2rem,4.5vh,3rem);}
-.hero h1{color:#fff; font-family:var(--script); font-size:clamp(3.4rem,10vw,7.2rem); font-weight:700; letter-spacing:0; line-height:1.05; text-shadow:0 2px 30px rgba(0,0,0,.3);}
+.hero h1{color:#fff; font-family:var(--script); font-size:clamp(3.6rem,10.5vw,7.6rem); font-weight:400; letter-spacing:0; line-height:1.05;
+  text-shadow:0 1px 2px rgba(0,0,0,.30), 0 6px 26px rgba(0,0,0,.42);}
 .hero h1 .venue{display:block; font-family:var(--serif); font-size:clamp(1.1rem,2.7vw,2rem); font-weight:400; letter-spacing:0; color:rgba(255,255,255,.82); margin-top:.55rem; text-shadow:0 2px 20px rgba(0,0,0,.25);}
 .hero .tagline{color:rgba(255,255,255,.9); font-style:italic; font-size:clamp(1.05rem,2vw,1.4rem); margin-top:1rem;}
 @media(max-width:640px){ .hero h1{font-size:13vw;} }
@@ -103,7 +105,7 @@ footer .coda{color:var(--soft); font-size:.98rem; margin:0;}
   @keyframes fspin{to{transform:rotate(360deg)}}
 }
 
-/* push-down panels (calendar / reserve / newsletter / contact) — left-aligned with the body */
+/* push-down panels (calendar / reserve / contact) — left-aligned with the body */
 .panel{max-height:0; overflow:hidden; opacity:0; visibility:hidden; padding:0;
   transition:max-height .6s var(--ease), opacity .55s var(--ease), visibility 0s .6s;}
 .panel.open{opacity:1; visibility:visible; transition:max-height .6s var(--ease), opacity .55s var(--ease), visibility 0s 0s;}
@@ -172,15 +174,18 @@ footer .coda{color:var(--soft); font-size:.98rem; margin:0;}
 .dot.on{background:var(--ink);}
 .r-note{font-size:.82rem; color:var(--soft); margin-top:2.2rem; line-height:1.5;}
 
-/* slide to reserve */
-.slide{position:relative; height:60px; border:1px solid var(--ink); background:transparent; margin-top:1.4rem; overflow:hidden; user-select:none; touch-action:none;}
-.slide-fill{position:absolute; inset:0; width:0; background:var(--ink); pointer-events:none;}
-.slide-label{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  font-family:var(--label); font-size:.66rem; text-transform:uppercase; letter-spacing:.22em; color:var(--soft); pointer-events:none;}
-.slide-thumb{position:absolute; top:0; left:0; height:100%; width:60px; background:var(--ink); color:var(--paper);
-  display:flex; align-items:center; justify-content:center; cursor:grab; font-size:1.1rem;}
-.slide-thumb:active{cursor:grabbing;}
-.slide.done .slide-thumb{cursor:default;}
+/* slide to reserve — a dial: drag the dot counter-clockwise from 12, a full turn back to 12 */
+.rcirc{position:relative; width:148px; height:148px; margin:1.8rem auto .2rem; touch-action:none; user-select:none; cursor:pointer;}
+.rcirc svg{display:block; width:148px; height:148px; overflow:visible;}
+.rc-track{fill:none; stroke:var(--line); stroke-width:1.4;}
+.rc-prog{fill:none; stroke:var(--ink); stroke-width:1.4; stroke-linecap:round; transition:none;}
+.rc-thumb{fill:var(--ink); cursor:grab;}
+.rcirc:active .rc-thumb{cursor:grabbing;}
+.rc-label{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center;
+  font-family:var(--serif); font-style:italic; font-size:.98rem; color:var(--soft); pointer-events:none; padding:0 1.7rem; line-height:1.3;
+  transition:opacity .3s var(--ease);}
+.rcirc.done{cursor:default;}
+.rcirc.done .rc-thumb{cursor:default;}
 
 /* ---------- confirmation (black screen + typewriter) ---------- */
 #confirm{position:fixed; inset:0; z-index:300; background:#0a0908; color:#f4f2ec;
@@ -229,45 +234,3 @@ table.cal td{padding:2px; height:42px;}
 .swatch{width:13px; height:13px; border-radius:0; display:inline-block;}
 .swatch.s{background:var(--ink);} .swatch.g{box-shadow:inset 0 0 0 1.5px var(--ink);}
 .cal-foot{margin-top:2.4rem; padding-top:1.4rem; border-top:1px solid var(--line-2); font-size:.95rem; color:var(--soft);}
-
-/* ---------- newsletter: a quiet inline extension of the footer ---------- */
-.nl{max-height:0; overflow:hidden; opacity:0; visibility:hidden; padding:0;
-  transition:max-height .6s var(--ease), opacity .55s var(--ease), visibility 0s .6s;}
-.nl.open{opacity:1; visibility:visible; transition:max-height .6s var(--ease), opacity .55s var(--ease), visibility 0s 0s;}
-@media (prefers-reduced-motion: reduce){ .nl, .nl.open{transition:none;} }
-.nl-inner{max-width:440px; padding-top:2.2rem; margin-top:1.6rem; border-top:1px solid var(--line-2); text-align:left;}
-.nl-ce{display:block; width:max-content; margin:0 auto 1.5rem; line-height:0;}
-.nl-ce img{height:52px; width:auto; opacity:.85; transition:opacity .25s var(--ease);}
-.nl-ce:hover img,.nl-ce:focus-visible img{opacity:1;}
-.nl-kicker{font-family:var(--serif); font-style:italic; color:var(--ink); font-size:1.2rem; margin:0 0 1.9rem;}
-.nl-form{text-align:left;}
-.nl-names{display:flex; gap:1.5rem;}
-.nl-names .nl-field{flex:1; min-width:0;}
-.nl-field{margin-bottom:1.5rem;}
-.nl-field > label{display:block; font-family:var(--label); font-size:.62rem; text-transform:uppercase; letter-spacing:.14em; color:var(--soft); margin-bottom:.55rem;}
-.nl-field input{width:100%; font-family:var(--serif); font-size:1.05rem; color:var(--ink); background:transparent;
-  border:none; border-bottom:1px solid var(--line); border-radius:0; padding:.05rem 0 .2rem; transition:border-color .25s var(--ease);}
-.nl-field input:focus{outline:none; border-bottom-color:var(--ink);}
-/* optional name fields: label inline, you type where "optional" sits, and it fades on input */
-.nl-inline{display:flex; align-items:baseline; gap:.85rem;}
-.nl-inline > label{margin-bottom:0; flex:none; white-space:nowrap;}
-.nl-ph-wrap{position:relative; flex:1; min-width:0;}
-.nl-ph{position:absolute; left:0; top:0; bottom:0; display:flex; align-items:center; pointer-events:none;
-  font-family:var(--serif); font-style:italic; font-size:1.02rem; color:var(--soft); opacity:.6; transition:opacity .25s var(--ease);}
-.nl-ph-wrap input:not(:placeholder-shown) + .nl-ph{opacity:0;}
-.nl-hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none;}
-/* slide to subscribe: drag the dot along the line. the line only shows to the RIGHT of the
-   dot — it erases as the dot advances and redraws as it slides back. the serif "subscribe"
-   label sits beneath the right end. (.nl-track left is driven in JS to follow the dot.) */
-.nl-slide{position:relative; height:54px; margin-top:1.9rem; touch-action:none; user-select:none; cursor:pointer;}
-.nl-track{position:absolute; left:20px; right:0; top:20px; height:1px; background:var(--ink); transition:left .35s var(--ease);}
-.nl-dot{position:absolute; left:0; top:20px; margin-top:-10px; width:20px; height:20px; border-radius:50%; background:var(--ink); cursor:grab; touch-action:none; transition:transform .35s var(--ease);}
-.nl-dot:active{cursor:grabbing;}
-.nl-word{position:absolute; right:2px; top:31px; font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--soft); pointer-events:none; transition:opacity .3s var(--ease);}
-.nl-slide:focus-visible{outline:none;}
-.nl-slide:focus-visible .nl-dot{box-shadow:0 0 0 4px var(--line);}
-.nl-slide.done, .nl-slide.done .nl-dot{cursor:default;}
-.nl-msg{min-height:1.2em; margin:1.4rem 0 0; font-size:.9rem; line-height:1.5; color:var(--soft); text-align:left;}
-.nl-msg.ok{font-family:var(--serif); font-style:italic; font-size:1.05rem; color:var(--ink);}
-.nl-msg.err{color:#9a3412;}
-@media(max-width:480px){ .nl-names{flex-direction:column; gap:0;} }
