@@ -47,6 +47,7 @@ nav.bar.scrolled .logo img{filter:none;}
 /* magical-realism: after a reservation, the mark hangs upside down */
 body.reserved nav.bar .logo{transform:rotate(180deg);}
 body.reserved [data-panel="reserve"]{display:none !important;}
+body.reserved [data-panel="reserve"] + .fsep{display:none !important;}   /* drop the now-orphaned separator */
 @media(max-width:640px){ .navlink{font-size:.62rem; letter-spacing:.1em;} nav.bar .actions{gap:1.1rem;} nav.bar .logo-word{height:24px;} nav.bar .logo-star{height:13px; margin-bottom:9px;} }
 
 /* ---------- hero ---------- */

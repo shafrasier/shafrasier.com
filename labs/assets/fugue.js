@@ -218,8 +218,22 @@
         })();
       })();
     }
+    /* stopgap so reservations aren't lost before the email backend exists — capture locally.
+       TODO: POST to the reservations endpoint + send an email confirmation once the newsletter
+       Worker/email system is in place. */
+    function captureReservation(date){
+      const party = $$(".dot.on", reserve).length;
+      const rec = { date, dateLabel: fmtLong(date), party,
+        name:(($("#r-name",reserve)||{}).value||"").trim(),
+        email:(($("#r-email",reserve)||{}).value||"").trim(),
+        note:(($("#r-note",reserve)||{}).value||"").trim(),
+        at:new Date().toISOString() };
+      try{ const all=JSON.parse(localStorage.getItem("fugueReservations")||"[]"); all.push(rec); localStorage.setItem("fugueReservations", JSON.stringify(all)); }catch(_){}
+      console.info("[reserve] captured locally — no email backend yet:", rec);
+    }
     function startConfirm(){
       const date = sel.value || EVENTS[0].date;
+      captureReservation(date);
       cin.innerHTML="";
       confirmEl.style.display="flex";
       setTimeout(()=> confirmEl.classList.add("show"), 30);
