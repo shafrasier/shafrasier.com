@@ -69,12 +69,17 @@
   }
   function openPanel(name, focus){
     const p=panelOf(name); if(!p) return;
+    const fresh = !document.querySelector(".panel.open");   // nothing open yet => this is a first open
     $$("[data-panel]").forEach(t=>{ const n=t.dataset.panel; if(n!==name) collapse(n); });   // accordion
     if(name==="reserve") populateSessions();
     p.classList.add("open"); p.style.maxHeight = motionOK ? p.scrollHeight+"px" : "none"; p.setAttribute("aria-hidden","false");
     const t=$('[data-panel="'+name+'"]'); if(t) t.setAttribute("aria-expanded","true");
-    setTimeout(()=>{ p.scrollIntoView({behavior: motionOK?"smooth":"auto", block:"nearest"});
-      if(focus){ const f = name==="newsletter" ? $("#nl-email",p) : p.querySelector("input,select"); if(f){ try{ f.focus({preventScroll:true}); }catch(_){ } } } }, 110);
+    setTimeout(()=>{
+      // only scroll into view on a first open; when switching between already-open panels, stay
+      // put (the links above don't move; the content just swaps below) so the page doesn't jump
+      if(fresh) p.scrollIntoView({behavior: motionOK?"smooth":"auto", block:"nearest"});
+      if(focus){ const f = name==="newsletter" ? $("#nl-email",p) : p.querySelector("input,select"); if(f){ try{ f.focus({preventScroll:true}); }catch(_){ } } }
+    }, 110);
   }
   // when open, lift the height pin so dynamic content (month change, confirm message) can't clip
   $$(".panel").forEach(p=> p.addEventListener("transitionend", e=>{ if(e.propertyName==="max-height" && p.classList.contains("open")) p.style.maxHeight="none"; }));
