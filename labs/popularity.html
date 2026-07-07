@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Recorded output — popularity prototype</title>
+<style>
+  :root {
+    --cream: #f0efe4;
+    --card: #fefdfb;
+    --line: #e6e3d5;
+    --ink: #232120;
+    --muted: #8c8880;
+    --taupe: #6f6a5c;
+    --green: #4a7c59;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    padding: 3rem 1.2rem 5rem;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  h1 { font-size: 2.2rem; color: var(--green); font-weight: 600; margin-bottom: .6rem; }
+  .dek { color: var(--ink); max-width: 46rem; line-height: 1.5; margin-bottom: .4rem; }
+  .fine { color: var(--muted); font-size: .85rem; max-width: 46rem; line-height: 1.45; }
+  .controls { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.4rem 0 1.8rem; align-items: center; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--card); }
+  .seg button {
+    font: inherit; font-size: .88rem; border: 0; background: transparent; color: var(--taupe);
+    padding: .42rem .95rem; cursor: pointer;
+  }
+  .seg button.on { background: var(--ink); color: var(--card); }
+  .seg button:disabled { opacity: .35; cursor: default; }
+  .search { position: relative; }
+  .search input {
+    font: inherit; font-size: .9rem; padding: .42rem .9rem; border: 1px solid var(--line);
+    border-radius: 999px; background: var(--card); color: var(--ink); width: 240px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(470px, 1fr)); gap: 1rem; }
+  @media (max-width: 540px) { .grid { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 1.05rem 1.15rem 0.9rem; box-shadow: 0 1px 3px rgba(17,17,17,.04);
+  }
+  .panel.wide { grid-column: 1 / -1; }
+  .panel h2 { font-size: 1.25rem; font-weight: 600; }
+  .panel .tag { color: var(--muted); font-size: .8rem; font-style: italic; margin-left: .5rem; }
+  .panel .note { color: var(--muted); font-size: .82rem; line-height: 1.4; margin-top: .55rem; }
+  .chart { margin-top: .8rem; position: relative; }
+  .bars { display: flex; align-items: flex-end; height: 120px; gap: 1px; border-bottom: 1.5px solid var(--ink); }
+  .panel.wide .bars { height: 170px; }
+  .bars .b { flex: 1 1 0; background: var(--ink); opacity: .38; min-height: 0; border-radius: 1px 1px 0 0; }
+  .bars .b:hover { opacity: 1; background: var(--green); }
+  .axis { display: flex; justify-content: space-between; color: var(--muted); font-size: .74rem; font-style: italic; margin-top: .3rem; }
+  .tip {
+    position: absolute; pointer-events: none; background: var(--ink); color: var(--card);
+    font-size: .78rem; padding: .25rem .55rem; border-radius: 5px; transform: translate(-50%, -130%);
+    white-space: nowrap; display: none; z-index: 3;
+  }
+  .rym-note { border-left: 3px solid var(--green); padding-left: .8rem; }
+  section.block { margin-top: 3rem; }
+  section.block > h3 { font-size: 1.4rem; margin-bottom: .35rem; }
+  section.block > p { max-width: 46rem; line-height: 1.5; margin-bottom: 1rem; }
+  /* metadata mock */
+  .meta-mock { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem 1.4rem; max-width: 660px; }
+  .meta-mock .row { padding: .28rem 0; border-bottom: 1px dotted var(--line); font-size: .95rem; }
+  .meta-mock .row b { font-weight: 700; }
+  .meta-mock .row:last-child { border-bottom: 0; }
+  .spark { display: flex; align-items: flex-end; height: 44px; gap: 1px; border-bottom: 1px solid var(--ink); margin-top: .3rem; }
+  .spark .b { flex: 1 1 0; background: var(--ink); opacity: .4; }
+  .spark-axis { display: flex; justify-content: space-between; color: var(--muted); font-size: .68rem; font-style: italic; }
+  footer { margin-top: 3.5rem; color: var(--muted); font-size: .85rem; line-height: 1.55; max-width: 46rem; }
+  footer b { color: var(--taupe); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Recorded output</h1>
+  <p class="dek">Prototype: each genre's presence in the recorded catalog, year by year, from the Discogs
+  monthly data dump (CC0, 2.57&thinsp;million master releases / 19&thinsp;million pressings). The MAP's staff shows
+  when genres <em>branched</em>; this shows how much each one <em>weighed</em>.</p>
+  <p class="fine">Unlisted prototype — compare the Delta blues panel against RYM's "Years active" histogram.</p>
+
+  <div class="controls">
+    <span class="seg" id="seriesSeg">
+      <button data-series="masters" class="on">Recordings (masters)</button>
+      <button data-series="releases" id="relBtn" disabled>Pressings (incl. reissues)</button>
+    </span>
+    <span class="seg" id="normSeg">
+      <button data-norm="peak" class="on">Peak-relative</button>
+      <button data-norm="share">Share of all output</button>
+    </span>
+    <span class="search">
+      <input id="styleSearch" list="styleList" placeholder="Try any Discogs style…">
+      <datalist id="styleList"></datalist>
+    </span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <section class="block">
+    <h3>In a genre note</h3>
+    <p>How it would sit in the metadata block — one compact row between the dates and the tree, per note, regenerated from each monthly dump.</p>
+    <div class="meta-mock">
+      <div class="row"><b>Period:</b> c. 1900–present</div>
+      <div class="row"><b>Named:</b> 1915 (first musical use in print, in Chicago)</div>
+      <div class="row"><b>Recorded output:</b>
+        <div class="spark" id="sparkJazz"></div>
+        <div class="spark-axis"><span>1900</span><span id="sparkLabel">masters per year · Discogs</span><span>2026</span></div>
+      </div>
+      <div class="row"><b>Key influences:</b> Blues, ragtime, the New Orleans brass bands, the church</div>
+    </div>
+  </section>
+
+  <footer>
+    <b>Method.</b> Counts come from the Discogs monthly data dump (July 1, 2026). <b>Recordings</b> counts master
+    releases — Discogs collapses every reissue of a work onto its earliest release year, so the curve approximates when music
+    was <em>made</em>. <b>Pressings</b> counts every release at its own year, reissues included — RYM's semantics.
+    "Share of all output" divides each year by the database's total for that year, so a genre's dominance is read
+    against its era rather than against the CD-boom's sheer volume.<br><br>
+    <b>Caveats found while building.</b> Masters undercount the pre-LP era: 78s often carry no master, and early
+    catalogs entered Discogs as CD compilations (masters-Delta-blues "peaks" in 1991). The pressings series is the
+    honest one for anything before the fifties. Coverage skews toward electronic and rock; country and gospel run thin.
+    Style names are Discogs vocabulary and map onto the MAP's genres nearly 1:1 ("Bop" for bebop is the odd one out).<br><br>
+    <b>If adopted.</b> A script in the GEARS re-derives one JSON from the latest dump (36 seconds for masters, ~15 minutes
+    for pressings, no API keys, no scraping); a transformer renders the row from a style→genre mapping in each note's
+    frontmatter. Refresh quarterly with the deploy.
+  </footer>
+</div>
+<div class="tip" id="tip"></div>
+
+<script src="popularity-data.js"></script>
+<script src="popularity-data-releases.js" onerror="void(0)"></script>
+<script>
+(function () {
+  const M = window.POPDATA_MASTERS;
+  const R = window.POPDATA_RELEASES || null;
+  if (R) document.getElementById('relBtn').disabled = false;
+
+  // The demo shelf: the comparison case first, then MAP families in Discogs vocabulary.
+  const SHELF = [
+    { key: "Delta Blues", kind: "style", wide: true,
+      note: "The comparison case. RYM's histogram peaks 1927–1932 on the original 78s. The verdict here: Masters mis-date that era to its CD reissues entirely; Pressings recover the original 78s (switch the toggle), but in raw counts the reissue tail still towers over them — RYM's pre-war cataloging runs deeper for this catalog. Switch to <em>Share of all output</em> and the 1930s hump takes its proper place: against its own era's tiny output, Delta blues mattered enormously." },
+    { key: "Jazz", kind: "genre" },
+    { key: "Blues", kind: "genre" },
+    { key: "Swing", kind: "style" },
+    { key: "Bop", kind: "style", label: "Bebop (Discogs: “Bop”)" },
+    { key: "Rhythm & Blues", kind: "style" },
+    { key: "Rock & Roll", kind: "style" },
+    { key: "Country", kind: "style" },
+    { key: "Folk", kind: "style" },
+    { key: "Soul", kind: "style" },
+    { key: "Disco", kind: "style" },
+    { key: "House", kind: "style" },
+  ];
+
+  const grid = document.getElementById('grid');
+  const tip = document.getElementById('tip');
+  let series = "masters", norm = "peak";
+
+  const dataFor = (kind, key) => {
+    const src = series === "releases" && R ? R : M;
+    return (kind === "genre" ? src.genres : src.styles)[key] || {};
+  };
+  const totalsFor = () => (series === "releases" && R ? R : M).totals;
+
+  function render() {
+    grid.innerHTML = "";
+    for (const item of SHELF) addPanel(item);
+    const extra = document.getElementById('styleSearch').value.trim();
+    if (extra && (M.styles[extra])) addPanel({ key: extra, kind: "style" });
+    renderSpark();
+  }
+
+  function addPanel(item) {
+    const data = dataFor(item.kind, item.key);
+    const years = Object.keys(data).map(Number);
+    if (!years.length) return;
+    const y0 = Math.max(1900, Math.min(...years) - 2);
+    const y1 = 2026;
+    const totals = totalsFor();
+    const vals = [];
+    for (let y = y0; y <= y1; y++) {
+      const c = data[y] || 0;
+      vals.push(norm === "share" ? (totals[y] ? c / totals[y] : 0) : c);
+    }
+    const max = Math.max(...vals, 1e-9);
+    const total = Object.values(data).reduce((a, b) => a + b, 0);
+    const panel = document.createElement('div');
+    panel.className = "panel" + (item.wide ? " wide" : "");
+    panel.innerHTML = `<h2>${item.label || item.key}<span class="tag">${item.kind === "genre" ? "Discogs genre" : "Discogs style"} · ${total.toLocaleString()} ${series === "releases" ? "pressings" : "masters"}</span></h2>` +
+      (item.note ? `<div class="note rym-note">${item.note}</div>` : "");
+    const chart = document.createElement('div'); chart.className = "chart";
+    const bars = document.createElement('div'); bars.className = "bars";
+    for (let y = y0; y <= y1; y++) {
+      const v = vals[y - y0];
+      const b = document.createElement('div');
+      b.className = "b";
+      b.style.height = (v / max * 100).toFixed(2) + "%";
+      b.dataset.y = y;
+      b.dataset.c = data[y] || 0;
+      b.dataset.s = totals[y] ? ((data[y] || 0) / totals[y] * 100).toFixed(2) : "0";
+      bars.appendChild(b);
+    }
+    chart.appendChild(bars);
+    const axis = document.createElement('div'); axis.className = "axis";
+    axis.innerHTML = `<span>${y0}</span><span>${Math.round((y0 + y1) / 2)}</span><span>${y1}</span>`;
+    chart.appendChild(axis);
+    panel.appendChild(chart);
+    grid.appendChild(panel);
+  }
+
+  function renderSpark() {
+    const el = document.getElementById('sparkJazz');
+    el.innerHTML = "";
+    const data = dataFor("genre", "Jazz");
+    const totals = totalsFor();
+    const max = Math.max(...Object.entries(data).map(([y, c]) => norm === "share" ? c / (totals[y] || 1) : c), 1e-9);
+    for (let y = 1900; y <= 2026; y++) {
+      const c = data[y] || 0;
+      const v = norm === "share" ? (totals[y] ? c / totals[y] : 0) : c;
+      const b = document.createElement('div');
+      b.className = "b";
+      b.style.height = (v / max * 100).toFixed(2) + "%";
+      el.appendChild(b);
+    }
+    document.getElementById('sparkLabel').textContent =
+      (series === "releases" ? "pressings" : "masters") + " per year · Discogs";
+  }
+
+  grid.addEventListener('mouseover', (e) => {
+    const b = e.target.closest('.b');
+    if (!b || !b.dataset.y) { tip.style.display = "none"; return; }
+    const r = b.getBoundingClientRect();
+    tip.textContent = `${b.dataset.y} · ${Number(b.dataset.c).toLocaleString()} (${b.dataset.s}% of that year)`;
+    tip.style.left = (r.left + r.width / 2 + window.scrollX) + "px";
+    tip.style.top = (r.top + window.scrollY) + "px";
+    tip.style.display = "block";
+  });
+  grid.addEventListener('mouseleave', () => tip.style.display = "none");
+
+  document.getElementById('seriesSeg').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    series = b.dataset.series;
+    document.querySelectorAll('#seriesSeg button').forEach(x => x.classList.toggle('on', x === b));
+    render();
+  });
+  document.getElementById('normSeg').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    norm = b.dataset.norm;
+    document.querySelectorAll('#normSeg button').forEach(x => x.classList.toggle('on', x === b));
+    render();
+  });
+
+  const dl = document.getElementById('styleList');
+  Object.keys(M.styles).sort().forEach(s => {
+    const o = document.createElement('option'); o.value = s; dl.appendChild(o);
+  });
+  document.getElementById('styleSearch').addEventListener('change', render);
+
+  render();
+})();
+</script>
+</body>
+</html>
