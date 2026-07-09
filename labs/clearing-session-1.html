@@ -15,17 +15,16 @@
 <div class="page">
 
   <a class="home" href="fugue.html" aria-label="the Clearing">
-    <span class="stars" aria-hidden="true">✱</span><span class="name">the Clearing</span>
+    <img class="home-star" src="assets/fugue-star.png" alt="" aria-hidden="true"><span class="name">the Clearing</span>
   </a>
 
   <header class="mast">
     <p class="eyebrow">the Clearing · session one</p>
     <h1>five biomes</h1>
-    <p class="date">July 5th, 2026</p>
-    <p class="credit">selected by <em>Sha Frasier and David Feigelson</em></p>
+    <p class="date">July 5th, 2026.</p>
+    <p class="credit">selected by <em>Sha Frasier</em> <span class="amp">and</span> <em>David Feigelson</em>.</p>
     <p class="lede">five playlists, five biomes, sequenced across the afternoon like five sides of one record. the music is mostly ambient, though it moves through many genres and countries, from the 1950s to this year. field recordings run through all of it.</p>
     <p class="lede">the borders between them are soft. if the air felt different from one to the next, that was the intention.</p>
-    <p class="biomes-line">Tundra · Forest · City · Desert · Coastline</p>
   </header>
 
   <hr class="rule">
@@ -39,7 +38,7 @@
     </summary>
     <div class="pl-body">
       <div class="pl-meta">
-        <span class="pl-by">by <em>Sha Frasier &amp; David Feigelson</em></span>
+        <span class="pl-by">by <em>Sha Frasier and David Feigelson</em></span>
         <span class="pl-dot" aria-hidden="true">·</span>
         <span>11 songs · 52 min</span>
         <span class="pl-links">
@@ -190,11 +189,45 @@
     </div>
   </details>
 
-  <p class="foot">the Clearing · Fugue Gallery · 50 songs across five biomes · <a href="fugue.html">back to the Clearing</a></p>
 
 </div>
 
 <script>
+  /* smooth open/close for each playlist (native <details> flashes open otherwise) */
+  (function(){
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(reduce) return;                                  // reduced motion → let the native instant toggle stand
+    document.querySelectorAll("details.pl").forEach(function(d){
+      var summary = d.querySelector("summary"), body = d.querySelector(".pl-body");
+      if(!summary || !body) return;
+      summary.addEventListener("click", function(e){
+        if(d.dataset.anim === "1") { e.preventDefault(); return; }   // ignore clicks mid-animation
+        e.preventDefault();
+        d.dataset.anim = "1";
+        var end = function(ev){ if(ev.propertyName!=="height") return;
+          body.removeEventListener("transitionend", end);
+          body.style.transition=""; body.style.height=""; body.style.overflow="";
+          if(d.dataset.closing==="1"){ d.open=false; d.dataset.closing=""; }
+          d.dataset.anim=""; };
+        if(!d.open){
+          d.open = true;                                 // reveal, then grow from 0 to full height
+          body.style.overflow="hidden"; body.style.transition="none"; body.style.height="0px";
+          void body.offsetHeight;                        // reflow so the 0 height sticks before we animate
+          body.style.transition="height .42s cubic-bezier(.22,1,.32,1)";
+          body.style.height = body.scrollHeight + "px";
+          body.addEventListener("transitionend", end);
+        } else {
+          body.style.overflow="hidden"; body.style.transition="none"; body.style.height = body.scrollHeight + "px";
+          void body.offsetHeight;                        // reflow at full height, then shrink to 0
+          d.dataset.closing="1";
+          body.style.transition="height .38s cubic-bezier(.22,1,.32,1)";
+          body.style.height = "0px";
+          body.addEventListener("transitionend", end);
+        }
+      });
+    });
+  })();
+
   /* print the whole thing: open every playlist before printing, restore after */
   (function(){
     var opened = [];

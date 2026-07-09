@@ -17,12 +17,17 @@ body{margin:0; background:var(--paper); color:var(--ink);
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   padding:clamp(2.2rem,7vw,5rem) 1.5rem 6rem;}
 .page{max-width:var(--measure); margin:0 auto;}
+a{color:inherit; text-decoration:none;}   /* underlines come from explicit border-bottom, never the default */
 
 /* ---------- top wordmark ---------- */
-.home{display:inline-flex; align-items:baseline; gap:.5rem; margin-bottom:clamp(2.6rem,8vw,4.4rem); color:var(--ink); text-decoration:none;}
-.home .stars{font-size:.7rem; color:var(--soft); position:relative; top:-.15em;}
+.home{display:inline-flex; align-items:center; gap:.5rem; margin-bottom:clamp(2.6rem,8vw,4.4rem); color:var(--ink); text-decoration:none;}
+.home-star{height:15px; width:auto; display:block; will-change:transform;}
 .home .name{font-family:var(--script); font-size:1.5rem; line-height:1;}
 .home:hover .name{opacity:.7; transition:opacity .25s var(--ease);}
+@media (prefers-reduced-motion: no-preference){
+  .home-star{animation:home-spin 24s linear infinite;}   /* the same slow, meditative spin as the Fugue home mark */
+  @keyframes home-spin{to{transform:rotate(360deg);}}
+}
 
 /* ---------- masthead ---------- */
 .mast{margin-bottom:clamp(2.4rem,7vw,3.6rem);}
@@ -33,11 +38,9 @@ body{margin:0; background:var(--paper); color:var(--ink);
 .mast .date{font-style:italic; color:var(--soft); font-size:1.05rem; margin:0 0 .4rem;}
 .mast .credit{font-family:var(--serif); color:var(--soft); font-size:1rem; margin:0 0 1.8rem;}
 .mast .credit em{font-style:normal; color:var(--ink-2);}
+.mast .credit .amp{color:var(--faint);}
 .mast .lede{color:var(--ink-2); font-size:1.06rem; line-height:1.62; margin:0; max-width:32rem;}
 .mast .lede + .lede{margin-top:1rem;}
-.biomes-line{font-family:var(--label); text-transform:uppercase; letter-spacing:.16em; font-size:.7rem;
-  color:var(--soft); margin:1.6rem 0 0; line-height:1.8;}
-
 .rule{border:none; border-top:1px solid var(--line); margin:clamp(2.4rem,7vw,3.4rem) 0 0;}
 
 /* ---------- playlist (collapsible) ---------- */
@@ -61,7 +64,7 @@ body{margin:0; background:var(--paper); color:var(--ink);
 .pl-meta{display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem 1.1rem;
   font-family:var(--label); font-size:.68rem; letter-spacing:.04em; color:var(--soft);
   padding:0 0 1.2rem 2.9rem; margin-top:-.2rem;}
-.pl-by{text-transform:none; letter-spacing:.02em;}
+.pl-by{font-family:var(--serif); font-size:.94rem; text-transform:none; letter-spacing:0;}
 .pl-by em{font-style:normal; color:var(--ink-2);}
 .pl-dot{color:var(--faint);}
 .pl-links{margin-left:auto; display:flex; gap:.7rem; align-items:baseline;}
@@ -75,7 +78,7 @@ body{margin:0; background:var(--paper); color:var(--ink);
   padding:.7rem 0; border-top:1px solid var(--line-2);}
 .track:first-child{border-top:none;}
 .t-num{font-family:var(--label); font-size:.74rem; color:var(--faint); font-variant-numeric:tabular-nums; letter-spacing:.02em; padding-top:.15em;}
-.t-title{font-family:var(--serif); font-size:1.04rem; line-height:1.32; color:var(--ink);}
+.t-title{font-family:var(--serif); font-size:1.04rem; font-weight:500; line-height:1.32; color:var(--ink);}
 .t-ver{color:var(--soft); font-size:.86em; font-style:italic;}
 .t-artist{font-size:.92rem; color:var(--ink-2); line-height:1.4; margin-top:.05rem;}
 .t-album{font-style:italic; font-size:.83rem; color:var(--soft); line-height:1.4; margin-top:.12rem;}
@@ -83,12 +86,6 @@ body{margin:0; background:var(--paper); color:var(--ink);
   font-variant-numeric:tabular-nums; padding-top:.2em; display:flex; flex-direction:column; gap:.15rem; align-items:flex-end;}
 .t-year{color:var(--ink-2);}
 .t-len{color:var(--faint);}
-
-/* ---------- footer ---------- */
-.foot{margin-top:clamp(3rem,9vw,5rem); font-family:var(--label); font-size:.66rem; letter-spacing:.06em;
-  color:var(--faint); text-transform:uppercase; line-height:1.9;}
-.foot a{color:var(--soft); border-bottom:1px solid var(--line);}
-.foot a:hover{color:var(--ink);}
 
 /* ---------- small screens: keep the meta on the title line, tighten ---------- */
 @media(max-width:460px){
@@ -103,7 +100,7 @@ body{margin:0; background:var(--paper); color:var(--ink);
 @media print{
   @page{margin:18mm;}
   body{background:#fff; color:#000; padding:0; font-size:11pt;}
-  .home,.pl-chev,.pl-links,.foot{display:none;}
+  .home,.pl-chev,.pl-links{display:none;}
   .pl,.pl:last-child{border-color:#ccc;}
   .pl > summary{cursor:default; padding:1.1rem 0 .5rem;}
   .pl:not([open]) > .pl-body{display:block !important;}   /* force every tracklist open in print */
