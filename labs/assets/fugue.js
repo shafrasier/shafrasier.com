@@ -272,30 +272,40 @@
     const svg = $("#loader svg");
     const W = window.innerWidth, H = window.innerHeight;
     svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.setAttribute("preserveAspectRatio","none");
     const rnd=(a,b)=>a+Math.random()*(b-a);
-    // a jittered grid so the strokes cover the ENTIRE screen, filled in scattered order
-    const cols=Math.max(7, Math.round(W/175)), rows=Math.max(6, Math.round(H/150));
-    const cw=W/cols, ch=H/rows, cells=[];
+    // A dense grid of FAT gestural strokes. Each is wider than its cell and bleeds into its
+    // neighbours, so as they sketch in (scattered order) the paper-white paint accumulates and
+    // progressively covers the black — the screen genuinely FILLS from black to white, instead
+    // of drawing thin squiggles and then flashing a white overlay on top.
+    const cell = Math.max(66, Math.min(W,H)/9);
+    const cols = Math.ceil(W/cell)+1, rows = Math.ceil(H/cell)+1;
+    const cw = W/(cols-1), ch = H/(rows-1);
+    const sw = cell*1.08;                        // ~cell-sized marks: coverage grows in step with the draw
+    const cells=[];
     for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) cells.push([c,r]);
     for(let i=cells.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=cells[i]; cells[i]=cells[j]; cells[j]=t; }
-    const frag = [];
+    const frag=[];
     cells.forEach(([c,r])=>{
-      const x=(c+rnd(.12,.88))*cw, y=(r+rnd(.12,.88))*ch, s=rnd(38, Math.min(cw,ch)*1.15), dir=Math.random()<.5?1:-1;
-      const d = `M ${x} ${y} c ${dir*s*.5} ${-s*.7}, ${dir*s*1.1} ${-s*.2}, ${dir*s*1.3} ${s*.35} s ${-dir*s*.3} ${s*.8}, ${-dir*s*.1} ${s*1.05}`;
-      frag.push(`<path class="note" d="${d}"/>`);
-      if(Math.random()<.7){ const rr=rnd(4,9); frag.push(`<ellipse class="note" cx="${x}" cy="${y}" rx="${rr*1.3}" ry="${rr}" transform="rotate(${rnd(-25,25)} ${x} ${y})"/>`); }
+      const x=c*cw + rnd(-cw*.3,cw*.3), y=r*ch + rnd(-ch*.3,ch*.3);
+      const s=cell*rnd(.6,.95), dir=Math.random()<.5?1:-1;   // short gestural dab, ~one cell across
+      const d = `M ${x} ${y} q ${dir*s*.55} ${-s*.55}, ${dir*s*1.05} ${-s*.05}`;
+      frag.push(`<path class="note" d="${d}" style="stroke-width:${sw.toFixed(1)}px"/>`);
     });
     svg.innerHTML = frag.join("");
     const notes = $$("#loader .note");
-    notes.forEach(el=>{ let len; try{len=el.getTotalLength();}catch(_){len=420;} if(!len||len<1) len=420; el.style.strokeDasharray=len; el.style.strokeDashoffset=len; });
-    svg.getBoundingClientRect();   // force a layout flush so the draws animate
-    const STEP=13;  // ms between each stroke beginning to draw
-    notes.forEach((el,i)=>{ el.style.transition="stroke-dashoffset "+rnd(.16,.26).toFixed(2)+"s ease "+(i*STEP/1000).toFixed(3)+"s"; el.style.strokeDashoffset=0; });
-    const allDrawn = notes.length*STEP + 300;
-    setTimeout(()=> loader.classList.add("fill"), Math.max(900, allDrawn-250));
-    setTimeout(()=> reveal(), allDrawn+450);
-    setTimeout(()=> loader.classList.add("done"), allDrawn+520);
-    setTimeout(()=>{ loader.style.display="none"; }, allDrawn+1150);
+    notes.forEach(el=>{ let len; try{len=el.getTotalLength();}catch(_){len=cell*3;} if(!len||len<1) len=cell*3; el.style.strokeDasharray=len; el.style.strokeDashoffset=len; });
+    svg.getBoundingClientRect();   // flush so the draws animate
+    const STEP=6;   // ms between each stroke starting — rapid, scattered fill
+    notes.forEach((el,i)=>{ el.style.transition="stroke-dashoffset "+rnd(.20,.34).toFixed(2)+"s ease-out "+(i*STEP/1000).toFixed(3)+"s"; el.style.strokeDashoffset=0; });
+    const drawMs = notes.length*STEP + 360;       // the moment the last stroke has landed
+    // a paper wash rising across the SECOND HALF of the draw guarantees a clean, fully white
+    // finish with no step — it only seals the last gaps the overlapping strokes leave behind.
+    const fw = $("#loader .fillwhite");
+    if(fw){ fw.style.transition = "opacity "+(drawMs*0.58/1000).toFixed(2)+"s linear "+(drawMs*0.42/1000).toFixed(2)+"s"; fw.getBoundingClientRect(); fw.style.opacity="1"; }
+    setTimeout(()=> reveal(), drawMs+380);         // hold a beat on full white, then lift into the page
+    setTimeout(()=> loader.classList.add("done"), drawMs+460);
+    setTimeout(()=>{ loader.style.display="none"; }, drawMs+1080);
    }catch(e){ if(loader) loader.style.display="none"; reveal(); }
   }
 })();
