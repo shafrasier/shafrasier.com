@@ -19,7 +19,7 @@ body{margin:0; background:var(--paper); color:var(--ink);
 .page{max-width:var(--measure); margin:0 auto;}
 
 /* ---------- top wordmark ---------- */
-.home{display:inline-flex; align-items:baseline; gap:.5rem; margin-bottom:clamp(2.6rem,8vw,4.4rem); color:var(--ink);}
+.home{display:inline-flex; align-items:baseline; gap:.5rem; margin-bottom:clamp(2.6rem,8vw,4.4rem); color:var(--ink); text-decoration:none;}
 .home .stars{font-size:.7rem; color:var(--soft); position:relative; top:-.15em;}
 .home .name{font-family:var(--script); font-size:1.5rem; line-height:1;}
 .home:hover .name{opacity:.7; transition:opacity .25s var(--ease);}
@@ -30,7 +30,9 @@ body{margin:0; background:var(--paper); color:var(--ink);
   color:var(--soft); margin:0 0 1.1rem;}
 .mast h1{font-family:var(--serif); font-weight:400; font-size:clamp(2.6rem,10vw,4rem); line-height:1;
   letter-spacing:-.015em; margin:0 0 .5rem;}
-.mast .date{font-style:italic; color:var(--soft); font-size:1.05rem; margin:0 0 1.8rem;}
+.mast .date{font-style:italic; color:var(--soft); font-size:1.05rem; margin:0 0 .4rem;}
+.mast .credit{font-family:var(--serif); color:var(--soft); font-size:1rem; margin:0 0 1.8rem;}
+.mast .credit em{font-style:normal; color:var(--ink-2);}
 .mast .lede{color:var(--ink-2); font-size:1.06rem; line-height:1.62; margin:0; max-width:32rem;}
 .mast .lede + .lede{margin-top:1rem;}
 .biomes-line{font-family:var(--label); text-transform:uppercase; letter-spacing:.16em; font-size:.7rem;

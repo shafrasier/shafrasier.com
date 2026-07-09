@@ -7,8 +7,8 @@
 
   /* ---------- events data ---------- */
   const EVENTS = [
-    {date:"2026-07-05", kind:"session", time:"11am–4pm", sound:"Sha Frasier", theme:"Tracing a 40-year history of reggae and dub", extra:["Tea — William Hu"]},
-    {date:"2026-07-12", kind:"session", time:"11am–4pm", sound:"Joseph Branciforte with Greyfade", theme:"Deep listening with 20 strings", extra:["Movement — Etai Atula · Introduction to Transcendental Meditation (12–2pm)"]},
+    {date:"2026-07-05", kind:"session", time:"11am–4pm", sound:"Sha Frasier & David Feigelson", theme:"five biomes — tundra, forest, city, desert, coastline", extra:["Tea — William Hu"], recap:"clearing-session-1.html"},
+    {date:"2026-07-12", kind:"session", time:"11am–4pm", sound:"Sha Frasier & Otis Gordon", theme:"", extra:[]},
     {date:"2026-07-19", kind:"session", time:"11am–4pm", sound:"Sha Frasier", theme:"", extra:["Teaching — Tina Scepanovica · Making sculpture with clay (12–2pm)"]},
     {date:"2026-07-26", kind:"session", time:"11am–4pm", sound:"Aedi Records", theme:"", extra:["Movement — Etai Atula"]},
     {date:"2026-08-02", kind:"session", time:"11am–4pm", sound:"", theme:"", extra:[]},
@@ -109,7 +109,8 @@
     const detailed = EVENTS.filter(e=>e.sound);
     host.innerHTML = detailed.map(e=>{
       const roles = [ e.sound?`<b>Sound</b> — ${e.sound}`:"" , ...(e.extra||[]).map(roleLine) ].filter(Boolean).map(r=>`<div>${r}</div>`).join("");
-      return `<div class="event-card" data-date="${e.date}"><div class="date">${fmtLong(e.date)} · ${e.time}</div>${e.theme?`<div class="etitle">${e.theme}</div>`:""}<div class="roles">${roles}</div></div>`;
+      const recap = e.recap?`<a class="ev-recap" href="${e.recap}">tracklist &amp; recap →</a>`:"";
+      return `<div class="event-card" data-date="${e.date}"><div class="date">${fmtLong(e.date)} · ${e.time}</div>${e.theme?`<div class="etitle">${e.theme}</div>`:""}<div class="roles">${roles}</div>${recap}</div>`;
     }).join("");
     let vy=2026, vm=7;
     function highlight(d){ if(!d) return; clear(); $$(`[data-date="${d}"]`).forEach(el=>{ if(el.classList.contains("day")||el.classList.contains("event-card")) el.classList.add("is-active"); }); }
