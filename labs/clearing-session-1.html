@@ -197,7 +197,7 @@
      Uses the Web Animations API so a collapse can't get stuck between children. */
   (function(){
     if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;   // let the native instant toggle stand
-    var EASE="cubic-bezier(.22,1,.32,1)";
+    var EASE_OPEN="cubic-bezier(.22,1,.32,1)", EASE_CLOSE="cubic-bezier(.65,0,.35,1)";
     document.querySelectorAll("details.pl").forEach(function(d){
       var summary=d.querySelector("summary"), body=d.querySelector(".pl-body"), anim=null;
       if(!summary || !body) return;
@@ -208,12 +208,12 @@
           d.open=true;
           var target=body.scrollHeight;
           body.style.overflow="hidden";
-          anim=body.animate([{height:"0px"},{height:target+"px"}], {duration:420, easing:EASE});
+          anim=body.animate([{height:"0px"},{height:target+"px"}], {duration:420, easing:EASE_OPEN});
           anim.onfinish=function(){ body.style.overflow=""; anim=null; };
         } else {
           var from=body.scrollHeight;
           body.style.overflow="hidden";
-          anim=body.animate([{height:from+"px"},{height:"0px"}], {duration:380, easing:EASE, fill:"forwards"});
+          anim=body.animate([{height:from+"px"},{height:"0px"}], {duration:380, easing:EASE_CLOSE, fill:"forwards"});
           anim.onfinish=function(){ d.open=false; body.style.overflow=""; if(anim){ anim.cancel(); anim=null; } };
         }
       });

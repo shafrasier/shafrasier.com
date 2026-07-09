@@ -60,7 +60,7 @@ a{color:inherit; text-decoration:none;}   /* underlines come from explicit borde
 .pl[open] > summary .pl-chev{transform:rotate(180deg);}
 .pl-chev svg{display:block; width:100%; height:100%;}
 
-.pl-body{padding:0 0 clamp(1.4rem,4vw,2.2rem) 0;}
+.pl-body{padding:0;}   /* no padding on the animated box, or its height can't collapse below it */
 .pl-meta{display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem 1.1rem;
   font-family:var(--label); font-size:.68rem; letter-spacing:.04em; color:var(--soft);
   padding:0 0 1.2rem 2.9rem; margin-top:-.2rem;}
@@ -73,7 +73,7 @@ a{color:inherit; text-decoration:none;}   /* underlines come from explicit borde
 .pl-links .soon{color:var(--faint); opacity:.75;}
 
 /* ---------- tracklist ---------- */
-.tracks{list-style:none; margin:0; padding:0;}
+.tracks{list-style:none; margin:0; padding:0 0 clamp(1.4rem,4vw,2.2rem);}   /* bottom breathing room lives inside, so the body can animate to a true 0 */
 .track{display:grid; grid-template-columns:2.9rem 1fr auto; gap:0 .9rem; align-items:baseline;
   padding:.7rem 0; border-top:1px solid var(--line-2);}
 .track:first-child{border-top:none;}
