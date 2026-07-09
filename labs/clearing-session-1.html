@@ -19,7 +19,7 @@
   </a>
 
   <header class="mast">
-    <p class="eyebrow">the Clearing · session one</p>
+    <p class="eyebrow">session one</p>
     <h1>five biomes</h1>
     <p class="date">July 5th, 2026.</p>
     <p class="credit">selected by <em>Sha Frasier</em> <span class="amp">and</span> <em>David Feigelson</em>.</p>
@@ -193,36 +193,28 @@
 </div>
 
 <script>
-  /* smooth open/close for each playlist (native <details> flashes open otherwise) */
+  /* smooth open/close for each playlist (native <details> flashes open otherwise).
+     Uses the Web Animations API so a collapse can't get stuck between children. */
   (function(){
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if(reduce) return;                                  // reduced motion → let the native instant toggle stand
+    if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;   // let the native instant toggle stand
+    var EASE="cubic-bezier(.22,1,.32,1)";
     document.querySelectorAll("details.pl").forEach(function(d){
-      var summary = d.querySelector("summary"), body = d.querySelector(".pl-body");
+      var summary=d.querySelector("summary"), body=d.querySelector(".pl-body"), anim=null;
       if(!summary || !body) return;
       summary.addEventListener("click", function(e){
-        if(d.dataset.anim === "1") { e.preventDefault(); return; }   // ignore clicks mid-animation
         e.preventDefault();
-        d.dataset.anim = "1";
-        var end = function(ev){ if(ev.propertyName!=="height") return;
-          body.removeEventListener("transitionend", end);
-          body.style.transition=""; body.style.height=""; body.style.overflow="";
-          if(d.dataset.closing==="1"){ d.open=false; d.dataset.closing=""; }
-          d.dataset.anim=""; };
+        if(anim){ anim.cancel(); anim=null; body.style.overflow=""; }   // interrupt any in-flight run cleanly
         if(!d.open){
-          d.open = true;                                 // reveal, then grow from 0 to full height
-          body.style.overflow="hidden"; body.style.transition="none"; body.style.height="0px";
-          void body.offsetHeight;                        // reflow so the 0 height sticks before we animate
-          body.style.transition="height .42s cubic-bezier(.22,1,.32,1)";
-          body.style.height = body.scrollHeight + "px";
-          body.addEventListener("transitionend", end);
+          d.open=true;
+          var target=body.scrollHeight;
+          body.style.overflow="hidden";
+          anim=body.animate([{height:"0px"},{height:target+"px"}], {duration:420, easing:EASE});
+          anim.onfinish=function(){ body.style.overflow=""; anim=null; };
         } else {
-          body.style.overflow="hidden"; body.style.transition="none"; body.style.height = body.scrollHeight + "px";
-          void body.offsetHeight;                        // reflow at full height, then shrink to 0
-          d.dataset.closing="1";
-          body.style.transition="height .38s cubic-bezier(.22,1,.32,1)";
-          body.style.height = "0px";
-          body.addEventListener("transitionend", end);
+          var from=body.scrollHeight;
+          body.style.overflow="hidden";
+          anim=body.animate([{height:from+"px"},{height:"0px"}], {duration:380, easing:EASE, fill:"forwards"});
+          anim.onfinish=function(){ d.open=false; body.style.overflow=""; if(anim){ anim.cancel(); anim=null; } };
         }
       });
     });
