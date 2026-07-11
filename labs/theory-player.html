@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>the Woodshed — twelve-bar blues (MAP lab)</title>
+<style>
+  /* MAP design tokens */
+  :root {
+    --cream: #f0efe4; --light: #fbfbf6; --ink: #111; --gray: #8c8880;
+    --lightgray: #d9d7cb; --theory: #6a4cb8; --genre: #3a9c40; --amber: #d4952a;
+    --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--cream); color: var(--ink);
+    font-family: var(--serif); -webkit-font-smoothing: antialiased;
+    display: flex; justify-content: center; padding: 1.2rem;
+  }
+  .card {
+    background: var(--light); border: 1px solid var(--lightgray); border-radius: 8px;
+    max-width: 660px; width: 100%; padding: 1.6rem 1.5rem 2rem;
+    box-shadow: 0 10px 30px -12px rgba(17,17,17,.18);
+    border-top: 3px solid var(--theory);
+  }
+  .tag { display: flex; align-items: center; gap: 7px; margin-bottom: .4rem; }
+  .tag .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--theory); }
+  .tag .lbl { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--theory); }
+  h1 { font-size: 2rem; margin: 0 0 .2rem; font-weight: 700; }
+  .dek { color: rgba(17,17,17,.65); font-size: .95rem; margin: 0 0 1.4rem; max-width: 42em; }
+
+  /* ── the living grid ── */
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 1rem 0 1.2rem; }
+  .bar {
+    position: relative; border: 1.5px solid var(--lightgray); border-radius: 8px;
+    padding: .55rem .4rem .5rem; text-align: center; cursor: pointer;
+    transition: border-color .15s ease, background .15s ease, transform .12s ease;
+    background: transparent; user-select: none; -webkit-user-select: none;
+  }
+  .bar .rn { font-size: 1.25rem; font-weight: 700; font-style: italic; }
+  .bar .ch { font-size: .72rem; color: var(--gray); margin-top: .1rem; font-variant-numeric: tabular-nums; }
+  .bar.now { border-color: var(--theory); background: color-mix(in srgb, var(--theory) 9%, transparent); transform: scale(1.04); }
+  .bar.now .rn { color: var(--theory); }
+  .bar:active { transform: scale(.97); }
+  .beats { position: absolute; bottom: 4px; left: 0; right: 0; display: flex; justify-content: center; gap: 4px; }
+  .beats i { width: 4px; height: 4px; border-radius: 50%; background: var(--lightgray); }
+  .bar.now .beats i.on { background: var(--theory); }
+
+  /* ── controls ── */
+  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem; margin: 1.1rem 0 .4rem; }
+  button, select {
+    font-family: var(--serif); font-size: .92rem; color: var(--ink);
+    background: transparent; border: 1.5px solid var(--lightgray); border-radius: 999px;
+    padding: .42rem 1rem; cursor: pointer; transition: all .15s ease;
+  }
+  button:hover, select:hover { border-color: var(--gray); }
+  button.primary { background: var(--theory); border-color: var(--theory); color: #fff; font-weight: 600; min-width: 92px; }
+  button.toggled { background: var(--ink); border-color: var(--ink); color: var(--light); }
+  .ctl { display: flex; align-items: center; gap: .45rem; }
+  .ctl label { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gray); font-weight: 600; }
+  input[type=range] { accent-color: #6a4cb8; width: 110px; }
+  .bpm { font-variant-numeric: tabular-nums; font-size: .9rem; min-width: 3.2em; }
+
+  .voices { display: flex; gap: .5rem; flex-wrap: wrap; margin: .3rem 0 0; }
+  .voices button { font-size: .8rem; padding: .3rem .8rem; }
+
+  /* ── keyboard ── */
+  .kbwrap { margin: 1.4rem 0 .4rem; }
+  .kblabel { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gray); font-weight: 600; margin-bottom: .5rem; display: flex; justify-content: space-between; align-items: center;}
+  .kb { position: relative; height: 128px; display: flex; border-radius: 6px; overflow: hidden; border: 1.5px solid var(--lightgray); }
+  .wk { flex: 1; background: var(--light); border-right: 1px solid var(--lightgray); position: relative; cursor: pointer; transition: background .1s ease; }
+  .wk:last-child { border-right: none; }
+  .wk.lit { background: color-mix(in srgb, var(--theory) 22%, var(--light)); }
+  .wk.pressed { background: color-mix(in srgb, var(--theory) 40%, var(--light)); }
+  .wk .nm { position: absolute; bottom: 5px; left: 0; right: 0; text-align: center; font-size: .62rem; color: var(--gray); }
+  .wk.lit .nm { color: var(--theory); font-weight: 700; }
+  .bk { position: absolute; top: 0; width: 4.4%; height: 62%; background: var(--ink); border-radius: 0 0 4px 4px; cursor: pointer; z-index: 2; }
+  .bk.lit { background: var(--theory); }
+  .bk.pressed { background: color-mix(in srgb, var(--theory) 70%, #fff); }
+
+  .wild { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--lightgray); font-size: .92rem; color: rgba(17,17,17,.75); }
+  .wild a { color: var(--genre); font-weight: 600; }
+  .note { font-size: .8rem; color: var(--gray); margin-top: 1rem; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="tag"><span class="dot"></span><span class="lbl">Theory · lab prototype</span></div>
+  <h1>Twelve-bar blues</h1>
+  <p class="dek">The form is a circle you can hear coming around. Press play — each bar lights as it
+  passes, the keyboard shows the chord under your ear. Change the key, slow it down, straighten the
+  shuffle. Tap any bar to jump there; tap the keys to try the notes yourself.</p>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="controls">
+    <button class="primary" id="play">Play</button>
+    <div class="ctl"><label>Key</label>
+      <select id="key">
+        <option>E</option><option>A</option><option>G</option><option>C</option><option>D</option><option>Bb</option>
+      </select>
+    </div>
+    <div class="ctl"><label>Tempo</label><input type="range" id="tempo" min="60" max="160" value="96"><span class="bpm" id="bpm">96</span></div>
+    <button id="shuffle" class="toggled">Shuffle</button>
+  </div>
+  <div class="voices">
+    <button data-v="piano" class="toggled">Piano</button>
+    <button data-v="bass" class="toggled">Bass</button>
+    <button data-v="drums" class="toggled">Drums</button>
+    <button data-v="seventh" class="toggled">7th chords</button>
+  </div>
+
+  <div class="kbwrap">
+    <div class="kblabel"><span>The chord under the playhead</span><span id="chordname" style="color:var(--theory);font-size:.95rem;text-transform:none;letter-spacing:0;font-style:italic;"></span></div>
+    <div class="kb" id="kb"></div>
+  </div>
+
+  <div class="wild">Hear the form in the wild: the first twelve bars of Chuck Berry's
+    <a href="https://music.apple.com/us/album/johnny-b-goode/1440840071?i=1440840620" target="_blank" rel="noopener">"Johnny B. Goode"</a>
+    are exactly this grid in B♭ — count the bars as they pass.</div>
+  <p class="note">Lab prototype — synthesized voices (Web Audio, no samples yet). The production
+  engine would drive every THEORY note from a declarative spec in the note itself.</p>
+</div>
+
+<script>
+(() => {
+  // ── music math ──────────────────────────────────────────────────────────
+  const NOTES = ["C","C#","D","Eb","E","F","F#","G","Ab","A","Bb","B"];
+  const KEYS = { E: 40, A: 45, G: 43, C: 48, D: 50, Bb: 46 }; // midi of the tonic (low-ish)
+  // 12-bar: I I I I | IV IV I I | V IV I V
+  const FORM = [0,0,0,0, 5,5,0,0, 7,5,0,7]; // semitone offset of each bar's root
+  const RN   = ["I","I","I","I","IV","IV","I","I","V","IV","I","V"];
+
+  const midiName = (m) => NOTES[m % 12];
+  const chordTones = (root, seventh) => seventh ? [0,4,7,10].map(i=>root+i) : [0,4,7].map(i=>root+i);
+
+  // ── state ──────────────────────────────────────────────────────────────
+  const S = {
+    playing: false, bar: 0, beat: 0, bpm: 96, shuffle: true, seventh: true,
+    key: "E", voices: { piano: true, bass: true, drums: true },
+    nextTime: 0, tick: 0, // tick = 8th-note counter
+  };
+
+  // ── audio engine (hand-rolled, no deps) ────────────────────────────────
+  let AC = null;
+  const ac = () => AC || (AC = new (window.AudioContext || window.webkitAudioContext)());
+  const master = () => {
+    if (!ac()._master) {
+      const g = ac().createGain(); g.gain.value = 0.32; g.connect(ac().destination);
+      const comp = ac().createDynamicsCompressor(); comp.connect(g);
+      ac()._master = comp;
+    }
+    return ac()._master;
+  };
+  const mtof = (m) => 440 * Math.pow(2, (m - 69) / 12);
+
+  // piano-ish: two detuned oscillators through a soft lowpass, quick decay
+  function pianoNote(m, t, dur, vel=0.5) {
+    const c = ac(), out = master();
+    const g = c.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vel, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    const lp = c.createBiquadFilter(); lp.type = "lowpass";
+    lp.frequency.setValueAtTime(2600, t);
+    lp.frequency.exponentialRampToValueAtTime(900, t + dur);
+    lp.connect(g); g.connect(out);
+    [["triangle", 0], ["sine", 3]].forEach(([type, det]) => {
+      const o = c.createOscillator(); o.type = type;
+      o.frequency.value = mtof(m); o.detune.value = det;
+      o.connect(lp); o.start(t); o.stop(t + dur + 0.05);
+    });
+  }
+  function bassNote(m, t, dur, vel=0.6) {
+    const c = ac(), out = master();
+    const g = c.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vel, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 700;
+    lp.connect(g); g.connect(out);
+    const o = c.createOscillator(); o.type = "triangle"; o.frequency.value = mtof(m - 12);
+    const o2 = c.createOscillator(); o2.type = "sine"; o2.frequency.value = mtof(m - 24);
+    o.connect(lp); o2.connect(lp); o.start(t); o.stop(t + dur); o2.start(t); o2.stop(t + dur);
+  }
+  function noiseBuf() {
+    const c = ac();
+    if (!c._noise) {
+      const b = c.createBuffer(1, c.sampleRate * 0.4, c.sampleRate);
+      const d = b.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      c._noise = b;
+    }
+    return c._noise;
+  }
+  function hat(t, open=false) {
+    const c = ac(), src = c.createBufferSource(); src.buffer = noiseBuf();
+    const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 7500;
+    const g = c.createGain();
+    g.gain.setValueAtTime(open ? 0.16 : 0.12, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + (open ? 0.22 : 0.05));
+    src.connect(hp); hp.connect(g); g.connect(master()); src.start(t); src.stop(t + 0.25);
+  }
+  function snare(t) {
+    const c = ac(), src = c.createBufferSource(); src.buffer = noiseBuf();
+    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1800; bp.Q.value = 0.8;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.35, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+    src.connect(bp); bp.connect(g); g.connect(master()); src.start(t); src.stop(t + 0.2);
+    const o = c.createOscillator(); o.type = "triangle"; o.frequency.value = 190;
+    const og = c.createGain(); og.gain.setValueAtTime(0.18, t);
+    og.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+    o.connect(og); og.connect(master()); o.start(t); o.stop(t + 0.1);
+  }
+  function kick(t) {
+    const c = ac(), o = c.createOscillator(), g = c.createGain();
+    o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.09);
+    g.gain.setValueAtTime(0.5, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+    o.connect(g); g.connect(master()); o.start(t); o.stop(t + 0.25);
+  }
+
+  // ── the boogie bassline: 1 3 5 6 b7 6 5 3 over each bar (swung 8ths) ──
+  const BOOGIE = [0, 4, 7, 9, 10, 9, 7, 4];
+
+  // ── scheduler (lookahead pattern) ──────────────────────────────────────
+  const LOOKAHEAD = 0.12, INTERVAL = 25;
+  let timer = null;
+
+  function eighthDur() { return 60 / S.bpm / 2; }
+  function swungOffset(i) {
+    // pair of 8ths → 2:1 when shuffle
+    if (!S.shuffle) return i * eighthDur();
+    const pair = Math.floor(i / 2), inPair = i % 2;
+    const beat = 60 / S.bpm;
+    return pair * beat + (inPair ? beat * (2/3) : 0);
+  }
+
+  function scheduleTick(tick, t) {
+    const bar = Math.floor(tick / 8) % 12;
+    const eighth = tick % 8;
+    const root = KEYS[S.key] + FORM[bar];
+    if (S.voices.drums) {
+      hat(t, false);
+      if (eighth === 2 || eighth === 6) snare(t);      // backbeat: 2 & 4
+      if (eighth === 0 || eighth === 4) kick(t);       // 1 & 3
+    }
+    if (S.voices.bass) {
+      bassNote(root + BOOGIE[eighth], t, eighthDur() * 1.6, 0.5);
+    }
+    if (S.voices.piano && (eighth === 0 || eighth === 3 || eighth === 4)) {
+      // comp on 1, the "and of 2", and 3 — a lazy blues comp
+      chordTones(root + 12, S.seventh).forEach((m, i) =>
+        pianoNote(m, t + i * 0.004, eighthDur() * 2.2, 0.16));
+    }
+    // UI sync
+    const delay = Math.max(0, (t - ac().currentTime) * 1000);
+    setTimeout(() => { if (S.playing) paintPlayhead(bar, Math.floor(eighth / 2)); }, delay);
+  }
+
+  function loop() {
+    const c = ac();
+    while (S.nextTime < c.currentTime + LOOKAHEAD) {
+      const tickInBar = S.tick % 8;
+      const barStart = S.barStartTime;
+      scheduleTick(S.tick, S.nextTime);
+      S.tick++;
+      // compute the NEXT tick's time from the bar grid (handles swing)
+      const nextTickInBar = S.tick % 8;
+      if (nextTickInBar === 0) {
+        S.barStartTime = S.barStartTime + 4 * (60 / S.bpm);
+        S.nextTime = S.barStartTime;
+      } else {
+        S.nextTime = S.barStartTime + swungOffset(nextTickInBar);
+      }
+    }
+  }
+
+  function start(fromBar=null) {
+    const c = ac();
+    if (c.state === "suspended") c.resume();
+    if (fromBar !== null) S.tick = fromBar * 8;
+    if (!S.playing) {
+      S.playing = true;
+      document.getElementById("play").textContent = "Stop";
+    }
+    S.barStartTime = c.currentTime + 0.08;
+    S.nextTime = S.barStartTime;
+    S.tick = Math.floor(S.tick / 8) * 8; // start of the chosen bar
+    clearInterval(timer); timer = setInterval(loop, INTERVAL);
+  }
+  function stop() {
+    S.playing = false; clearInterval(timer); timer = null;
+    document.getElementById("play").textContent = "Play";
+    document.querySelectorAll(".bar.now").forEach(b => b.classList.remove("now"));
+    litChord([]);
+    document.getElementById("chordname").textContent = "";
+  }
+
+  // ── UI ─────────────────────────────────────────────────────────────────
+  const grid = document.getElementById("grid");
+  FORM.forEach((off, i) => {
+    const d = document.createElement("div");
+    d.className = "bar"; d.dataset.i = i;
+    d.innerHTML = `<div class="rn">${RN[i]}</div><div class="ch"></div>
+      <div class="beats"><i></i><i></i><i></i><i></i></div>`;
+    d.addEventListener("click", () => start(i));
+    grid.appendChild(d);
+  });
+
+  function chordLabel(bar) {
+    const root = (KEYS[S.key] + FORM[bar]) % 12;
+    return midiName(root + 60) + (S.seventh ? "7" : "");
+  }
+  function paintChordNames() {
+    document.querySelectorAll(".bar").forEach((b, i) => {
+      b.querySelector(".ch").textContent = chordLabel(i);
+    });
+  }
+
+  function paintPlayhead(bar, beat) {
+    document.querySelectorAll(".bar").forEach((b, i) => {
+      b.classList.toggle("now", i === bar);
+      b.querySelectorAll(".beats i").forEach((dot, j) => dot.classList.toggle("on", i === bar && j <= beat));
+    });
+    const root = KEYS[S.key] + FORM[bar] + 12;
+    litChord(chordTones(root, S.seventh).map(m => m % 12));
+    document.getElementById("chordname").textContent = chordLabel(bar);
+  }
+
+  // ── keyboard (2 octaves, C-anchored) ──────────────────────────────────
+  const kb = document.getElementById("kb");
+  const WHITE = [0,2,4,5,7,9,11], BLACK = {0:1, 1:3, 3:6, 4:8, 5:10}; // white idx → black pc after it
+  const whiteEls = [], blackEls = [];
+  for (let oct = 0; oct < 2; oct++) {
+    WHITE.forEach((pc, wi) => {
+      const w = document.createElement("div");
+      w.className = "wk"; w.dataset.pc = pc;
+      w.innerHTML = `<span class="nm">${NOTES[pc]}</span>`;
+      const midi = 60 + oct*12 + pc;
+      w.addEventListener("pointerdown", () => { tapNote(midi, w); });
+      kb.appendChild(w); whiteEls.push(w);
+    });
+  }
+  // black keys positioned over the 14 white keys
+  Object.entries(BLACK).forEach(([wIdx, pc]) => {
+    for (let oct = 0; oct < 2; oct++) {
+      const b = document.createElement("div");
+      b.className = "bk"; b.dataset.pc = pc;
+      const leftPct = ((+wIdx + 1 + oct*7) / 14) * 100 - 2.2;
+      b.style.left = leftPct + "%";
+      const midi = 60 + oct*12 + +pc;
+      b.addEventListener("pointerdown", (e) => { e.stopPropagation(); tapNote(midi, b); });
+      kb.appendChild(b); blackEls.push(b);
+    }
+  });
+  function tapNote(midi, el) {
+    const c = ac(); if (c.state === "suspended") c.resume();
+    pianoNote(midi, c.currentTime, 0.9, 0.4);
+    el.classList.add("pressed"); setTimeout(() => el.classList.remove("pressed"), 180);
+  }
+  function litChord(pcs) {
+    [...whiteEls, ...blackEls].forEach(el => {
+      el.classList.toggle("lit", pcs.includes(+el.dataset.pc));
+    });
+  }
+
+  // ── controls wiring ────────────────────────────────────────────────────
+  document.getElementById("play").addEventListener("click", () => S.playing ? stop() : start());
+  document.getElementById("key").addEventListener("change", (e) => { S.key = e.target.value; paintChordNames(); });
+  document.getElementById("tempo").addEventListener("input", (e) => {
+    S.bpm = +e.target.value; document.getElementById("bpm").textContent = S.bpm;
+  });
+  document.getElementById("shuffle").addEventListener("click", (e) => {
+    S.shuffle = !S.shuffle; e.target.classList.toggle("toggled", S.shuffle);
+  });
+  document.querySelectorAll(".voices button").forEach(b => {
+    b.addEventListener("click", () => {
+      const v = b.dataset.v;
+      if (v === "seventh") { S.seventh = !S.seventh; b.classList.toggle("toggled", S.seventh); paintChordNames(); return; }
+      S.voices[v] = !S.voices[v]; b.classList.toggle("toggled", S.voices[v]);
+    });
+  });
+  paintChordNames();
+})();
+</script>
+</body>
+</html>

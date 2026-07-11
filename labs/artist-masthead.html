@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Artist masthead — portrait studies (MAP lab)</title>
+<style>
+  :root {
+    --cream: #f0efe4; --light: #fbfbf6; --ink: #111; --gray: #8c8880;
+    --lightgray: #d9d7cb; --amber: #d4952a;
+    --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--serif);
+    -webkit-font-smoothing: antialiased; padding: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 2.6rem; }
+  .study { max-width: 430px; width: 100%; }
+  .study > .which { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gray);
+    font-weight: 700; margin: 0 0 .6rem .2rem; }
+  .card { background: var(--light); border: 1px solid var(--lightgray); border-radius: 8px; overflow: hidden;
+    box-shadow: 0 10px 30px -12px rgba(17,17,17,.18); border-top: 3px solid var(--amber); }
+  .pad { padding: 1.1rem 1.3rem 1.5rem; }
+  .tag { display: flex; align-items: center; gap: 7px; }
+  .tag .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--amber); }
+  .tag .lbl { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--amber); }
+  h1 { font-family: var(--serif); font-weight: 700; margin: 0; }
+  img { display: block; width: 100%; filter: grayscale(1) contrast(1.05); }
+  body.duo img { filter: grayscale(1) contrast(1.02) brightness(1.04) sepia(.14); }
+
+  /* A — The Plate: full-bleed portrait, name carved INTO the image */
+  .plate { position: relative; }
+  .plate img { aspect-ratio: 4/4.6; object-fit: cover; }
+  .plate .scrim { position: absolute; inset: 0; background: linear-gradient(to top,
+    rgba(10,10,8,.72) 0%, rgba(10,10,8,.25) 26%, transparent 48%); }
+  .plate .over { position: absolute; left: 1.3rem; right: 1.3rem; bottom: 1.1rem; color: var(--cream); }
+  .plate .over .tag .lbl { color: #e8b869; } .plate .over .tag .dot { background: #e8b869; }
+  .plate h1 { font-size: 2.6rem; line-height: 1.05; margin-top: .3rem; color: var(--cream); }
+  .plate .years { font-style: italic; font-size: .95rem; color: rgba(240,239,228,.75); margin-top: .2rem; }
+
+  /* B — The Mat: museum matting, portrait floated on cream, name beneath */
+  .mat .matte { padding: 1.4rem 1.4rem 0; }
+  .mat img { aspect-ratio: 4/4.4; object-fit: cover; box-shadow: 0 14px 34px -14px rgba(17,17,17,.45); }
+  .mat h1 { font-size: 2.3rem; margin: .9rem 0 0; }
+  .mat .years { font-style: italic; color: var(--gray); font-size: .95rem; }
+
+  /* C — The Ledger: portrait bleeds off the top-right, facts run beside it */
+  .ledger .top { display: grid; grid-template-columns: 1fr 58%; }
+  .ledger .id { padding: 1.2rem 0 1rem 1.3rem; display: flex; flex-direction: column; justify-content: flex-end; }
+  .ledger img { aspect-ratio: 4/5; object-fit: cover; }
+  .ledger h1 { font-size: 2rem; line-height: 1.05; margin-top: .4rem; }
+  .ledger .years { font-style: italic; color: var(--gray); font-size: .9rem; margin-top: .2rem; }
+
+  /* shared facts grid */
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem 1.2rem; margin-top: 1.1rem; }
+  .f .k { font-size: .68rem; letter-spacing: .07em; text-transform: uppercase; color: var(--gray); font-weight: 700; }
+  .f .v { font-size: .98rem; margin-top: .15rem; }
+  .credit { font-size: .7rem; color: var(--gray); margin-top: .9rem; }
+
+  .bar { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--cream) 82%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); width: 100%; max-width: 430px;
+    display: flex; justify-content: space-between; align-items: center; padding: .6rem .3rem; border-radius: 10px; }
+  .bar b { font-size: .85rem; }
+  .bar button { font-family: var(--serif); border: 1.5px solid var(--lightgray); background: transparent;
+    border-radius: 999px; padding: .3rem .9rem; cursor: pointer; font-size: .82rem; }
+  .bar button.on { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+</style>
+</head>
+<body>
+  <div class="bar"><b>Artist masthead — three studies</b>
+    <button id="duo">warm duotone</button></div>
+
+  <!-- A · THE PLATE -->
+  <section class="study">
+    <p class="which">A · The Plate — full bleed, name in the image</p>
+    <div class="card">
+      <div class="plate">
+        <img src="assets/portraits/billie-holiday.jpg" alt="Billie Holiday, 1947">
+        <div class="scrim"></div>
+        <div class="over">
+          <div class="tag"><span class="dot"></span><span class="lbl">Artist</span></div>
+          <h1>Billie Holiday</h1>
+          <div class="years">1915–1959 · Baltimore, Harlem</div>
+        </div>
+      </div>
+      <div class="pad">
+        <div class="facts">
+          <div class="f"><div class="k">Role</div><div class="v">Vocalist</div></div>
+          <div class="f"><div class="k">Active</div><div class="v">1930–1959</div></div>
+          <div class="f"><div class="k">Scene</div><div class="v">52nd Street</div></div>
+          <div class="f"><div class="k">Signature</div><div class="v">"Strange Fruit" (1939)</div></div>
+        </div>
+        <div class="credit">Photograph: William P. Gottlieb, Downbeat, New York, Feb. 1947 · Library of Congress (public domain)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B · THE MAT -->
+  <section class="study">
+    <p class="which">B · The Mat — museum matting, name beneath</p>
+    <div class="card mat">
+      <div class="matte">
+        <img src="assets/portraits/bob-dylan.jpg" alt="Bob Dylan, 1963">
+      </div>
+      <div class="pad" style="padding-top:.2rem">
+        <div class="tag" style="margin-top:.7rem"><span class="dot"></span><span class="lbl">Artist</span></div>
+        <h1>Bob Dylan</h1>
+        <div class="years">b. 1941 · Hibbing, Minnesota → Greenwich Village</div>
+        <div class="facts">
+          <div class="f"><div class="k">Role</div><div class="v">Singer-songwriter</div></div>
+          <div class="f"><div class="k">Active</div><div class="v">1961–present</div></div>
+          <div class="f"><div class="k">Scene</div><div class="v">Greenwich Village folk scene</div></div>
+          <div class="f"><div class="k">Signature</div><div class="v">"Like a Rolling Stone" (1965)</div></div>
+        </div>
+        <div class="credit">Photograph: Rowland Scherman, March on Washington, Aug. 1963 · National Archives (public domain)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- C · THE LEDGER -->
+  <section class="study">
+    <p class="which">C · The Ledger — portrait beside the name, off the edge</p>
+    <div class="card ledger">
+      <div class="top">
+        <div class="id">
+          <div class="tag"><span class="dot"></span><span class="lbl">Artist</span></div>
+          <h1>Billie Holiday</h1>
+          <div class="years">1915–1959</div>
+        </div>
+        <img src="assets/portraits/billie-holiday.jpg" alt="Billie Holiday, 1947">
+      </div>
+      <div class="pad" style="padding-top:.9rem">
+        <div class="facts">
+          <div class="f"><div class="k">Role</div><div class="v">Vocalist</div></div>
+          <div class="f"><div class="k">Active</div><div class="v">1930–1959</div></div>
+          <div class="f"><div class="k">Scene</div><div class="v">52nd Street</div></div>
+          <div class="f"><div class="k">Signature</div><div class="v">"Strange Fruit" (1939)</div></div>
+        </div>
+        <div class="credit">Photograph: William P. Gottlieb, 1947 · Library of Congress (public domain)</div>
+      </div>
+    </div>
+  </section>
+
+<script>
+  document.getElementById("duo").addEventListener("click", (e) => {
+    document.body.classList.toggle("duo");
+    e.target.classList.toggle("on");
+  });
+</script>
+</body>
+</html>
