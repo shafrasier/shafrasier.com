@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ARTISTS — landing study (MAP lab)</title>
+<style>
+  :root {
+    --cream: #f0efe4; --light: #fbfbf6; --ink: #111; --gray: #8c8880;
+    --lightgray: #d9d7cb; --amber: #d4952a; --gold: #c4a545; --genre: #3a9c40;
+    --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--serif);
+    -webkit-font-smoothing: antialiased; display: flex; justify-content: center; padding: 1.2rem; }
+  .page { max-width: 900px; width: 100%; background: var(--light); border: 1px solid var(--lightgray);
+    border-radius: 8px; border-top: 3px solid var(--amber); padding: 1.6rem 1.5rem 2.4rem;
+    box-shadow: 0 10px 30px -12px rgba(17,17,17,.18); }
+  h1 { color: var(--amber); font-size: 2.4rem; margin: 0 0 .3rem; }
+  .dek { color: rgba(17,17,17,.65); font-size: 1.02rem; max-width: 40em; margin: 0 0 1.2rem; }
+
+  /* subcategory buttons — the bespoke treatment replacing the plain-link listing */
+  .subs { display: flex; flex-wrap: wrap; gap: .6rem; margin: 0 0 1.6rem; }
+  .subs a { display: inline-block; text-decoration: none; color: var(--ink); font-weight: 600;
+    font-size: .88rem; letter-spacing: .05em; padding: .55rem 1.2rem; border-radius: 999px;
+    border: 1.5px solid color-mix(in srgb, var(--gold) 55%, var(--lightgray));
+    background: color-mix(in srgb, var(--gold) 8%, transparent);
+    transition: all .15s ease; }
+  .subs a:hover { background: var(--gold); color: var(--light); }
+
+  /* ── the working part: filter bar ── */
+  .bar { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--light) 88%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    margin: 0 -0.4rem 1.1rem; padding: .7rem .4rem; border-bottom: 1px solid var(--lightgray); }
+  .row { display: flex; flex-wrap: wrap; gap: .5rem .6rem; align-items: center; }
+  .row + .row { margin-top: .55rem; }
+  input[type=search] { font-family: var(--serif); font-size: .95rem; padding: .45rem .9rem;
+    border: 1.5px solid var(--lightgray); border-radius: 999px; background: transparent; color: var(--ink);
+    flex: 1; min-width: 150px; outline: none; }
+  input[type=search]:focus { border-color: var(--amber); }
+  .chip, select { font-family: var(--serif); font-size: .84rem; color: var(--ink);
+    border: 1.5px solid var(--lightgray); background: transparent; border-radius: 999px;
+    padding: .34rem .85rem; cursor: pointer; transition: all .13s ease; }
+  .chip:hover { border-color: var(--gray); }
+  .chip.on { background: var(--ink); border-color: var(--ink); color: var(--light); }
+  .chip.role.on { background: var(--gold); border-color: var(--gold); }
+  .lbl { font-size: .68rem; letter-spacing: .07em; text-transform: uppercase; color: var(--gray); font-weight: 700; margin-right: .1rem; }
+  .count { margin-left: auto; font-size: .8rem; color: var(--gray); font-variant-numeric: tabular-nums; }
+
+  /* ── the wall ── */
+  .wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+  @media (min-width: 640px) { .wall { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } }
+  .artist { position: relative; border-radius: 8px; overflow: hidden; cursor: pointer;
+    border: 1px solid var(--lightgray); background: var(--cream);
+    transition: transform .16s ease, box-shadow .16s ease; text-decoration: none; color: inherit; display: block; }
+  .artist:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -12px rgba(17,17,17,.3); }
+  .ph { position: relative; aspect-ratio: 4/4.8; overflow: hidden; }
+  .ph img { width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: grayscale(1) contrast(1.02) brightness(1.04) sepia(.14); }
+  .ph .scrim { position: absolute; inset: 0; background: linear-gradient(to top,
+    rgba(10,10,8,.74) 0%, rgba(10,10,8,.22) 34%, transparent 55%); }
+  /* the no-portrait-yet tile: monogram on cream, dignified from day one */
+  .mono { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(120% 100% at 30% 20%, #efeee2, #e3e1d2); }
+  .mono span { font-size: 3.6rem; font-weight: 700; color: rgba(17,17,17,.18); font-style: italic; }
+  .ph.tile .scrim { background: linear-gradient(to top, rgba(240,239,228,.92) 8%, transparent 46%); }
+  .ph.tile ~ .over, .over.dark2 {}
+  .over { position: absolute; left: .8rem; right: .8rem; bottom: .65rem; color: var(--cream); }
+  .tile-over { color: var(--ink); }
+  .over .nm { font-size: 1.12rem; font-weight: 700; line-height: 1.08; }
+  .over .yrs { font-size: .74rem; font-style: italic; opacity: .78; margin-top: .1rem; }
+  .meta { padding: .5rem .8rem .7rem; display: flex; flex-wrap: wrap; gap: .3rem; }
+  .gp { font-size: .7rem; padding: .12rem .55rem; border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--genre) 40%, var(--lightgray));
+    background: color-mix(in srgb, var(--genre) 8%, transparent); white-space: nowrap; }
+  .rolemark { position: absolute; top: .55rem; left: .55rem; font-size: .6rem; letter-spacing: .08em;
+    text-transform: uppercase; font-weight: 700; color: var(--cream);
+    background: rgba(10,10,8,.45); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    padding: .18rem .5rem; border-radius: 999px; }
+  .none { text-align: center; color: var(--gray); padding: 2.5rem 0 1rem; font-style: italic; display: none; }
+  .note { font-size: .78rem; color: var(--gray); margin-top: 1.6rem; max-width: 46em; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>ARTISTS</h1>
+  <p class="dek">Critical profiles that map influence in both directions: who shaped an artist, and whom
+  they shaped. Includes the songwriters, producers, and session musicians working behind the records.</p>
+
+  <div class="subs">
+    <a href="#">SONGWRITERS</a><a href="#">PRODUCERS</a><a href="#">SESSION MUSICIANS</a>
+  </div>
+
+  <div class="bar">
+    <div class="row">
+      <input type="search" id="q" placeholder="Find an artist…">
+      <span class="count" id="count"></span>
+    </div>
+    <div class="row">
+      <span class="lbl">Role</span>
+      <button class="chip role on" data-role="">All</button>
+      <button class="chip role" data-role="artist">Artists</button>
+      <button class="chip role" data-role="songwriter">Songwriters</button>
+      <button class="chip role" data-role="producer">Producers</button>
+      <button class="chip role" data-role="session">Session</button>
+    </div>
+    <div class="row">
+      <span class="lbl">Era</span>
+      <button class="chip era" data-era="1940">40s</button>
+      <button class="chip era" data-era="1950">50s</button>
+      <button class="chip era on" data-era="1960">60s</button>
+      <button class="chip era" data-era="1970">70s</button>
+      <span class="lbl" style="margin-left:.6rem">Genre</span>
+      <select id="genre">
+        <option value="">All genres</option>
+        <option>Rock</option><option>Pop</option><option>R&B</option><option>Soul</option>
+        <option>Folk</option><option>Blues</option><option>Rock & roll</option>
+      </select>
+      <span class="lbl" style="margin-left:.6rem">Sort</span>
+      <select id="sort">
+        <option value="az">A–Z</option>
+        <option value="era">By era</option>
+        <option value="role">By role</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="wall" id="wall"></div>
+  <p class="none" id="none">No artists match — loosen a filter.</p>
+
+  <p class="note">Landing study: the wall renders from the notes' own metadata (role, active years, places,
+  primary genres, portrait) — an artist appears here the moment their note lands, with a monogram tile
+  until a portrait is sourced. Filters are cumulative; era chips toggle; everything is client-side and
+  instant at any count. Demo portraits are verified public domain / CC0 (Gottlieb, Scherman, Anefo,
+  pre-1964 publicity stills).</p>
+</div>
+
+<script>
+(() => {
+  const P = "assets/portraits/";
+  // In production this array is generated at build time from the ARTISTS notes.
+  const DATA = [
+    { n: "The Beatles",        y: "1960–1970",    r: "artist",     g: ["Rock", "Pop"],          e: [1960],       img: "the-beatles.jpg" },
+    { n: "Bob Dylan",          y: "b. 1941",      r: "artist",     g: ["Folk", "Rock"],         e: [1960, 1970], img: "bob-dylan.jpg" },
+    { n: "The Rolling Stones", y: "1962–",        r: "artist",     g: ["Rock", "Blues"],        e: [1960, 1970], img: "the-rolling-stones.jpg" },
+    { n: "Elvis Presley",      y: "1935–1977",    r: "artist",     g: ["Rock & roll"],          e: [1950, 1960], img: "elvis-presley.jpg" },
+    { n: "The Supremes",       y: "1959–1977",    r: "artist",     g: ["Soul", "Pop"],          e: [1960],       img: "the-supremes.jpg" },
+    { n: "Stevie Wonder",      y: "b. 1950",      r: "artist",     g: ["Soul", "R&B"],          e: [1960, 1970], img: "stevie-wonder.jpg" },
+    { n: "The Beach Boys",     y: "1961–",        r: "artist",     g: ["Pop", "Rock"],          e: [1960] },
+    { n: "The Kinks",          y: "1963–1996",    r: "artist",     g: ["Rock"],                 e: [1960] },
+    { n: "The Who",            y: "1964–",        r: "artist",     g: ["Rock"],                 e: [1960, 1970] },
+    { n: "The Ronettes",       y: "1957–1967",    r: "artist",     g: ["Pop", "R&B"],           e: [1960] },
+    { n: "Chuck Berry",        y: "1926–2017",    r: "artist",     g: ["Rock & roll"],          e: [1950] },
+    { n: "Dionne Warwick",     y: "b. 1940",      r: "artist",     g: ["Pop", "Soul"],          e: [1960] },
+    { n: "Carole King",        y: "b. 1942",      r: "songwriter", g: ["Pop"],                  e: [1960, 1970] },
+    { n: "Smokey Robinson",    y: "b. 1940",      r: "songwriter", g: ["Soul", "R&B"],          e: [1960] },
+    { n: "Phil Spector",       y: "1939–2021",    r: "producer",   g: ["Pop"],                  e: [1960] },
+    { n: "Brian Wilson",       y: "1942–2024",    r: "producer",   g: ["Pop"],                  e: [1960] },
+    { n: "The Wrecking Crew",  y: "c. 1962–1975", r: "session",    g: ["Pop", "Rock"],          e: [1960, 1970] },
+    { n: "The Funk Brothers",  y: "1959–1972",    r: "session",    g: ["Soul", "R&B"],          e: [1960] },
+  ];
+  const ROLE_LABEL = { songwriter: "Songwriter", producer: "Producer", session: "Session" };
+
+  const S = { q: "", role: "", eras: new Set([1960]), genre: "", sort: "az" };
+
+  const wall = document.getElementById("wall");
+  const none = document.getElementById("none");
+  const count = document.getElementById("count");
+
+  function card(a) {
+    const el = document.createElement("a");
+    el.className = "artist"; el.href = "#";
+    const tile = !a.img;
+    const initials = a.n.replace(/^The /, "").split(" ").map(w => w[0]).slice(0, 2).join("");
+    el.innerHTML = `
+      <div class="ph${tile ? " tile" : ""}">
+        ${tile
+          ? `<div class="mono"><span>${initials}</span></div>`
+          : `<img src="${P}${a.img}" alt="${a.n}" loading="lazy">`}
+        <div class="scrim"></div>
+        ${ROLE_LABEL[a.r] ? `<span class="rolemark">${ROLE_LABEL[a.r]}</span>` : ""}
+        <div class="over${tile ? " tile-over" : ""}">
+          <div class="nm">${a.n}</div>
+          <div class="yrs">${a.y}</div>
+        </div>
+      </div>
+      <div class="meta">${a.g.slice(0, 2).map(g => `<span class="gp">${g}</span>`).join("")}</div>`;
+    return el;
+  }
+
+  function apply() {
+    const q = S.q.toLowerCase();
+    let rows = DATA.filter(a =>
+      (!q || a.n.toLowerCase().includes(q)) &&
+      (!S.role || a.r === S.role) &&
+      (S.eras.size === 0 || a.e.some(e => S.eras.has(e))) &&
+      (!S.genre || a.g.includes(S.genre))
+    );
+    if (S.sort === "az") rows.sort((x, y) => x.n.replace(/^The /, "").localeCompare(y.n.replace(/^The /, "")));
+    if (S.sort === "era") rows.sort((x, y) => Math.min(...x.e) - Math.min(...y.e));
+    if (S.sort === "role") rows.sort((x, y) => x.r.localeCompare(y.r) || x.n.localeCompare(y.n));
+    wall.innerHTML = "";
+    rows.forEach(a => wall.appendChild(card(a)));
+    none.style.display = rows.length ? "none" : "block";
+    count.textContent = `${rows.length} of ${DATA.length}`;
+  }
+
+  document.getElementById("q").addEventListener("input", e => { S.q = e.target.value; apply(); });
+  document.querySelectorAll(".chip.role").forEach(c => c.addEventListener("click", () => {
+    document.querySelectorAll(".chip.role").forEach(x => x.classList.remove("on"));
+    c.classList.add("on"); S.role = c.dataset.role; apply();
+  }));
+  document.querySelectorAll(".chip.era").forEach(c => c.addEventListener("click", () => {
+    const e = +c.dataset.era;
+    if (S.eras.has(e)) { S.eras.delete(e); c.classList.remove("on"); }
+    else { S.eras.add(e); c.classList.add("on"); }
+    apply();
+  }));
+  document.getElementById("genre").addEventListener("change", e => { S.genre = e.target.value; apply(); });
+  document.getElementById("sort").addEventListener("change", e => { S.sort = e.target.value; apply(); });
+  apply();
+})();
+</script>
+</body>
+</html>
