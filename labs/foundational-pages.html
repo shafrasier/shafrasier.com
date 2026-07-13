@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Foundational pages — MAP labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* ————— palette ————— */
+  :root{
+    --bg:#fefdfb;
+    --line:#e6e3d5;
+    --muted:#8c8880;
+    --ink:#232120;
+    --head:#111111;
+    --hover:#6f6a5c;
+    --wash:rgba(240,239,228,.7);
+    --card:rgba(254,253,251,.82);
+    --card-shadow:0 1px 2px rgba(17,17,17,.04), 0 18px 60px rgba(17,17,17,.14);
+    --bar:rgba(254,253,251,.85);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#15130f;
+      --line:#322e27;
+      --muted:#6c675d;
+      --ink:#c4beb0;
+      --head:#f1ede2;
+      --hover:#a29a88;
+      --wash:rgba(40,36,28,.55);
+      --card:rgba(30,27,21,.86);
+      --card-shadow:0 1px 2px rgba(0,0,0,.35), 0 18px 60px rgba(0,0,0,.5);
+      --bar:rgba(21,19,15,.85);
+    }
+  }
+
+  /* ————— base ————— */
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size:1.03rem; line-height:1.72; font-weight:400;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  p{margin:0 0 1.1em; text-wrap:pretty}
+  h1,h2,h3,h4{margin:0; color:var(--head); text-wrap:balance; font-weight:600}
+  a{color:inherit}
+  ::selection{background:var(--wash)}
+  .mono{font-family:"IBM Plex Mono", ui-monospace, "SF Mono", monospace}
+
+  .kicker{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.6rem; font-weight:500; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--muted);
+  }
+  .kicker-wide{letter-spacing:.18em}
+  .tag{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.56rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--muted); border:1px solid var(--line); border-radius:4px;
+    padding:.14em .5em .1em; white-space:nowrap;
+  }
+
+  /* ————— sticky switcher ————— */
+  .switch{
+    position:sticky; top:0; z-index:40;
+    background:var(--bar);
+    -webkit-backdrop-filter:blur(14px) saturate(1.2); backdrop-filter:blur(14px) saturate(1.2);
+    border-bottom:1px solid var(--line);
+  }
+  .switch-row{
+    max-width:1060px; margin:0 auto; padding:0 1.25rem;
+    display:flex; gap:1.6rem; overflow-x:auto; white-space:nowrap;
+    scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  }
+  .switch-row::-webkit-scrollbar{display:none}
+  .switch a{
+    display:inline-block; padding:.85rem 0 .72rem; text-decoration:none;
+    font-size:.82rem; color:var(--muted);
+    border-bottom:1.5px solid transparent; margin-bottom:-1px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .switch a:hover{color:var(--hover)}
+  .switch a[data-active]{color:var(--head); border-bottom-color:var(--head)}
+  .switch a .n{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.6rem; letter-spacing:.08em; color:var(--muted);
+    margin-right:.45em; vertical-align:.12em;
+  }
+
+  /* ————— study chrome ————— */
+  .hero{max-width:66ch; margin:0 auto; padding:clamp(3.4rem,8vw,6rem) 1.25rem 0}
+  .hero .back{
+    display:inline-block; text-decoration:none; font-size:.8rem; color:var(--muted);
+    margin-bottom:2.6rem; transition:color .2s ease;
+  }
+  .hero .back:hover{color:var(--hover)}
+  .hero h1{font-size:clamp(2rem,6vw,2.9rem); line-height:1.12; letter-spacing:-.015em; margin:.9rem 0 1.1rem}
+  .hero .lede{font-size:1.05rem; color:var(--ink); max-width:56ch}
+  .hero .lede i{color:var(--muted)}
+
+  .study{padding:clamp(4.2rem,10vw,7.5rem) 1.25rem 0; scroll-margin-top:3.4rem}
+  .study-head{
+    max-width:var(--w,66ch); margin:0 auto clamp(2.6rem,6vw,4.2rem);
+    border-top:1px solid var(--line); padding-top:.85rem;
+    display:flex; justify-content:space-between; align-items:baseline; gap:1.2rem; flex-wrap:wrap;
+  }
+  .study-head .note{font-size:.82rem; font-style:italic; color:var(--muted); text-align:right; flex:1; min-width:14ch}
+
+  .rule-short{width:34px; border:0; border-top:1px solid var(--muted); opacity:.55; margin:0 auto}
+
+  /* ————— 01 · the About card ————— */
+  #card{--w:1040px}
+  .stage{
+    position:relative; max-width:1040px; margin:0 auto; overflow:hidden;
+    background:var(--wash); border-radius:26px;
+    padding:clamp(1.4rem,4vw,3rem);
+  }
+  .stage svg.graph{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
+  .stage-grid{
+    position:relative; display:grid; gap:clamp(1.4rem,3vw,2.4rem);
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));
+    align-items:start;
+  }
+  .variant-label{
+    display:flex; align-items:baseline; gap:.7rem; margin:0 .35rem .8rem;
+  }
+  .variant-label .kicker{letter-spacing:.18em}
+  .variant-label .vnote{font-size:.78rem; font-style:italic; color:var(--muted)}
+
+  .about-card{
+    position:relative;
+    background:var(--card);
+    -webkit-backdrop-filter:blur(22px) saturate(1.35); backdrop-filter:blur(22px) saturate(1.35);
+    border:1px solid color-mix(in srgb, var(--muted) 28%, transparent);
+    border-radius:18px;
+    box-shadow:var(--card-shadow);
+    padding:1.8rem 1.8rem 1.55rem;
+  }
+  .about-close{
+    position:absolute; top:.9rem; right:.9rem; width:34px; height:34px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%; border:1px solid color-mix(in srgb, var(--muted) 40%, transparent);
+    background:transparent; color:var(--ink); cursor:pointer; padding:0;
+    transition:background-color .2s ease;
+  }
+  .about-close:hover{background:var(--wash)}
+  .about-close svg{width:15px; height:15px; display:block}
+
+  .card-mast{display:flex; align-items:center; gap:.55rem; margin-bottom:1.25rem; color:var(--head)}
+  .card-mast svg{width:1.25rem; height:1.25rem; flex:none}
+  .card-mast .wm{font-size:1.12rem; font-weight:600; letter-spacing:-.01em}
+  .card-mast .tag{margin-left:auto; margin-right:2.6rem}
+
+  .doors{display:flex; align-items:center; flex-wrap:wrap; margin-bottom:1.4rem}
+  /* A — bordered pills */
+  .doors-a{gap:.5rem}
+  .doors-a .pill{
+    display:inline-block; text-decoration:none; cursor:pointer;
+    font-size:.8rem; line-height:1; padding:.5rem .85rem .44rem;
+    border:1px solid var(--line); border-radius:999px; color:var(--ink);
+    transition:color .2s ease, border-color .2s ease, transform .12s ease;
+  }
+  .doors-a .pill:hover{color:var(--head); border-color:var(--hover)}
+  .doors-a .pill:active{transform:scale(.96)}
+  /* B — underlined text-tabs */
+  .doors-b{gap:1.3rem; border-bottom:1px solid var(--line); padding-bottom:.65rem}
+  .doors-b .door{
+    text-decoration:underline; text-decoration-color:var(--line);
+    text-decoration-thickness:1px; text-underline-offset:.85em;
+    font-size:.86rem; color:var(--ink); cursor:pointer; padding:.2rem 0;
+    transition:color .2s ease, text-decoration-color .2s ease;
+  }
+  .doors-b .door:hover{color:var(--head); text-decoration-color:var(--head)}
+  /* the quiet pair, shared */
+  .quiet{margin-left:auto; display:flex; align-items:center; gap:.45rem; font-size:.72rem; color:var(--muted)}
+  .quiet a{text-decoration:none; cursor:pointer; transition:color .2s ease}
+  .quiet a:hover{color:var(--hover)}
+  .quiet .dot{opacity:.6}
+  @media (max-width:560px){
+    .quiet{margin-left:0; flex-basis:100%; margin-top:.55rem}
+    .doors-b .quiet{margin-top:.75rem}
+  }
+
+  .card-body{font-size:.93rem; line-height:1.68}
+  .card-body p{margin-bottom:.95em}
+  .card-body .hook{font-size:1.04rem; color:var(--head)}
+  .card-body .wl{font-weight:600; color:var(--head)}
+  .card-body .landing{color:var(--head); font-style:italic; margin-bottom:0}
+
+  /* ————— shared document chrome ————— */
+  .doc{margin:0 auto}
+  .doc-mast{text-align:center; margin-bottom:clamp(2.6rem,6vw,4rem)}
+  .doc-mast .kicker{display:block; margin:1.3rem 0 .9rem}
+
+  /* ————— 02 · the Constitution ————— */
+  #constitution{--w:66ch}
+  .doc-const{max-width:66ch}
+  .scotch{border:0; border-top:2px solid color-mix(in srgb, var(--head) 62%, transparent); margin:0 0 3px; position:relative}
+  .scotch::after{content:""; display:block; border-top:1px solid var(--line); margin-top:3px}
+  .doc-const h1{font-size:clamp(1.85rem,5.4vw,2.7rem); line-height:1.14; letter-spacing:-.015em}
+  .const-sub{font-size:.95rem; font-style:italic; color:var(--muted); margin:1rem 0 0}
+
+  .sc-head{
+    text-align:center; font-size:.74rem; font-weight:500; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--head); margin:0 0 1.6rem;
+  }
+  .sc-head::before{content:""; display:block; width:34px; margin:0 auto 1.15rem; border-top:1px solid color-mix(in srgb, var(--muted) 55%, transparent)}
+
+  .preamble .dropcap::first-letter{
+    float:left; font-size:3.35em; line-height:.82; font-weight:600; color:var(--head);
+    padding:.07em .12em 0 0;
+  }
+
+  .beliefs{
+    margin:clamp(2.8rem,7vw,4.2rem) 0;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:2.1rem 0 1.4rem;
+  }
+  .beliefs .lede{font-style:italic; color:var(--muted); text-align:center; margin:0 0 1.9rem; font-size:.97rem}
+  .beliefs ol{list-style:none; margin:0; padding:0; counter-reset:belief}
+  .beliefs li{
+    counter-increment:belief; position:relative;
+    padding:0 0 1.25rem 2.6rem; font-size:.99rem;
+  }
+  .beliefs li::before{
+    content:counter(belief); position:absolute; left:.15rem; top:-.1rem;
+    font-size:1.5rem; font-variant-numeric:oldstyle-nums; color:var(--muted);
+  }
+
+  .part{margin:clamp(3rem,7vw,4.4rem) 0 0}
+  .article{margin-top:2.3rem}
+  .article .art-no{
+    display:block; font-size:.66rem; font-weight:500; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:.3rem;
+  }
+  .article h4{font-size:1.12rem; margin-bottom:.55rem}
+  .article p{font-size:.99rem}
+  .article p:last-child{margin-bottom:0}
+
+  .rights{list-style:none; margin:1.2rem 0 0; padding:0; counter-reset:right}
+  .rights li{
+    counter-increment:right; position:relative; padding:0 0 1rem 2.4rem; font-size:.99rem;
+  }
+  .rights li::before{
+    content:counter(right); position:absolute; left:.15rem; top:-.05rem;
+    font-size:1.3rem; font-variant-numeric:oldstyle-nums; color:var(--muted);
+  }
+  .rights b{color:var(--head)}
+
+  .ratify{margin-top:clamp(3.4rem,8vw,5rem); text-align:center}
+  .ratify .sig{font-style:italic; font-size:1.55rem; color:var(--head); margin:1.7rem 0 .2rem; letter-spacing:.01em}
+  .ratify .sig-meta{font-size:.9rem; color:var(--ink); margin:0}
+  .ratify .date-slot{
+    display:inline-block; width:6.5ch; vertical-align:baseline;
+    border-bottom:1px solid color-mix(in srgb, var(--muted) 55%, transparent);
+  }
+  .ratify .version{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.62rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--muted); margin-top:2.2rem;
+  }
+
+  /* ————— 03 · the Manifesto ————— */
+  #manifesto{--w:62ch}
+  .doc-man{max-width:62ch}
+  .doc-man .doc-mast h1{
+    font-size:.82rem; font-weight:500; letter-spacing:.24em; text-transform:uppercase;
+  }
+  .beat{margin-top:clamp(2.6rem,6vw,3.8rem)}
+  .beat-label{
+    display:flex; align-items:center; gap:.8rem; margin-bottom:1.15rem;
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.58rem; font-weight:500; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--muted);
+  }
+  .beat-label::after{content:""; flex:1; border-top:1px solid var(--line)}
+  .thesis{
+    font-size:clamp(1.8rem,6.2vw,3rem); line-height:1.16; font-weight:600;
+    color:var(--head); letter-spacing:-.018em; margin:0 0 .9rem; text-wrap:balance;
+  }
+  .thesis-support{font-size:1.12rem; color:var(--ink)}
+  .man-p{font-size:1.04rem}
+  .named{font-weight:600; font-style:italic; color:var(--head)}
+  .stripped{list-style:none; margin:1.1rem 0 1.3rem; padding:0}
+  .stripped li{
+    position:relative; padding:.18rem 0 .18rem 1.5rem;
+    font-style:italic; color:var(--ink); font-size:1.02rem;
+  }
+  .stripped li::before{content:"—"; position:absolute; left:0; color:var(--muted)}
+  .vow{display:grid; grid-template-columns:2.6rem 1fr; gap:1rem; align-items:baseline; margin-top:1.7rem}
+  .vow .no{
+    font-size:2.35rem; line-height:1; color:var(--muted); text-align:right;
+    font-variant-numeric:oldstyle-nums; font-weight:400;
+  }
+  .vow .vt{
+    font-size:clamp(1.14rem,3.2vw,1.42rem); line-height:1.42; font-weight:500;
+    color:var(--head); margin:0; text-wrap:balance;
+  }
+  .corner{
+    margin:2rem 0 0 3.6rem; font-style:italic; font-size:1.06rem; color:var(--ink);
+  }
+  @media (max-width:480px){ .corner{margin-left:2rem} }
+  .invite{font-size:1.08rem; color:var(--head)}
+
+  /* ————— 04 · About Sha ————— */
+  #sha{--w:54ch}
+  .doc-sha{max-width:54ch}
+  .doc-sha .doc-mast{text-align:left; margin-bottom:2.4rem}
+  .doc-sha h1{font-style:italic; font-weight:500; font-size:clamp(1.7rem,5vw,2.2rem); letter-spacing:0}
+  .doc-sha .doc-mast .kicker{margin:0 0 .8rem}
+  .portrait{
+    float:right; width:172px; margin:.3rem 0 1rem 1.8rem; shape-outside:margin-box;
+  }
+  .portrait .frame{
+    aspect-ratio:4/5; border:1px solid var(--line); background:var(--wash);
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+  }
+  .portrait .frame span{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.56rem; letter-spacing:.22em; color:var(--muted);
+  }
+  .portrait .cap{
+    margin-top:.55rem; font-size:.72rem; font-style:italic; color:var(--muted);
+    line-height:1.5; text-align:left;
+  }
+  .portrait .cap::before{content:"— "}
+  @media (max-width:600px){
+    .portrait{float:none; width:min(200px,58%); margin:0 auto 2rem; display:block}
+    .portrait .cap{text-align:center}
+    .portrait .cap::before{content:""}
+  }
+  .doc-sha .open{font-size:1.06rem}
+  .pull{
+    margin:2.2rem 0; font-style:italic; font-size:clamp(1.25rem,3.6vw,1.5rem);
+    line-height:1.45; color:var(--head); font-weight:500; text-wrap:balance;
+  }
+  .continues{
+    clear:both; text-align:center; color:var(--muted); letter-spacing:.6em;
+    margin-top:2.4rem; font-size:.9rem;
+  }
+
+  /* ————— 05 · the Standards ————— */
+  #standards{--w:60ch}
+  .doc-std{max-width:60ch}
+  .doc-std .lede{font-style:italic; color:var(--muted); text-align:center; margin:1rem 0 0}
+  .std-list{margin-top:clamp(2rem,5vw,3rem)}
+  .std{
+    display:grid; grid-template-columns:3rem 1fr; gap:1.1rem;
+    padding:1.2rem 0 1.3rem; border-top:1px solid var(--line);
+  }
+  .std:last-child{border-bottom:1px solid var(--line)}
+  .std .no{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.68rem; font-weight:500; letter-spacing:.1em; color:var(--muted);
+    padding-top:.42rem; font-variant-numeric:tabular-nums;
+  }
+  .std h4{font-size:1.04rem; margin-bottom:.25rem}
+  .std p{margin:0; font-size:.93rem; color:color-mix(in srgb, var(--ink) 78%, var(--muted))}
+
+  /* ————— foot ————— */
+  .foot{
+    max-width:66ch; margin:clamp(5rem,11vw,8rem) auto 0; padding:1.1rem 1.25rem 3.4rem;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+  }
+  .foot .kicker{letter-spacing:.18em}
+  .foot a{font-size:.8rem; color:var(--muted); text-decoration:none; transition:color .2s ease}
+  .foot a:hover{color:var(--hover)}
+</style>
+</head>
+<body>
+
+<nav class="switch" aria-label="Sections">
+  <div class="switch-row" id="switchRow">
+    <a href="#card"><span class="n">01</span>About card</a>
+    <a href="#constitution"><span class="n">02</span>Constitution</a>
+    <a href="#manifesto"><span class="n">03</span>Manifesto</a>
+    <a href="#sha"><span class="n">04</span>About Sha</a>
+    <a href="#standards"><span class="n">05</span>Standards</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <a class="back" href="index.html">&larr; the lab</a>
+  <p class="kicker">MAP LABS &middot; DESIGN STUDY &middot; JULY 2026</p>
+  <h1>Foundational pages</h1>
+  <p class="lede">The MAP's founding texts, set as pages: the About card grows a row of doors, and behind them the Constitution, the Manifesto, About Sha, and the Standards — one family, four temperatures. The Constitution below is the real v2 text; everything still being written is tagged <i>specimen</i>.</p>
+</header>
+
+<!-- ============ 01 · ABOUT CARD ============ -->
+<section class="study" id="card">
+  <div class="study-head">
+    <span class="kicker">01 &middot; ABOUT CARD</span>
+    <span class="note">the floating card, with the new door row on top — two treatments</span>
+  </div>
+
+  <div class="stage">
+    <svg class="graph" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g stroke="var(--muted)" stroke-width="1" opacity=".22">
+        <line x1="80" y1="90" x2="235" y2="170"/><line x1="235" y1="170" x2="150" y2="330"/>
+        <line x1="235" y1="170" x2="420" y2="80"/><line x1="150" y1="330" x2="60" y2="470"/>
+        <line x1="150" y1="330" x2="330" y2="440"/><line x1="820" y1="70" x2="930" y2="200"/>
+        <line x1="930" y1="200" x2="850" y2="360"/><line x1="850" y1="360" x2="960" y2="480"/>
+        <line x1="850" y1="360" x2="700" y2="500"/><line x1="420" y1="80" x2="600" y2="45"/>
+      </g>
+      <g fill="var(--muted)" opacity=".3">
+        <circle cx="80" cy="90" r="4"/><circle cx="235" cy="170" r="6"/><circle cx="150" cy="330" r="5"/>
+        <circle cx="420" cy="80" r="4"/><circle cx="60" cy="470" r="3.5"/><circle cx="330" cy="440" r="4.5"/>
+        <circle cx="820" cy="70" r="4"/><circle cx="930" cy="200" r="6"/><circle cx="850" cy="360" r="5"/>
+        <circle cx="960" cy="480" r="4"/><circle cx="700" cy="500" r="4.5"/><circle cx="600" cy="45" r="3.5"/>
+      </g>
+    </svg>
+
+    <div class="stage-grid">
+
+      <!-- Variant A -->
+      <div>
+        <div class="variant-label">
+          <span class="kicker">A</span><span class="vnote">bordered pills — the doors as objects</span>
+        </div>
+        <div class="about-card">
+          <button class="about-close" type="button" aria-label="Close">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
+          </button>
+          <div class="card-mast">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <line x1="7.5" y1="13" x2="4" y2="6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="7.5" y1="13" x2="16.5" y2="9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="7.5" y1="13" x2="11" y2="20" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <circle cx="7.5" cy="13" r="2.6" fill="currentColor"/><circle cx="4" cy="6.5" r="1.5" fill="currentColor"/>
+              <circle cx="16.5" cy="9" r="1.7" fill="currentColor"/><circle cx="11" cy="20" r="1.4" fill="currentColor"/>
+            </svg>
+            <span class="wm">the MAP</span>
+            <span class="tag">specimen</span>
+          </div>
+          <nav class="doors doors-a" aria-label="Foundational pages">
+            <a class="pill" href="#constitution">Constitution</a>
+            <a class="pill" href="#manifesto">Manifesto</a>
+            <a class="pill" href="#sha">About Sha</a>
+            <span class="quiet"><a href="#standards">Standards</a><span class="dot">&middot;</span><a>Changelog</a></span>
+          </nav>
+          <div class="card-body">
+            <p class="hook">You can know a song your whole life and still only hear half of it.</p>
+            <p>Put on <span class="wl">&ldquo;Be My Baby&rdquo;</span> and in four seconds the enormous drum figure cracks open the mix right in front of you — that mono mélange of pianos and guitars, strings and saxophones, a snap of castanets, and Ronnie's voice cresting above it all. What you don't hear is a twenty-one-year-old Brian Wilson catching it on his car radio, pulling over in epiphany, and never getting past it. His avid attempts to answer it culminated in <span class="wl"><i>Pet Sounds</i></span>, which itself became the record the Beatles set out to beat when they made <span class="wl"><i>Sgt. Pepper's</i></span>. And ten years later, John Lennon loved the same song enough to cut his own thunderous cover of it, with Phil Spector himself behind the boards.</p>
+            <p class="landing">That's the other half.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variant B -->
+      <div>
+        <div class="variant-label">
+          <span class="kicker">B</span><span class="vnote">underlined text-tabs — the doors as a contents line</span>
+        </div>
+        <div class="about-card">
+          <button class="about-close" type="button" aria-label="Close">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
+          </button>
+          <div class="card-mast">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <line x1="7.5" y1="13" x2="4" y2="6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="7.5" y1="13" x2="16.5" y2="9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="7.5" y1="13" x2="11" y2="20" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <circle cx="7.5" cy="13" r="2.6" fill="currentColor"/><circle cx="4" cy="6.5" r="1.5" fill="currentColor"/>
+              <circle cx="16.5" cy="9" r="1.7" fill="currentColor"/><circle cx="11" cy="20" r="1.4" fill="currentColor"/>
+            </svg>
+            <span class="wm">the MAP</span>
+            <span class="tag">specimen</span>
+          </div>
+          <nav class="doors doors-b" aria-label="Foundational pages">
+            <a class="door" href="#constitution">Constitution</a>
+            <a class="door" href="#manifesto">Manifesto</a>
+            <a class="door" href="#sha">About Sha</a>
+            <span class="quiet"><a href="#standards">Standards</a><span class="dot">&middot;</span><a>Changelog</a></span>
+          </nav>
+          <div class="card-body">
+            <p class="hook">You can know a song your whole life and still only hear half of it.</p>
+            <p>Put on <span class="wl">&ldquo;Be My Baby&rdquo;</span> and in four seconds the enormous drum figure cracks open the mix right in front of you — that mono mélange of pianos and guitars, strings and saxophones, a snap of castanets, and Ronnie's voice cresting above it all. What you don't hear is a twenty-one-year-old Brian Wilson catching it on his car radio, pulling over in epiphany, and never getting past it. His avid attempts to answer it culminated in <span class="wl"><i>Pet Sounds</i></span>, which itself became the record the Beatles set out to beat when they made <span class="wl"><i>Sgt. Pepper's</i></span>. And ten years later, John Lennon loved the same song enough to cut his own thunderous cover of it, with Phil Spector himself behind the boards.</p>
+            <p class="landing">That's the other half.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · THE CONSTITUTION ============ -->
+<section class="study" id="constitution">
+  <div class="study-head">
+    <span class="kicker">02 &middot; THE CONSTITUTION</span>
+    <span class="note">the flagship — the real v2 text, set as a founding document</span>
+  </div>
+
+  <article class="doc doc-const">
+    <header class="doc-mast">
+      <hr class="scotch">
+      <span class="kicker">FOUNDING DOCUMENT</span>
+      <h1>The Constitution of&nbsp;the&nbsp;MAP</h1>
+      <p class="const-sub">What the MAP is, what it owes the Reader, and what it refuses.</p>
+    </header>
+
+    <section class="preamble">
+      <h3 class="sc-head">Preamble</h3>
+      <p class="dropcap">Music, that most human of all pursuits — it raises the hair on our arms before a single thought arrives. Every record carries more than it plays: an entire world pressed within its grooves, from the sonic traditions it inherits to the air of the room it is cut in. The MAP exists to close the distance between hearing sound and hearing meaning. It sets that world right beside the music, so that anyone who loves a record can fall further into it. It is a work of love before it is anything else, and this Constitution is how it stays one — against scale, against money, against the thousand minute drifts that turn beloved things into products. What follows codifies what the MAP is, what it owes the Reader, and what it refuses. It is written and ordained by nobody but the Listener who built it, and it binds him first. Nothing below is an ideal to gesture at; each line is a promise made to be kept, and written plainly enough to be caught broken.</p>
+    </section>
+
+    <section class="beliefs">
+      <h3 class="sc-head">What the MAP holds</h3>
+      <p class="lede">Five beliefs. Everything else here follows from them.</p>
+      <ol>
+        <li>No culture has ever lived without music, and none has ever needed it to survive. We make it anyway — everywhere, always.</li>
+        <li>A record carries the circumstances that made it: a person, a room, a year, a tradition pressing in on all sides. Hear those, and you hear more of the record.</li>
+        <li>The foundations of the music mapped here are Black and American. Gospel, blues, jazz, and rhythm &amp; blues are not mere tributaries of this history; they are the river. That belief does not expire as the MAP grows into other traditions. All music mapped here sees its true sources named, and this is the founding case.</li>
+        <li>Understanding serves feeling. Context exists to make the record land harder, and context that only performs its own erudition has failed.</li>
+        <li>No one hears alone. Meaning forms between people — in rooms, in scenes, in arguments. Music has remained communal for nearly all of human history; understanding it still is.</li>
+      </ol>
+    </section>
+
+    <section class="part">
+      <h3 class="sc-head">The work</h3>
+
+      <div class="article">
+        <span class="art-no">Article I</span>
+        <h4>The canon</h4>
+        <p>Every record, artist, genre, and scene in the MAP's canon was chosen by the Listener. That is the source of its judgment and the exact shape of its blind spots, and it will always name both. The canon today runs strongest through American and British popular music from the 1950s forward; it began in one Listener's childhood and grew outward, and it is bound to keep growing outward — the MAP is built for territories it has not yet reached. What enters is the Listener's call. No payment, friendship, or campaign can put a record on the MAP, and none can soften what the MAP says about one. Payola built some of the charts this map documents. It has no purchase here.</p>
+      </div>
+
+      <div class="article">
+        <span class="art-no">Article II</span>
+        <h4>The claims</h4>
+        <p>The burden of proof is the MAP's own; a Reader should never have to take a note's word for anything. Dates, figures, chart positions, quotations, and personnel are verified before they publish. Footnotes point to people: books, journalism, scholarship, interviews, documented sessions. Content generated by artificial intelligence is not an admissible source for a footnote here. A mechanical gate checks every note before it ships, and a claim that outruns its evidence is cut. The MAP would rather be wrong and correctable than safe and vague.</p>
+      </div>
+
+      <div class="article">
+        <span class="art-no">Article III</span>
+        <h4>The map is alive, and it remembers</h4>
+        <p>No note is finished; it is current. The network deepens and its notes deepen with it. But a living document without memory would be unaccountable, so the MAP keeps its history: changes are recorded and dated, and corrections are acknowledged where they happen rather than papered over. An error a Reader catches makes the MAP better; reporting one is a contribution, and it is treated like one. The record is kept in the open: a public changelog carries the substantive changes, and every note carries the date of its last substantive revision.</p>
+      </div>
+    </section>
+
+    <section class="part">
+      <h3 class="sc-head">The Listener</h3>
+
+      <div class="article">
+        <span class="art-no">Article IV</span>
+        <h4>The Listener</h4>
+        <p>The Listener is the MAP's human steward: one person today, others someday, made the way Article VIII describes. The role is defined by its duties, and the first is in the name — the Listener has heard every album argued about here, out of the roughly ten thousand records heard and kept account of. No Listener will ever argue a record they have not heard. The Listener chooses what enters the canon; sets the arguments, the standards, and the taste; and answers, by name, for every published sentence. Not every sentence can pass the Listener's eyes before it ships — the MAP is too alive for that — so the promise runs deeper than a proofread: every note is held to the written standard before it publishes, every note stands in the Listener's review from the day it appears, and nothing here is exempt from being reread, corrected, or cut. Read or not yet read, the responsibility is the same. The Machine drafts; the Listener judges. Wherever this document makes a promise, the Listener is who owes it.</p>
+      </div>
+    </section>
+
+    <section class="part">
+      <h3 class="sc-head">The Machine</h3>
+
+      <div class="article">
+        <span class="art-no">Article V</span>
+        <h4>The Machine</h4>
+        <p>The MAP is built in close collaboration with Claude — today the Opus and Fable models, made by Anthropic. Together with Article IV, this is the whole of the arrangement.</p>
+        <p>The Machine researches and analyzes real human writing and ideas, drafts to the Listener's standards, holds thousands of interconnected links consistent, and writes the code. The Machine is never the final authority on a fact, a canon decision, or an argument. Nothing Machine-generated may stand as a source; all footnotes must reach human writing. The Machine is a research partner under editorial command.</p>
+        <p>Ambition here is purposefully bounded — the great writing about this music is human work, and the notes exist to carry a Reader toward it, and toward the records. They are held to a written bar all the same.</p>
+      </div>
+    </section>
+
+    <section class="part">
+      <h3 class="sc-head">The Reader</h3>
+
+      <div class="article">
+        <span class="art-no">Article VI</span>
+        <h4>Rights of the Reader</h4>
+        <p>All Readers of the MAP are granted and owed the following rights. A Reader wronged on any of them has caught the MAP breaking its own law, and may raise a complaint with the Listener.</p>
+        <ol class="rights">
+          <li><b>Free, forever.</b> The knowledge in the MAP is free, open, and accessible to all. A Reader will need no account to access the information contained herein, and it will never be locked behind a paywall. The archive can never be sold, never carry advertising, and never be bartered away as training data.</li>
+          <li><b>Your attention is your own.</b> No tracking for profit, no feed, no autoplay, nothing engineered to hold you one minute longer than the reading takes. The MAP measures itself by how effectively it returns a Reader to the music, and every note links out — to the record, and to the writing it stands on.</li>
+          <li><b>Candor about the Machine.</b> Article V is owed to you, kept current, and never buried.</li>
+          <li><b>Corrections owed.</b> A way to report an error, an answer when you do, and the fix made in the open.</li>
+          <li><b>Support changes nothing.</b> You can give to the MAP; you cannot buy it. A donation sways no judgment and buys nothing a place in the canon.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="part">
+      <h3 class="sc-head">The future</h3>
+
+      <div class="article">
+        <span class="art-no">Article VII</span>
+        <h4>Contribution</h4>
+        <p>The MAP wants what others know, and it refuses to become a sprawl. The final call on every note and every entry to the canon is the Listener's. A contributor can count on this: before contribution opens, the standards a contribution is judged by — the close-read checklist, the citation method, the prose bar — will be published for anyone to read; every serious proposal gets a response and a reason; and writing that gets woven in carries its author's name. A disagreement is settled by argument against the published standards — popularity settles nothing here.</p>
+      </div>
+
+      <div class="article">
+        <span class="art-no">Article VIII</span>
+        <h4>Succession</h4>
+        <p>The MAP is being raised the same way one raises a child: with the intention of letting it live a life beyond its maker. What future Listeners inherit is a practice — the close reading, the citation method, the prose quality bar — learned by doing the work under review, never through mere custody of the files. And if the day comes when no one can keep the MAP to its own standard, it will not be left to rot in public. It will close honestly: the archive frozen, complete, and free — and at that moment the rights spring open. While the MAP lives, its text is all rights reserved; from the day it closes, a standing Creative Commons license (BY-NC-ND) takes effect over the whole archive: anyone, forever, may copy it, mirror it, and keep it reachable, with credit — and no one, ever, may sell it or alter it.</p>
+      </div>
+
+      <div class="article">
+        <span class="art-no">Article IX</span>
+        <h4>Amendment</h4>
+        <p>This constitution can change, and that it changes in the open is what makes it real. Amendments are rare, reasoned, dated, and kept; versions supersede one another, and nothing is rewritten silently. Three clauses sit beyond amendment: the Listener's final authority over every published sentence, the Reader's free access, and the refusal to farm attention. Everything operational — the tools, the formats, the workflows, the Machine itself — may change whenever change better serves the work.</p>
+      </div>
+
+      <div class="article">
+        <span class="art-no">Article X</span>
+        <h4>Art</h4>
+        <p>This is the article the others serve. Context is a door into caring about a record. The network, the citations, and the prose are scaffolding around the music, and a note that leaves its Reader more impressed by the apparatus than moved by the record has failed, however rigorous it is. The MAP is built by and for lovers of music, out of the conviction that knowing more and feeling more are the same motion. The test of every note is simple: does it return you to the record, more open than when you came?</p>
+      </div>
+    </section>
+
+    <section class="ratify">
+      <h3 class="sc-head">Ratification</h3>
+      <p class="sig">Sha Frasier</p>
+      <p class="sig-meta">Brooklyn, New York&ensp;&middot;&ensp;<span class="date-slot">&nbsp;</span></p>
+      <p class="version">v1 drafted June 25, 2026 &middot; v2 ratified —</p>
+    </section>
+  </article>
+</section>
+
+<!-- ============ 03 · THE MANIFESTO ============ -->
+<section class="study" id="manifesto">
+  <div class="study-head">
+    <span class="kicker">03 &middot; THE MANIFESTO</span>
+    <span class="note">same family, hotter blood — five beats, ~400 words</span>
+  </div>
+
+  <article class="doc doc-man">
+    <header class="doc-mast">
+      <hr class="scotch">
+      <span class="kicker kicker-wide">STRUCTURE SPECIMEN — TEXT NOT FINAL</span>
+      <h1>The Manifesto</h1>
+    </header>
+
+    <div class="beat">
+      <div class="beat-label">The thesis</div>
+      <p class="thesis">Access without context is&nbsp;noise.</p>
+      <p class="thesis-support">The feed can deliver every song ever recorded; it cannot deliver a reason to care. There is a difference between hearing sound and hearing meaning — and it is not knowledge for its own sake; it is feeling.</p>
+    </div>
+
+    <div class="beat">
+      <div class="beat-label">The concession</div>
+      <p class="man-p">Streaming is a miracle — say it without irony. Every record ever made, in your pocket, for the price of a sandwich; no one wants the gatekeepers back, the $18 CD, the clerk's sneer. The old friction was not virtue.</p>
+    </div>
+
+    <div class="beat">
+      <div class="beat-label">The diagnosis</div>
+      <p class="man-p">But everything became available, and nothing gets introduced. Call the condition <span class="named">fast listening</span>. When the music went frictionless, here is what got stripped away with the friction:</p>
+      <ul class="stripped">
+        <li>the liner notes;</li>
+        <li>the older kid who handed you the record;</li>
+        <li>the scene you had to walk into;</li>
+        <li>the DJ who said <i>this</i> is why;</li>
+        <li>the B-side you bought blind.</li>
+      </ul>
+      <p class="man-p">The platforms that mediate the music are built to maximize the listening, never the understanding. And the stakes are not small — you can hear the spirit of a generation in a song.</p>
+    </div>
+
+    <div class="beat">
+      <div class="beat-label">The vows</div>
+      <div class="vow"><span class="no">1</span><p class="vt">To set the context beside the music — a thousand words, then back to the record.</p></div>
+      <div class="vow"><span class="no">2</span><p class="vt">To keep it human: every judgment a person's, every source a person's, and the machine on a short leash it cannot slip.</p></div>
+      <div class="vow"><span class="no">3</span><p class="vt">To make listening shared again — the map online, the room in person, one body.</p></div>
+      <p class="corner">You stand on the corner where a record was made, and you hear it there.</p>
+    </div>
+
+    <div class="beat">
+      <div class="beat-label">The invitation</div>
+      <p class="invite">Come pull a thread, argue with a note, bring a record. If you care about this music — or about doing this for some other art you love — there's room for you here.</p>
+    </div>
+  </article>
+</section>
+
+<!-- ============ 04 · ABOUT SHA ============ -->
+<section class="study" id="sha">
+  <div class="study-head">
+    <span class="kicker">04 &middot; ABOUT SHA</span>
+    <span class="note">memoir register — narrower measure, warmer, a life not a résumé</span>
+  </div>
+
+  <article class="doc doc-sha">
+    <header class="doc-mast">
+      <span class="kicker">SPECIMEN — ARC ONLY, PROSE UNWRITTEN</span>
+      <h1>About Sha</h1>
+    </header>
+
+    <aside class="portrait">
+      <div class="frame"><span>PORTRAIT</span></div>
+      <p class="cap">caption slot — where and when, one line</p>
+    </aside>
+
+    <p class="open">My earliest memory is the Beatles. Not a specific song, exactly — more the fact of them, the way they were already in the house before I knew what a band was.</p>
+
+    <p class="pull">Before I was anything else, I was a kid who needed to know everything about the music he loved.</p>
+
+    <p class="open">Everything I've made since — the spreadsheets, the magazine, the listening parties, this — is a more elaborate version of that kid with the CD&#8209;ROM.</p>
+
+    <p class="continues">···</p>
+  </article>
+</section>
+
+<!-- ============ 05 · THE STANDARDS ============ -->
+<section class="study" id="standards">
+  <div class="study-head">
+    <span class="kicker">05 &middot; THE STANDARDS</span>
+    <span class="note">the bar — technical register, one line each</span>
+  </div>
+
+  <article class="doc doc-std">
+    <header class="doc-mast">
+      <hr class="scotch">
+      <span class="kicker">WHAT EVERY NOTE CLEARS BEFORE IT SHIPS</span>
+      <h1>The Standards</h1>
+      <p class="lede">The Constitution promises; this is how the promise is kept, note by note.</p>
+    </header>
+
+    <div class="std-list">
+      <div class="std"><span class="no">01</span><div><h4>The reader's pass</h4><p>Every note is read as a reader before it ships — the openers, transitions, and closers held hardest.</p></div></div>
+      <div class="std"><span class="no">02</span><div><h4>Verified facts</h4><p>Dates, figures, chart positions, personnel, and quotations are checked against human sources before publication.</p></div></div>
+      <div class="std"><span class="no">03</span><div><h4>Sonic claims checked</h4><p>Nothing is asserted about how a record sounds that the record itself cannot answer for.</p></div></div>
+      <div class="std"><span class="no">04</span><div><h4>Entities linked</h4><p>Every artist, record, and work named is wired into the map at first mention — no orphaned names.</p></div></div>
+      <div class="std"><span class="no">05</span><div><h4>Sources reached</h4><p>Every footnote lands on human writing — books, journalism, scholarship, interviews. Machine-generated text is never a source.</p></div></div>
+      <div class="std"><span class="no">06</span><div><h4>The prose bar</h4><p>The connective sentences are held to the same standard as the showpieces; a sentence that only fills space is cut.</p></div></div>
+      <div class="std"><span class="no">07</span><div><h4>Corrections in the open</h4><p>Changes are dated, errors are acknowledged where they happened, and the changelog is public.</p></div></div>
+    </div>
+  </article>
+</section>
+
+<footer class="foot">
+  <span class="kicker">MAP LABS &middot; FOUNDATIONAL PAGES</span>
+  <a href="index.html">back to the lab &rarr;</a>
+</footer>
+
+<script>
+(function(){
+  var row = document.getElementById('switchRow');
+  var tabs = Array.prototype.slice.call(row.querySelectorAll('a'));
+  var secs = tabs.map(function(t){ return document.querySelector(t.getAttribute('href')); });
+
+  function setActive(id){
+    tabs.forEach(function(t){
+      if (t.getAttribute('href') === '#' + id) {
+        t.setAttribute('data-active','');
+        // keep the active tab visible in the (possibly scrolling) bar
+        var left = t.offsetLeft - row.clientWidth / 2 + t.clientWidth / 2;
+        row.scrollTo({ left: left, behavior: 'smooth' });
+      } else {
+        t.removeAttribute('data-active');
+      }
+    });
+  }
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) setActive(e.target.id);
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  secs.forEach(function(s){ if (s) observer.observe(s); });
+})();
+</script>
+</body>
+</html>
