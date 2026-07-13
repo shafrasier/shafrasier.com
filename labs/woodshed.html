@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>the Woodshed — six theory players (MAP lab)</title>
+<link rel="stylesheet" href="assets/woodshed.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--serif);
+    -webkit-font-smoothing: antialiased; padding: 1.6rem 1.2rem 4rem;
+    display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+  .head { max-width: 760px; width: 100%; }
+  .tag { display: flex; align-items: center; gap: 7px; margin-bottom: .4rem; }
+  .tag .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--theory); }
+  .tag .lbl { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--theory); }
+  h1 { font-size: 2.3rem; margin: 0 0 .3rem; font-weight: 700; }
+  .dek { color: rgba(17,17,17,.65); font-size: .98rem; margin: 0 0 1rem; max-width: 46em; }
+  .crumbs { font-size: .85rem; margin-bottom: .2rem; }
+  .crumbs a { color: var(--theory); font-weight: 600; text-decoration: none; }
+  .crumbs a:hover { text-decoration: underline; }
+  .toc { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .9rem; }
+  .toc a { font-size: .82rem; text-decoration: none; color: var(--ink); border: 1.5px solid var(--lightgray);
+    border-radius: 999px; padding: .32rem .85rem; transition: all .15s ease; }
+  .toc a:hover { border-color: var(--theory); color: var(--theory); }
+  .toc a b { font-style: italic; font-weight: 700; margin-right: .3em; color: var(--theory); }
+
+  section.unit { max-width: 760px; width: 100%; scroll-margin-top: 1rem; }
+  .card { background: var(--light); border: 1px solid var(--lightgray); border-radius: 8px;
+    padding: 1.5rem 1.5rem 1.8rem; box-shadow: 0 10px 30px -12px rgba(17,17,17,.18);
+    border-top: 3px solid var(--theory); }
+  .unithead { display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; }
+  .n { font-size: .95rem; font-style: italic; font-weight: 700; color: var(--theory); }
+  h2 { font-size: 1.65rem; margin: 0; font-weight: 700; }
+  .area { font-size: .64rem; letter-spacing: .07em; text-transform: uppercase; font-weight: 700;
+    color: var(--theory); border: 1px solid color-mix(in srgb, var(--theory) 40%, var(--lightgray));
+    border-radius: 999px; padding: .14rem .55rem; }
+  .links { margin-left: auto; display: flex; gap: .8rem; font-size: .82rem; }
+  .links a { color: var(--genre); font-weight: 600; text-decoration: none; }
+  .links a:hover { text-decoration: underline; }
+  .sdek { color: rgba(17,17,17,.68); font-size: .93rem; margin: .5rem 0 .2rem; max-width: 46em; }
+
+  .hear { margin-top: 1.3rem; padding-top: 1rem; border-top: 1px solid var(--lightgray); }
+  .hear .ht { font-size: .7rem; letter-spacing: .07em; text-transform: uppercase; color: var(--gray); font-weight: 700; margin-bottom: .4rem; }
+  .hear ol { margin: 0 0 0 1.1rem; padding: 0; font-size: .9rem; color: rgba(17,17,17,.78); }
+  .hear li { margin: .25rem 0; }
+  .wild { margin-top: .9rem; font-size: .9rem; color: rgba(17,17,17,.75); }
+  .wild a { color: var(--genre); font-weight: 600; }
+  .foot { max-width: 760px; width: 100%; font-size: .8rem; color: var(--gray); }
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="crumbs"><a href="theory-landing.html">◀ the curriculum</a></div>
+  <div class="tag"><span class="dot"></span><span class="lbl">Theory · lab prototype</span></div>
+  <h1>The Woodshed</h1>
+  <p class="dek">Six concepts, six instruments — one engine. Every player below is mounted from a
+  declarative spec; in production each would live inside its THEORY note, and a new note means a
+  new spec, not a new engine. One player runs at a time; starting one stops the others.</p>
+  <nav class="toc">
+    <a href="#backbeat"><b>01</b> Backbeat</a>
+    <a href="#call-and-response"><b>02</b> Call and response</a>
+    <a href="#twelve-bar-blues"><b>03</b> Twelve-bar blues</a>
+    <a href="#pentatonic"><b>04</b> Pentatonic &amp; blues scales</a>
+    <a href="#fifties"><b>05</b> I–vi–IV–V</a>
+    <a href="#modal"><b>06</b> Modal interchange</a>
+  </nav>
+</header>
+
+<section class="unit" id="backbeat">
+  <div class="card">
+    <div class="unithead"><span class="n">01</span><h2>Backbeat</h2><span class="area">Rhythm</span>
+      <span class="links"><a href="https://www.shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/Backbeat" target="_blank" rel="noopener">read the note ↗</a></span></div>
+    <p class="sdek">March music claps on one and three; American pop claps on two and four. Flip between
+    the presets and feel your body change its mind — then edit the cells and build your own pattern.
+    "The band" plays a vamp underneath so the accents read as feel, not just drums.</p>
+    <div id="w-backbeat"></div>
+    <div class="hear"><div class="ht">What to hear</div><ol>
+      <li>Play <i>March</i> and count one-two-three-four out loud — your hands land with the count.</li>
+      <li>Switch to <i>Backbeat</i> mid-play. Nothing else changed, but the claps move without asking you.</li>
+      <li><i>The Motown stack</i>: the same two-and-four, tripled — snare, claps, tambourine — so the message survives a transistor radio.</li>
+    </ol></div>
+    <div class="wild">In the wild: Earl Palmer's snare on <a href="https://music.apple.com/us/album/the-fat-man/1396311078?i=1396312104" target="_blank" rel="noopener">"The Fat Man"</a> (1949) ·
+      the stacked two-and-four on <a href="https://music.apple.com/us/album/i-cant-help-myself-sugar-pie-honey-bunch/1443096418?i=1443096422" target="_blank" rel="noopener">"I Can't Help Myself"</a> (1965)</div>
+  </div>
+</section>
+
+<section class="unit" id="call-and-response">
+  <div class="card">
+    <div class="unithead"><span class="n">02</span><h2>Call and response</h2><span class="area">Form</span>
+      <span class="links"><a href="https://www.shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/Call-and-response" target="_blank" rel="noopener">read the note ↗</a></span></div>
+    <p class="sdek">A leader calls; the group answers. Let the engine answer — or take the response bars
+    yourself: in <i>You answer</i> mode the gap is yours, and the keyboard is locked to notes that can't
+    miss. The claps you'll hear are unit 01, working inside unit 02.</p>
+    <div id="w-callresponse"></div>
+    <div class="hear"><div class="ht">What to hear</div><ol>
+      <li><i>Echo</i> vs <i>Answer</i>: the same gap, two kinds of reply — repetition and resolution.</li>
+      <li><i>You answer</i>: play anything at all in the pulsing bars. The gap makes it sound intentional — that's the form doing the work.</li>
+      <li>Turn the claps off and the exchange loses its floor; the response no longer knows where to land.</li>
+    </ol></div>
+    <div class="wild">In the wild: the "yeah yeah yeah" answers on <a href="https://music.apple.com/us/album/she-loves-you-2023-mix/1713066744?i=1713066755" target="_blank" rel="noopener">"She Loves You"</a> (1963) ·
+      Ray Charles and the Raelettes on <a href="https://music.apple.com/us/album/whatd-i-say-pt-1/46592493?i=46592495" target="_blank" rel="noopener">"What'd I Say"</a> (1959) ·
+      <a href="https://music.apple.com/us/album/shout-pts-1-2/1030461597?i=1030462242" target="_blank" rel="noopener">"Shout"</a> (1959)</div>
+  </div>
+</section>
+
+<section class="unit" id="twelve-bar-blues">
+  <div class="card">
+    <div class="unithead"><span class="n">03</span><h2>Twelve-bar blues</h2><span class="area">Form</span>
+      <span class="links"><a href="https://www.shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/Twelve-bar-blues" target="_blank" rel="noopener">read the note ↗</a></span></div>
+    <p class="sdek">The form is a circle you can hear coming around. The three rows are the three
+    four-bar phrases of the AAB lyric — statement, repeat, answer. Tap any bar to jump there; flip
+    to the quick-change; straighten the shuffle and hear the ride stiffen.</p>
+    <div id="w-twelvebar"></div>
+    <div class="hear"><div class="ht">What to hear</div><ol>
+      <li>Count the bars out loud once through — feel bar 9 lift onto the V and bar 12 lean you back home.</li>
+      <li><i>Quick-change</i>: bar 2 leaves home early. Most rock &amp; roll runs this way.</li>
+      <li>Turn the shuffle off. Same notes, same chords — different century.</li>
+    </ol></div>
+    <div class="wild">In the wild: <a href="https://music.apple.com/us/album/johnny-b-goode/1440840071?i=1440840620" target="_blank" rel="noopener">"Johnny B. Goode"</a> (1958) is this grid in B♭ —
+      count along · the compressed eight-bar cousin: <a href="https://music.apple.com/us/album/key-to-the-highway-1941/482324083?i=482324697" target="_blank" rel="noopener">"Key to the Highway"</a></div>
+  </div>
+</section>
+
+<section class="unit" id="pentatonic">
+  <div class="card">
+    <div class="unithead"><span class="n">04</span><h2>Pentatonic &amp; blues scales</h2><span class="area">Melody</span>
+      <span class="links"><a href="https://www.shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/Pentatonic-and-blues-scales" target="_blank" rel="noopener">read the note ↗</a></span></div>
+    <p class="sdek">Five notes with the tension removed. Turn on the drone, switch on the can't-miss
+    keys, close your eyes and wander — you cannot land wrong. Then add the sixth note back and learn
+    why the blue one has to bend.</p>
+    <div id="w-pentatonic"></div>
+    <div class="hear"><div class="ht">What to hear</div><ol>
+      <li>Minor pentatonic + drone + can't-miss keys: noodle freely. This is why the scale is where guitarists live.</li>
+      <li>Switch to the full major scale and find the 4th — feel it itch against the drone.</li>
+      <li>Blues scale: play the ♭5 straight, then bend through it. Wrong note; blue note.</li>
+    </ol></div>
+    <div class="wild">In the wild: the opening guitar riff of <a href="https://music.apple.com/us/album/my-girl/1423301162?i=1423301921" target="_blank" rel="noopener">"My Girl"</a> (1964) climbs
+      the major pentatonic note by note — five notes, zero tension. Then hear the blue edge in
+      <a href="https://music.apple.com/us/album/i-cant-get-no-satisfaction/1440743344?i=1440743544" target="_blank" rel="noopener">"(I Can't Get No) Satisfaction"</a> (1965), whose fuzz line leans on the ♭7</div>
+  </div>
+</section>
+
+<section class="unit" id="fifties">
+  <div class="card">
+    <div class="unithead"><span class="n">05</span><h2>I–vi–IV–V</h2><span class="area">Harmony</span>
+      <span class="links"><a href="https://www.shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/I–vi–IV–V-progression" target="_blank" rel="noopener">read the note ↗</a></span></div>
+    <p class="sdek">Home, shadow, warmth, tension — the four-bar cycle beneath every doo-wop ballad,
+    rolled here in the triplet feel a slow-dance band would give it. Watch the vi bar: same key,
+    darker room. Then take it away and hear what goes missing.</p>
+    <div id="w-fifties"></div>
+    <div class="hear"><div class="ht">What to hear</div><ol>
+      <li>Follow the keyboard through one cycle: the vi keeps two of home's three notes — it's a clouding, not a departure.</li>
+      <li><i>Skip the vi</i>: three destinations left, and the walk home goes straight — no yearning.</li>
+      <li>Slow it to 60 and it's a gymnasium slow dance; push past 110 and it's the same heart beating faster.</li>
+    </ol></div>
+    <div class="wild">In the wild: <a href="https://music.apple.com/us/album/surfer-girl-2021-stereo-mix/1617206809?i=1617207366" target="_blank" rel="noopener">"Surfer Girl"</a> (1963) ·
+      <a href="https://music.apple.com/us/album/earth-angel-will-you-be-mine-no-1/1443115550?i=1443115554" target="_blank" rel="noopener">"Earth Angel"</a> (1954) ·
+      <a href="https://music.apple.com/us/album/stand-by-me/738196400?i=738196409" target="_blank" rel="noopener">"Stand By Me"</a> (1961) ·
+      <a href="https://music.apple.com/us/album/this-boy-2023-mix/1713066744?i=1713066759" target="_blank" rel="noopener">"This Boy"</a> (1963)</div>
+  </div>
+</section>
+
+<section class="unit" id="modal">
+  <div class="card">
+    <div class="unithead"><span class="n">06</span><h2>Modal interchange</h2><span class="area">Harmony</span>
+      <span class="links"><a href="https://www.shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/Modal-interchange" target="_blank" rel="noopener">read the note ↗</a></span></div>
+    <p class="sdek">Two shelves of chords: the seven that live in C major, and the seven next door in
+    its parallel minor. Tap anything to hear it. Then run the famous borrowings — and flip each one
+    back to diatonic to hear exactly what the borrowed chord was buying.</p>
+    <div id="w-modal"></div>
+    <div class="hear"><div class="ht">What to hear</div><ol>
+      <li>Tap B♭ on the bottom shelf, then B° on the top — the chord pop borrows vs the one the key actually offers.</li>
+      <li>The "Hey Jude" loop: the ♭VII is the harmony exhaling. Flip it diatonic and the exhale is gone.</li>
+      <li>The iv shadow: F, then Fm — warmth, then dusk falls on the same chord.</li>
+    </ol></div>
+    <div class="wild">In the wild: the coda of <a href="https://music.apple.com/us/album/hey-jude/1440833098?i=1440834224" target="_blank" rel="noopener">"Hey Jude"</a> (1968) —
+      F, E♭, B♭, and home again, for four minutes, and it never needs to go anywhere else</div>
+  </div>
+</section>
+
+<p class="foot">Lab prototype — synthesized voices (Web Audio, no samples, no libraries). The engine
+(<code>assets/woodshed.js</code>) is spec-driven: each player above is one declarative object, the shape a
+THEORY note would author for the production transformer.</p>
+
+<script src="assets/woodshed.js"></script>
+<script>
+  Woodshed.installMuteChip();
+  Woodshed.mount(document.getElementById("w-backbeat"),     Woodshed.demos.backbeat);
+  Woodshed.mount(document.getElementById("w-callresponse"), Woodshed.demos.callresponse);
+  Woodshed.mount(document.getElementById("w-twelvebar"),    Woodshed.demos.twelvebar);
+  Woodshed.mount(document.getElementById("w-pentatonic"),   Woodshed.demos.pentatonic);
+  Woodshed.mount(document.getElementById("w-fifties"),      Woodshed.demos.fifties);
+  Woodshed.mount(document.getElementById("w-modal"),        Woodshed.demos.modal);
+</script>
+</body>
+</html>

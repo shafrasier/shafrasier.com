@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>THEORY landing — the curriculum (MAP lab)</title>
+<link rel="stylesheet" href="assets/woodshed.css">
+<style>
+  :root {
+    --cream: #f0efe4; --light: #fbfbf6; --ink: #111; --gray: #8c8880;
+    --lightgray: #d9d7cb; --theory: #6a4cb8; --genre: #3a9c40; --amber: #d4952a;
+    --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--serif);
+    -webkit-font-smoothing: antialiased; padding: 1.6rem 1.2rem 4rem;
+    display: flex; flex-direction: column; align-items: center; }
+  .page { max-width: 720px; width: 100%; }
+
+  .tag { display: flex; align-items: center; gap: 7px; margin-bottom: .4rem; }
+  .tag .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--theory); }
+  .tag .lbl { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--theory); }
+  h1 { font-size: 2.4rem; margin: 0 0 .3rem; font-weight: 700; }
+  .dek { color: rgba(17,17,17,.65); font-size: .98rem; margin: 0; max-width: 44em; }
+
+  /* the Woodshed banner */
+  .shedcard { display: flex; align-items: center; gap: 1rem; margin: 1.3rem 0 0; text-decoration: none;
+    background: var(--theory); color: #fff; border-radius: 10px; padding: 1rem 1.25rem;
+    box-shadow: 0 10px 26px -14px rgba(106,76,184,.7); transition: transform .15s ease; }
+  .shedcard:hover { transform: translateY(-2px); }
+  .shedcard .big { font-size: 1.15rem; font-weight: 700; }
+  .shedcard .sub { font-size: .85rem; opacity: .85; margin-top: .15rem; }
+  .shedcard .arrow { margin-left: auto; font-size: 1.4rem; }
+
+  /* progress */
+  .progress { margin: 1.4rem 0 0; }
+  .progress .plab { display: flex; justify-content: space-between; font-size: .74rem; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--gray); font-weight: 600; margin-bottom: .35rem; }
+  .pbar { height: 5px; border-radius: 999px; background: var(--lightgray); overflow: hidden; }
+  .pbar i { display: block; height: 100%; width: 0; background: var(--theory); border-radius: 999px; transition: width .4s ease; }
+
+  /* filter bar */
+  .filters { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--cream) 88%, transparent);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    margin: 1.5rem -0.4rem 0; padding: .7rem .4rem; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
+    border-bottom: 1px solid var(--lightgray); }
+  .filters input[type=search] { font-family: var(--serif); font-size: .9rem; color: var(--ink);
+    background: var(--light); border: 1.5px solid var(--lightgray); border-radius: 999px;
+    padding: .42rem 1rem; width: 175px; outline: none; }
+  .filters input[type=search]:focus { border-color: var(--theory); }
+  .filters .chips { display: flex; gap: .4rem; flex-wrap: wrap; }
+  .filters button { font-family: var(--serif); font-size: .82rem; color: var(--ink); background: transparent;
+    border: 1.5px solid var(--lightgray); border-radius: 999px; padding: .32rem .85rem; cursor: pointer; transition: all .15s ease; }
+  .filters button:hover { border-color: var(--gray); }
+  .filters button.on { background: var(--ink); border-color: var(--ink); color: var(--light); }
+  .count { margin-left: auto; font-size: .8rem; color: var(--gray); font-variant-numeric: tabular-nums; }
+
+  /* the spine */
+  .path { margin-top: 1.6rem; }
+  .unit-h { display: flex; align-items: center; gap: .9rem; margin: 1.9rem 0 1rem; }
+  .unit-h .ut { font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--theory); white-space: nowrap; }
+  .unit-h .staff { flex: 1; height: 17px; background:
+    repeating-linear-gradient(to bottom, var(--lightgray) 0 1px, transparent 1px 4px); opacity: .8; }
+
+  .step { display: grid; grid-template-columns: 46px 1fr; gap: 0 .9rem; position: relative; }
+  .step .rail { position: relative; }
+  .step .rail::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.5px;
+    background: var(--lightgray); transform: translateX(-50%); }
+  .step:last-child .rail::before { bottom: auto; height: 2.4rem; }
+  .node { position: sticky; top: 74px; width: 34px; height: 34px; margin: 1.1rem auto 0; border-radius: 50%;
+    background: var(--cream); border: 1.5px solid var(--theory); color: var(--theory);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .82rem; font-style: italic; font-weight: 700; z-index: 1; }
+  .step.shed .node { background: var(--theory); color: #fff; }
+
+  .ccard { background: var(--light); border: 1px solid var(--lightgray); border-radius: 8px;
+    border-top: 3px solid var(--theory); padding: 1.1rem 1.2rem 1.2rem; margin: 0 0 1.1rem;
+    box-shadow: 0 8px 24px -14px rgba(17,17,17,.2); position: relative; }
+  .start { position: absolute; top: -0.7rem; left: 1rem; background: var(--genre); color: #fff;
+    font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700;
+    border-radius: 999px; padding: .18rem .6rem; }
+  .chead { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+  .ccard h3 { font-size: 1.35rem; margin: 0; font-weight: 700; }
+  .aka { font-size: .82rem; font-style: italic; color: var(--gray); }
+  .shedbtn { margin-left: auto; display: flex; align-items: center; gap: .4rem; background: none; border: none;
+    cursor: pointer; font-family: var(--serif); font-size: .74rem; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--gray); font-weight: 600; padding: 0; }
+  .shedbtn .ring { width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid var(--gray); display: inline-block; transition: all .15s ease; }
+  .step.shed .shedbtn { color: var(--theory); }
+  .step.shed .shedbtn .ring { background: var(--theory); border-color: var(--theory); }
+  .gloss { font-size: .92rem; color: rgba(17,17,17,.75); margin: .5rem 0 .65rem; max-width: 44em; }
+  .meta { display: flex; flex-wrap: wrap; gap: .4rem .5rem; align-items: center; }
+  .pill { font-size: .66rem; letter-spacing: .06em; text-transform: uppercase; font-weight: 700;
+    border-radius: 999px; padding: .18rem .6rem; border: 1px solid var(--lightgray); color: var(--gray); }
+  .pill.area { color: var(--theory); border-color: color-mix(in srgb, var(--theory) 40%, var(--lightgray)); }
+  .pill.builds { font-style: italic; text-transform: none; letter-spacing: 0; font-weight: 400; font-size: .76rem; }
+  .diff { font-size: .7rem; color: var(--theory); letter-spacing: .12em; }
+  .hearline { font-size: .84rem; color: rgba(17,17,17,.7); margin: .65rem 0 0; }
+  .hearline a { color: var(--genre); font-weight: 600; }
+  .acts { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .85rem; }
+  .acts .taste { font-family: var(--serif); font-size: .85rem; font-weight: 600; color: #fff;
+    background: var(--theory); border: 1.5px solid var(--theory); border-radius: 999px;
+    padding: .38rem 1rem; cursor: pointer; transition: all .15s ease; }
+  .acts .taste.playing { background: var(--amber); border-color: var(--amber); }
+  .acts a { font-family: var(--serif); font-size: .85rem; text-decoration: none; color: var(--ink);
+    border: 1.5px solid var(--lightgray); border-radius: 999px; padding: .38rem 1rem; transition: all .15s ease; }
+  .acts a:hover { border-color: var(--theory); color: var(--theory); }
+  .acts a.ghost { color: var(--gray); }
+
+  .foot { font-size: .8rem; color: var(--gray); margin-top: 2.2rem; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="tag"><span class="dot"></span><span class="lbl">vi. Theory · Techniques — lab prototype</span></div>
+  <h1>Theory</h1>
+  <p class="dek">Not an alphabet — a path. Six concepts so far, ordered so each one hands you to the
+  next: the pulse first, then the conversation, then the form, the notes, the chords, the borrowed
+  chords. Every concept is playable before it's readable.</p>
+
+  <a class="shedcard" href="woodshed.html">
+    <div><div class="big">Enter the Woodshed</div>
+    <div class="sub">Six instruments, one engine — play every concept on this page</div></div>
+    <span class="arrow">→</span>
+  </a>
+
+  <div class="progress">
+    <div class="plab"><span>The path</span><span id="pcount">0 of 6 shedded</span></div>
+    <div class="pbar"><i id="pfill"></i></div>
+  </div>
+
+  <div class="filters">
+    <input type="search" id="q" placeholder="Search the concepts…">
+    <div class="chips" id="areachips">
+      <button class="on" data-a="">All</button>
+      <button data-a="Rhythm">Rhythm</button>
+      <button data-a="Form">Form</button>
+      <button data-a="Melody">Melody</button>
+      <button data-a="Harmony">Harmony</button>
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="path" id="path"></div>
+
+  <p class="foot">Lab prototype. Live version = a bespoke THEORY landing component reading each note's
+  frontmatter (area, difficulty, prereqs, taste spec) — adding a concept to the vault adds it to the
+  path. "Shed it" progress is yours alone, kept in this browser.</p>
+</div>
+
+<script src="assets/woodshed.js"></script>
+<script>
+(() => {
+  Woodshed.installMuteChip();
+  const NOTE = "https://www.shafrasier.com/map/MUSIC/TECHNIQUES/THEORY/";
+  const CURRICULUM = [
+    { unit: "Unit one — the pulse" },
+    { id: "backbeat", n: "01", title: "Backbeat", area: "Rhythm", diff: 1,
+      aka: "snare on two and four",
+      gloss: "Where your hands clap. The snare on two and four — the accent that turned American rhythm around and taught the body when to move.",
+      hear: [["“The Fat Man” (1949)", "https://music.apple.com/us/album/the-fat-man/1396311078?i=1396312104"],
+             ["“I Can’t Help Myself” (1965)", "https://music.apple.com/us/album/i-cant-help-myself-sugar-pie-honey-bunch/1443096418?i=1443096422"]],
+      taste: "backbeat", tasteLabel: "▶ Two bars of backbeat", anchor: "backbeat", note: "Backbeat" },
+    { id: "callresponse", n: "02", title: "Call and response", area: "Form", diff: 1, builds: "Backbeat",
+      aka: "antiphony; the preacher and the congregation",
+      gloss: "The oldest form there is: a leader calls, a group answers, and the gap in between is the hook. From the church to “She Loves You.”",
+      hear: [["“What’d I Say” (1959)", "https://music.apple.com/us/album/whatd-i-say-pt-1/46592493?i=46592495"],
+             ["“Shout” (1959)", "https://music.apple.com/us/album/shout-pts-1-2/1030461597?i=1030462242"]],
+      taste: "callresponse", tasteLabel: "▶ One exchange", anchor: "call-and-response", note: "Call-and-response" },
+    { unit: "Unit two — the blues bedrock" },
+    { id: "twelvebar", n: "03", title: "Twelve-bar blues", area: "Form", diff: 2, builds: "Backbeat",
+      aka: "the blues form; the I–IV–V blues",
+      gloss: "Twelve bars, three chords, and you already know where it’s going. The harmonic cycle under blues, R&B, and rock & roll.",
+      hear: [["“Johnny B. Goode” (1958)", "https://music.apple.com/us/album/johnny-b-goode/1440840071?i=1440840620"]],
+      taste: "twelvebar", tasteLabel: "▶ Twelve bars in E", anchor: "twelve-bar-blues", note: "Twelve-bar-blues" },
+    { id: "pentatonic", n: "04", title: "Pentatonic and blues scales", area: "Melody", diff: 2, builds: "Twelve-bar blues",
+      aka: "the five-note scale; the blue note",
+      gloss: "Five notes you can’t miss with, plus one deliberately wrong one that has to bend. The melodic vocabulary of blues and every guitar solo since.",
+      hear: [["“My Girl” (1964)", "https://music.apple.com/us/album/my-girl/1423301162?i=1423301921"],
+             ["“(I Can’t Get No) Satisfaction” (1965)", "https://music.apple.com/us/album/i-cant-get-no-satisfaction/1440743344?i=1440743544"]],
+      taste: "pentatonic", tasteLabel: "▶ The scale, then the bend", anchor: "pentatonic", note: "Pentatonic-and-blues-scales" },
+    { unit: "Unit three — harmony" },
+    { id: "fifties", n: "05", title: "I–vi–IV–V progression", area: "Harmony", diff: 2, builds: "Twelve-bar blues",
+      aka: "doo-wop changes; the ’50s progression",
+      gloss: "Home, shadow, warmth, tension. The four-chord cycle beneath every doo-wop ballad and a large share of the Brill Building.",
+      hear: [["“Earth Angel” (1954)", "https://music.apple.com/us/album/earth-angel-will-you-be-mine-no-1/1443115550?i=1443115554"],
+             ["“Surfer Girl” (1963)", "https://music.apple.com/us/album/surfer-girl-2021-stereo-mix/1617206809?i=1617207366"]],
+      taste: "fifties", tasteLabel: "▶ One cycle in C", anchor: "fifties", note: "I–vi–IV–V-progression" },
+    { id: "modal", n: "06", title: "Modal interchange", area: "Harmony", diff: 3, builds: "I–vi–IV–V progression",
+      aka: "modal mixture; borrowed chords",
+      gloss: "Borrowing chords from the parallel minor — the “Hey Jude” exhale. How sixties pop widened its harmonic room without leaving home.",
+      hear: [["“Hey Jude” (1968)", "https://music.apple.com/us/album/hey-jude/1440833098?i=1440834224"]],
+      taste: "modal", tasteLabel: "▶ The ‘Hey Jude’ loop", anchor: "modal", note: "Modal-interchange" },
+  ];
+
+  const KEY = "woodshed.shed.v1";
+  let stored = [];
+  try { stored = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
+  const shed = new Set(Array.isArray(stored) ? stored : []);
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify([...shed])); } catch (e) {} };
+
+  const path = document.getElementById("path");
+  const steps = [];
+  CURRICULUM.forEach(item => {
+    if (item.unit) {
+      const uh = document.createElement("div");
+      uh.className = "unit-h"; uh.dataset.unit = "1";
+      uh.innerHTML = `<span class="ut">${item.unit}</span><div class="staff"></div>`;
+      path.appendChild(uh); return;
+    }
+    const step = document.createElement("div");
+    step.className = "step" + (shed.has(item.id) ? " shed" : "");
+    step.innerHTML = `
+      <div class="rail"><div class="node">${item.n}</div></div>
+      <div class="ccard">
+        <div class="chead">
+          <h3>${item.title}</h3><span class="aka">${item.aka}</span>
+          <button class="shedbtn" title="Mark as learned"><span class="ring"></span><span>Shed it</span></button>
+        </div>
+        <p class="gloss">${item.gloss}</p>
+        <div class="meta">
+          <span class="pill area">${item.area}</span>
+          <span class="diff">${"●".repeat(item.diff)}${"○".repeat(3 - item.diff)}</span>
+          ${item.builds ? `<span class="pill builds">builds on ${item.builds}</span>` : ""}
+        </div>
+        <p class="hearline">Hear it: ${item.hear.map(([t, u]) =>
+          `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(" · ")}</p>
+        <div class="acts">
+          <button class="taste">${item.tasteLabel}</button>
+          <a href="woodshed.html#${item.anchor}">Open in the Woodshed</a>
+          <a class="ghost" href="${NOTE}${item.note}" target="_blank" rel="noopener">Read the note ↗</a>
+        </div>
+      </div>`;
+    step._item = item;
+    path.appendChild(step); steps.push(step);
+
+    step.querySelector(".shedbtn").addEventListener("click", () => {
+      shed.has(item.id) ? shed.delete(item.id) : shed.add(item.id);
+      step.classList.toggle("shed", shed.has(item.id));
+      save(); paintProgress();
+    });
+  });
+
+  // start-here ribbon on the first un-shedded card
+  function paintProgress() {
+    document.getElementById("pcount").textContent = `${shed.size} of ${steps.length} shedded`;
+    document.getElementById("pfill").style.width = (shed.size / steps.length * 100) + "%";
+    document.querySelectorAll(".start").forEach(el => el.remove());
+    const first = steps.find(s => !shed.has(s._item.id) && !s.classList.contains("hidden"));
+    if (first) {
+      const r = document.createElement("span");
+      r.className = "start"; r.textContent = shed.size ? "Up next" : "Start here";
+      first.querySelector(".ccard").prepend(r);
+    }
+  }
+
+  // filtering
+  let area = "", q = "";
+  function apply() {
+    let visible = 0;
+    steps.forEach(s => {
+      const it = s._item;
+      const hit = (!area || it.area === area) &&
+        (!q || (it.title + " " + it.aka + " " + it.gloss).toLowerCase().includes(q));
+      s.classList.toggle("hidden", !hit);
+      if (hit) visible++;
+    });
+    // hide unit headers whose whole unit is filtered out
+    document.querySelectorAll(".unit-h").forEach(uh => {
+      let el = uh.nextElementSibling, any = false;
+      while (el && !el.classList.contains("unit-h")) {
+        if (el.classList.contains("step") && !el.classList.contains("hidden")) any = true;
+        el = el.nextElementSibling;
+      }
+      uh.classList.toggle("hidden", !any);
+    });
+    document.getElementById("count").textContent = `${visible} of ${steps.length}`;
+    paintProgress();
+  }
+  document.getElementById("q").addEventListener("input", e => { q = e.target.value.trim().toLowerCase(); apply(); });
+  document.querySelectorAll("#areachips button").forEach(b => {
+    b.addEventListener("click", () => {
+      area = b.dataset.a;
+      document.querySelectorAll("#areachips button").forEach(c => c.classList.toggle("on", c === b));
+      apply();
+    });
+  });
+
+  // taste chips — one at a time; the engine stops the previous one for us
+  let playing = null; // { btn, ctl, id, label }
+  function resetChip(p) { p.btn.classList.remove("playing"); p.btn.textContent = p.label; }
+  document.querySelectorAll(".step").forEach(step => {
+    const btn = step.querySelector(".taste"), item = step._item;
+    btn.addEventListener("click", () => {
+      if (playing && playing.id === item.id) { playing.ctl.stop(); return; }
+      const me = { btn, id: item.id, label: item.tasteLabel };
+      me.ctl = Woodshed.taste(item.taste, () => { resetChip(me); if (playing === me) playing = null; });
+      playing = me;
+      btn.classList.add("playing"); btn.textContent = "■ Stop";
+    });
+  });
+
+  apply();
+})();
+</script>
+</body>
+</html>
