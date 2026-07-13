@@ -64,7 +64,49 @@ window.Woodshed = (() => {
     });
   }
 
+  // ── the sampled piano: Salamander Grand (Alexander Holm, CC BY 3.0) ─────
+  // Nine samples a tritone apart, C2–C6; every note pitch-shifts from its
+  // nearest neighbor (≤3 semitones, inaudible). Loads eagerly on mount;
+  // until the buffers land, the synth voice below covers.
+  const Sampler = {
+    files: { 36:"C2", 42:"Fs2", 48:"C3", 54:"Fs3", 60:"C4", 66:"Fs4", 72:"C5", 78:"Fs5", 84:"C6" },
+    base: (document.currentScript && document.currentScript.src || "").replace(/[^/]*$/, "") + "piano/",
+    buffers: new Map(), loading: false, ready: false,
+    load() {
+      if (this.loading) return; this.loading = true;
+      const entries = Object.entries(this.files);
+      let done = 0;
+      entries.forEach(([midi, name]) => {
+        fetch(this.base + name + ".mp3")
+          .then(r => { if (!r.ok) throw new Error(String(r.status)); return r.arrayBuffer(); })
+          .then(buf => ac().decodeAudioData(buf))
+          .then(audio => {
+            this.buffers.set(+midi, audio);
+            if (++done === entries.length) this.ready = true;
+          })
+          .catch(() => {}); // any miss → stay on the synth voice
+      });
+    },
+  };
+  function sampleNote(m, t, dur, vel, out) {
+    const c = ac();
+    let near = 60, best = 128;
+    Sampler.buffers.forEach((_, midi) => {
+      const d = Math.abs(m - midi);
+      if (d < best) { best = d; near = midi; }
+    });
+    const src = c.createBufferSource();
+    src.buffer = Sampler.buffers.get(near);
+    src.playbackRate.value = Math.pow(2, (m - near) / 12);
+    const g = c.createGain();
+    g.gain.setValueAtTime(vel * 1.1, t);
+    g.gain.setValueAtTime(vel * 1.1, t + Math.max(0.02, dur - 0.04));
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur + 0.15);
+    src.connect(g); g.connect(out || master());
+    src.start(t); src.stop(t + dur + 0.25);
+  }
   function pianoNote(m, t, dur, vel = 0.5, out) {
+    if (Sampler.ready) return sampleNote(m, t, dur, vel, out);
     const c = ac(), g = c.createGain();
     g.gain.setValueAtTime(0, t);
     g.gain.linearRampToValueAtTime(vel, t + 0.008);
@@ -1053,8 +1095,9 @@ window.Woodshed = (() => {
     return b;
   }
   return {
-    mount(el, spec) { return WIDGETS[spec.widget](el, spec); },
-    taste(id, onstop) { return TASTES[id](onstop); },
+    mount(el, spec) { Sampler.load(); return WIDGETS[spec.widget](el, spec); },
+    taste(id, onstop) { Sampler.load(); return TASTES[id](onstop); },
+    pianoReady: () => Sampler.ready,
     stopAll() { Transport.stopAll(); },
     setMuted, muted: () => MUTED, installMuteChip,
     debug: () => ({ state: AC ? AC.state : "no-ctx", time: AC ? AC.currentTime : 0 }),
