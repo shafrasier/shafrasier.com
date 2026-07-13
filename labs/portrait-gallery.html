@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Portrait gallery — PD/CC candidate finder (MAP lab)</title>
+<style>
+  :root {
+    --cream: #f0efe4; --light: #fbfbf6; --ink: #111; --gray: #8c8880;
+    --lightgray: #d9d7cb; --amber: #d4952a; --genre: #3a9c40; --red: #b3402f;
+    --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--serif);
+    -webkit-font-smoothing: antialiased; padding: 1.6rem 1.2rem 5rem; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  .tag { display: flex; align-items: center; gap: 7px; margin-bottom: .4rem; }
+  .tag .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--amber); }
+  .tag .lbl { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--amber); }
+  h1 { font-size: 2.2rem; margin: 0 0 .3rem; font-weight: 700; }
+  .dek { color: rgba(17,17,17,.66); font-size: .98rem; margin: 0 0 1.4rem; max-width: 48em; }
+  .dek b { color: var(--ink); }
+
+  .bar { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin-bottom: .5rem; }
+  input[type=text], select, button { font-family: var(--serif); font-size: .95rem; }
+  input[type=text] { flex: 1; min-width: 220px; background: var(--light); border: 1.5px solid var(--lightgray);
+    border-radius: 999px; padding: .55rem 1.1rem; color: var(--ink); outline: none; }
+  input[type=text]:focus { border-color: var(--amber); }
+  .go { background: var(--amber); border: 1.5px solid var(--amber); color: #fff; font-weight: 600;
+    border-radius: 999px; padding: .55rem 1.4rem; cursor: pointer; }
+  .go:disabled { opacity: .5; cursor: default; }
+  .quick { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .5rem; }
+  .quick button { background: transparent; border: 1.5px solid var(--lightgray); border-radius: 999px;
+    padding: .28rem .8rem; font-size: .82rem; cursor: pointer; color: var(--ink); }
+  .quick button:hover { border-color: var(--amber); color: var(--amber); }
+  .filters { display: flex; flex-wrap: wrap; gap: .8rem 1.1rem; align-items: center; font-size: .84rem;
+    color: var(--gray); margin-bottom: 1.2rem; }
+  .filters label { display: inline-flex; align-items: center; gap: .35rem; cursor: pointer; }
+  .status { font-size: .9rem; color: var(--gray); font-style: italic; margin: 1rem 0; }
+  .status.err { color: var(--red); font-style: normal; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
+  .card { background: var(--light); border: 1px solid var(--lightgray); border-radius: 10px; overflow: hidden;
+    display: flex; flex-direction: column; box-shadow: 0 6px 20px -12px rgba(17,17,17,.2); transition: box-shadow .15s ease; }
+  .card.approved { outline: 3px solid var(--genre); }
+  .imgwrap { position: relative; aspect-ratio: 4/4.6; background: #e8e6da; overflow: hidden; cursor: zoom-in; }
+  .imgwrap img { width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: grayscale(1) contrast(1.02) brightness(1.04) sepia(.14); }
+  .lic { position: absolute; top: 7px; left: 7px; font-size: .64rem; letter-spacing: .04em; font-weight: 700;
+    text-transform: uppercase; padding: .18rem .5rem; border-radius: 999px; color: #fff; background: var(--genre); }
+  .lic.by { background: var(--amber); }
+  .meta { padding: .7rem .8rem .8rem; flex: 1; display: flex; flex-direction: column; gap: .35rem; }
+  .fn { font-size: .82rem; line-height: 1.25; word-break: break-word; }
+  .credit { font-size: .72rem; color: var(--gray); }
+  .credit a { color: var(--gray); }
+  .acts { display: flex; gap: .4rem; margin-top: auto; padding-top: .5rem; }
+  .acts button { flex: 1; border-radius: 999px; padding: .34rem 0; font-size: .8rem; cursor: pointer; border: 1.5px solid var(--lightgray); background: transparent; color: var(--ink); }
+  .acts .ap { border-color: var(--genre); color: var(--genre); font-weight: 600; }
+  .card.approved .acts .ap { background: var(--genre); color: #fff; }
+  .acts a { flex: 1; text-align: center; border-radius: 999px; padding: .34rem 0; font-size: .8rem; text-decoration: none; border: 1.5px solid var(--lightgray); color: var(--gray); }
+
+  /* approved tray */
+  .tray { position: fixed; bottom: 0; left: 0; right: 0; background: color-mix(in srgb, var(--light) 92%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-top: 1px solid var(--lightgray);
+    padding: .8rem 1.2rem; display: none; box-shadow: 0 -6px 24px -12px rgba(17,17,17,.25); }
+  .tray.on { display: block; }
+  .tray .row { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .tray .n { font-weight: 700; }
+  .tray .names { flex: 1; font-size: .84rem; color: var(--gray); min-width: 140px; }
+  .tray button { border-radius: 999px; padding: .5rem 1.2rem; font-size: .88rem; cursor: pointer; border: 1.5px solid var(--amber); background: var(--amber); color: #fff; font-weight: 600; }
+  .tray button.ghost { background: transparent; color: var(--ink); border-color: var(--lightgray); }
+
+  /* lightbox */
+  .lb { position: fixed; inset: 0; background: rgba(17,17,17,.85); display: none; align-items: center; justify-content: center; z-index: 20; padding: 2rem; }
+  .lb.on { display: flex; }
+  .lb img { max-width: 92vw; max-height: 88vh; object-fit: contain; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+  .lb .x { position: absolute; top: 1rem; right: 1.4rem; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; }
+  .note { font-size: .8rem; color: var(--gray); margin-top: 2rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tag"><span class="dot"></span><span class="lbl">Portraits · lab tool</span></div>
+  <h1>Portrait gallery</h1>
+  <p class="dek">Find license-cleared portraits for an artist and <b>approve the ones you want</b>. This searches
+  Wikimedia Commons live and keeps only public-domain and Creative-Commons images — the treatment shown is the
+  MAP's warm duotone, so you see roughly how each would look on the card. Approve your pick(s), copy the result,
+  and hand it back to wire into the note. Nothing ships without your yes.</p>
+
+  <div class="bar">
+    <input type="text" id="q" placeholder="Artist name — e.g. Billie Holiday" autocomplete="off">
+    <button class="go" id="go">Search Commons</button>
+  </div>
+  <div class="quick" id="quick"></div>
+  <div class="filters">
+    <span>Licenses:</span>
+    <label><input type="checkbox" class="lf" value="pd" checked> Public domain</label>
+    <label><input type="checkbox" class="lf" value="cc0" checked> CC0</label>
+    <label><input type="checkbox" class="lf" value="by" checked> CC BY / BY-SA</label>
+    <label style="margin-left:auto"><input type="checkbox" id="portraitOnly" checked> Portraits only (drop wide/landscape)</label>
+  </div>
+
+  <div class="status" id="status">Enter an artist and search — or tap a name above.</div>
+  <div class="grid" id="grid"></div>
+
+  <p class="note">Lab tool — queries the Wikimedia Commons API client-side (PD/CC only; it can't return copyrighted
+  images). License labels come from Commons metadata; always confirm the credit line before publishing. The duotone
+  is a CSS preview, applied at render on the real card. B&W-only is your eye's call — Commons can't filter by it.</p>
+</div>
+
+<div class="tray" id="tray">
+  <div class="row">
+    <span class="n" id="trayn">0 approved</span>
+    <span class="names" id="traynames"></span>
+    <button class="ghost" id="clear">Clear</button>
+    <button id="copy">Copy approved</button>
+  </div>
+</div>
+
+<div class="lb" id="lb"><button class="x" id="lbx">×</button><img id="lbimg" alt=""></div>
+
+<script>
+(() => {
+  const MAP_ARTISTS = ["Billie Holiday","Bob Dylan","Chuck Berry","Elvis Presley","Muddy Waters",
+    "The Beatles","The Rolling Stones","The Supremes","Stevie Wonder","Marvin Gaye","Smokey Robinson",
+    "Dusty Springfield","Carole King","Brian Wilson","The Beach Boys","The Kinks","The Who","The Temptations",
+    "The Four Tops","Ray Charles","Sam Cooke","Aretha Franklin"];
+  const quick = document.getElementById("quick");
+  MAP_ARTISTS.forEach(a => { const b = document.createElement("button"); b.textContent = a;
+    b.onclick = () => { document.getElementById("q").value = a; run(); }; quick.appendChild(b); });
+
+  const approved = new Map(); // pageid -> {title, url, license, credit, source}
+  const $ = id => document.getElementById(id);
+
+  const licenseClass = (short) => {
+    const s = (short || "").toLowerCase();
+    if (s.includes("cc0")) return { key: "cc0", label: "CC0", cls: "" };
+    if (s.includes("public domain") || s.includes("pd-") || s === "pd"
+        || s.includes("no restrictions") || s.includes("no known copyright")) return { key: "pd", label: short || "Public domain", cls: "" };
+    if (s.includes("cc by") || s.includes("cc-by")) return { key: "by", label: short, cls: "by" };
+    return null; // non-free / unknown → excluded
+  };
+  const stripHtml = (h) => { const d = document.createElement("div"); d.innerHTML = h || ""; return (d.textContent || "").trim(); };
+
+  async function run() {
+    const term = $("q").value.trim();
+    if (!term) return;
+    $("go").disabled = true;
+    $("status").className = "status"; $("status").textContent = "Searching Wikimedia Commons for “" + term + "”…";
+    $("grid").innerHTML = "";
+    const api = "https://commons.wikimedia.org/w/api.php";
+    const params = new URLSearchParams({
+      action: "query", format: "json", origin: "*",
+      generator: "search", gsrnamespace: "6", gsrlimit: "40",
+      gsrsearch: term + " portrait|photograph|singer|musician",
+      prop: "imageinfo", iiprop: "url|extmetadata|mime|size", iiurlwidth: "360",
+    });
+    try {
+      const r = await fetch(api + "?" + params.toString());
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const data = await r.json();
+      const pages = data && data.query && data.query.pages ? Object.values(data.query.pages) : [];
+      render(pages, term);
+    } catch (e) {
+      $("status").className = "status err";
+      $("status").textContent = "Commons request failed (" + e.message + "). Try again, or check the network.";
+    } finally { $("go").disabled = false; }
+  }
+
+  function render(pages, term) {
+    const wantPD = $("q") && [...document.querySelectorAll(".lf")].filter(c => c.checked).map(c => c.value);
+    const active = new Set([...document.querySelectorAll(".lf")].filter(c => c.checked).map(c => c.value));
+    const portraitOnly = $("portraitOnly").checked;
+    const grid = $("grid"); grid.innerHTML = "";
+    let shown = 0;
+    pages.filter(p => p.imageinfo).forEach(p => {
+      const ii = p.imageinfo[0];
+      if (!/^image\/(jpeg|png|tiff)/.test(ii.mime || "")) return;
+      const em = ii.extmetadata || {};
+      const lic = licenseClass((em.LicenseShortName && em.LicenseShortName.value) || "");
+      if (!lic || !active.has(lic.key)) return;
+      if (portraitOnly && ii.width && ii.height && ii.width > ii.height * 1.15) return; // drop landscape
+      const credit = stripHtml((em.Artist && em.Artist.value) || (em.Credit && em.Credit.value) || "Unknown");
+      const title = p.title.replace(/^File:/, "");
+      const card = document.createElement("div");
+      card.className = "card" + (approved.has(p.pageid) ? " approved" : "");
+      card.innerHTML =
+        '<div class="imgwrap"><span class="lic ' + lic.cls + '">' + lic.label + '</span>' +
+        '<img loading="lazy" src="' + ii.thumburl + '" alt="' + title.replace(/"/g,"&quot;") + '"></div>' +
+        '<div class="meta"><div class="fn">' + title + '</div>' +
+        '<div class="credit">' + (credit || "Unknown") + '</div>' +
+        '<div class="acts"><button class="ap">' + (approved.has(p.pageid) ? "Approved ✓" : "Approve") + '</button>' +
+        '<a href="' + ii.descriptionurl + '" target="_blank" rel="noopener">Source ↗</a></div></div>';
+      card.querySelector(".imgwrap").onclick = () => { $("lbimg").src = ii.url; $("lb").classList.add("on"); };
+      card.querySelector(".ap").onclick = () => {
+        if (approved.has(p.pageid)) approved.delete(p.pageid);
+        else approved.set(p.pageid, { title, url: ii.url, license: lic.label, credit, source: ii.descriptionurl, artist: term });
+        card.classList.toggle("approved");
+        card.querySelector(".ap").textContent = approved.has(p.pageid) ? "Approved ✓" : "Approve";
+        paintTray();
+      };
+      grid.appendChild(card); shown++;
+    });
+    $("status").className = "status";
+    $("status").textContent = shown ? shown + " license-cleared image" + (shown===1?"":"s") + " for “" + term + "” — approve your pick(s)."
+      : "No public-domain or CC images found for “" + term + "”. Try a different spelling, or the artist may only have copyrighted photos.";
+  }
+
+  function paintTray() {
+    const n = approved.size;
+    $("tray").classList.toggle("on", n > 0);
+    $("trayn").textContent = n + " approved";
+    $("traynames").textContent = [...approved.values()].map(a => a.title).join(" · ");
+  }
+  $("clear").onclick = () => { approved.clear(); document.querySelectorAll(".card.approved").forEach(c => { c.classList.remove("approved"); const b=c.querySelector(".ap"); if(b) b.textContent="Approve"; }); paintTray(); };
+  $("copy").onclick = () => {
+    const lines = [...approved.values()].map(a =>
+      "- " + a.artist + " — " + a.title + "\n  file: " + a.url + "\n  license: " + a.license + " · credit: " + a.credit + "\n  source: " + a.source);
+    navigator.clipboard.writeText(lines.join("\n\n")).then(() => {
+      $("copy").textContent = "Copied ✓"; setTimeout(() => $("copy").textContent = "Copy approved", 1400);
+    });
+  };
+  $("go").onclick = run;
+  $("q").addEventListener("keydown", e => { if (e.key === "Enter") run(); });
+  document.querySelectorAll(".lf, #portraitOnly").forEach(c => c.addEventListener("change", () => { if ($("q").value.trim()) run(); }));
+  $("lbx").onclick = () => $("lb").classList.remove("on");
+  $("lb").onclick = e => { if (e.target.id === "lb") $("lb").classList.remove("on"); };
+})();
+</script>
+</body>
+</html>
