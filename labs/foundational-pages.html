@@ -22,20 +22,54 @@
     --card-shadow:0 1px 2px rgba(17,17,17,.04), 0 18px 60px rgba(17,17,17,.14);
     --bar:rgba(254,253,251,.85);
   }
+  /* dark palette applies via OS preference (when no explicit choice) OR the toggle */
   @media (prefers-color-scheme: dark){
-    :root{
-      --bg:#15130f;
-      --line:#322e27;
-      --muted:#6c675d;
-      --ink:#c4beb0;
-      --head:#f1ede2;
-      --hover:#a29a88;
-      --wash:rgba(40,36,28,.55);
-      --card:rgba(30,27,21,.86);
+    :root:not([data-theme]){
+      --bg:#15130f; --line:#322e27; --muted:#6c675d; --ink:#c4beb0; --head:#f1ede2;
+      --hover:#a29a88; --wash:rgba(40,36,28,.55); --card:rgba(30,27,21,.86);
       --card-shadow:0 1px 2px rgba(0,0,0,.35), 0 18px 60px rgba(0,0,0,.5);
       --bar:rgba(21,19,15,.85);
     }
   }
+  :root[data-theme="dark"], :root[data-theme="chamber-dark"]{
+    --bg:#15130f; --line:#322e27; --muted:#6c675d; --ink:#c4beb0; --head:#f1ede2;
+    --hover:#a29a88; --wash:rgba(40,36,28,.55); --card:rgba(30,27,21,.86);
+    --card-shadow:0 1px 2px rgba(0,0,0,.35), 0 18px 60px rgba(0,0,0,.5);
+    --bar:rgba(21,19,15,.85);
+  }
+  /* CHAMBER: the founding-document pages run OPPOSITE the site theme —
+     "the lights go down" (or up) when you enter the documents. Sha's July 13
+     question, built so both directions can be compared. The doc sections
+     re-declare the palette and paint their own plate. */
+  :root[data-theme="chamber-light"] :is(#constitution,#manifesto,#sha,#standards),
+  :root[data-theme="chamber-dark"] :is(#constitution,#manifesto,#sha,#standards){
+    background:var(--bg);
+    border-radius:26px;
+    padding-left:clamp(1.2rem,4vw,3rem); padding-right:clamp(1.2rem,4vw,3rem);
+    box-shadow:0 24px 80px rgba(0,0,0,.22);
+  }
+  :root[data-theme="chamber-light"] :is(#constitution,#manifesto,#sha,#standards){
+    --bg:#15130f; --line:#322e27; --muted:#6c675d; --ink:#c4beb0; --head:#f1ede2;
+    --hover:#a29a88; --wash:rgba(40,36,28,.55);
+  }
+  :root[data-theme="chamber-dark"] :is(#constitution,#manifesto,#sha,#standards){
+    --bg:#fefdfb; --line:#e6e3d5; --muted:#8c8880; --ink:#232120; --head:#111111;
+    --hover:#6f6a5c; --wash:rgba(240,239,228,.7);
+  }
+
+  /* the theme toggle — labs chrome, fixed bottom-right */
+  .theme-toggle{
+    position:fixed; bottom:1rem; right:1rem; z-index:60;
+    display:flex; gap:.3rem; padding:.35rem;
+    background:var(--bar); border:1px solid var(--line); border-radius:999px;
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  }
+  .theme-toggle button{
+    font-family:"IBM Plex Mono",monospace; font-size:.62rem; letter-spacing:.08em;
+    padding:.32rem .6rem; border:none; border-radius:999px; cursor:pointer;
+    background:transparent; color:var(--muted); transition:color .2s, background-color .2s;
+  }
+  .theme-toggle button[data-on]{background:var(--wash); color:var(--head)}
 
   /* ————— base ————— */
   *{box-sizing:border-box}
@@ -153,7 +187,7 @@
   .about-close svg{width:15px; height:15px; display:block}
 
   .card-mast{display:flex; align-items:center; gap:.55rem; margin-bottom:1.25rem; color:var(--head)}
-  .card-mast svg{width:1.25rem; height:1.25rem; flex:none}
+  .card-mast svg{width:1.25rem; height:1.25rem; flex:none; transform:translateY(-2px)}
   .card-mast .wm{font-size:1.12rem; font-weight:600; letter-spacing:-.01em}
   .card-mast .tag{margin-left:auto; margin-right:2.6rem}
 
@@ -172,7 +206,7 @@
   .doors-b{gap:1.3rem; border-bottom:1px solid var(--line); padding-bottom:.65rem}
   .doors-b .door{
     text-decoration:underline; text-decoration-color:var(--line);
-    text-decoration-thickness:1px; text-underline-offset:.85em;
+    text-decoration-thickness:1px; text-underline-offset:.38em;
     font-size:.86rem; color:var(--ink); cursor:pointer; padding:.2rem 0;
     transition:color .2s ease, text-decoration-color .2s ease;
   }
@@ -362,6 +396,12 @@
   }
   .std h4{font-size:1.04rem; margin-bottom:.25rem}
   .std p{margin:0; font-size:.93rem; color:color-mix(in srgb, var(--ink) 78%, var(--muted))}
+  .std-group{
+    font-family:"IBM Plex Mono",monospace; font-size:.68rem; font-weight:500;
+    letter-spacing:.22em; text-transform:uppercase; color:var(--muted);
+    margin:2.4rem 0 .9rem; padding-bottom:.5rem; border-bottom:1px solid var(--line);
+  }
+  .std-coda{margin-top:2.6rem; text-align:center; font-size:1rem; color:var(--head)}
 
   /* ————— foot ————— */
   .foot{
@@ -717,15 +757,38 @@
       <p class="lede">The Constitution promises; this is how the promise is kept, note by note.</p>
     </header>
 
+    <h3 class="std-group">The prose</h3>
     <div class="std-list">
-      <div class="std"><span class="no">01</span><div><h4>The reader's pass</h4><p>Every note is read as a reader before it ships — the openers, transitions, and closers held hardest.</p></div></div>
-      <div class="std"><span class="no">02</span><div><h4>Verified facts</h4><p>Dates, figures, chart positions, personnel, and quotations are checked against human sources before publication.</p></div></div>
-      <div class="std"><span class="no">03</span><div><h4>Sonic claims checked</h4><p>Nothing is asserted about how a record sounds that the record itself cannot answer for.</p></div></div>
-      <div class="std"><span class="no">04</span><div><h4>Entities linked</h4><p>Every artist, record, and work named is wired into the map at first mention — no orphaned names.</p></div></div>
-      <div class="std"><span class="no">05</span><div><h4>Sources reached</h4><p>Every footnote lands on human writing — books, journalism, scholarship, interviews. Machine-generated text is never a source.</p></div></div>
-      <div class="std"><span class="no">06</span><div><h4>The prose bar</h4><p>The connective sentences are held to the same standard as the showpieces; a sentence that only fills space is cut.</p></div></div>
-      <div class="std"><span class="no">07</span><div><h4>Corrections in the open</h4><p>Changes are dated, errors are acknowledged where they happened, and the changelog is public.</p></div></div>
+      <div class="std"><span class="no">01</span><div><h4>The reader's pass</h4><p>Every note is read as a reader, start to finish, before anything else is checked — the openers, transitions, and closers held hardest, because those are the sentences that slip.</p></div></div>
+      <div class="std"><span class="no">02</span><div><h4>Lead with the music</h4><p>A note opens inside a record — a sound, a room, a moment — and reads outward from concrete detail to argument, never the reverse.</p></div></div>
+      <div class="std"><span class="no">03</span><div><h4>Nothing fills space</h4><p>A sentence that only pads is cut; nothing is repeated across sections; superlatives are earned or deleted.</p></div></div>
+      <div class="std"><span class="no">04</span><div><h4>The machine cadence is swept</h4><p>The tics of generated prose — balanced antitheses, reflexive triads, hedged closers, revelatory framing — are hunted by name in every pass.</p></div></div>
     </div>
+
+    <h3 class="std-group">The evidence</h3>
+    <div class="std-list">
+      <div class="std"><span class="no">05</span><div><h4>Verified facts</h4><p>Every date, figure, chart position, personnel credit, and quotation is checked against human sources before publication.</p></div></div>
+      <div class="std"><span class="no">06</span><div><h4>Sonic claims answer to the record</h4><p>Nothing is asserted about how a record sounds that the recording or its session documentation cannot answer for.</p></div></div>
+      <div class="std"><span class="no">07</span><div><h4>Footnotes reach people</h4><p>Every citation lands on human writing — books, journalism, scholarship, interviews. Machine-generated text is never a source, and an encyclopedia is not scholarship.</p></div></div>
+      <div class="std"><span class="no">08</span><div><h4>Inference is marked as inference</h4><p>Documented influence is stated; conjecture is named as conjecture. No symbols where none intended.</p></div></div>
+      <div class="std"><span class="no">09</span><div><h4>Links are verified, never constructed</h4><p>Every external link is confirmed to resolve to the right page; none is ever guessed from a pattern.</p></div></div>
+    </div>
+
+    <h3 class="std-group">The network</h3>
+    <div class="std-list">
+      <div class="std"><span class="no">10</span><div><h4>Every name is wired</h4><p>Every artist, record, genre, and work named is linked into the map at first mention — no orphaned names.</p></div></div>
+      <div class="std"><span class="no">11</span><div><h4>The map is reciprocal</h4><p>A new note threads back into the notes it touches; connections run both directions or they don't ship.</p></div></div>
+      <div class="std"><span class="no">12</span><div><h4>Proportion</h4><p>Enough context to illuminate, never so much that the art disappears under the apparatus.</p></div></div>
+    </div>
+
+    <h3 class="std-group">The living document</h3>
+    <div class="std-list">
+      <div class="std"><span class="no">13</span><div><h4>The mechanical gate</h4><p>A deterministic pre-publish check blocks any note carrying a broken or unverified link — judgment is backstopped by machinery that cannot get tired.</p></div></div>
+      <div class="std"><span class="no">14</span><div><h4>Corrections in the open</h4><p>Errors are acknowledged where they happened, changes are dated and kept, and the changelog is public. Nothing is silently rewritten.</p></div></div>
+      <div class="std"><span class="no">15</span><div><h4>The revision date</h4><p>Every substantive edit updates the note's last-revised date — the reader always knows how current the thinking is.</p></div></div>
+    </div>
+
+    <p class="std-coda">And over all of it, the Constitution's last article: <i>does it return you to the record, more open than you came?</i></p>
   </article>
 </section>
 
@@ -734,7 +797,24 @@
   <a href="index.html">back to the lab &rarr;</a>
 </footer>
 
+<div class="theme-toggle" role="group" aria-label="Theme preview">
+  <button data-mode="">AUTO</button>
+  <button data-mode="light">LIGHT</button>
+  <button data-mode="dark">DARK</button>
+  <button data-mode="chamber-light">CHAMBER</button>
+  <button data-mode="chamber-dark">INVERSE</button>
+</div>
 <script>
+(function(){
+  var btns = document.querySelectorAll('.theme-toggle button');
+  function setMode(m){
+    if (m) document.documentElement.setAttribute('data-theme', m);
+    else document.documentElement.removeAttribute('data-theme');
+    btns.forEach(function(b){ b.toggleAttribute('data-on', b.getAttribute('data-mode')===m); });
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ setMode(b.getAttribute('data-mode')); }); });
+  setMode('');
+})();
 (function(){
   var row = document.getElementById('switchRow');
   var tabs = Array.prototype.slice.call(row.querySelectorAll('a'));
