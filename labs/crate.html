@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Crate — Go Bang! — MAP labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --cream:#f0efe4; --light:#fefdfb; --lightgray:#e6e3d5; --gray:#8c8880;
+  --darkgray:#232120; --dark:#111111; --tertiary:#6f6a5c;
+  --single:#d46070; --album:#c44040; --track:#e87890;
+  --artist:#d4952a; --producer:#c4a545; --genre:#3a9c40; --scene:#6ab86a;
+  --era:#2a8880; --idea:#52a8d7; --library:#4070c0; --industry:#5a7a9a;
+  --serif:"Source Serif 4", Georgia, serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--darkgray);font-family:var(--serif);-webkit-font-smoothing:antialiased;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:2.2rem 1.2rem 4rem}
+a{color:inherit}
+
+/* header */
+.labhead{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:2.4rem}
+.wordmark{font-weight:600;color:var(--dark);text-decoration:none;font-size:1.02rem}
+.back{font-size:.85rem;color:rgba(17,17,17,.55);text-decoration:none;border-bottom:1px solid rgba(110,105,95,.4)}
+.back:hover{color:var(--dark)}
+
+/* masthead */
+.kicker{font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--single);font-weight:600;display:flex;align-items:center;gap:.5rem}
+.kicker .dot{width:9px;height:9px;border-radius:50%;background:var(--single);display:inline-block}
+h1.comp{font-size:2.7rem;line-height:1.08;margin:.35rem 0 .2rem;color:var(--dark);font-weight:600;letter-spacing:-.01em}
+.byline{font-size:1.02rem;color:var(--darkgray)}
+.byline b{font-weight:600}
+.factline{font-size:.85rem;color:var(--tertiary);margin-top:.35rem;font-variant-numeric:tabular-nums}
+.lede{max-width:44rem;font-size:1.02rem;margin:1.1rem 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.15rem}
+.chip{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;padding:.18rem .7rem;border-radius:999px;text-decoration:none;border:1.5px solid color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent);color:var(--darkgray)}
+.chip .cdot{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.chip.planned{border-style:dashed;background:transparent;color:var(--tertiary)}
+.chip.planned:after{content:"planned";font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tertiary);margin-left:.15rem}
+.chip:not(.planned):hover{background:color-mix(in srgb,var(--c) 20%,transparent)}
+
+/* section headers */
+h2.sec{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tertiary);font-weight:600;margin:3rem 0 .8rem;display:flex;align-items:baseline;gap:.6rem}
+h2.sec .rule{flex:1;height:1px;background:var(--lightgray)}
+.secnote{font-size:.9rem;color:var(--tertiary);max-width:44rem;margin:-.2rem 0 1rem}
+
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 .8rem}
+.fpill{font-family:var(--serif);font-size:.78rem;padding:.16rem .7rem;border-radius:999px;border:1px solid var(--lightgray);background:var(--light);color:var(--darkgray);cursor:pointer}
+.fpill[aria-pressed="true"]{border-color:var(--single);background:color-mix(in srgb,var(--single) 12%,transparent)}
+
+/* the crate table */
+.crate{background:var(--light);border:1px solid var(--lightgray);border-radius:14px;box-shadow:0 1px 2px rgba(17,17,17,.03),0 10px 30px rgba(17,17,17,.05);overflow-x:auto;-webkit-overflow-scrolling:touch}
+#cratetable{min-width:860px}
+table{width:100%;border-collapse:collapse}
+thead th{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tertiary);font-weight:600;text-align:left;padding:.7rem .6rem .55rem;border-bottom:1px solid var(--lightgray);cursor:pointer;user-select:none;white-space:nowrap}
+thead th:hover{color:var(--dark)}
+thead th .arr{font-size:.6rem;opacity:.7}
+tbody tr.mixrow{cursor:pointer;border-top:1px solid color-mix(in srgb,var(--lightgray) 55%,transparent)}
+tbody tr.mixrow:first-child{border-top:none}
+tbody tr.mixrow:hover{background:color-mix(in srgb,var(--cream) 45%,transparent)}
+tbody tr.mixrow.open{background:color-mix(in srgb,var(--cream) 60%,transparent)}
+td{padding:.62rem .6rem;vertical-align:baseline;font-size:.92rem}
+td.title{max-width:15rem}
+td.title .t{font-weight:600;color:var(--dark)}
+td.title .spine{display:inline-block;width:3px;height:.95em;border-radius:2px;margin-right:.5rem;vertical-align:-.12em;background:var(--sc,var(--single))}
+td.mixer{white-space:nowrap}
+td.mixer .alias{display:block;font-size:.72rem;color:var(--tertiary)}
+.num{font-family:var(--mono);font-size:.8rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pend{display:inline-block;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--tertiary);border:1px dashed color-mix(in srgb,var(--gray) 55%,transparent);border-radius:999px;padding:.02rem .4rem}
+.badge{display:inline-block;font-size:.66rem;letter-spacing:.05em;border-radius:999px;padding:.06rem .45rem;border:1px solid var(--lightgray);color:var(--tertiary);white-space:nowrap}
+.badge.est{border-style:dotted}
+.avdot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:baseline}
+.av-stream{background:var(--genre)}
+.av-phys{background:var(--gray)}
+.av-none{background:transparent;border:1.5px dashed var(--gray)}
+.stars{white-space:nowrap;font-size:.85rem;letter-spacing:.06em;color:color-mix(in srgb,var(--producer) 80%,var(--dark));cursor:default}
+.stars .off{color:var(--lightgray)}
+
+/* detail drawer */
+tr.drawer>td{padding:0;border-top:1px dashed var(--lightgray);background:color-mix(in srgb,var(--cream) 40%,var(--light))}
+.dwrap{padding:1.1rem 1.2rem 1.3rem;display:grid;grid-template-columns:1.25fr .9fr;gap:1.4rem}
+@media (max-width:780px){.dwrap{grid-template-columns:1fr;position:sticky;left:0;max-width:calc(100vw - 2.4rem)}}
+.dh{font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;color:var(--tertiary);font-weight:600;margin:0 0 .35rem}
+.dstory{font-size:.92rem;margin:0 0 1rem;max-width:38rem}
+.dstory .src{font-size:.72rem;color:var(--tertiary)}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:.28rem .8rem;font-size:.85rem;margin:0 0 1rem}
+.facts dt{color:var(--tertiary);white-space:nowrap}
+.facts dd{margin:0}
+.facts .lock{font-size:.62rem;letter-spacing:.05em;color:var(--tertiary);border:1px solid var(--lightgray);border-radius:999px;padding:.01rem .4rem;margin-left:.35rem;white-space:nowrap}
+.facts .lock.pending{border-style:dashed;color:var(--tertiary)}
+.appears{font-size:.82rem;margin:.1rem 0 0;padding-left:1.05rem}
+.appears li{margin:.12rem 0}
+.linkrow{display:flex;flex-wrap:wrap;gap:.45rem;margin:.5rem 0 0}
+.extbtn{font-size:.74rem;padding:.14rem .6rem;border-radius:999px;border:1px solid var(--lightgray);background:var(--light);text-decoration:none;color:var(--darkgray)}
+.extbtn:hover{border-color:var(--tertiary)}
+/* groove map (pending state) */
+.groove{border:1px dashed color-mix(in srgb,var(--gray) 45%,transparent);border-radius:10px;padding:.7rem .8rem;margin:0 0 1rem;background:color-mix(in srgb,var(--light) 60%,transparent)}
+.gbar{display:flex;height:26px;border-radius:6px;overflow:hidden;border:1px solid var(--lightgray)}
+.gseg{flex:1;display:flex;align-items:center;justify-content:center;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tertiary);background:repeating-linear-gradient(135deg,transparent,transparent 5px,color-mix(in srgb,var(--lightgray) 55%,transparent) 5px,color-mix(in srgb,var(--lightgray) 55%,transparent) 6px)}
+.gseg+.gseg{border-left:1px dashed var(--lightgray)}
+.gnote{font-size:.74rem;color:var(--tertiary);margin:.45rem 0 0}
+/* personal + tags */
+.pbox{border:1px solid var(--lightgray);border-radius:10px;background:var(--light);padding:.8rem .9rem;margin:0 0 .9rem}
+.starbtns{letter-spacing:.12em;user-select:none}
+.starbtns button{background:none;border:none;padding:0;font-size:1.25rem;line-height:1;color:var(--lightgray);cursor:pointer;transition:color .12s ease}
+.starbtns button.on{color:color-mix(in srgb,var(--producer) 85%,var(--dark))}
+.ownrow{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.55rem}
+.ownchip{font-family:var(--serif);font-size:.72rem;padding:.1rem .55rem;border-radius:999px;border:1px solid var(--lightgray);background:transparent;color:var(--tertiary);cursor:pointer}
+.ownchip[aria-pressed="true"]{border-color:var(--era);color:var(--darkgray);background:color-mix(in srgb,var(--era) 10%,transparent)}
+textarea.mynotes{width:100%;margin-top:.55rem;border:1px solid var(--lightgray);border-radius:8px;background:var(--light);font-family:var(--serif);font-size:.85rem;color:var(--darkgray);padding:.45rem .55rem;resize:vertical;min-height:44px}
+.tagrow{display:flex;flex-wrap:wrap;gap:.35rem}
+.vtag{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--serif);font-size:.76rem;padding:.12rem .6rem;border-radius:999px;border:1px solid color-mix(in srgb,var(--idea) 45%,var(--lightgray));background:transparent;color:var(--darkgray);cursor:pointer}
+.vtag .ct{font-family:var(--mono);font-size:.66rem;color:var(--tertiary)}
+.vtag[aria-pressed="true"]{background:color-mix(in srgb,var(--idea) 12%,transparent);border-color:var(--idea)}
+.vtag .litsrc{font-size:.62rem;color:var(--tertiary)}
+.tagnote{font-size:.72rem;color:var(--tertiary);margin:.4rem 0 0}
+
+/* blend desk */
+.desk{background:var(--light);border:1px solid var(--lightgray);border-radius:14px;box-shadow:0 1px 2px rgba(17,17,17,.03),0 10px 30px rgba(17,17,17,.05);padding:1.1rem 1.2rem 1.2rem}
+.deskgrid{display:grid;grid-template-columns:1fr 210px;gap:1.4rem;align-items:start}
+@media (max-width:780px){.deskgrid{grid-template-columns:1fr}}
+.srcsel{font-family:var(--serif);font-size:.9rem;padding:.3rem .6rem;border:1px solid var(--lightgray);border-radius:8px;background:var(--light);color:var(--dark);max-width:100%}
+.bscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.blends{width:100%;min-width:560px;border-collapse:collapse;margin-top:.8rem}
+.blends th{font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:var(--tertiary);text-align:left;padding:.35rem .5rem;border-bottom:1px solid var(--lightgray);font-weight:600}
+.blends td{padding:.45rem .5rem;font-size:.85rem;border-top:1px solid color-mix(in srgb,var(--lightgray) 50%,transparent);vertical-align:baseline}
+.blends td.who b{color:var(--dark);font-weight:600}
+.blends td.who .sub{display:block;font-size:.72rem;color:var(--tertiary)}
+.verdict{font-size:.74rem;border-radius:999px;padding:.06rem .5rem;white-space:nowrap;border:1px solid}
+.v-perfect{color:var(--genre);border-color:color-mix(in srgb,var(--genre) 55%,transparent);background:color-mix(in srgb,var(--genre) 9%,transparent)}
+.v-fine{color:var(--era);border-color:color-mix(in srgb,var(--era) 55%,transparent);background:color-mix(in srgb,var(--era) 8%,transparent)}
+.v-stretch{color:var(--producer);border-color:color-mix(in srgb,var(--producer) 60%,transparent);background:color-mix(in srgb,var(--producer) 10%,transparent)}
+.v-hard{color:var(--album);border-color:color-mix(in srgb,var(--album) 50%,transparent);background:color-mix(in srgb,var(--album) 8%,transparent)}
+.v-nodata{color:var(--tertiary);border-color:var(--lightgray);border-style:dashed}
+.deskfoot{font-size:.74rem;color:var(--tertiary);margin-top:.7rem;max-width:44rem}
+/* camelot wheel */
+.wheelbox{text-align:center}
+.wheelbox svg{max-width:210px;height:auto}
+.wheelcap{font-size:.72rem;color:var(--tertiary);margin-top:.4rem}
+.wseg{stroke:var(--light);stroke-width:1;fill:color-mix(in srgb,var(--lightgray) 55%,var(--light));cursor:default;transition:fill .15s ease}
+.wseg.src{fill:var(--single)}
+.wseg.ok{fill:color-mix(in srgb,var(--genre) 55%,var(--light))}
+.wseg.rel{fill:color-mix(in srgb,var(--era) 50%,var(--light))}
+.wlab{font-family:var(--mono);font-size:7.5px;fill:var(--darkgray);text-anchor:middle;pointer-events:none}
+.wlab.ondark{fill:var(--light)}
+
+/* vocabulary */
+.vocab{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media (max-width:780px){.vocab{grid-template-columns:1fr}}
+.vcol{background:var(--light);border:1px solid var(--lightgray);border-radius:14px;padding:1rem 1.1rem}
+.vcol h3{font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;color:var(--tertiary);margin:0 0 .6rem;font-weight:600;display:flex;align-items:center;gap:.45rem}
+.vcol ul{margin:0;padding:0;list-style:none}
+.vcol li{font-size:.85rem;padding:.34rem 0;border-top:1px dashed color-mix(in srgb,var(--lightgray) 70%,transparent)}
+.vcol li:first-child{border-top:none}
+.vcol li b{color:var(--dark);font-weight:600}
+.vcol li .why{display:block;font-size:.76rem;color:var(--tertiary);margin-top:.05rem}
+.glyph{font-size:.72rem;border:1px solid var(--lightgray);border-radius:999px;padding:.02rem .45rem;color:var(--tertiary)}
+
+/* provenance + footer */
+.prov{max-width:46rem;font-size:.92rem}
+.prov .src{font-size:.76rem;color:var(--tertiary)}
+.howbox{background:var(--light);border:1px solid var(--lightgray);border-radius:14px;padding:1rem 1.1rem;max-width:46rem;font-size:.92rem}
+details.sources{margin-top:2.4rem;font-size:.8rem;color:var(--tertiary)}
+details.sources summary{cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-size:.66rem;color:var(--tertiary)}
+details.sources a{word-break:break-all}
+footer{margin-top:3rem;font-size:.78rem;color:var(--tertiary);border-top:1px solid var(--lightgray);padding-top:1rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="labhead">
+  <a class="wordmark" href="/map/">⁂ MAP</a>
+  <a class="back" href="/labs/">← back to the labs</a>
+</div>
+
+<!-- ── Composition masthead ─────────────────────────────────────────── -->
+<div class="kicker"><span class="dot"></span>The Crate · one composition, every mix</div>
+<h1 class="comp">Go Bang!</h1>
+<p class="byline"><b>Dinosaur L</b> — written by Arthur Russell · first issued as “#5 (Go Bang!)” on <i>24→24 Music</i> (Sleeping Bag Records, 1981)</p>
+<p class="factline">Recorded June 9, 1979, Blank Tapes, NYC · publisher No Ears Music (ASCAP) · Sleeping Bag TLX-0, the label’s first release</p>
+<p class="lede">The same composition, four decades of hands on the tape. The Crate holds one entry per unique mix: the author resolved, the selection data a DJ needs, and a hard line kept between verified fact and open question. Open a row.</p>
+<div class="chips" id="chips"></div>
+
+<!-- ── The crate ────────────────────────────────────────────────────── -->
+<h2 class="sec">The crate <span class="rule"></span></h2>
+<p class="secnote">Sortable on every column. <span class="avdot av-stream"></span> streaming · <span class="avdot av-phys"></span> physical-only · <span class="avdot av-none"></span> never released. Dotted badges are algorithmic estimates; <span class="pend">pending</span> marks a fact awaiting a verified value.</p>
+<div class="filters" id="filters"></div>
+<div class="crate">
+<table id="cratetable">
+  <thead><tr>
+    <th data-k="title">Mix <span class="arr"></span></th>
+    <th data-k="mixer">Mixed by <span class="arr"></span></th>
+    <th data-k="year">Year <span class="arr"></span></th>
+    <th data-k="dur">Length <span class="arr"></span></th>
+    <th data-k="bpm">BPM <span class="arr"></span></th>
+    <th data-k="key">Key <span class="arr"></span></th>
+    <th data-k="avail">Availability <span class="arr"></span></th>
+    <th data-k="rating">Mine <span class="arr"></span></th>
+  </tr></thead>
+  <tbody id="cratebody"></tbody>
+</table>
+</div>
+
+<!-- ── Blend desk ───────────────────────────────────────────────────── -->
+<h2 class="sec">The blend desk <span class="rule"></span></h2>
+<p class="secnote">Pick the record that’s playing. Candidates are graded on the pitch ride they’d need (with the detune cost in cents) and the Camelot relation between keys — computed only where the data is verified or clearly marked as an estimate. Live-session records carry a drift warning: sync will fight them; you ride the pitch by hand.</p>
+<div class="desk">
+  <label style="font-size:.8rem;color:var(--tertiary)">Now playing:&nbsp;
+    <select class="srcsel" id="srcsel"></select>
+  </label>
+  <div class="deskgrid">
+    <div>
+      <div class="bscroll"><table class="blends"><thead><tr>
+        <th>Candidate</th><th>BPM</th><th>Pitch ride</th><th>Detune</th><th>Keys</th><th>Verdict</th>
+      </tr></thead><tbody id="blendbody"></tbody></table></div>
+      <p class="deskfoot" id="deskfoot"></p>
+    </div>
+    <div class="wheelbox">
+      <svg id="wheel" viewBox="0 0 200 200" aria-label="Camelot wheel"></svg>
+      <p class="wheelcap">The Camelot wheel — source key in red, compatible codes in green, the relative swap in teal. Keys from algorithmic sources stay estimates.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── What the crate captures ─────────────────────────────────────── -->
+<h2 class="sec">What the crate captures <span class="rule"></span></h2>
+<p class="secnote">Two classes of data, two rules. <b>Locked facts</b> are verified once against the record, then closed; corrections go through review. <b>Votable reads</b> are judgment calls, and the crowd that spins the records owns them. In rekordbox, Serato, and Traktor the shared lockable core is library basics — title, artist, album, genre, label, remixer, BPM, key, comment, rating, color, play count. Nothing structural, nothing about how the record mixes.</p>
+<div class="vocab">
+  <div class="vcol">
+    <h3><span class="glyph">🔒 locked</span> Facts of the record</h3>
+    <ul>
+      <li><b>Mix type + lineage</b><span class="why">album cut · 12″ mix · dub · edit — and its parent version. The edit wearing the same title as the mix with the intro is the classic 1 a.m. trap.</span></li>
+      <li><b>Resolved authorship</b><span class="why">the human behind the production-company alias. Where the alias won’t resolve, the crate says so — see Hard Times Productions, below.</span></li>
+      <li><b>Intro runway</b><span class="why">bars of beat-only room before the first melodic or vocal element, and what fills it (drums / bass / pad / vocal / cold start). Remix services printed this on DJ pressings in the 1980s.</span></li>
+      <li><b>Intro vocal flag</b><span class="why">a vocal inside the first 16 bars vetoes a vocal-over-vocal blend.</span></li>
+      <li><b>Outro type + fades-out</b><span class="why">fade · percussion run-out · cold end · reprise. You cannot mix out of a fade.</span></li>
+      <li><b>Fake-extended flag</b><span class="why">the “12-inch” that is the album take with a longer tail — no mixable runway despite the label.</span></li>
+      <li><b>Breakdown map + mix-out point</b><span class="why">bar positions of breakdowns, rebuilds, and the last clean phrase boundary — where working DJs actually leave the record.</span></li>
+      <li><b>Tempo, never flattened</b><span class="why">BPM per section where it shifts, the count convention (75 vs 150), first-downbeat offset, odd-bar warnings, and a drift flag for live kits and tape wobble.</span></li>
+      <li><b>Key, never flattened</b><span class="why">key per section with the Camelot code — a mid-song modulation silently invalidates a single stored key.</span></li>
+      <li><b>Drum fingerprint</b><span class="why">TR-808 · LinnDrum · DMX · live kit · sampled break. Machine-to-machine layering locks; a live kit flamming against an 808 never will.</span></li>
+      <li><b>Acappella / dub exists</b><span class="why">the overlay and the talkover bed for this composition, and which pressing carries them — the vinyl-era answer to stems.</span></li>
+      <li><b>Availability</b><span class="why">streaming · physical-only · promo-only · acetate — what you can pull up tonight vs what you hunt.</span></li>
+    </ul>
+  </div>
+  <div class="vcol">
+    <h3><span class="glyph">◍ votable</span> Reads of the room</h3>
+    <ul>
+      <li><b>Energy-curve shape</b><span class="why">builder · plateau · peak-and-release · rollercoaster. A single 1–10 number can’t say the track dips for 90 seconds mid-peak.</span></li>
+      <li><b>Set role</b><span class="why">warm-up · peak · after-hours · closer · reset. Selection is about the job the record does.</span></li>
+      <li><b>Vocal prominence</b><span class="why">none · hook-only · full song — how much attention the record demands and what you can layer over it.</span></li>
+      <li><b>Recognizability</b><span class="why">a known hook resets a flagging room; an obscure banger keeps heads down. Both are tools; know which you’re holding.</span></li>
+      <li><b>Mix-hostility notes</b><span class="why">“rubato piano first 8 bars” · “fade starts under the last chorus” — hazards accumulated the way record-pool feedback sheets once were.</span></li>
+      <li><b>Burn level</b><span class="why">scene-local and time-decaying: this bomb already went off in your city this season.</span></li>
+      <li><b>Mood / texture</b><span class="why">dark · euphoric · chugging · dreamy · percussive — the fast cross-genre filter DJs currently fake with private My Tags that never leave their laptop.</span></li>
+      <li><b>Descriptors from the literature</b><span class="why">seeded from cited writing — Kevorkian’s Go Bang “dubbed out” per Tim Lawrence — then opened to votes.</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── Provenance ───────────────────────────────────────────────────── -->
+<h2 class="sec">An old practice, given a shared home <span class="rule"></span></h2>
+<p class="prov">DJs have annotated records this way since the form began. Tom Lewis’s <i>Disco Beats</i> books listed hits by BPM from 1977; James Hamilton stopwatch-counted a BPM into every <i>Record Mirror</i> dance review from 1979; the remix services of the eighties printed BPMs and intro bar counts on their DJ-only pressings; Pet Shop Boys put a BPM on each label of <i>Disco</i> (122 · 128 · 122 · 121 · 111 · 114); and the record pools that started at the Prince Street Loft in 1975 ran on written feedback from the DJs who played the promos. What never existed is a shared, structured, correctable home for that knowledge — organized under the composition, one entry per unique mix. That is the Crate.</p>
+<p class="prov src">Sources: Wikipedia (History of DJing; James Hamilton; Music pool; Remix service), Discogs release 584545 (the printed Disco BPMs), Red Bull Music Academy on Razormaid.</p>
+
+<h2 class="sec">How it lands on the MAP <span class="rule"></span></h2>
+<div class="howbox">
+  <p style="margin:.1rem 0">The Crate rides the SINGLE note — a <span class="num">versions:</span> table in frontmatter, rendered by a transformer, the same architecture as the album tracklists. Mixes stay data: no note per mix, no graph flooding. The people are the nodes — Arthur Russell, François Kevorkian, Walter Gibbons earn ARTIST and PRODUCER notes because they are load-bearing for the dance lineage the MAP already gestures at; each crate row links to them. A mix that earns real prose can be promoted to a TRACKS note later, and its row points there. Every locked fact carries a verification state, which is the seam where community submission bolts on without changing the model.</p>
+</div>
+
+<details class="sources" id="mixsources">
+  <summary>Sources for the crate’s data</summary>
+  <div id="srclist" style="margin-top:.6rem"></div>
+</details>
+
+<footer>MAP labs · The Crate, prototype № 1 — seeded with Dinosaur L’s “Go Bang!” · data verified July 13, 2026 against Discogs, MusicBrainz, Wikipedia, and Tim Lawrence’s writing; algorithmic BPM/key values marked as estimates · ratings, tags, and notes stay in your browser (localStorage)</footer>
+</div>
+
+<script>
+/* ═══ Data — verified July 13, 2026. Every claim traces to sources[] below.
+   UNVERIFIED values are null and render as pending — never a guess. ═══ */
+
+const CAMELOT = {
+  "1A":"A♭ minor","2A":"E♭ minor","3A":"B♭ minor","4A":"F minor","5A":"C minor","6A":"G minor",
+  "7A":"D minor","8A":"A minor","9A":"E minor","10A":"B minor","11A":"F♯ minor","12A":"D♭ minor",
+  "1B":"B major","2B":"F♯ major","3B":"D♭ major","4B":"A♭ major","5B":"E♭ major","6B":"B♭ major",
+  "7B":"F major","8B":"C major","9B":"G major","10B":"D major","11B":"A major","12B":"E major"
+};
+
+const COMPOSITION = {
+  title:"Go Bang!", artist:"Dinosaur L", writer:"Arthur Russell",
+};
+
+/* Availability: "stream" | "phys" | "none" */
+const MIXES = [
+  {
+    id:"album", title:"#5 (Go Bang!)", sub:"album version",
+    aliases:["Go Bang #5","Go Bang (Original Version)","#5 (Go Bang!) (Original Mix)"],
+    mixer:"Arthur Russell", credited:"Producer: Arthur Russell", spine:"var(--album)",
+    year:1981, yearNote:"recorded June 9, 1979",
+    dur:"7:54", durS:474, durNote:"7:54–7:55 across sources; a 7:40 sleeve timing on the 1988 City Beat B-side",
+    type:"Album cut",
+    bpm:{val:130, lo:130, hi:130, quality:"est", src:"SongBPM (algorithmic)"},
+    key:{code:"6B", quality:"est", src:"SongBPM (algorithmic)"},
+    drums:{val:"Live kit — the Ingram rhythm section", quality:"verified"},
+    drift:{val:"likely — live 1979 session", quality:"pending"},
+    first:"24→24 Music — Sleeping Bag Records TLX-0, US LP, 1981",
+    appears:["24→24 Music, 2007 Traffic CD reissue (TEG-76530-2)","24→24 Music: The Definitive Arthur Russell (2011)","David Mancuso Presents: The Loft, Volume Two (2000)","Dinosaur L Bangs Again / Go Bang B-side, as “Go Bang (Original Version)” (City Beat CBX 1205, UK 1988)","Demon Records LP reissue (UK 2019)"],
+    avail:"stream",
+    links:[["Apple Music","https://music.apple.com/us/album/24-24-music/268646867"],["Spotify","https://open.spotify.com/track/7pRSB8tV4D88B7oVsKZhyS"],["Discogs (TLX-0)","https://www.discogs.com/release/75826"]],
+    story:"The downtown session, kept whole: rhythm changes every 24 bars, Julius Eastman’s cry buried at the back of the mix. Contemporary DJs found it too complex for the floor — David Mancuso played it at the Loft anyway.",
+    storySrc:"Tim Lawrence, The Wire (Sept 2010); Get On Down reissue notes; Wikipedia",
+    personnel:["Julius Eastman — keyboards, vocals","Peter Zummo — trombone","Butch, Jimmy, John, Timmy & William Ingram — bass, keys, drums, congas, guitar","Jill Kroesen · Lola Blank — vocals","Rome Neal — percussion","Kent Goshorn — spoken lines","Arthur Russell — cello, vocals"],
+    litTags:[{t:"too complex for the floor",src:"Lawrence"},{t:"the Loft record",src:"Lawrence"}],
+    conf:"verified",
+    sources:["https://www.discogs.com/release/75826","https://en.wikipedia.org/wiki/24%E2%86%9224_Music","http://www.timlawrence.info/articles2/2013/7/16/epiphanies-dinosaur-l-24-24-music-wire-september-2010","https://songbpm.com/@dinosaur-l/5-go-bang"]
+  },
+  {
+    id:"fk", title:"Go Bang! #5", sub:"François K. mix",
+    aliases:["#5 Go Bang! (Francois K Mix)","Go Bang (Francois Kevorkian Mix)","Go Bang (Mixed by Francois K)"],
+    mixer:"François Kevorkian", credited:"Mixed By: François Kevorkian", spine:"var(--single)",
+    year:1982, yearNote:"mixed at Right Track, mastered at Frankford/Wayne",
+    dur:"7:34", durS:454, durNote:"7:34–7:35 canonical; 7:33–7:40 sleeve variance across pressings — one recording",
+    type:"12″ mix",
+    bpm:{val:130, lo:130, hi:131, quality:"printed", src:"“Bpm’s: A – 130” printed on the 1986 City Beat sleeve; SongBPM 131"},
+    key:{code:"6B", quality:"est", src:"SongBPM/Tunebat (algorithmic)"},
+    drums:{val:"Live kit — same 1979 session tapes", quality:"verified"},
+    drift:{val:"likely — live 1979 session", quality:"pending"},
+    first:"Go Bang! #5 / Clean On Your Bean #1 — Sleeping Bag SLX-0/SLX-000, US 12″ 45 rpm, 1982",
+    appears:["Sleeping Bag Records’ Greatest Mixers Collection (1985)","City Beat CBE 1205, UK 12″ (1986 — mix uncredited; likely this one)","The World of Arthur Russell (Soul Jazz, 2004)","24→24 Music 2007 Traffic CD","Go Bang! RSD 12″ (DINO1, 2013)","Get On Down 7″ GET-701 (2011, split Pt. 1/Pt. 2)","Get On Down 12″ (2016)"],
+    avail:"stream",
+    links:[["Apple Music","https://music.apple.com/us/album/24-24-music-the-definitive-arthur-russell-sleeping/1022488853"],["Spotify","https://open.spotify.com/track/69t63AhQx4l2MFYr1OUIvW"],["Discogs (SLX-0)","https://www.discogs.com/release/19135"]],
+    story:"Commissioned after the album cut stalled with DJs. Kevorkian, handed what he called an utter mess of a multitrack, stripped whole layers of percussion, cut half a minute, and pushed Eastman’s vocal, Zummo’s trombone and Lola Blank to the front — a dubbed-out floor version that broke at the Paradise Garage and the Loft.",
+    storySrc:"Tim Lawrence, The Wire (Sept 2010)",
+    personnel:["Same June 9, 1979 Blank Tapes session — remix foregrounds Eastman, Zummo, Lola Blank"],
+    litTags:[{t:"dubbed out",src:"Lawrence"},{t:"Garage record",src:"Lawrence"}],
+    conf:"verified",
+    sources:["https://www.discogs.com/release/19135","https://www.discogs.com/release/14591037","http://www.timlawrence.info/articles2/2013/7/16/epiphanies-dinosaur-l-24-24-music-wire-september-2010","https://songbpm.com/@dinosaur-l/5-go-bang-francois-k-mix"]
+  },
+  {
+    id:"gibbons", title:"Go Bang", sub:"Walter Gibbons unreleased mix",
+    aliases:["Go Bang! (Walter Gibbons Mix)","Go Bang! (Unreleased Mix)"],
+    mixer:"Walter Gibbons", credited:"Remix: Walter Gibbons", spine:"var(--single)",
+    year:2009, yearNote:"mixing date undocumented — mid-’80s per Tim Lawrence; first official release March 2009",
+    dur:"12:26", durS:746, durNote:"12:24–12:28 across releases — one recording",
+    type:"Unreleased 12″ mix",
+    bpm:{val:null, quality:"pending", src:"no published BPM found"},
+    key:{code:null, quality:"pending", src:"no published key found"},
+    drums:{val:"Live kit — same 1979 session tapes", quality:"verified"},
+    drift:{val:"likely — live 1979 session", quality:"pending"},
+    first:"The Sleeping Bag Sessions — Traffic TEG-3319 CD + 2LP, US, March 2009 (a Japanese single-sided bootleg circulated from 2004)",
+    appears:["Jungle Music: Mixed With Love — Essential & Unreleased Remixes 1976–1986 (Strut, 2010)","24→24 Music: The Definitive Arthur Russell (2011)","Go Bang! RSD 12″ (DINO1, 2013, AA-side)","Get On Down 12″ (2016, B-side)"],
+    avail:"stream",
+    links:[["Apple Music","https://music.apple.com/us/song/go-bang-walter-gibbons-mix/1022489286"],["Spotify (Jungle Music)","https://open.spotify.com/album/6y6hgAObnZ52Xnitl2ZCuN"],["Bandcamp","https://waltergibbons.bandcamp.com/album/jungle-music"],["Discogs (2009)","https://www.discogs.com/release/1677915"]],
+    story:"Gibbons stretched the session to twelve and a half minutes in scrambled-together hours at Blank Tapes — taut and epic, closer to the freestyle spirit of the original session than to Kevorkian’s tighter, earlier remix. It stayed on the shelf until 2009, twenty-plus years after the fact.",
+    storySrc:"Tim Lawrence (Jungle Music notes); Get On Down reissue text; RA review",
+    personnel:["Gibbons’ post-production on the original 1979 multitracks"],
+    litTags:[{t:"taut, stretched out",src:"Lawrence"},{t:"freestyle spirit",src:"Lawrence"}],
+    conf:"verified",
+    sources:["https://www.discogs.com/release/1677915","https://www.discogs.com/release/2408454","https://ra.co/reviews/7730","https://www.discogs.com/release/256683","https://www.timlawrence.info/articles2/2013/7/16/walter-gibbons-jungle-music-strut-2010"]
+  },
+  {
+    id:"pl", title:"Go Bang!", sub:"Thank You Arthur edit",
+    aliases:["Thank You Arthur (Edited De Prince Language)"],
+    mixer:"Prince Language", credited:"uncredited on the 2007 CD — identification by title match with the credited 2006 12″", spine:"var(--track)",
+    year:2006, yearNote:"unofficial 12″ 2006; first official appearance 2007 (Traffic CD bonus track)",
+    dur:"8:51", durS:531, durNote:"Traffic 2007 CD timing",
+    type:"Edit",
+    bpm:{val:null, quality:"pending", src:"no published BPM found"},
+    key:{code:null, quality:"pending", src:"no published key found"},
+    drums:{val:"Live kit — derived from the 1979 session", quality:"verified"},
+    drift:{val:"likely — live 1979 session", quality:"pending"},
+    first:"Thank You Arthur / Lollipop — Editions Disco ed-1975, US 12″, unofficial, 2006 · first official: 24→24 Music 2007 Traffic CD",
+    appears:["24→24 Music: The Definitive Arthur Russell (2011)"],
+    avail:"stream",
+    links:[["Apple Music","https://music.apple.com/us/album/24-24-music-the-definitive-arthur-russell-sleeping/1022488853"],["Discogs (ed-1975)","https://www.discogs.com/release/771334"],["WhoSampled","https://www.whosampled.com/sample/401898/"]],
+    story:"A 2000s NYC re-edit that made it onto the official reissue canon — credited to Prince Language on the unofficial 12″, uncredited on the Traffic CD. The crate keeps that seam visible: the attribution is a strong inference, not label-confirmed.",
+    storySrc:"Discogs release notes; WhoSampled",
+    personnel:["Derived from the 1979 session recording"],
+    litTags:[],
+    conf:"likely",
+    sources:["https://www.discogs.com/release/771334","https://www.discogs.com/release/1044135","https://www.whosampled.com/sample/401898/"]
+  },
+  {
+    id:"htp", title:"Dinosaur L Bangs Again", sub:"Hard Times Productions mix",
+    aliases:[],
+    mixer:null, credited:"Remix: Hard Times Productions — alias unresolved; no source names the humans behind it", spine:"var(--single)",
+    year:1988, yearNote:"licensed from Sleeping Bag by Beggars Banquet/Citybeat",
+    dur:"5:35", durS:335, durNote:"City Beat 12″ timing",
+    type:"Late-’80s remix",
+    bpm:{val:null, quality:"pending", src:"no published BPM found"},
+    key:{code:null, quality:"pending", src:"no published key found"},
+    drums:{val:null, quality:"pending"},
+    drift:{val:null, quality:"pending"},
+    first:"Dinosaur L Bangs Again / Go Bang — City Beat CBX 1205, UK 12″ 45 rpm, 1988",
+    appears:["A white-label variant of the same City Beat 12″"],
+    avail:"phys",
+    links:[["Discogs (CBX 1205)","https://www.discogs.com/release/335007"]],
+    story:"The alias problem, unsolved and on display: the sleeve says Hard Times Productions and no source resolves the humans behind it. No streaming listing found — the mix appears to live only on the 1988 vinyl.",
+    storySrc:"Discogs release notes",
+    personnel:[],
+    litTags:[],
+    conf:"verified",
+    sources:["https://www.discogs.com/release/335007"]
+  },
+  {
+    id:"krivit", title:"Go Bang!", sub:"Danny Krivit edit of the Gibbons mix",
+    aliases:[],
+    mixer:"Danny Krivit", credited:"Edited By: Danny Krivit · Remix: Walter Gibbons", spine:"var(--track)",
+    year:2020, yearNote:"released July 31, 2020",
+    dur:null, durS:null, durNote:"Discogs lists no duration for this pressing",
+    type:"Edit of the Gibbons mix",
+    editOf:"gibbons",
+    bpm:{val:null, quality:"pending", src:"no published BPM found"},
+    key:{code:null, quality:"pending", src:"no published key found"},
+    drums:{val:"Live kit — same 1979 session tapes", quality:"verified"},
+    drift:{val:"likely — live 1979 session", quality:"pending"},
+    first:"Go Bang! / I’ll Take You On — Sleeping Bag SLX-0 / Fresh FRE-SEPAB, UK 12″, 2020",
+    appears:[],
+    avail:"phys",
+    links:[["Discogs (2020)","https://www.discogs.com/release/15697437"]],
+    story:"The lineage keeps growing: Krivit edits Gibbons, thirty-eight years after the 1982 single — an edit of a mix of a session. The crate records the parentage, so the family tree stays legible.",
+    storySrc:"Discogs; dannykrivit.net",
+    personnel:[],
+    litTags:[],
+    conf:"verified",
+    sources:["https://www.discogs.com/release/15697437"]
+  },
+  {
+    id:"jn", title:"Go Bang!", sub:"Joey Negro edit",
+    aliases:[],
+    mixer:"Joey Negro (Dave Lee)", credited:"Edited By: Joey Negro — one-off 10″ acetate, never released", spine:"var(--gray)",
+    year:1996, yearNote:"“exclusive slate cut for Dave Lee” per Discogs",
+    dur:null, durS:null, durNote:"no duration documented",
+    type:"Unreleased edit",
+    bpm:{val:null, quality:"pending", src:"unreleased"},
+    key:{code:null, quality:"pending", src:"unreleased"},
+    drums:{val:null, quality:"pending"},
+    drift:{val:null, quality:"pending"},
+    first:"All Of That / Go Bang! (Joey Negro Mixes) — no label, UK 10″ acetate, 1996",
+    appears:[],
+    avail:"none",
+    links:[["Discogs (acetate)","https://www.discogs.com/release/22584068"]],
+    story:"A phantom: one acetate, cut for the editor himself. The crate lists it because version maps keep changing as promo-only pressings resurface, and the phantoms belong on record too.",
+    storySrc:"Discogs release notes",
+    personnel:[],
+    litTags:[],
+    conf:"unverified",
+    sources:["https://www.discogs.com/release/22584068"]
+  }
+];
+
+/* Companion pool — real neighbors from the same world, for the blend desk. */
+const POOL = [
+  { id:"lj", who:"Loose Joints", what:"Is It All Over My Face? (Female Vocal)", sub:"Larry Levan mix · West End, 1980 · another Arthur Russell record",
+    bpm:{val:120, quality:"printed", src:"“120 BPM” printed on the 1999 West End reissue sleeve"}, key:{code:"11A", quality:"est", src:"SongBPM (algorithmic)"} },
+  { id:"heartbeat", who:"Taana Gardner", what:"Heartbeat (Club Version)", sub:"Larry Levan mix · West End, 1981",
+    bpm:{val:99, lo:97, hi:100, quality:"est", src:"Wikipedia cites 100; SongBPM 99; Beatport 97"}, key:{code:"11A", quality:"est", src:"SongBPM (algorithmic)"} },
+  { id:"weekend", who:"Class Action", what:"Weekend (Larry Levan Mix)", sub:"Sleeping Bag SLX-1, 1983",
+    bpm:{val:122, quality:"est", src:"SongBPM (algorithmic)"}, key:{code:"4A", quality:"est", src:"SongBPM (algorithmic)"} },
+  { id:"peech", who:"Peech Boys", what:"Don’t Make Me Wait (Extended)", sub:"Levan/deBenedictus · West End, 1982",
+    bpm:{val:114, quality:"est", src:"SongBPM (algorithmic)"}, key:{code:null, quality:"pending", src:"no published key found"} },
+];
+
+/* Lineage chips: solid = the MAP note exists today; planned = the note this crate asks for. */
+const CHIPS = [
+  {n:"Arthur Russell", c:"var(--artist)", planned:true},
+  {n:"François Kevorkian", c:"var(--producer)", planned:true},
+  {n:"Walter Gibbons", c:"var(--producer)", planned:true},
+  {n:"Sleeping Bag Records", c:"var(--industry)", planned:true},
+  {n:"The Loft", c:"var(--scene)", planned:true},
+  {n:"Paradise Garage", c:"var(--scene)", planned:true},
+  {n:"Dance", c:"var(--genre)", href:"/map/MUSIC/GENRES/DANCE/"},
+  {n:"Garage house", c:"var(--genre)", planned:true},
+];
+
+/* ═══ Pitch + key math ═══ */
+function pitchPct(targetBpm, candidateBpm){ return (targetBpm/candidateBpm - 1) * 100; } /* % applied to the CANDIDATE to meet the playing record */
+function cents(p){ return 1200 * Math.log2(1 + p/100); }
+function camParse(code){ return code ? {n:parseInt(code,10), l:code.slice(-1)} : null; }
+function camDist(a,b){ const d = Math.abs(a-b) % 12; return Math.min(d, 12-d); }
+function keyRelation(srcCode, dstCode){
+  if(!srcCode || !dstCode) return {cls:"v-nodata", label:"no key data"};
+  const s = camParse(srcCode), d = camParse(dstCode);
+  const dist = camDist(s.n, d.n);
+  if(s.n===d.n && s.l===d.l) return {cls:"v-perfect", label:"same key"};
+  if(s.n===d.n)             return {cls:"v-fine",    label:"relative"};
+  if(dist===1 && s.l===d.l) return {cls:"v-perfect", label:"adjacent"};
+  if(dist===2 && s.l===d.l) return {cls:"v-stretch", label:"two steps"};
+  return {cls:"v-hard", label:"clash"};
+}
+function pitchVerdict(p){
+  const a = Math.abs(p);
+  if(a<=1.5) return {cls:"v-perfect", label:"imperceptible"};
+  if(a<=3)   return {cls:"v-fine",    label:"fine"};
+  if(a<=6)   return {cls:"v-stretch", label:"audible on melody"};
+  if(a<=8)   return {cls:"v-hard",    label:"Technics limit"};
+  return {cls:"v-hard", label:"out of range"};
+}
+
+/* ═══ localStorage personal layer ═══ */
+const LS = {
+  get(k, d){ try{ const v = localStorage.getItem("crate.gobang."+k); return v===null? d : JSON.parse(v);}catch(e){return d} },
+  set(k, v){ try{ localStorage.setItem("crate.gobang."+k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ═══ Render: chips ═══ */
+document.getElementById("chips").innerHTML = CHIPS.map(c =>
+  c.planned
+   ? `<span class="chip planned" style="--c:${c.c}"><span class="cdot"></span>${c.n}</span>`
+   : `<a class="chip" style="--c:${c.c}" href="${c.href}"><span class="cdot"></span>${c.n}</a>`
+).join("");
+
+/* ═══ Render: crate table ═══ */
+let sortK = "year", sortDir = 1, openId = LS.get("open", "fk"), filterMode = "all";
+const FILTERS = [
+  {id:"all", label:"All versions"},
+  {id:"stream", label:"On streaming"},
+  {id:"phys", label:"Off streaming"},
+  {id:"mix", label:"Mixes"},
+  {id:"edit", label:"Edits"},
+];
+function starStr(n){ let s=""; for(let i=1;i<=5;i++) s += `<span class="${i<=n?"":"off"}">★</span>`; return s; }
+function bpmCell(m){
+  if(m.bpm.val===null) return `<span class="pend">pending</span>`;
+  const range = (m.bpm.lo && m.bpm.hi && m.bpm.hi!==m.bpm.lo) ? `${m.bpm.lo}–${m.bpm.hi}` : `${m.bpm.val}`;
+  const est = m.bpm.quality==="est" ? ` <span class="badge est" title="${m.bpm.src}">est</span>` : ` <span class="badge" title="${m.bpm.src}">${m.bpm.quality}</span>`;
+  const drift = (m.drift && m.drift.val) ? ` <span class="badge est" title="${m.drift.val} — sync will fight this record; ride the pitch">drift?</span>` : "";
+  return `<span class="num">${range}</span>${est}${drift}`;
+}
+function keyCell(m){
+  if(!m.key.code) return `<span class="pend">pending</span>`;
+  const est = m.key.quality==="est" ? ` <span class="badge est" title="${m.key.src}">est</span>` : "";
+  return `<span class="num">${m.key.code}</span> <span style="font-size:.78rem;color:var(--tertiary)">${CAMELOT[m.key.code]}</span>${est}`;
+}
+function availCell(m){
+  const map = {stream:["av-stream","streaming"], phys:["av-phys","physical-only"], none:["av-none","never released"]};
+  const [cls,label] = map[m.avail];
+  return `<span class="avdot ${cls}" title="${label}"></span> <span style="font-size:.76rem;color:var(--tertiary)">${label}</span>`;
+}
+function matchesFilter(m){
+  if(filterMode==="all") return true;
+  if(filterMode==="stream") return m.avail==="stream";
+  if(filterMode==="phys") return m.avail!=="stream";
+  if(filterMode==="edit") return /edit/i.test(m.type);
+  if(filterMode==="mix") return !/edit/i.test(m.type);
+  return true;
+}
+function sortVal(m,k){
+  switch(k){
+    case "title": return (m.title+" "+m.sub).toLowerCase();
+    case "mixer": return (m.mixer||"zz-unresolved").toLowerCase();
+    case "year": return m.year;
+    case "dur": return m.durS===null? Infinity : m.durS;
+    case "bpm": return m.bpm.val===null? Infinity : m.bpm.val;
+    case "key": return m.key.code? camParse(m.key.code).n + (camParse(m.key.code).l==="A"?0:.5) : Infinity;
+    case "avail": return {stream:0,phys:1,none:2}[m.avail];
+    case "rating": return LS.get("rating."+m.id,0);
+  }
+  return 0;
+}
+function detailHTML(m){
+  const rating = LS.get("rating."+m.id, 0);
+  const owned = LS.get("owned."+m.id, []);
+  const notes = LS.get("notes."+m.id, "");
+  const votes = LS.get("votes."+m.id, {});
+  const parent = m.editOf ? MIXES.find(x=>x.id===m.editOf) : null;
+  const esc = t => String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  const allTags = [...m.litTags.map(t=>({t:t.t, src:t.src})), {t:"peak-time"},{t:"warm-up"},{t:"percussive"},{t:"vocal-forward"},{t:"hypnotic"}];
+  const seen = new Set(); const tags = allTags.filter(x=>{ if(seen.has(x.t)) return false; seen.add(x.t); return true; });
+  return `<div class="dwrap">
+    <div>
+      <p class="dh">The record</p>
+      <p class="dstory">${m.story} <span class="src">— ${m.storySrc}</span></p>
+      <dl class="facts">
+        <dt>Mixed by</dt><dd>${m.mixer ? `<b>${m.mixer}</b>` : `<span class="pend">alias unresolved</span>`}<span class="lock${m.mixer && m.conf==="verified"?"":" pending"}">${!m.mixer?"open question":m.conf==="verified"?"🔒 verified":m.conf==="likely"?"inferred — not label-confirmed":"unverified"}</span></dd>
+        <dt>As credited</dt><dd>${m.credited}</dd>
+        ${parent? `<dt>Edit of</dt><dd><b>${parent.title}</b> — ${parent.sub} <span class="lock">🔒 lineage</span></dd>`:""}
+        <dt>First appearance</dt><dd>${m.first}</dd>
+        <dt>Timing</dt><dd>${m.dur? `<span class="num">${m.dur}</span> — ${m.durNote}` : `<span class="pend">pending</span> — ${m.durNote}`}</dd>
+        <dt>Drum source</dt><dd>${m.drums && m.drums.val ? `${m.drums.val}<span class="lock">🔒 verified</span>` : `<span class="pend">pending</span>`}</dd>
+        ${m.bpm && m.bpm.src? `<dt>BPM source</dt><dd style="font-size:.8rem">${m.bpm.src}${m.drift && m.drift.val? ` · drift: ${m.drift.val}`:""}</dd>`:""}
+        ${m.key && m.key.src? `<dt>Key source</dt><dd style="font-size:.8rem">${m.key.src}</dd>`:""}
+        ${m.aliases.length? `<dt>Also filed as</dt><dd style="color:var(--tertiary);font-size:.8rem">${m.aliases.join(" · ")}</dd>`:""}
+        ${m.personnel.length? `<dt>On the tape</dt><dd style="font-size:.8rem">${m.personnel.join("<br>")}</dd>`:""}
+      </dl>
+      ${m.appears.length? `<p class="dh">Also appears on</p><ul class="appears">${m.appears.map(a=>`<li>${a}</li>`).join("")}</ul>`:""}
+      <div class="linkrow">${m.links.map(l=>`<a class="extbtn" href="${l[1]}" target="_blank" rel="noopener">${l[0]} ↗</a>`).join("")}</div>
+    </div>
+    <div>
+      <p class="dh">Groove map</p>
+      <div class="groove">
+        <div class="gbar"><div class="gseg">intro</div><div class="gseg">body</div><div class="gseg">break</div><div class="gseg">outro</div></div>
+        <p class="gnote">Not yet mapped: intro runway, breakdown bars, mix-out point and fade behavior await a timed listen against the record. The slots are locked facts; until then they stay empty.</p>
+      </div>
+      <div class="pbox">
+        <p class="dh">Mine</p>
+        <div class="starbtns" data-mix="${m.id}">${[1,2,3,4,5].map(i=>`<button type="button" data-star="${i}" class="${i<=rating?"on":""}" aria-label="Rate ${i} star${i>1?"s":""}">★</button>`).join("")}</div>
+        <div class="ownrow">${["12″","LP","CD","Digital"].map(f=>`<button class="ownchip" data-mix="${m.id}" data-fmt="${f}" aria-pressed="${owned.includes(f)}">${f}</button>`).join("")}</div>
+        <textarea class="mynotes" data-mix="${m.id}" placeholder="Notes to self — cue points, what it did to the room…">${esc(notes)}</textarea>
+      </div>
+      <p class="dh">Descriptors — votable</p>
+      <div class="tagrow">${tags.map(x=>{
+        const v = votes[x.t]||0;
+        return `<button class="vtag" data-mix="${m.id}" data-tag="${x.t}" aria-pressed="${v>0}">${x.t}${x.src?` <span class="litsrc">· ${x.src}</span>`:""} <span class="ct">${v>0?"+"+v:"0"}</span></button>`;
+      }).join("")}</div>
+      <p class="tagnote">Seeds come from cited writing; votes stay in this browser for now. Factual fields never take votes — a mix either fades out or it doesn’t.</p>
+    </div>
+  </div>`;
+}
+function renderCrate(){
+  const rows = MIXES.filter(matchesFilter).sort((a,b)=>{
+    const va = sortVal(a,sortK), vb = sortVal(b,sortK);
+    return (va<vb?-1:va>vb?1:0)*sortDir;
+  });
+  document.getElementById("cratebody").innerHTML = rows.map(m=>{
+    const rating = LS.get("rating."+m.id, 0);
+    const open = m.id===openId;
+    return `<tr class="mixrow${open?" open":""}" data-id="${m.id}" tabindex="0" role="button" aria-expanded="${open}">
+      <td class="title"><span class="spine" style="--sc:${m.spine}"></span><span class="t">${m.title}</span> <span style="color:var(--tertiary);font-size:.8rem">${m.sub}</span></td>
+      <td class="mixer">${m.mixer? m.mixer : `<span class="pend">alias unresolved</span>`}${m.creditedAs? `<span class="alias">as “${m.creditedAs}”</span>`:""}</td>
+      <td class="num">${m.year}</td>
+      <td>${m.dur? `<span class="num">${m.dur}</span>` : `<span class="pend">pending</span>`}</td>
+      <td>${bpmCell(m)}</td>
+      <td>${keyCell(m)}</td>
+      <td>${availCell(m)}</td>
+      <td class="stars">${starStr(rating)}</td>
+    </tr>${open? `<tr class="drawer"><td colspan="8">${detailHTML(m)}</td></tr>`:""}`;
+  }).join("");
+  document.querySelectorAll("#cratetable thead th").forEach(th=>{
+    th.querySelector(".arr").textContent = th.dataset.k===sortK ? (sortDir>0?"▲":"▼") : "";
+    th.setAttribute("aria-sort", th.dataset.k===sortK ? (sortDir>0?"ascending":"descending") : "none");
+  });
+  wireDetail();
+}
+function wireDetail(){
+  document.querySelectorAll(".mixrow").forEach(tr=>{
+    tr.addEventListener("click", ()=>{ openId = openId===tr.dataset.id? null : tr.dataset.id; LS.set("open", openId); renderCrate(); });
+    tr.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); tr.click(); } });
+  });
+  document.querySelectorAll(".starbtns button").forEach(s=>{
+    s.addEventListener("click", e=>{
+      e.stopPropagation();
+      const mix = s.parentElement.dataset.mix, n = +s.dataset.star;
+      const cur = LS.get("rating."+mix,0);
+      LS.set("rating."+mix, cur===n? 0 : n);
+      renderCrate();
+    });
+  });
+  document.querySelectorAll(".ownchip").forEach(b=>{
+    b.addEventListener("click", e=>{
+      e.stopPropagation();
+      const mix=b.dataset.mix, f=b.dataset.fmt;
+      let o = LS.get("owned."+mix, []);
+      o = o.includes(f)? o.filter(x=>x!==f) : [...o,f];
+      LS.set("owned."+mix, o);
+      b.setAttribute("aria-pressed", o.includes(f));
+    });
+  });
+  document.querySelectorAll(".mynotes").forEach(t=>{
+    t.addEventListener("click", e=>e.stopPropagation());
+    t.addEventListener("input", ()=> LS.set("notes."+t.dataset.mix, t.value));
+  });
+  document.querySelectorAll(".vtag").forEach(b=>{
+    b.addEventListener("click", e=>{
+      e.stopPropagation();
+      const mix=b.dataset.mix, tag=b.dataset.tag;
+      const v = LS.get("votes."+mix, {});
+      v[tag] = v[tag]? 0 : 1;
+      LS.set("votes."+mix, v);
+      renderCrate();
+    });
+  });
+  document.querySelectorAll(".drawer .dwrap").forEach(d=> d.addEventListener("click", e=> e.stopPropagation()));
+  document.querySelectorAll("tr.drawer").forEach(d=> d.addEventListener("click", e=> e.stopPropagation()));
+}
+document.querySelectorAll("#cratetable thead th").forEach(th=>{
+  th.setAttribute("tabindex","0"); th.setAttribute("role","button");
+  th.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); th.click(); } });
+  th.addEventListener("click", ()=>{
+    if(sortK===th.dataset.k) sortDir*=-1; else { sortK=th.dataset.k; sortDir = sortK==="rating" ? -1 : 1; }
+    renderCrate();
+  });
+});
+document.getElementById("filters").innerHTML = FILTERS.map(f=>`<button class="fpill" data-f="${f.id}" aria-pressed="${f.id==='all'}">${f.label}</button>`).join("");
+document.querySelectorAll(".fpill").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    filterMode = b.dataset.f;
+    document.querySelectorAll(".fpill").forEach(x=>x.setAttribute("aria-pressed", x===b));
+    renderCrate();
+  });
+});
+
+/* ═══ Blend desk ═══ */
+const CANDIDATES = [
+  ...MIXES.map(m=>({ id:"mix:"+m.id, who:`${m.title} — ${m.sub}`, sub:`this composition · ${m.year}`, bpm:m.bpm, key:m.key, drift:m.drift })),
+  ...POOL.map(p=>({ id:"pool:"+p.id, who:`${p.who} — ${p.what}`, sub:p.sub, bpm:p.bpm, key:p.key, drift:null })),
+];
+const srcsel = document.getElementById("srcsel");
+srcsel.innerHTML = CANDIDATES.filter(c=>c.bpm.val!==null).map(c=>`<option value="${c.id}">${c.who}</option>`).join("");
+srcsel.value = "mix:fk";
+srcsel.addEventListener("change", renderDesk);
+
+function fmt(n, d=1){ return (n>=0?"+":"") + n.toFixed(d); }
+function renderDesk(){
+  const src = CANDIDATES.find(c=>c.id===srcsel.value);
+  const rows = CANDIDATES.filter(c=>c.id!==src.id).map(c=>{
+    if(c.bpm.val===null || src.bpm.val===null){
+      return { c, nodata:true };
+    }
+    const p = pitchPct(src.bpm.val, c.bpm.val);
+    const ct = cents(p);
+    const pv = pitchVerdict(p);
+    const kr = keyRelation(src.key.code, c.key.code);
+    const est = (src.key.quality==="est"||c.key.quality==="est");
+    const grade = Math.abs(p) + (kr.cls==="v-hard"?4:kr.cls==="v-nodata"?2:0);
+    return { c, p, ct, pv, kr, est, grade };
+  }).sort((a,b)=> (a.nodata?1:0)-(b.nodata?1:0) || (a.grade??99)-(b.grade??99));
+  document.getElementById("blendbody").innerHTML = rows.map(r=>{
+    if(r.nodata) return `<tr><td class="who"><b>${r.c.who}</b><span class="sub">${r.c.sub}</span></td><td><span class="pend">pending</span></td><td colspan="3" style="color:var(--tertiary);font-size:.78rem">awaiting BPM/key data</td><td><span class="verdict v-nodata">needs data</span></td></tr>`;
+    const bpmTxt = r.c.bpm.lo && r.c.bpm.hi && r.c.bpm.hi!==r.c.bpm.lo ? `${r.c.bpm.lo}–${r.c.bpm.hi}` : r.c.bpm.val;
+    const driftMark = r.c.drift && r.c.drift.val ? ` <span class="badge est" title="${r.c.drift.val}">drift?</span>` : "";
+    return `<tr>
+      <td class="who"><b>${r.c.who}</b><span class="sub">${r.c.sub}</span></td>
+      <td class="num">${bpmTxt}${driftMark}</td>
+      <td class="num">${fmt(r.p)}%</td>
+      <td class="num">${fmt(r.ct,0)}¢</td>
+      <td><span class="verdict ${r.kr.cls}">${r.kr.label}${r.est && r.kr.cls!=="v-nodata"?" · est":""}</span></td>
+      <td><span class="verdict ${r.pv.cls}">${r.pv.label}</span></td>
+    </tr>`;
+  }).join("");
+  const s = CANDIDATES.find(c=>c.id===srcsel.value);
+  document.getElementById("deskfoot").innerHTML = `Pitch ride = the fader move the <i>candidate</i> needs to meet ${s.who.split("—")[0].trim()} at ${s.bpm.val} BPM. One semitone ≈ ±5.9% — the CDJ ±6 range. Keylock holds the key at the cost of artifacts; without it a +8% ride re-keys the record by more than a semitone, which is why a stored key is only true at 0%.`;
+  renderWheel(s.key.code);
+}
+
+/* ═══ Camelot wheel ═══ */
+function renderWheel(srcCode){
+  const svg = document.getElementById("wheel");
+  const cx=100, cy=100, r1=58, r2=95;
+  const seg = (n, ring) => {
+    const a0 = ((n-1)/12)*2*Math.PI - Math.PI/2 + 0.008;
+    const a1 = (n/12)*2*Math.PI - Math.PI/2 - 0.008;
+    const [ri,ro] = ring==="A" ? [26,r1] : [r1+2,r2];
+    const p = (a,r)=>[cx+r*Math.cos(a), cy+r*Math.sin(a)];
+    const [x0,y0]=p(a0,ri),[x1,y1]=p(a0,ro),[x2,y2]=p(a1,ro),[x3,y3]=p(a1,ri);
+    return `M${x0.toFixed(1)},${y0.toFixed(1)} L${x1.toFixed(1)},${y1.toFixed(1)} A${ro},${ro} 0 0,1 ${x2.toFixed(1)},${y2.toFixed(1)} L${x3.toFixed(1)},${y3.toFixed(1)} A${ri},${ri} 0 0,0 ${x0.toFixed(1)},${y0.toFixed(1)} Z`;
+  };
+  const lab = (n, ring) => {
+    const a = ((n-0.5)/12)*2*Math.PI - Math.PI/2;
+    const r = ring==="A" ? (26+r1)/2 : (r1+2+r2)/2;
+    return [cx+r*Math.cos(a), cy+r*Math.sin(a)];
+  };
+  const s = camParse(srcCode);
+  let out = "";
+  for(const ring of ["A","B"]){
+    for(let n=1;n<=12;n++){
+      const code = n+ring;
+      let cls = "wseg";
+      if(s){
+        if(n===s.n && ring===s.l) cls += " src";
+        else if(n===s.n) cls += " rel";
+        else if(camDist(n,s.n)===1 && ring===s.l) cls += " ok";
+      }
+      const [lx,ly] = lab(n,ring);
+      out += `<path class="${cls}" d="${seg(n,ring)}"><title>${code} — ${CAMELOT[code]}</title></path>`;
+      out += `<text class="wlab${cls.includes('src')?' ondark':''}" x="${lx.toFixed(1)}" y="${(ly+2.5).toFixed(1)}">${code}</text>`;
+    }
+  }
+  svg.innerHTML = out + `<circle cx="100" cy="100" r="24" fill="var(--cream)" stroke="var(--lightgray)"/>` +
+    (s? `<text class="wlab" x="100" y="98" style="font-size:9px">${srcCode}</text><text class="wlab" x="100" y="108" style="font-size:6.5px;fill:var(--gray)">${CAMELOT[srcCode]||""}</text>`
+      : `<text class="wlab" x="100" y="103" style="font-size:7px;fill:var(--gray)">no key</text>`);
+}
+
+/* ═══ Sources ═══ */
+document.getElementById("srclist").innerHTML = MIXES.map(m=>
+  `<p style="margin:.25rem 0"><b style="color:var(--darkgray)">${m.title} — ${m.sub}:</b> ${m.sources.map(s=>`<a href="${s}" target="_blank" rel="noopener">${s.replace(/^https?:\/\/(www\.)?/,"").slice(0,46)}</a>`).join(" · ")}</p>`
+).join("");
+
+renderCrate();
+renderDesk();
+</script>
+</body>
+</html>
