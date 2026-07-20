@@ -3,7 +3,7 @@
     <lastmod>2026-07-16T21:57:09.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Brian-Eno</loc>
-    <lastmod>2026-07-19T19:22:03.681Z</lastmod>
+    <lastmod>2026-07-19T19:22:37.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Brian-Wilson</loc>
     <lastmod>2026-07-16T21:57:09.000Z</lastmod>
@@ -39,7 +39,7 @@
     <lastmod>2026-07-16T21:57:09.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/PRODUCERS/George-Martin</loc>
-    <lastmod>2026-07-16T21:57:09.000Z</lastmod>
+    <lastmod>2026-07-19T19:22:37.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/PRODUCERS/Phil-Spector</loc>
     <lastmod>2026-07-16T21:57:09.000Z</lastmod>
@@ -126,7 +126,7 @@
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/AMBIENT/Ambient</loc>
-    <lastmod>2026-07-19T17:16:28.000Z</lastmod>
+    <lastmod>2026-07-19T19:22:37.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/BLUES/ACOUSTIC/Acoustic-Chicago-blues</loc>
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
@@ -195,7 +195,7 @@
     <lastmod>2026-07-19T03:46:04.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Dance</loc>
-    <lastmod>2026-07-19T17:16:28.000Z</lastmod>
+    <lastmod>2026-07-19T19:22:37.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/ELECTRONIC/Electronic</loc>
     <lastmod>2026-07-19T17:16:28.000Z</lastmod>
@@ -240,7 +240,7 @@
     <lastmod>2026-07-16T21:57:09.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/PUNK/Punk</loc>
-    <lastmod>2026-07-16T22:14:22.000Z</lastmod>
+    <lastmod>2026-07-19T19:22:37.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/R-and-B/Doo-wop</loc>
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
@@ -338,14 +338,20 @@
     <loc>https://shafrasier.com/map/MUSIC/MOMENTS/Dylan-at-Newport</loc>
     <lastmod>2026-07-06T15:34:39.000Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/MOMENTS/The-Bristol-sessions</loc>
-    <lastmod>2026-07-16T18:06:54.000Z</lastmod>
+    <loc>https://shafrasier.com/map/MUSIC/MOMENTS/Love-Saves-the-Day</loc>
+    <lastmod>2026-07-20T06:06:06.872Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/MOMENTS/The-Loft</loc>
+    <loc>https://shafrasier.com/map/MUSIC/MOMENTS/The-Bristol-sessions</loc>
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/MOMENTS/</loc>
     <lastmod>2026-06-23T03:22:55.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/PLACES/VENUES/CBGB</loc>
+    <lastmod>2026-07-20T06:06:06.873Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/PLACES/VENUES/The-Loft</loc>
+    <lastmod>2026-07-20T06:06:06.873Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1963)-A-Christmas-Gift-for-You-from-Philles-Records</loc>
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
@@ -415,6 +421,9 @@
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1971)-Tapestry</loc>
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1978)-Ambient-1:-Music-for-Airports</loc>
+    <lastmod>2026-07-20T06:06:06.866Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(2011)-The-Smile-Sessions</loc>
     <lastmod>2026-07-19T03:46:04.000Z</lastmod>
@@ -567,7 +576,7 @@
     <lastmod>2026-07-01T23:49:57.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Eno---A-Year-with-Swollen-Appendices</loc>
-    <lastmod>2026-07-19T17:16:28.000Z</lastmod>
+    <lastmod>2026-07-19T19:22:37.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Filene---Romancing-the-Folk</loc>
     <lastmod>2026-07-04T06:46:30.000Z</lastmod>
@@ -636,16 +645,16 @@
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Sheppard---On-Some-Faraway-Beach</loc>
-    <lastmod>2026-07-19T17:16:28.000Z</lastmod>
+    <lastmod>2026-07-19T19:22:37.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Smith---Dancing-in-the-Street</loc>
     <lastmod>2026-06-24T14:50:07.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Szabo---Turn-On-Tune-In-Drift-Off</loc>
-    <lastmod>2026-07-19T17:16:28.000Z</lastmod>
+    <lastmod>2026-07-19T19:22:37.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Toop---Ocean-of-Sound</loc>
-    <lastmod>2026-07-19T17:16:28.000Z</lastmod>
+    <lastmod>2026-07-19T19:22:37.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Toynbee---Making-Popular-Music</loc>
     <lastmod>2026-07-02T01:21:55.000Z</lastmod>
