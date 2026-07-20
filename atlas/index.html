@@ -11,6 +11,9 @@
 <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
 <script src="https://unpkg.com/@protomaps/basemaps@5.7.2/dist/basemaps.js"></script>
 <style>
+  .wordmark .back-to-map { display: inline-flex; align-items: center; color: inherit; }
+  .wordmark .back-to-map svg { width: 1.5rem; height: 1.5rem; }
+  .wordmark .back-to-map:hover { opacity: 0.65; }
   :root {
     --cream:#f0efe4; --light:#fefdfb; --dark:#111111; --gray:#9a958a;
     --serif:"Source Serif 4", Georgia, serif;
@@ -106,14 +109,20 @@
 
 <aside class="panel">
   <h1 class="wordmark">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M3.2 6.2 L9 4.2 L15 6.2 L20.8 4.2 V17.8 L15 19.8 L9 17.8 L3.2 19.8 Z"/>
-      <line x1="9" y1="4.2" x2="9" y2="17.8"/><line x1="15" y1="6.2" x2="15" y2="19.8"/>
-      <circle cx="12" cy="11.4" r="2.1" fill="currentColor" stroke="none"/>
-    </svg>
+    <a class="back-to-map" href="/map/" title="Back to the MAP" aria-label="Back to the MAP">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="7.5" y1="13" x2="4" y2="6.5"/>
+        <line x1="7.5" y1="13" x2="16.5" y2="9"/>
+        <line x1="7.5" y1="13" x2="11" y2="20"/>
+        <circle cx="7.5" cy="13" r="2.6" fill="currentColor" stroke="none"/>
+        <circle cx="4" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+        <circle cx="16.5" cy="9" r="1.7" fill="currentColor" stroke="none"/>
+        <circle cx="11" cy="20" r="1.4" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
     MAP <span class="lab">ATLAS</span>
   </h1>
-  <p class="lede">The city in the MAP's own cartography — cream land, taupe water, serif streets. Tap a dot; tap a neighborhood for its story.</p>
+  <p class="lede">The city, cartographed. A map, in a more literal sense.</p>
 
   <div class="chips" id="chips"></div>
 
