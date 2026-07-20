@@ -191,6 +191,12 @@
     <loc>https://shafrasier.com/map/MUSIC/GENRES/BLUES/Vaudeville-blues</loc>
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
   </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/GENRES/CLASSICAL/Classical-music</loc>
+    <lastmod>2026-07-20T18:28:29.818Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/GENRES/CLASSICAL/Western-classical-music</loc>
+    <lastmod>2026-07-20T18:28:29.817Z</lastmod>
+  </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/COUNTRY/Country</loc>
     <lastmod>2026-07-19T03:46:04.000Z</lastmod>
   </url><url>
@@ -602,6 +608,9 @@
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Gioia---The-History-of-Jazz</loc>
     <lastmod>2026-07-07T06:35:14.000Z</lastmod>
   </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Goehr---The-Imaginary-Museum-of-Musical-Works</loc>
+    <lastmod>2026-07-20T18:28:29.528Z</lastmod>
+  </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Hebdige---Subculture</loc>
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
   </url><url>
@@ -613,6 +622,12 @@
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Holmes---Electronic-and-Experimental-Music</loc>
     <lastmod>2026-07-19T03:46:04.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Horowitz---Classical-Music-in-America</loc>
+    <lastmod>2026-07-20T18:28:29.527Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Horowitz---Dvo%C5%99%C3%A1ks-Prophecy</loc>
+    <lastmod>2026-07-20T18:28:29.531Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Hughes---Country-Soul</loc>
     <lastmod>2026-07-04T06:46:30.000Z</lastmod>
@@ -647,6 +662,9 @@
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Rose---Black-Noise</loc>
     <lastmod>2026-07-13T15:10:28.000Z</lastmod>
   </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Ross---The-Rest-Is-Noise</loc>
+    <lastmod>2026-07-20T18:28:29.534Z</lastmod>
+  </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Savage---Englands-Dreaming</loc>
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
   </url><url>
@@ -656,8 +674,14 @@
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Smith---Dancing-in-the-Street</loc>
     <lastmod>2026-06-24T14:50:07.000Z</lastmod>
   </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Southern---The-Music-of-Black-Americans</loc>
+    <lastmod>2026-07-20T18:28:29.517Z</lastmod>
+  </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Szabo---Turn-On-Tune-In-Drift-Off</loc>
     <lastmod>2026-07-20T06:28:56.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Taruskin---Oxford-History-of-Western-Music</loc>
+    <lastmod>2026-07-20T18:28:29.515Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Toop---Ocean-of-Sound</loc>
     <lastmod>2026-07-19T19:22:37.000Z</lastmod>
