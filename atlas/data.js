@@ -201,7 +201,7 @@ const ERAS = [
   { name: "Folk Village",       from: 1947, to: 1965, note: "/map/MUSIC/SCENES/Greenwich-Village-folk-scene" },
   { name: "The Brill decade",   from: 1958, to: 1966, note: "/map/MUSIC/GENRES/POP/Brill-Building" },
   { name: "Downtown rock",      from: 1965, to: 1975, note: null },
-  { name: "Dance underground",  from: 1970, to: 1987, note: null },
-  { name: "Punk Bowery",        from: 1973, to: 1982, note: null },
+  { name: "Dance underground",  from: 1970, to: 1987, note: "/map/MUSIC/GENRES/DANCE/Dance" },
+  { name: "Punk Bowery",        from: 1973, to: 1982, note: "/map/MUSIC/SCENES/CBGB-scene" },
   { name: "Hip-hop's boroughs", from: 1973, to: 1995, note: null },
 ];
