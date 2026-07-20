@@ -22,7 +22,7 @@ const NOTE_SITES = [
     "to": null,
     "addr": "647 Broadway, Manhattan (1970–74); thereafter wherever the party moved",
     "hood": "NoHo",
-    "blurb": "David Mancuso's invitation-only rent party — the audiophile room with nothing for sale, whose legal architecture and sound-system ethic became dance music's constitution.",
+    "blurb": "David Mancuso's invitation-only rent party: no bar, no license, no closing time — the audiophile room dance music still copies.",
     "note": "/map/MUSIC/PLACES/VENUES/The-Loft"
   }
 ];
