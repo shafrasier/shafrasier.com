@@ -11,7 +11,8 @@
 <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
 <script src="https://unpkg.com/@protomaps/basemaps@5.7.2/dist/basemaps.js"></script>
 <style>
-  .wordmark .back-to-map { display: inline-flex; align-items: center; color: inherit; }
+  /* The node mark AND the MAP wordmark are one link home (Sha, July 20). */
+  .wordmark .back-to-map { display: inline-flex; align-items: center; gap: .5rem; color: inherit; text-decoration: none; }
   .wordmark .back-to-map svg { width: 1.5rem; height: 1.5rem; }
   .wordmark .back-to-map:hover { opacity: 0.65; }
   :root {
@@ -52,8 +53,6 @@
   .switchrow { display:flex; flex-direction:column; gap:.45rem; padding-top:.2rem; border-top:1px solid rgba(110,105,95,.22); }
   .switch { display:inline-flex; align-items:center; gap:.45rem; font-size:.82rem; cursor:pointer; user-select:none; }
   .switch input { accent-color:#3a3a35; }
-  .hint { font-size:.72rem; color:var(--gray); margin:.65rem 0 0; line-height:1.5; }
-  .hint a { color:inherit; }
 
   /* ── The time deck (hidden until the year switch) ── */
   .deck {
@@ -119,8 +118,9 @@
         <circle cx="16.5" cy="9" r="1.7" fill="currentColor" stroke="none"/>
         <circle cx="11" cy="20" r="1.4" fill="currentColor" stroke="none"/>
       </svg>
+      <span>MAP</span>
     </a>
-    MAP <span class="lab">ATLAS</span>
+    <span class="lab">ATLAS</span>
   </h1>
   <p class="lede">The city, cartographed. A map, in a more literal sense.</p>
 
@@ -131,7 +131,6 @@
     <label class="switch"><input type="checkbox" id="timeOn"> Travel through time</label>
   </div>
 
-  <p class="hint">Dots with an arrow open their MAP note; the rest are placeholders becoming notes. <a href="/map/">Back to the MAP</a></p>
 </aside>
 
 <div class="deck" id="deck" hidden>
@@ -237,6 +236,31 @@
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
   window.__atlas = map; // debugging/testing handle
 
+  // ── First-load hardening (three separate bugs, July 20) ───────────────────
+  // The atlas used to come up BLANK and need a manual reload. Measured causes:
+  //
+  // 1. SIZE. MapLibre measures its container once, at construction. This script
+  //    runs during parse, and on a COLD load (fonts stylesheet + CDN scripts not
+  //    yet cached) that measurement came back empty, so the canvas was created at
+  //    MapLibre's 400x300 fallback while #map was 1280x720 — a tiny canvas hidden
+  //    behind the panel, i.e. a blank page. On a reload everything was cached, the
+  //    measurement succeeded, and it looked fine. A ResizeObserver locks the canvas
+  //    to the container for the life of the page, so the first layout pass — and
+  //    every later resize — is picked up no matter when it lands.
+  const mapEl = document.getElementById("map");
+  new ResizeObserver(() => map.resize()).observe(mapEl);
+  map.resize();
+
+  // 2. MISSING SPRITE. The Protomaps layer set includes highway-shield symbol
+  //    layers that reference sprite images ("US:I-2char", "generic_shield-3char",
+  //    …), but this style declares no `sprite` (by design — the cartography is
+  //    self-hosted and shield-free). MapLibre re-requested the missing images
+  //    every frame, spamming warnings and keeping the map permanently dirty.
+  //    Handing back a 1x1 transparent image satisfies the request once per id.
+  map.on("styleimagemissing", (e) => {
+    if (!map.hasImage(e.id)) map.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) });
+  });
+
   // ── Data layers ──
   // Note-driven pins (from the MAP build) override curated placeholders by name.
   const noteSites = typeof NOTE_SITES !== "undefined" ? NOTE_SITES : [];
@@ -257,7 +281,17 @@
 
   const state = { cats: new Set(Object.keys(CATEGORIES)), timeOn: false, year: 1926 };
 
-  map.on("load", () => {
+  // 3. THE `load` EVENT NEVER FIRED. Because of (2) the map never reached its
+  //    "loaded" state, so a `map.on("load")` handler — which is where every dot,
+  //    neighborhood, and click behavior was registered — simply never ran: the
+  //    basemap could be showing and the atlas would still have no content. Adding
+  //    sources/layers only needs the STYLE, not a fully-loaded map (verified
+  //    against the live page), so build from whichever signal arrives first and
+  //    guard against running twice.
+  let built = false;
+  const build = () => {
+    if (built) return;
+    built = true;
     // Neighborhoods (under the dots). promoteId lets feature-state key off the
     // name (the geojson features carry no ids of their own).
     map.addSource("hoods", { type: "geojson", data: new URL("neighborhoods.geojson", location).href, promoteId: "name" });
@@ -349,7 +383,21 @@
       if (hoveredHood !== null) map.setFeatureState({ source: "hoods", id: hoveredHood }, { hover: false });
       hoveredHood = null;
     });
-  });
+  };
+  map.on("load", build); // the fast path, when the map does reach "loaded"
+  // The path that survives (2): poll until the style reports ready, then build
+  // once. Two rejected alternatives, both measured against the live page:
+  //   • `styledata` fires while the style is still loading and then never fires
+  //     again, so a styledata-gated build never runs at all.
+  //   • requestAnimationFrame is PAUSED whenever the page is hidden — a tab
+  //     opened in the background (cmd-click, restored session) would never build
+  //     its layers, which is the same "blank until I reload it" symptom. setTimeout
+  //     keeps running in hidden tabs, so the atlas is ready before it is looked at.
+  // Adding sources/layers needs only the style, not a fully loaded map (verified).
+  (function waitForStyle() {
+    if (map.style && map.style.loaded()) return build();
+    setTimeout(waitForStyle, 50);
+  })();
 
   // ── Filters: categories × optional year ──
   function applyFilters() {
