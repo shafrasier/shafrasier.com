@@ -12,6 +12,12 @@ const CATEGORIES = {
   Streets:   { color: "#c08552" }, // copper — proposed PLACES/STREETS
   Homes:     { color: "#7a4a26" }, // umber — proposed PLACES/HOMES
   Landmarks: { color: "#75685a" }, // stone — proposed PLACES/LANDMARKS
+  // Scenes aren't buildings — they're a stretch of blocks pinned at their centre
+  // (the CBGB scene, the Greenwich Village folk scene). Green to match the SCENES
+  // category colour the rest of the MAP already uses. The chip row and the legend
+  // are both built from this object, so a category with no chip never renders —
+  // which is why the scene pins were in the data but invisible (Sha, July 20).
+  Scenes:    { color: "#6ab86a" }, // scene green — TAXONOMY/SCENES
 };
 
 const SITES = [
