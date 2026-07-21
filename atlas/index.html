@@ -298,6 +298,12 @@
   const build = () => {
     if (built) return;
     built = true;
+    // Re-measure the moment the style applies. Before this point map.resize() is a
+    // NO-OP — Map._update() bails while style._loaded is false — so a container that
+    // measured empty at construction (cold load) kept MapLibre's 400x300 fallback
+    // canvas no matter how many times we asked it to resize. Small canvas in a large
+    // box = the blank map (Sha, July 21).
+    map.resize();
     // Neighborhoods (under the dots). promoteId lets feature-state key off the
     // name (the geojson features carry no ids of their own).
     map.addSource("hoods", { type: "geojson", data: new URL("neighborhoods.geojson", location).href, promoteId: "name" });
