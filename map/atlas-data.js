@@ -24,5 +24,29 @@ const NOTE_SITES = [
     "hood": "NoHo",
     "blurb": "David Mancuso's invitation-only rent party: no bar, no license, no closing time — the audiophile room dance music still copies.",
     "note": "/map/MUSIC/PLACES/VENUES/The-Loft"
+  },
+  {
+    "name": "CBGB scene",
+    "cat": "Scenes",
+    "lat": 40.72528,
+    "lng": -73.99194,
+    "from": 1974,
+    "to": 1980,
+    "addr": "315 Bowery, Manhattan",
+    "hood": "East Village",
+    "blurb": "The Bowery bar whose original-music-only rule selected for writers rather than for a sound — so punk, art rock and new wave all hatched on one foot-high stage.",
+    "note": "/map/MUSIC/SCENES/CBGB-scene"
+  },
+  {
+    "name": "Greenwich Village folk scene",
+    "cat": "Scenes",
+    "lat": 40.73083,
+    "lng": -73.9975,
+    "from": 1958,
+    "to": 1965,
+    "addr": "Washington Square Park, Greenwich Village, Manhattan",
+    "hood": "Greenwich Village",
+    "blurb": "A few square blocks of lower Manhattan where five years of coffeehouse apprenticeship tied popular song to political consciousness.",
+    "note": "/map/MUSIC/SCENES/Greenwich-Village-folk-scene"
   }
 ];
