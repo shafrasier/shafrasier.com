@@ -390,20 +390,17 @@
       hoveredHood = null;
     });
   };
-  map.on("load", build); // the fast path, when the map does reach "loaded"
-  // The path that survives (2): poll until the style reports ready, then build
-  // once. Two rejected alternatives, both measured against the live page:
-  //   • `styledata` fires while the style is still loading and then never fires
-  //     again, so a styledata-gated build never runs at all.
-  //   • requestAnimationFrame is PAUSED whenever the page is hidden — a tab
-  //     opened in the background (cmd-click, restored session) would never build
-  //     its layers, which is the same "blank until I reload it" symptom. setTimeout
-  //     keeps running in hidden tabs, so the atlas is ready before it is looked at.
-  // Adding sources/layers needs only the style, not a fully loaded map (verified).
-  (function waitForStyle() {
-    if (map.style && map.style.loaded()) return build();
-    setTimeout(waitForStyle, 50);
-  })();
+  // `style.load` fires the instant MapLibre applies the stylesheet — the earliest
+  // moment addSource/addLayer are legal. Both previous gates were transitively
+  // waiting on the SAME animation frame that applies the style, so neither could
+  // ever rescue the other: `load` needs Map._render, which needs the applied style,
+  // and the poll below checked map.style.loaded(), which is that same flag. That is
+  // why the atlas came up blank until a manual reload (measured, July 21). They were
+  // also far too late even when frames flowed — style.load 3.5s, the poll 4.9s, the
+  // `load` event 19.0s from construction. (Do NOT gate this on visibilityState: in a
+  // context that reports hidden and never changes — headless, and plausibly the
+  // Capacitor webview — it deadlocks permanently.)
+  map.on("style.load", build);
 
   // ── Filters: categories × optional year ──
   function applyFilters() {
