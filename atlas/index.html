@@ -6,10 +6,16 @@
 <title>MAP — Atlas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap">
-<script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-<script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
-<script src="https://unpkg.com/@protomaps/basemaps@5.7.2/dist/basemaps.js"></script>
+<!-- Map libraries are SELF-HOSTED (vendor/, see vendor/README.md). They used to
+     come from unpkg, which made the whole atlas dependent on a third-party CDN:
+     if unpkg was slow the page couldn't initialize, and if it was down the atlas
+     was simply broken. Now the only hosts this page needs are shafrasier.com and
+     (for the UI serif) Google Fonts, which the MAP itself already uses. Versions
+     are pinned in the filenames — update by re-downloading, never by editing. -->
+<script src="vendor/maplibre-gl-5.6.0.js"></script>
+<link rel="stylesheet" href="vendor/maplibre-gl-5.6.0.css">
+<script src="vendor/pmtiles-4.3.0.js"></script>
+<script src="vendor/basemaps-5.7.2.js"></script>
 <style>
   /* The node mark AND the MAP wordmark are one link home (Sha, July 20). */
   .wordmark .back-to-map { display: inline-flex; align-items: center; gap: .5rem; color: inherit; text-decoration: none; }
