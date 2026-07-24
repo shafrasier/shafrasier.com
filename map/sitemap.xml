@@ -1,4 +1,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url>
+    <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Bernard-Herrmann</loc>
+    <lastmod>2026-07-24T22:09:16.580Z</lastmod>
+  </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Bob-Dylan</loc>
     <lastmod>2026-07-16T21:57:09.000Z</lastmod>
   </url><url>
@@ -13,6 +16,9 @@
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Chuck-Berry</loc>
     <lastmod>2026-07-16T21:57:09.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Curtis-Mayfield</loc>
+    <lastmod>2026-07-24T22:09:16.580Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Dionne-Warwick</loc>
     <lastmod>2026-07-20T18:30:26.000Z</lastmod>
@@ -52,6 +58,9 @@
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Ringo-Starr</loc>
     <lastmod>2026-07-16T21:57:09.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/ARTISTS/Ryuichi-Sakamoto</loc>
+    <lastmod>2026-07-24T22:09:16.582Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/ARTISTS/SESSION-MUSICIANS/The-Funk-Brothers</loc>
     <lastmod>2026-07-20T18:30:26.000Z</lastmod>
@@ -192,10 +201,13 @@
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/CLASSICAL/Cinematic-classical</loc>
-    <lastmod>2026-07-23T18:18:04.082Z</lastmod>
+    <lastmod>2026-07-24T22:09:16.564Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/CLASSICAL/Classical-music</loc>
     <lastmod>2026-07-20T18:34:13.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/GENRES/CLASSICAL/Modern-classical</loc>
+    <lastmod>2026-07-24T22:09:16.565Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/CLASSICAL/Western-classical-music</loc>
     <lastmod>2026-07-20T18:30:26.000Z</lastmod>
@@ -301,6 +313,9 @@
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/IDEAS/The-pop-factory</loc>
     <lastmod>2026-07-20T18:30:26.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/IDEAS/The-song-in-film</loc>
+    <lastmod>2026-07-24T22:09:16.588Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/IDEAS/The-songwriter-performer-divide</loc>
     <lastmod>2026-07-13T15:10:28.000Z</lastmod>
@@ -574,6 +589,9 @@
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Christe---Sound-of-the-Beast</loc>
     <lastmod>2026-07-14T07:28:35.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Cooke---A-History-of-Film-Music</loc>
+    <lastmod>2026-07-24T22:09:16.298Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/x-LIBRARY/Darden---People-Get-Ready</loc>
     <lastmod>2026-07-16T18:06:54.000Z</lastmod>
