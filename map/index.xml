@@ -6,6 +6,12 @@
       <description>Last 10 notes on MAP</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>PLACES</title>
+    <link>https://shafrasier.com/map/MUSIC/PLACES/</link>
+    <guid>https://shafrasier.com/map/MUSIC/PLACES/</guid>
+    <description><![CDATA[ The rooms, corners, and addresses of New York where the MAP’s history happened. ]]></description>
+    <pubDate>Tue, 28 Jul 2026 19:59:00 GMT</pubDate>
+  </item><item>
     <title>Bernard Herrmann</title>
     <link>https://shafrasier.com/map/MUSIC/ARTISTS/Bernard-Herrmann</link>
     <guid>https://shafrasier.com/map/MUSIC/ARTISTS/Bernard-Herrmann</guid>
@@ -58,12 +64,6 @@
     <link>https://shafrasier.com/map/MUSIC/ERAS/Swinging-Sixties</link>
     <guid>https://shafrasier.com/map/MUSIC/ERAS/Swinging-Sixties</guid>
     <description><![CDATA[  For a few years in the middle of the 1960s, the rest of the world looked to a handful of streets in the West End of London to see what the young would do next. ]]></description>
-    <pubDate>Tue, 28 Jul 2026 19:47:06 GMT</pubDate>
-  </item><item>
-    <title>Ambient</title>
-    <link>https://shafrasier.com/map/MUSIC/GENRES/AMBIENT/Ambient</link>
-    <guid>https://shafrasier.com/map/MUSIC/GENRES/AMBIENT/Ambient</guid>
-    <description><![CDATA[  For about a month in 1980, the Marine Air Terminal at LaGuardia played Ambient 1: Music for Airports as its actual terminal music, and the travelers complained: the record made them uneasy, and some said it sounded like funeral music. ]]></description>
     <pubDate>Tue, 28 Jul 2026 19:47:06 GMT</pubDate>
   </item>
     </channel>
