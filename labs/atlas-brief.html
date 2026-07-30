@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Atlas — a renaming brief — MAP labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root { --cream:#f0efe4; --light:#fefdfb; --lightgray:#e6e3d5; --gray:#8c8880; --tertiary:#6f6a5c;
+          --dark:#111; --darkgray:#232120; --green:#2a6f4e; --single:#d46070;
+          --serif:"Source Serif 4", Georgia, serif;
+          --script:"Snell Roundhand", "SnellRoundhand", "Snell Roundhand LT Std", cursive; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:var(--darkgray); font-family:var(--serif); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:760px; margin:0 auto; padding:2.6rem 1.25rem 5rem; }
+  .labhead { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin-bottom:2.6rem; }
+  .wordmark { font-weight:600; color:var(--dark); text-decoration:none; font-size:1.02rem; }
+  .back { font-size:.85rem; color:rgba(17,17,17,.55); text-decoration:none; border-bottom:1px solid rgba(110,105,95,.4); }
+  .back:hover { color:var(--dark); }
+  .kicker { font-size:.68rem; letter-spacing:.13em; text-transform:uppercase; color:var(--tertiary); font-weight:600; }
+  .hero { margin:.4rem 0 0; }
+  .hero .script { font-family:var(--script); font-weight:700; font-size:clamp(4.4rem, 13vw, 7.2rem); line-height:1.05; color:var(--dark); }
+  .hero .sub { max-width:36rem; font-size:1.02rem; margin:.9rem 0 0; }
+  h2 { font-size:.78rem; letter-spacing:.13em; text-transform:uppercase; color:var(--tertiary); font-weight:600; margin:3rem 0 .8rem; display:flex; align-items:baseline; gap:.6rem; }
+  h2 .rule { flex:1; height:1px; background:var(--lightgray); }
+  p { font-size:.95rem; }
+  p.note { font-size:.8rem; color:var(--tertiary); }
+  .card { background:var(--light); border:1px solid var(--lightgray); border-radius:14px; padding:1.2rem 1.4rem; margin:1rem 0;
+          box-shadow:0 1px 2px rgba(17,17,17,.03), 0 10px 30px rgba(17,17,17,.05); }
+
+  /* criteria table */
+  table { width:100%; border-collapse:collapse; font-size:.88rem; }
+  th { font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tertiary); font-weight:600; text-align:left;
+       padding:.5rem .6rem; border-bottom:1px solid var(--lightgray); }
+  td { padding:.45rem .6rem; border-top:1px dashed color-mix(in srgb, var(--lightgray) 70%, transparent); vertical-align:baseline; }
+  td.name { font-weight:600; color:var(--dark); white-space:nowrap; }
+  td.y { color:var(--green); }
+  td.n { color:#a05252; }
+  td.m { color:var(--tertiary); }
+  tr.pick td { background:color-mix(in srgb, var(--green) 6%, transparent); }
+
+  /* the family row */
+  .family { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-around; gap:1.6rem; padding:1.6rem 1rem; }
+  .family .mark { display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+  .family img { height:3.4rem; width:auto; }
+  .family .script { font-family:var(--script); font-weight:700; font-size:2.6rem; color:var(--dark); line-height:1.2; }
+  .family .lbl { font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gray); }
+
+  /* lockup studies */
+  .study { display:flex; flex-wrap:wrap; gap:1rem; }
+  .study .cell { flex:1 1 220px; background:var(--light); border:1px solid var(--lightgray); border-radius:14px; padding:1.3rem 1.2rem 1rem;
+                 display:flex; flex-direction:column; align-items:center; gap:.65rem; }
+  .study .lbl { font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gray); text-align:center; }
+  .node { width:2.2rem; height:2.2rem; }
+  .lock-a { display:flex; align-items:center; gap:.7rem; }
+  .lock-a .script { font-family:var(--script); font-weight:700; font-size:2.5rem; color:var(--dark); }
+  .lock-b { display:flex; flex-direction:column; align-items:center; gap:.15rem; }
+  .lock-b .script { font-family:var(--script); font-weight:700; font-size:2.2rem; color:var(--dark); }
+  .lock-c { display:flex; align-items:center; gap:.7rem; }
+  .lock-c .caps { font-weight:600; font-size:1.45rem; letter-spacing:.16em; color:var(--dark); }
+
+  /* toolbar mock */
+  .railmock { width:min(268px, 100%); margin:0 auto; background:color-mix(in srgb, var(--light) 82%, var(--cream));
+              border:1px solid color-mix(in srgb, var(--gray) 26%, transparent); border-radius:18px; padding:1.5rem .9rem 1.2rem;
+              box-shadow:0 12px 34px -10px rgba(17,17,17,.2), 0 3px 10px -4px rgba(17,17,17,.1); }
+  .railmock .wm { text-align:center; font-family:var(--script); font-weight:700; font-size:1.9rem; color:var(--dark); }
+  .railmock .icons { display:flex; justify-content:space-around; align-items:center; margin-top:.8rem; opacity:.85; }
+  .railmock .icons svg { width:19px; height:19px; }
+  .railmock .mapline { text-align:center; font-size:.62rem; letter-spacing:.14em; color:var(--gray); margin-top:1rem; text-transform:uppercase; }
+
+  /* copy rewrites */
+  .re { margin:.9rem 0; }
+  .re .was, .re .now { font-size:.9rem; padding:.55rem .8rem; border-radius:10px; }
+  .re .was { color:var(--tertiary); background:transparent; border:1px dashed color-mix(in srgb, var(--gray) 45%, transparent); }
+  .re .now { margin-top:.4rem; background:var(--light); border:1px solid var(--lightgray); }
+  .re .tag { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gray); margin-right:.5rem; }
+
+  ul.scope { margin:.4rem 0 0; padding-left:1.1rem; font-size:.9rem; }
+  ul.scope li { margin:.3rem 0; }
+  ul.scope b { color:var(--dark); font-weight:600; }
+  .foot { font-size:.78rem; color:var(--gray); margin-top:3rem; border-top:1px solid var(--lightgray); padding-top:1rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="labhead">
+  <a class="wordmark" href="/map/">⁂ MAP</a>
+  <a class="back" href="/labs/">← back to the labs</a>
+</div>
+
+<div class="kicker">Design brief · a proposal, not a decision</div>
+<div class="hero">
+  <div class="script">Atlas</div>
+  <p class="sub">Renaming the MAP. One common word, no article, and a script wordmark that makes it the third mark in the family — beside Continuing Education and the Clearing.</p>
+</div>
+
+<h2>The case <span class="rule"></span></h2>
+<div class="card">
+  <p>An atlas is a <em>book of maps</em> — and that is what this site has quietly become. The connections graph, the city map, the genre staffs, the era bars, the moments wire, the scene spine: no single map, a bound collection of them. "MAP" names one view; "Atlas" names the volume.</p>
+  <p>The word carries the right ancestry. Mercator coined it in 1595 for a bound collection of maps, after the titan who holds the heavens; Aby Warburg's <em>Mnemosyne Atlas</em> made it the name for a scholarly atlas of cultural memory — images arranged by association and influence rather than geography. That is nearly this site's mission statement.</p>
+  <p>And article-less, as proposed, it stops being an object and becomes a name. "Atlas holds the lines of influence." It pairs with the Listener — the site's two personae, one that holds and one that hears.</p>
+</div>
+
+<h2>The criteria, stress-tested <span class="rule"></span></h2>
+<div class="card">
+  <table>
+    <thead><tr><th>Name</th><th>One common word</th><th>Evokes exploration</th><th>Fits the register</th><th>The catch</th></tr></thead>
+    <tbody>
+      <tr class="pick"><td class="name">Atlas</td><td class="y">yes</td><td class="y">yes — maps, expeditions, Atlas Obscura</td><td class="y">bookish, scholarly, editorial</td><td class="m">collides with the NYC view's current name (see below)</td></tr>
+      <tr><td class="name">Chart</td><td class="y">yes</td><td class="m">nautical, plus the pop-charts pun</td><td class="m">the pun cuts both ways</td><td class="n">reads thin; "the charts" implies rankings</td></tr>
+      <tr><td class="name">Almanac</td><td class="y">yes</td><td class="n">reference, not exploration</td><td class="y">bookish</td><td class="n">static — a thing consulted, not traversed</td></tr>
+      <tr><td class="name">Compass</td><td class="y">yes</td><td class="y">yes</td><td class="n">tool-like, app-like</td><td class="n">crowded namespace; no collection metaphor</td></tr>
+      <tr><td class="name">Meridian</td><td class="y">yes</td><td class="m">cartographic, cooler</td><td class="m">elegant but distant</td><td class="n">less common a word; no holding metaphor</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>The family <span class="rule"></span></h2>
+<div class="card family">
+  <div class="mark"><img src="/map/static/logos/ce.svg" alt="Continuing Education wordmark"><span class="lbl">Continuing Education</span></div>
+  <div class="mark"><span class="script">The Clearing</span><span class="lbl">The listening room</span></div>
+  <div class="mark"><span class="script">Atlas</span><span class="lbl">This site</span></div>
+</div>
+<p class="note">All three set in the same roundhand. Continuing Education's mark is already drawn to SVG outlines; the other two here are your device's Snell Roundhand rendering live — which is also the production honest-truth: Snell is an Apple system font, not embeddable as a webfont, so the chosen wordmark ships as drawn paths exactly the way the CE mark does. Visitors then see the real thing everywhere.</p>
+
+<h2>Wordmark studies <span class="rule"></span></h2>
+<div class="study">
+  <div class="cell">
+    <div class="lock-a">
+      <svg class="node" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="7.5" y1="13" x2="4" y2="6.5" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7.5" y1="13" x2="16.5" y2="9" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7.5" y1="13" x2="11" y2="20" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="7.5" cy="13" r="2.6" fill="#111"/><circle cx="4" cy="6.5" r="1.5" fill="#111"/>
+        <circle cx="16.5" cy="9" r="1.7" fill="#111"/><circle cx="11" cy="20" r="1.4" fill="#111"/>
+      </svg>
+      <span class="script">Atlas</span>
+    </div>
+    <span class="lbl">A · node beside script — the toolbar lockup</span>
+  </div>
+  <div class="cell">
+    <div class="lock-b">
+      <svg class="node" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="7.5" y1="13" x2="4" y2="6.5" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7.5" y1="13" x2="16.5" y2="9" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7.5" y1="13" x2="11" y2="20" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="7.5" cy="13" r="2.6" fill="#111"/><circle cx="4" cy="6.5" r="1.5" fill="#111"/>
+        <circle cx="16.5" cy="9" r="1.7" fill="#111"/><circle cx="11" cy="20" r="1.4" fill="#111"/>
+      </svg>
+      <span class="script">Atlas</span>
+    </div>
+    <span class="lbl">B · node above script — the loader landing</span>
+  </div>
+  <div class="cell">
+    <div class="lock-c">
+      <svg class="node" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="7.5" y1="13" x2="4" y2="6.5" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7.5" y1="13" x2="16.5" y2="9" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7.5" y1="13" x2="11" y2="20" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="7.5" cy="13" r="2.6" fill="#111"/><circle cx="4" cy="6.5" r="1.5" fill="#111"/>
+        <circle cx="16.5" cy="9" r="1.7" fill="#111"/><circle cx="11" cy="20" r="1.4" fill="#111"/>
+      </svg>
+      <span class="caps">ATLAS</span>
+    </div>
+    <span class="lbl">C · the control — small caps, no script</span>
+  </div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+  <div class="railmock">
+    <div class="wm">Atlas</div>
+    <div class="icons">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="7.5" y1="13" x2="4" y2="6.5" stroke="#111" stroke-width="1.3" stroke-linecap="round"/><line x1="7.5" y1="13" x2="16.5" y2="9" stroke="#111" stroke-width="1.3" stroke-linecap="round"/><line x1="7.5" y1="13" x2="11" y2="20" stroke="#111" stroke-width="1.3" stroke-linecap="round"/><circle cx="7.5" cy="13" r="2.6" fill="#111"/><circle cx="4" cy="6.5" r="1.5" fill="#111"/><circle cx="16.5" cy="9" r="1.7" fill="#111"/><circle cx="11" cy="20" r="1.4" fill="#111"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+    </div>
+    <div class="mapline">the rail, re-set</div>
+  </div>
+  <p class="note" style="text-align:center; margin-bottom:0">The toolbar mock — lockup A in place. The node-mark, the loader fly-in, and the whole small-caps navigation system stay exactly as they are; only the wordmark changes voice.</p>
+</div>
+
+<h2>What it would touch <span class="rule"></span></h2>
+<div class="card">
+  <p style="margin-top:0">Three real copy lines, re-voiced. The article drops; the verb stays.</p>
+  <div class="re">
+    <div class="was"><span class="tag">now</span>A living map of popular music — its records, people, scenes, and ideas, and the lines of influence that run between them.</div>
+    <div class="now"><span class="tag">as Atlas</span>Atlas — a living map of popular music: its records, people, scenes, and ideas, and the lines of influence that run between them.</div>
+  </div>
+  <div class="re">
+    <div class="was"><span class="tag">now</span>The MAP is built to outgrow its maker.</div>
+    <div class="now"><span class="tag">as Atlas</span>Atlas is built to outgrow its maker.</div>
+  </div>
+  <div class="re">
+    <div class="was"><span class="tag">now</span>The rooms, corners, and addresses of New York where the MAP's history happened.</div>
+    <div class="now"><span class="tag">as Atlas</span>The rooms, corners, and addresses of New York where this history happened.</div>
+  </div>
+
+  <p><b>The one real collision.</b> The NYC map is currently called "the Atlas." Under the new name it simply becomes what it already is — <b>Places</b>: the panel chip reads PLACES, the toolbar icon's label follows, and the standalone /atlas/ page (already superseded by the PLACES landing) retires. The site-level name takes the word back for the whole.</p>
+
+  <ul class="scope">
+    <li><b>Wordmarks</b> — toolbar (home + rail), About card masthead, loader landing, og site name, browser titles.</li>
+    <li><b>Copy</b> — the July 20 sweep catalogued every live string; "the MAP" appears in a known, finite set of lines. A day of careful work, not a month.</li>
+    <li><b>The app</b> — display name and TestFlight listing.</li>
+    <li><b>URLs stay put</b> — /map/ keeps working; the name is identity, not routing. A redirect project can come later or never.</li>
+    <li><b>Internal docs</b> — MAPmaking, Using the MAP, the gears: rename or keep as working titles; nothing user-facing forces it.</li>
+    <li><b>Timing</b> — the Constitution and Manifesto aren't ratified yet. Deciding before they are is the cheapest this rename will ever be.</li>
+  </ul>
+</div>
+
+<h2>To decide <span class="rule"></span></h2>
+<div class="card">
+  <ul class="scope" style="margin-top:0">
+    <li>Article-less <b>Atlas</b> confirmed — never "the Atlas"?</li>
+    <li>Wordmark: lockup <b>A</b>, <b>B</b>, or the small-caps control <b>C</b>? (Script weight can also go lighter — this page uses bold.)</li>
+    <li>Does the NYC view become <b>Places</b>, or carry another name?</li>
+    <li>Do the internal docs rename now, later, or never?</li>
+  </ul>
+</div>
+
+<div class="foot">MAP labs · a renaming brief — nothing here is decided or live · the script is your device's Snell Roundhand; production marks would ship as drawn SVG paths, like the Continuing Education wordmark</div>
+</div>
+</body>
+</html>
