@@ -160,12 +160,13 @@ themeAccent: "#…"</pre>
   const rgbToHex=(r,g,b)=>"#"+[r,g,b].map(x=>x.toString(16).padStart(2,"0")).join("")
 
   // SAME math as quartz/plugins/transformers/releaseCover.ts → themeFromPicks.
-  // A near-black / near-white / near-grey pick carries no usable hue (its hue is just
-  // noise from tiny channel differences), so the saturation floors below would invent a
-  // colour from nothing — a B&W cover sampled white → pink, near-black → green. Match the
-  // build: treat achromatic picks as the same warm neutral a greyscale cover auto-samples.
+  // A pick is "achromatic" only when its RGB channels barely separate (chroma = max−min
+  // under ~8/255 — sampling noise on a B&W cover) or it sits at the lightness extremes.
+  // The test is chroma, not saturation: a muted-but-real colour like ECM sage (#a0ae9f)
+  // reads under 12% saturation yet its green is genuine — it keeps its hue. Matches the
+  // build (quartz/plugins/transformers/releaseCover.ts → achromatic).
   const NEUTRAL={ accent:"hsl(28, 18%, 42%)", accentSoft:"hsl(28, 16%, 52%)", tint:"hsl(40, 24%, 96%)", frame:"hsl(40, 20%, 93%)", glow:"hsl(34, 22%, 80%)" }
-  const achromatic=(s,l)=> l<0.1 || l>0.92 || s<0.12
+  const achromatic=(s,l)=> l<0.1 || l>0.92 || (1-Math.abs(2*l-1))*s < 0.032
   function derive(bgHex, accentHex){
     const t={}
     const bg=hexToHsl(bgHex), ac=hexToHsl(accentHex)
