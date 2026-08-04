@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>DISCO SPACE</title>
+<meta property="og:title" content="DISCO SPACE">
+<meta property="og:description" content="An invitation. 9.26.2026 · Ridgewood, NY">
+<meta property="og:image" content="https://shafrasier.com/26/og.png">
+<meta property="og:url" content="https://shafrasier.com/26/">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Display face: Forma DJR is an Adobe Font — if Sha adds his kit <link> here, it
+     takes over automatically via the font stack. Inter Tight is the working
+     grotesque until then. IBM Plex Mono = the universe's metadata mono. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --black:#000000;
+  --white:#ffffff;
+  --dim:rgba(255,255,255,.55);
+  --faint:rgba(255,255,255,.28);
+  --hair:rgba(255,255,255,.14);
+  --display:"Forma DJR Display","Inter Tight",-apple-system,"Helvetica Neue",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--black);color:var(--white);
+  font-family:var(--display);font-weight:400;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--white);color:var(--black)}
+
+/* ── The room: a fixed canvas of drifting glints behind everything ── */
+#room{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ── Hero ── */
+.hero{
+  position:relative;z-index:1;min-height:100svh;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding:0 1.4rem calc(3.2rem + env(safe-area-inset-bottom));
+}
+#ball{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  touch-action:none;cursor:grab;z-index:1;
+}
+#ball.grabbing{cursor:grabbing}
+.hero-text{position:relative;z-index:2;text-align:center;user-select:none}
+.hero-no{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.34em;color:var(--faint);
+  margin:0 0 1.1rem;text-indent:.34em; /* balance the tracking */
+}
+h1{
+  font-size:clamp(2.6rem,12vw,5.6rem);font-weight:600;letter-spacing:.045em;
+  margin:0;line-height:1.04;text-indent:.045em;
+}
+.hero-sub{
+  font-family:var(--mono);font-size:clamp(.72rem,3.2vw,.86rem);letter-spacing:.18em;
+  color:var(--dim);margin:1.3rem 0 0;text-indent:.18em;
+}
+.hero-cue{
+  margin:2.6rem auto 0;width:1px;height:44px;position:relative;overflow:hidden;
+  background:var(--hair);
+}
+.hero-cue::after{
+  content:"";position:absolute;left:0;top:-40%;width:100%;height:40%;
+  background:var(--white);animation:cue 2.4s cubic-bezier(.6,0,.3,1) infinite;
+}
+@keyframes cue{to{top:110%}}
+
+/* ── Sections ── */
+main{position:relative;z-index:1}
+section{
+  max-width:560px;margin:0 auto;padding:4.6rem 1.4rem 0;
+}
+section:last-of-type{padding-bottom:5rem}
+.kicker{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;color:var(--faint);
+  margin:0 0 1.15rem;display:flex;align-items:baseline;gap:.9rem;
+}
+.kicker::after{content:"";flex:1;height:1px;background:var(--hair);transform:translateY(-.18em)}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .hero-cue::after{animation:none}
+}
+
+/* the invitation */
+.inv p{font-size:1.02rem;margin:0 0 1.05rem;color:rgba(255,255,255,.86)}
+.inv p b{font-weight:600;color:var(--white)}
+.inv .aside{font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;color:var(--dim);line-height:1.7}
+
+/* lineup */
+.slot{
+  display:flex;align-items:baseline;gap:1.1rem;padding:.72rem 0;
+  border-top:1px solid var(--hair);
+}
+.slot:last-child{border-bottom:1px solid var(--hair)}
+.slot .t{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
+.slot .who{font-size:1.02rem;font-weight:500;letter-spacing:.02em}
+.slot .who.tba{color:var(--faint);letter-spacing:.42em}
+.lineup-note{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin:.9rem 0 0;letter-spacing:.04em}
+
+/* rsvp */
+.field{margin:0 0 1.05rem}
+.lab{
+  display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.24em;
+  color:var(--faint);margin:0 0 .45rem;text-transform:uppercase;
+}
+input[type=text],input[type=tel]{
+  width:100%;background:transparent;border:0;border-bottom:1px solid var(--hair);
+  border-radius:0;color:var(--white);font-family:var(--display);font-size:16px;
+  padding:.35rem 0 .55rem;outline:none;transition:border-color .25s ease;
+}
+input[type=text]:focus,input[type=tel]:focus{border-color:var(--white)}
+input::placeholder{color:rgba(255,255,255,.22)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.answers{display:flex;gap:.55rem;flex-wrap:wrap}
+.ans{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.2em;color:var(--dim);
+  background:transparent;border:1px solid var(--hair);border-radius:999px;
+  padding:.62rem 1.15rem .58rem;cursor:pointer;transition:all .25s ease;text-indent:.2em;
+}
+.ans[aria-pressed=true]{background:var(--white);color:var(--black);border-color:var(--white)}
+.ans:not([aria-pressed=true]):hover{border-color:var(--dim)}
+/* +1 dots */
+.plus{display:flex;gap:.55rem}
+.pk{
+  min-width:56px;height:44px;background:transparent;border:1px solid var(--hair);
+  border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;
+  justify-content:center;gap:5px;transition:all .25s ease;
+}
+.pk i{width:6px;height:6px;border-radius:50%;background:var(--white);display:block}
+.pk .none{width:6px;height:6px;border-radius:50%;border:1px solid var(--dim);display:block}
+.pk[aria-pressed=true]{border-color:var(--white);box-shadow:0 0 0 1px var(--white) inset}
+.pk[aria-pressed=true] .none{border-color:var(--white)}
+.plus-cap{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;color:var(--faint);margin-top:.45rem;display:block}
+/* the list checkbox */
+.opt{display:flex;align-items:center;gap:.7rem;margin:1.35rem 0 0;cursor:pointer;user-select:none}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt .box{
+  width:15px;height:15px;border:1px solid var(--dim);flex:0 0 auto;
+  display:inline-flex;align-items:center;justify-content:center;transition:all .2s ease;
+}
+.opt input:checked + .box{background:var(--white);border-color:var(--white)}
+.opt input:checked + .box::after{content:"";width:5px;height:9px;border:solid var(--black);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.opt input:focus-visible + .box{outline:1px solid var(--white);outline-offset:2px}
+.opt .otext{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;color:var(--dim)}
+.submit{
+  margin-top:1.7rem;width:100%;background:var(--white);color:var(--black);
+  border:1px solid var(--white);border-radius:999px;font-family:var(--mono);
+  font-size:.8rem;letter-spacing:.28em;text-indent:.28em;padding:1rem 1.2rem .95rem;
+  cursor:pointer;transition:opacity .25s ease;
+}
+.submit:disabled{background:transparent;color:var(--faint);border-color:var(--hair);cursor:default}
+.form-note{font-family:var(--mono);font-size:.7rem;color:var(--faint);margin-top:.8rem;text-align:center;min-height:1em;letter-spacing:.04em}
+/* confirmation */
+.done{display:none;text-align:center;padding:1.4rem 0 .6rem}
+.done.show{display:block}
+.done .big{font-size:1.35rem;font-weight:600;letter-spacing:.03em;margin:0 0 .5rem}
+.done .small{font-family:var(--mono);font-size:.74rem;color:var(--dim);letter-spacing:.06em}
+
+/* guest list */
+.counts{
+  display:flex;gap:2.4rem;font-family:var(--mono);letter-spacing:.06em;
+  margin:0 0 1.4rem;
+}
+.counts .n{font-size:1.9rem;color:var(--white);display:block;font-variant-numeric:tabular-nums;line-height:1.1}
+.counts .l{font-size:.66rem;letter-spacing:.26em;color:var(--faint);text-transform:uppercase}
+.guests{columns:2;column-gap:2rem;font-size:.95rem;line-height:2;margin:0;padding:0;list-style:none}
+.guests li{break-inside:avoid;letter-spacing:.02em}
+.guests li small{font-family:var(--mono);font-size:.68rem;color:var(--faint);letter-spacing:.1em;margin-left:.4rem}
+.guests-empty{font-family:var(--mono);font-size:.76rem;color:var(--faint);letter-spacing:.06em}
+@media (max-width:420px){.guests{columns:1}}
+
+/* where */
+.where .venue{font-size:1.5rem;font-weight:600;letter-spacing:.04em;margin:0 0 .3rem}
+.where .addr{font-family:var(--mono);font-size:.82rem;color:var(--dim);line-height:1.8;letter-spacing:.05em;margin:0 0 1.3rem}
+.links{display:flex;flex-wrap:wrap;gap:.6rem}
+.lnk{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;color:var(--white);
+  text-decoration:none;border:1px solid var(--hair);border-radius:999px;
+  padding:.6rem 1.1rem .55rem;text-indent:.2em;transition:all .25s ease;
+}
+.lnk:hover{border-color:var(--white)}
+
+/* foot */
+.foot{
+  position:relative;z-index:1;text-align:center;
+  padding:0 1.4rem calc(2.6rem + env(safe-area-inset-bottom));
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--faint);
+}
+.foot a{color:inherit;text-decoration:none}
+</style>
+</head>
+<body>
+
+<canvas id="room" aria-hidden="true"></canvas>
+
+<header class="hero">
+  <canvas id="ball" aria-label="A slowly spinning disco ball. Drag to spin it."></canvas>
+  <div class="hero-text">
+    <p class="hero-no">NO. 26</p>
+    <h1>DISCO<br>SPACE</h1>
+    <p class="hero-sub">SAT 9.26.2026 · 7 PM — WHENEVER</p>
+    <div class="hero-cue" aria-hidden="true"></div>
+  </div>
+</header>
+
+<main>
+  <section class="inv reveal" id="night">
+    <p class="kicker">01 · THE NIGHT</p>
+    <p>Twenty-six years in, one thing has held: everything I love about music routes back to the dance floor. Disco is where the roads meet — the strings and the drum machines, Philadelphia and Munich, the loft and the garage.</p>
+    <p>So for my birthday we walk the whole territory in one night: the seventies records that started it, and the <b>Euro, Italo, hi-NRG and electro</b> forms they became when the lights changed. One room, one ball, seven hours.</p>
+    <p class="aside">There will be alcohol. Bring more if you like — or whatever else moves you. And bring your people: the floor is big, and the invitation travels.</p>
+  </section>
+
+  <section class="reveal" id="lineup">
+    <p class="kicker">02 · LINEUP</p>
+    <div id="slots"></div>
+    <p class="lineup-note">One hour a piece. Names surface as the night approaches.</p>
+  </section>
+
+  <section class="reveal" id="rsvp">
+    <p class="kicker">03 · RSVP</p>
+    <form id="form" novalidate>
+      <div class="row2">
+        <div class="field">
+          <label class="lab" for="fn">First name</label>
+          <input type="text" id="fn" autocomplete="given-name" required>
+        </div>
+        <div class="field">
+          <label class="lab" for="ln">Last name</label>
+          <input type="text" id="ln" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lab" for="ph">Phone</label>
+        <input type="tel" id="ph" autocomplete="tel" inputmode="tel" required>
+      </div>
+      <div class="field">
+        <span class="lab">Are you coming?</span>
+        <div class="answers" role="group" aria-label="Your answer">
+          <button type="button" class="ans" data-a="going" aria-pressed="false">GOING</button>
+          <button type="button" class="ans" data-a="maybe" aria-pressed="false">MAYBE</button>
+          <button type="button" class="ans" data-a="cant" aria-pressed="false">CAN&rsquo;T</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="lab">Bringing anyone?</span>
+        <div class="plus" role="group" aria-label="Plus ones">
+          <button type="button" class="pk" data-p="0" aria-pressed="true" aria-label="Just me"><span class="none"></span></button>
+          <button type="button" class="pk" data-p="1" aria-pressed="false" aria-label="Plus one"><i></i></button>
+          <button type="button" class="pk" data-p="2" aria-pressed="false" aria-label="Plus two"><i></i><i></i></button>
+          <button type="button" class="pk" data-p="3" aria-pressed="false" aria-label="Plus three"><i></i><i></i><i></i></button>
+        </div>
+        <span class="plus-cap">JUST ME · +1 · +2 · +3</span>
+      </div>
+      <label class="opt">
+        <input type="checkbox" id="show" checked>
+        <span class="box" aria-hidden="true"></span>
+        <span class="otext">show my name on the guest list</span>
+      </label>
+      <button type="submit" class="submit" id="send" disabled>RSVP</button>
+      <p class="form-note" id="note"></p>
+    </form>
+    <div class="done" id="done">
+      <p class="big" id="done-big"></p>
+      <p class="small" id="done-small"></p>
+    </div>
+  </section>
+
+  <section class="reveal" id="list">
+    <p class="kicker">04 · GUEST LIST</p>
+    <div class="counts">
+      <div><span class="n" id="c-going">—</span><span class="l">going</span></div>
+      <div><span class="n" id="c-maybe">—</span><span class="l">maybe</span></div>
+    </div>
+    <ul class="guests" id="guests"></ul>
+    <p class="guests-empty" id="guests-empty">The list fills as the answers come in.</p>
+  </section>
+
+  <section class="where reveal" id="where">
+    <p class="kicker">05 · WHERE</p>
+    <p class="venue">FUTURE SPACE</p>
+    <p class="addr">5-84 Woodward Avenue<br>Ridgewood, New York 11385</p>
+    <div class="links">
+      <a class="lnk" href="https://maps.apple.com/?address=5-84%20Woodward%20Ave,%20Ridgewood,%20NY%2011385" target="_blank" rel="noopener">DIRECTIONS</a>
+      <a class="lnk" id="ics" href="#" download="disco-space.ics">CALENDAR</a>
+      <a class="lnk" href="https://www.instagram.com/fu_ture.space" target="_blank" rel="noopener">@FU_TURE.SPACE</a>
+      <a class="lnk" href="https://www.instagram.com/shafrasier" target="_blank" rel="noopener">@SHAFRASIER</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot"><a href="https://shafrasier.com">SHAFRASIER.COM</a></footer>
+
+<script>
+/* ═══════════════ CONFIG ═══════════════
+   The RSVP backend is a Google Apps Script web app bound to Sha's sheet
+   (see apps-script.gs beside this file for the code + deploy steps).
+   Paste the deployed /exec URL here and everything goes live:
+   counts, the guest list, and submissions. Empty = graceful holding state. */
+const APPS_SCRIPT_URL = "";
+
+/* Lineup — fill names as they're confirmed; null renders as a redacted slot. */
+const SLOTS = [
+  { t: "7—8",  who: null },
+  { t: "8—9",  who: null },
+  { t: "9—10", who: null },
+  { t: "10—11", who: null },
+  { t: "11—12", who: null },
+  { t: "12—1", who: null },
+  { t: "1—2",  who: null },
+];
+
+/* ═══════════════ The ball ═══════════════
+   Hand-rolled Canvas 2D: a lat/long grid of mirror facets on a sphere,
+   perspective-projected, lit by a fixed lamp; each facet's brightness follows
+   its normal, with a glint band that sweeps as the ball turns. It descends
+   from the top edge on load, spins slowly forever, and can be dragged/flicked
+   (momentum + friction, easing back to the house tempo). */
+(() => {
+  const cv = document.getElementById("ball");
+  const ctx = cv.getContext("2d");
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  let W, H, R, cx, cy, drop;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function size() {
+    const vw = innerWidth, vh = innerHeight;
+    R = Math.min(vw * 0.30, vh * 0.22, 150);       // ball radius in px
+    W = Math.ceil(R * 2.3); H = Math.ceil(vh * 0.62);
+    cv.width = W * DPR; cv.height = H * DPR;
+    cv.style.width = W + "px"; cv.style.height = H + "px";
+    cx = W / 2;
+    cy = R * 1.55;                                  // hangs below the cable
+    drop = reduced ? 0 : -(R * 2.6);                // start above the screen
+  }
+  size(); addEventListener("resize", size);
+
+  /* facet grid */
+  const LAT = 14, LON = 24, facets = [];
+  for (let i = 1; i < LAT; i++) {
+    const th = (i / LAT) * Math.PI;
+    for (let j = 0; j < LON; j++) {
+      const ph = (j / LON) * 2 * Math.PI;
+      facets.push({ th, ph, tw: Math.PI / LAT * 0.82, pw: 2 * Math.PI / LON * 0.82 });
+    }
+  }
+
+  /* All angular speeds are rad/ms so the motion is frame-rate independent.
+     House tempo: one revolution every ~39 s — barely turning, which is the point. */
+  const BASE = 0.00016;
+  let rot = 0, vel = BASE;
+  let dragging = false, lastX = 0, lastT = 0, flick = 0;
+
+  cv.addEventListener("pointerdown", e => {
+    dragging = true; lastX = e.clientX; lastT = performance.now();
+    cv.classList.add("grabbing"); cv.setPointerCapture(e.pointerId);
+  });
+  cv.addEventListener("pointermove", e => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, now = performance.now();
+    rot += dx * 0.006;                               // direct drag: px → rad
+    flick = (dx / Math.max(1, now - lastT)) * 0.006; // px/ms → rad/ms
+    lastX = e.clientX; lastT = now;
+  });
+  const release = () => {
+    if (!dragging) return;
+    dragging = false; cv.classList.remove("grabbing");
+    vel = Math.max(-0.008, Math.min(0.008, flick));  // a flick, clamped sane
+  };
+  cv.addEventListener("pointerup", release);
+  cv.addEventListener("pointercancel", release);
+
+  const t0 = performance.now();
+  let last = t0;
+  function frame(now) {
+    const dt = Math.min(48, now - last); last = now;  // clamp tab-return jumps
+    /* descent: 2.4s ease-out from above the top edge */
+    const k = reduced ? 1 : Math.min(1, (now - t0) / 2400);
+    const ease = 1 - Math.pow(1 - k, 3);
+    const dy = drop * (1 - ease);
+
+    if (!dragging) {
+      vel += (BASE - vel) * Math.min(1, dt * 0.0008); // friction eases back to house tempo
+      rot += vel * dt;
+    }
+
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    const yc = cy + dy;
+    /* cable */
+    ctx.strokeStyle = "rgba(255,255,255,.35)";
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(cx, -2); ctx.lineTo(cx, yc - R); ctx.stroke();
+
+    /* facets, back-to-front. Orthographic projection — at this scale a distant
+       ball reads correctly without perspective, and the tiles stay crisp. */
+    const items = [];
+    for (const f of facets) {
+      const ph = f.ph + rot;
+      const sx = Math.sin(f.th) * Math.sin(ph), sy = -Math.cos(f.th), sz = Math.sin(f.th) * Math.cos(ph);
+      if (sz < -0.12) continue;                      // cull the far side
+      const x = cx + sx * R, y = yc + sy * R;
+      /* brightness: lamp up-left + a glint band that the rotation sweeps */
+      const lam = Math.max(0, sx * -0.45 + sy * -0.55 + sz * 0.72);
+      const band = Math.pow(Math.max(0, Math.cos(ph - 0.9)), 18);
+      const b = 0.10 + lam * 0.55 + band * 0.55;
+      items.push({ x, y, z: sz, b, f, ph });
+    }
+    items.sort((a, b2) => a.z - b2.z);
+    for (const it of items) {
+      /* a facet's on-screen size = its angular span, foreshortened by where it
+         sits: width shrinks toward the limb (cos ph), height toward the poles */
+      const w = Math.max(1.1, it.f.pw * R * Math.sin(it.f.th) * Math.abs(Math.cos(it.ph)) * 0.9);
+      const h = Math.max(1.1, it.f.tw * R * 0.9);
+      ctx.fillStyle = "rgba(255,255,255," + Math.min(1, it.b).toFixed(3) + ")";
+      ctx.fillRect(it.x - w / 2, it.y - h / 2, w, h);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* expose the angle for the room glints */
+  window.__ballRot = () => rot;
+})();
+
+/* ═══════════════ The room ═══════════════
+   Faint glints drifting across the black — the ball's throw. They orbit with
+   the ball's rotation and breathe slowly. Fixed behind all content. */
+(() => {
+  const cv = document.getElementById("room");
+  const ctx = cv.getContext("2d");
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W, H;
+  function size() {
+    W = innerWidth; H = innerHeight;
+    cv.width = W * DPR; cv.height = H * DPR;
+    cv.style.width = W + "px"; cv.style.height = H + "px";
+  }
+  size(); addEventListener("resize", size);
+  const N = 42, dots = [];
+  for (let i = 0; i < N; i++) {
+    dots.push({
+      a: Math.random() * Math.PI * 2,      // azimuth on the room cylinder
+      y: Math.random(),                    // 0..1 of viewport height
+      s: 1 + Math.random() * 1.6,          // size
+      ph: Math.random() * Math.PI * 2,     // breathe phase
+    });
+  }
+  function frame(now) {
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    const rot = (window.__ballRot ? window.__ballRot() : now * 0.0001);
+    for (const d of dots) {
+      const a = d.a + rot * 0.55;          // glints orbit slower than the ball
+      const x = (Math.sin(a) * 0.5 + 0.5) * W;
+      const depth = Math.cos(a) * 0.5 + 0.5;          // far side dimmer
+      const breathe = 0.5 + 0.5 * Math.sin(now * 0.0006 + d.ph);
+      const o = (0.04 + depth * 0.16) * (0.4 + 0.6 * breathe);
+      ctx.fillStyle = "rgba(255,255,255," + o.toFixed(3) + ")";
+      const s = d.s * (0.7 + depth * 0.6);
+      ctx.fillRect(x, d.y * H, s, s);
+    }
+    if (!reduced) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* ═══════════════ Reveals ═══════════════ */
+(() => {
+  const io = new IntersectionObserver(es => {
+    for (const e of es) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+})();
+
+/* ═══════════════ Lineup ═══════════════ */
+(() => {
+  document.getElementById("slots").innerHTML = SLOTS.map(s => {
+    const who = s.who
+      ? '<span class="who">' + s.who + "</span>"
+      : '<span class="who tba">···</span>';
+    return '<div class="slot"><span class="t">' + s.t + "</span>" + who + "</div>";
+  }).join("");
+})();
+
+/* ═══════════════ RSVP ═══════════════ */
+(() => {
+  const $ = id => document.getElementById(id);
+  const form = $("form"), send = $("send"), note = $("note");
+  let answer = null, plus = 0;
+
+  const ready = () =>
+    $("fn").value.trim() && $("ln").value.trim() &&
+    $("ph").value.replace(/\D/g, "").length >= 7 && answer;
+  const sync = () => { send.disabled = !ready(); };
+
+  document.querySelectorAll(".ans").forEach(b => b.addEventListener("click", () => {
+    answer = b.dataset.a;
+    document.querySelectorAll(".ans").forEach(x => x.setAttribute("aria-pressed", x === b));
+    sync();
+  }));
+  document.querySelectorAll(".pk").forEach(b => b.addEventListener("click", () => {
+    plus = +b.dataset.p;
+    document.querySelectorAll(".pk").forEach(x => x.setAttribute("aria-pressed", x === b));
+  }));
+  ["fn", "ln", "ph"].forEach(id => $(id).addEventListener("input", sync));
+
+  const LINES = {
+    going: ["See you under the ball.", "7 PM. 5-84 Woodward Ave."],
+    maybe: ["The door stays open.", "Change your mind any time — just come."],
+    cant:  ["You'll be missed.", "The ball keeps a light on for you."],
+  };
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!ready()) return;
+    if (!APPS_SCRIPT_URL) {
+      note.textContent = "RSVPs open in a moment — text Sha in the meantime.";
+      return;
+    }
+    send.disabled = true; note.textContent = "…";
+    try {
+      /* text/plain sidesteps the CORS preflight Apps Script can't answer */
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          first: $("fn").value.trim(),
+          last: $("ln").value.trim(),
+          phone: $("ph").value.trim(),
+          answer, plus,
+          show: $("show").checked,
+        }),
+      });
+      if (!res.ok) throw new Error(res.status);
+      form.style.display = "none"; note.textContent = "";
+      $("done-big").textContent = LINES[answer][0];
+      $("done-small").textContent = LINES[answer][1];
+      $("done").classList.add("show");
+      loadList();
+    } catch {
+      send.disabled = false;
+      note.textContent = "Something slipped — try once more?";
+    }
+  });
+
+  /* counts + guest list */
+  window.loadList = async () => {
+    if (!APPS_SCRIPT_URL) return;
+    try {
+      const d = await (await fetch(APPS_SCRIPT_URL)).json();
+      $("c-going").textContent = d.going;
+      $("c-maybe").textContent = d.maybe;
+      const ul = $("guests");
+      ul.innerHTML = (d.guests || []).map(g =>
+        "<li>" + g.n + (g.p ? ' <small>+' + g.p + "</small>" : "") + "</li>").join("");
+      $("guests-empty").style.display = d.guests && d.guests.length ? "none" : "";
+    } catch {}
+  };
+  loadList();
+})();
+
+/* ═══════════════ Calendar ═══════════════ */
+(() => {
+  const ics = [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//shafrasier//26//EN",
+    "BEGIN:VEVENT",
+    "UID:disco-space-26@shafrasier.com",
+    "DTSTART;TZID=America/New_York:20260926T190000",
+    "DTEND;TZID=America/New_York:20260927T040000",
+    "SUMMARY:DISCO SPACE — Sha's 26th",
+    "LOCATION:Future Space\\, 5-84 Woodward Ave\\, Ridgewood\\, NY 11385",
+    "DESCRIPTION:7 PM — whenever. https://shafrasier.com/26",
+    "END:VEVENT", "END:VCALENDAR",
+  ].join("\r\n");
+  document.getElementById("ics").href =
+    "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+})();
+</script>
+</body>
+</html>
