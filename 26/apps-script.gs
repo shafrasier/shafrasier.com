@@ -16,15 +16,15 @@
  *      (or send it to Claude and it gets wired + deployed for you)
  *
  * SHEET LAYOUT (row 1 headers, created automatically on first RSVP):
- *   When | First | Last | Phone | Answer | Plus ones | Show on list
+ *   When | First | Last | Phone | Going % | Plus ones | Show on list
  *
  * Notes:
  *   - Duplicates aren't blocked (someone re-RSVPing just appends a new row);
  *     if a name shows twice, delete the stale row — the site re-reads live.
- *   - Counts are PEOPLE, not rows: a "going" with +2 counts as 3.
+ *   - Counts are PEOPLE, not rows: a 100% with +2 counts as 3 going.
  */
 
-const HEADERS = ["When", "First", "Last", "Phone", "Answer", "Plus ones", "Show on list"];
+const HEADERS = ["When", "First", "Last", "Phone", "Going %", "Plus ones", "Show on list"];
 
 function sheet_() {
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
@@ -37,12 +37,13 @@ function doPost(e) {
   const first = String(d.first || "").trim().slice(0, 60);
   const last = String(d.last || "").trim().slice(0, 60);
   const phone = String(d.phone || "").trim().slice(0, 30);
-  const answer = ["going", "maybe", "cant"].indexOf(d.answer) >= 0 ? d.answer : "";
+  // The RSVP is a sliding scale: 0 (no) … 100 (definitely going).
+  const pct = Math.max(0, Math.min(100, Math.round(Number(d.pct) || 0)));
   const plus = Math.max(0, Math.min(3, Number(d.plus) || 0));
-  if (!first || !last || !answer) {
+  if (!first || !last) {
     return json_({ ok: false, error: "missing fields" });
   }
-  sheet_().appendRow([new Date(), first, last, phone, answer, plus, d.show ? "yes" : "no"]);
+  sheet_().appendRow([new Date(), first, last, phone, pct, plus, d.show ? "yes" : "no"]);
   return json_({ ok: true });
 }
 
@@ -51,12 +52,15 @@ function doGet() {
   let going = 0, maybe = 0;
   const guests = [];
   for (const r of rows) {
-    const [, first, last, , answer, plus, show] = r;
+    const [, first, last, , pctRaw, plus, show] = r;
+    const pct = Number(pctRaw) || 0;
     const heads = 1 + (Number(plus) || 0);
-    if (answer === "going") going += heads;
-    if (answer === "maybe") maybe += heads;
-    // The list shows people who are coming (or might) AND opted in.
-    if (show === "yes" && (answer === "going" || answer === "maybe")) {
+    // GOING means the slider was dragged all the way — full commitment counts.
+    // Anything in between is a maybe; 0 is a no.
+    if (pct >= 100) going += heads;
+    else if (pct > 0) maybe += heads;
+    // The list shows opted-in people at 50%+ — leaning yes or better.
+    if (show === "yes" && pct >= 50) {
       guests.push({ n: last + ", " + first, p: Number(plus) || 0, sort: (last + " " + first).toLowerCase() });
     }
   }
