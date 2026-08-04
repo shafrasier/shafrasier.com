@@ -1,0 +1,5 @@
+
+# Claude Code harness/plugin state — machine-local, not project content
+.agents/
+.claude/skills/
+skills-lock.json
