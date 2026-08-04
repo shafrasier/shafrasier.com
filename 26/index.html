@@ -53,7 +53,15 @@ body{
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
   padding:0 1.2rem calc(4.4rem + env(safe-area-inset-bottom));
 }
-#ball{position:fixed;top:0;left:50%;transform:translateX(-50%);touch-action:none;cursor:grab;z-index:2;pointer-events:auto}
+#ball{position:fixed;top:0;left:50%;transform:translateX(-50%);transform-origin:50% 0;will-change:transform;touch-action:none;cursor:grab;z-index:2;pointer-events:auto}
+/* the ride: where scroll-driven animations exist, the shrink runs on the
+   compositor — seamless even when the main thread is busy */
+@keyframes ballride{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(.38)}}
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline: scroll()){
+    #ball{animation:ballride cubic-bezier(.33,1,.68,1) both;animation-timeline:scroll(root);animation-range:0 72vh}
+  }
+}
 #ball.grabbing{cursor:grabbing}
 .hero-text{position:relative;z-index:2;text-align:center;user-select:none}
 h1{
@@ -248,7 +256,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
             <div class="fill" id="fill"></div>
             <div class="knob" id="knob"></div>
           </div>
-          <div class="scale-ends"><span>nah</span><span>oh yeah</span></div>
+          <div class="scale-ends"><span>no</span><span>oh yes</span></div>
         </div>
       </div>
 
@@ -333,15 +341,23 @@ const SLOTS = [
   const ctx = cv.getContext("2d");
   const DPR = Math.min(devicePixelRatio || 1, 2);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* the shrink is a compositor animation where supported; JS only mirrors it */
+  const cssRide = !reduced && CSS.supports("animation-timeline: scroll()");
   let W, H, R, cx, cy;
   function size() {
     R = Math.min(innerWidth * 0.27, innerHeight * 0.2, 132);
-    W = Math.ceil(R * 2.4); H = Math.ceil(innerHeight * 0.58);
+    const w = Math.ceil(R * 2.4), h = Math.ceil(R * 1.62 + R + 8);
+    if (w === W && h === H) return;
+    W = w; H = h;
     cv.width = W * DPR; cv.height = H * DPR;
     cv.style.width = W + "px"; cv.style.height = H + "px";
     cx = W / 2; cy = R * 1.62;
   }
-  size(); addEventListener("resize", size);
+  size();
+  /* iOS fires resize continuously as the URL bar collapses mid-scroll —
+     reallocating canvas buffers there is exactly the jank. Settle first. */
+  let rsT;
+  addEventListener("resize", () => { clearTimeout(rsT); rsT = setTimeout(size, 200); });
 
   const TILT = 0.32;                       // the classic engraved-globe lean
   const BASE = 0.00014;                    // rad/ms — one rev ≈ 45s
@@ -367,30 +383,40 @@ const SLOTS = [
   cv.addEventListener("pointerup", release);
   cv.addEventListener("pointercancel", release);
 
-  /* project a point on the unit sphere (lat φ, lon λ) through the tilt */
-  const P = (phi, lam) => {
-    let x = Math.cos(phi) * Math.sin(lam);
-    let y = Math.sin(phi);
-    let z = Math.cos(phi) * Math.cos(lam);
-    const y2 = y * Math.cos(TILT) - z * Math.sin(TILT);
-    const z2 = y * Math.sin(TILT) + z * Math.cos(TILT);
-    return { x, y: y2, z: z2 };
-  };
-
   /* Denser panelling — a mirror ball is a grid of small tiles, not a globe.
-     Interior lines drop to a fainter alpha so the density stays hairline. */
+     All geometry is precomputed; per frame the rotation is two trig calls
+     and the rest is multiply-adds, so the redraw never blows a frame. */
+  const CT = Math.cos(TILT), ST = Math.sin(TILT);
+  const NSEG = 96, SEG = [];
+  for (let i = 0; i <= NSEG; i++) {
+    const a = (i / NSEG) * 2 * Math.PI;
+    SEG.push({ s: Math.sin(a), c: Math.cos(a) });
+  }
   const LATS = [];
-  for (let i = 1; i <= 12; i++) LATS.push(-Math.PI / 2 + (i / 13) * Math.PI);
-  const MERIDIANS = 24;
+  for (let i = 1; i <= 12; i++) {
+    const phi = -Math.PI / 2 + (i / 13) * Math.PI;
+    LATS.push({ c: Math.cos(phi), s: Math.sin(phi) });
+  }
+  const NMER = 24, MERB = [];
+  for (let m = 0; m < NMER; m++) {
+    const a = (m / NMER) * 2 * Math.PI;
+    MERB.push({ s: Math.sin(a), c: Math.cos(a) });
+  }
+  const NPH = 60, PHS = [];
+  for (let i = 0; i <= NPH; i++) {
+    const phi = -Math.PI / 2 + (i / NPH) * Math.PI;
+    PHS.push({ c: Math.cos(phi), s: Math.sin(phi) });
+  }
 
-  /* The ball rides with you: full-size over the hero, easing down to a small
-     emblem once you scroll into the page. While small it stops catching taps
-     so the content beneath stays reachable. */
-  let scaleK = 1, lastPE = "auto";
+  /* The ball rides with you: full-size over the hero, easing to a small
+     emblem as you scroll. The canvas always draws the full-size ball; the
+     shrink itself is a scale() transform (CSS scroll-timeline where
+     supported, a mirrored JS write elsewhere). While small it stops
+     catching taps so the content beneath stays reachable. */
+  let scaleK = 1, lastPE = "auto", lastTf = -1;
   const ease3 = t => 1 - Math.pow(1 - t, 3);
 
   let last = performance.now();
-  let ballC = { x: innerWidth / 2, y: 0, r: 0 };
   function frame(now) {
     const dt = Math.min(48, now - last); last = now;
     if (!dragging) { vel += (BASE - vel) * Math.min(1, dt * 0.0007); rot += vel * dt; }
@@ -399,9 +425,10 @@ const SLOTS = [
     scaleK = 1 - 0.62 * ease3(k);
     const pe = k > 0.35 ? "none" : "auto";
     if (pe !== lastPE) { cv.style.pointerEvents = pe; lastPE = pe; }
-
-    const r = R * scaleK, yc = r * 1.62;
-    ballC = { x: innerWidth / 2, y: yc, r };
+    if (!cssRide && Math.abs(scaleK - lastTf) > 0.003) {
+      cv.style.transform = "translateX(-50%) scale(" + scaleK.toFixed(4) + ")";
+      lastTf = scaleK;
+    }
 
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
@@ -409,34 +436,37 @@ const SLOTS = [
 
     /* cable */
     ctx.strokeStyle = "rgba(255,255,255,.4)";
-    ctx.beginPath(); ctx.moveTo(cx, -2); ctx.lineTo(cx, yc - r); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, -2); ctx.lineTo(cx, cy - R); ctx.stroke();
 
     /* outline */
     ctx.strokeStyle = "rgba(255,255,255,.85)";
-    ctx.beginPath(); ctx.arc(cx, yc, r, 0, 2 * Math.PI); ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke();
 
-    /* the panel grid — fainter when the ball is small so it stays a drawing */
-    const innerA = 0.42 * (0.55 + 0.45 * scaleK);
-    ctx.strokeStyle = "rgba(255,255,255," + innerA.toFixed(3) + ")";
-    for (const phi of LATS) {
+    const sR = Math.sin(rot), cR = Math.cos(rot);
+    ctx.strokeStyle = "rgba(255,255,255,.42)";
+    for (const L of LATS) {
       ctx.beginPath();
       let started = false;
-      for (let i = 0; i <= 96; i++) {
-        const p = P(phi, (i / 96) * 2 * Math.PI + rot);
-        if (p.z < -0.02) { started = false; continue; }
-        const X = cx + p.x * r, Y = yc - p.y * r;
+      for (let i = 0; i <= NSEG; i++) {
+        const sl = SEG[i].s * cR + SEG[i].c * sR;   // sin(lam+rot)
+        const cl = SEG[i].c * cR - SEG[i].s * sR;   // cos(lam+rot)
+        const x = L.c * sl, y0 = L.s, z0 = L.c * cl;
+        const z = y0 * ST + z0 * CT;
+        if (z < -0.02) { started = false; continue; }
+        const X = cx + x * R, Y = cy - (y0 * CT - z0 * ST) * R;
         started ? ctx.lineTo(X, Y) : (ctx.moveTo(X, Y), started = true);
       }
       ctx.stroke();
     }
-    for (let m = 0; m < MERIDIANS; m++) {
-      const lam0 = (m / MERIDIANS) * 2 * Math.PI + rot;
+    for (const M of MERB) {
+      const sm = M.s * cR + M.c * sR, cm = M.c * cR - M.s * sR;
       ctx.beginPath();
       let started = false;
-      for (let i = 0; i <= 60; i++) {
-        const p = P(-Math.PI / 2 + (i / 60) * Math.PI, lam0);
-        if (p.z < -0.02) { started = false; continue; }
-        const X = cx + p.x * r, Y = yc - p.y * r;
+      for (let i = 0; i <= NPH; i++) {
+        const x = PHS[i].c * sm, y0 = PHS[i].s, z0 = PHS[i].c * cm;
+        const z = y0 * ST + z0 * CT;
+        if (z < -0.02) { started = false; continue; }
+        const X = cx + x * R, Y = cy - (y0 * CT - z0 * ST) * R;
         started ? ctx.lineTo(X, Y) : (ctx.moveTo(X, Y), started = true);
       }
       ctx.stroke();
@@ -447,7 +477,7 @@ const SLOTS = [
   requestAnimationFrame(frame);
   window.__ballRot = () => rot;
   /* where the ball is right now, in viewport px — the beams aim here */
-  window.__ballC = () => ({ x: ballC.x, y: ballC.y, r: ballC.r });
+  window.__ballC = () => ({ x: innerWidth / 2, y: cy * scaleK, r: R * scaleK });
 })();
 
 /* ═══ The room — sparse glints; can flare when someone commits to 100% ═══ */
@@ -458,11 +488,14 @@ const SLOTS = [
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let W, H;
   function size() {
+    if (innerWidth === W && innerHeight === H) return;
     W = innerWidth; H = innerHeight;
     cv.width = W * DPR; cv.height = H * DPR;
     cv.style.width = W + "px"; cv.style.height = H + "px";
   }
-  size(); addEventListener("resize", size);
+  size();
+  let rsT;
+  addEventListener("resize", () => { clearTimeout(rsT); rsT = setTimeout(size, 200); });
   const dots = Array.from({ length: 56 }, () => ({
     a: Math.random() * Math.PI * 2, y: Math.random(),
     s: 1 + Math.random() * 1.4, ph: Math.random() * Math.PI * 2,
