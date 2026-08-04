@@ -5,7 +5,7 @@ BEGIN:VEVENT
 UID:disco-space-26@shafrasier.com
 DTSTART;TZID=America/New_York:20260926T190000
 DTEND;TZID=America/New_York:20260927T040000
-SUMMARY:DISCO_SPACE — Sha's 26th
+SUMMARY:DISCO_SPACE
 LOCATION:Future Space\, 5-84 Woodward Ave\, Ridgewood\, NY 11385
 DESCRIPTION:7 PM until whenever. https://shafrasier.com/26
 END:VEVENT

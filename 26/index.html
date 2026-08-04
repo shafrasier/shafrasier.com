@@ -52,16 +52,13 @@ body{
   position:relative;z-index:1;min-height:100svh;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
   padding:0 1.2rem calc(4.4rem + env(safe-area-inset-bottom));
+  /* exactly the height the URL bar gives back when it collapses, so the next
+     section can never peek above the fold */
+  margin-bottom:calc(100lvh - 100svh + 1.5rem);
 }
-#ball{position:fixed;top:0;left:50%;transform:translateX(-50%);transform-origin:50% 0;will-change:transform;touch-action:none;cursor:grab;z-index:2;pointer-events:auto}
-/* the ride: where scroll-driven animations exist, the shrink runs on the
-   compositor — seamless even when the main thread is busy */
-@keyframes ballride{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(.38)}}
-@media (prefers-reduced-motion:no-preference){
-  @supports (animation-timeline: scroll()){
-    #ball{animation:ballride cubic-bezier(.33,1,.68,1) both;animation-timeline:scroll(root);animation-range:0 72vh}
-  }
-}
+/* Page-level, above everything: the shrink is drawn INTO the canvas (always
+   1:1 with device pixels, so it can never go soft), never a CSS scale. */
+#ball{position:fixed;top:0;left:50%;transform:translateX(-50%);transform-origin:50% 0;touch-action:none;cursor:grab;z-index:5;pointer-events:auto}
 #ball.grabbing{cursor:grabbing}
 .hero-text{position:relative;z-index:2;text-align:center;user-select:none}
 h1{
@@ -121,7 +118,7 @@ input[type=text]:focus,input[type=tel]:focus{border-color:var(--white)}
 input::placeholder{color:rgba(255,255,255,.22)}
 /* keep autofill from painting the fields yellow/white */
 input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus{
-  -webkit-box-shadow:0 0 0 1000px var(--black) inset;
+  -webkit-box-shadow:0 0 0 60px var(--black) inset;
   -webkit-text-fill-color:var(--white);
   transition:background-color 99999s ease-in-out 0s;
 }
@@ -161,7 +158,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 /* the list line + submit */
 .opt{display:flex;align-items:center;gap:.7rem;margin:1.5rem 0 0;cursor:pointer;user-select:none}
 .opt input{position:absolute;opacity:0;pointer-events:none}
-.opt .box{width:14px;height:14px;border:1px solid var(--dim);flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;transition:all .25s var(--ease)}
+.opt .box{width:14px;height:14px;border-radius:50%;border:1px solid var(--dim);flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;transition:all .25s var(--ease)}
 .opt input:checked + .box{background:var(--white);border-color:var(--white)}
 .opt input:focus-visible + .box{outline:1px solid var(--white);outline-offset:2px}
 .opt .otext{font-size:.92rem;font-style:italic;color:var(--dim)}
@@ -190,7 +187,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .where .pfp{width:52px;height:52px;border-radius:50%;flex:0 0 auto;border:1px solid var(--hair)}
 .where .venue{font-size:1.6rem;font-weight:600;letter-spacing:.02em;margin:0}
 .where .addr{font-size:1rem;font-style:italic;color:var(--dim);line-height:1.7;margin:0 0 2rem}
-.links{display:flex;flex-wrap:wrap;justify-content:center;column-gap:2.4rem;row-gap:1.1rem;padding-top:.4rem}
+.links{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;justify-items:center;column-gap:2.4rem;row-gap:1.1rem;padding-top:.4rem}
 .links .ulink{font-family:var(--label);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase}
 
 .foot{
@@ -206,8 +203,9 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
 <canvas id="room" aria-hidden="true"></canvas>
 
+<canvas id="ball" aria-label="A slowly turning disco ball, drawn in line. Drag to spin it."></canvas>
+
 <header class="hero">
-  <canvas id="ball" aria-label="A slowly turning disco ball, drawn in line. Drag to spin it."></canvas>
   <div class="hero-text">
     <h1>DISCO_SPACE</h1>
     <p class="hero-sub">Saturday, September 26th, 2026<br>7 PM until whenever</p>
@@ -248,7 +246,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
       </div>
 
       <div class="field">
-        <span class="lab" id="scale-lab">Are you coming?</span>
+        <span class="lab" id="scale-lab">Coming?</span>
         <div class="scale">
           <p class="scale-read"><span id="pct">0</span><small>%</small></p>
           <div class="track" id="track" role="slider" tabindex="0"
@@ -282,7 +280,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
       <div class="ringwrap" id="ringwrap">
         <canvas id="ring" role="button" tabindex="0" aria-label="Send your RSVP: drag the dot all the way around the circle"></canvas>
-        <p class="ringhint" id="ringhint">drag the dot all the way around to send it</p>
+        <p class="ringhint" id="ringhint">drag the dot all the way around to confirm</p>
       </div>
       <p class="form-note" id="note"></p>
     </form>
@@ -323,7 +321,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 /* ═══ CONFIG ═══
    RSVP backend = Google Apps Script bound to Sha's sheet (see apps-script.gs
    beside this file: code + 2-minute deploy steps). Paste the /exec URL here. */
-const APPS_SCRIPT_URL = "";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4o-56-h4aAQf780cXw9iTNsXeE_9JLBRk-V_EmNmiZybUsn1jHoHQ/exec";
 
 /* Lineup — fill names as they confirm; null renders as a quiet redaction. */
 const SLOTS = [
@@ -339,10 +337,8 @@ const SLOTS = [
 (() => {
   const cv = document.getElementById("ball");
   const ctx = cv.getContext("2d");
-  const DPR = Math.min(devicePixelRatio || 1, 2);
+  const DPR = Math.min(devicePixelRatio || 1, 3);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  /* the shrink is a compositor animation where supported; JS only mirrors it */
-  const cssRide = !reduced && CSS.supports("animation-timeline: scroll()");
   let W, H, R, cx, cy;
   function size() {
     R = Math.min(innerWidth * 0.27, innerHeight * 0.2, 132);
@@ -408,15 +404,29 @@ const SLOTS = [
     PHS.push({ c: Math.cos(phi), s: Math.sin(phi) });
   }
 
-  /* The ball rides with you: full-size over the hero, easing to a small
-     emblem as you scroll. The canvas always draws the full-size ball; the
-     shrink itself is a scale() transform (CSS scroll-timeline where
-     supported, a mirrored JS write elsewhere). While small it stops
-     catching taps so the content beneath stays reachable. */
-  let scaleK = 1, lastPE = "auto", lastTf = -1;
+  /* The ball rides with you: full-size over the hero, easing to a small emblem
+     as you scroll. The shrink is drawn — the canvas re-projects at the smaller
+     radius each frame — so every line is always 1:1 with device pixels and can
+     never go soft the way a CSS-scaled layer does. Cost stays flat because the
+     small ball drops segments it no longer has the pixels to show. */
+  let scaleK = 1, lastPE = "auto";
   const ease3 = t => 1 - Math.pow(1 - t, 3);
 
-  let last = performance.now();
+  /* Pinch-zoom: a fixed element is glued to the LAYOUT viewport, so it drifts
+     around the screen as you pan while zoomed. Following the visual viewport
+     keeps the ball where it belongs — top-center of what you actually see. */
+  const vv = window.visualViewport;
+  function pin() {
+    const z = vv.scale || 1;
+    if (z === 1) { cv.style.transform = "translateX(-50%)"; return; }
+    const dx = vv.offsetLeft + vv.width / 2 - innerWidth / 2;
+    cv.style.transform =
+      "translate(calc(-50% + " + dx.toFixed(1) + "px)," + vv.offsetTop.toFixed(1) + "px)" +
+      " scale(" + (1 / z).toFixed(4) + ")";
+  }
+  if (vv) { vv.addEventListener("resize", pin); vv.addEventListener("scroll", pin); }
+
+  let last = performance.now(), cyNow = 0, rNow = 0;
   function frame(now) {
     const dt = Math.min(48, now - last); last = now;
     if (!dragging) { vel += (BASE - vel) * Math.min(1, dt * 0.0007); rot += vel * dt; }
@@ -425,10 +435,12 @@ const SLOTS = [
     scaleK = 1 - 0.62 * ease3(k);
     const pe = k > 0.35 ? "none" : "auto";
     if (pe !== lastPE) { cv.style.pointerEvents = pe; lastPE = pe; }
-    if (!cssRide && Math.abs(scaleK - lastTf) > 0.003) {
-      cv.style.transform = "translateX(-50%) scale(" + scaleK.toFixed(4) + ")";
-      lastTf = scaleK;
-    }
+
+    const r = R * scaleK, yc = r * 1.62;
+    rNow = r; cyNow = yc;
+    /* fewer points when the ball is small — strides divide the tables evenly */
+    const ls = r > 104 ? 1 : r > 62 ? 2 : 3;
+    const ms = r > 104 ? 1 : 2;
 
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
@@ -436,24 +448,25 @@ const SLOTS = [
 
     /* cable */
     ctx.strokeStyle = "rgba(255,255,255,.4)";
-    ctx.beginPath(); ctx.moveTo(cx, -2); ctx.lineTo(cx, cy - R); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, -2); ctx.lineTo(cx, yc - r); ctx.stroke();
 
     /* outline */
     ctx.strokeStyle = "rgba(255,255,255,.85)";
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, yc, r, 0, 2 * Math.PI); ctx.stroke();
 
     const sR = Math.sin(rot), cR = Math.cos(rot);
-    ctx.strokeStyle = "rgba(255,255,255,.42)";
+    /* the panel grid — fainter when small so it stays a drawing, not a smudge */
+    ctx.strokeStyle = "rgba(255,255,255," + (0.42 * (0.62 + 0.38 * scaleK)).toFixed(3) + ")";
     for (const L of LATS) {
       ctx.beginPath();
       let started = false;
-      for (let i = 0; i <= NSEG; i++) {
+      for (let i = 0; i <= NSEG; i += ls) {
         const sl = SEG[i].s * cR + SEG[i].c * sR;   // sin(lam+rot)
         const cl = SEG[i].c * cR - SEG[i].s * sR;   // cos(lam+rot)
         const x = L.c * sl, y0 = L.s, z0 = L.c * cl;
         const z = y0 * ST + z0 * CT;
         if (z < -0.02) { started = false; continue; }
-        const X = cx + x * R, Y = cy - (y0 * CT - z0 * ST) * R;
+        const X = cx + x * r, Y = yc - (y0 * CT - z0 * ST) * r;
         started ? ctx.lineTo(X, Y) : (ctx.moveTo(X, Y), started = true);
       }
       ctx.stroke();
@@ -462,11 +475,11 @@ const SLOTS = [
       const sm = M.s * cR + M.c * sR, cm = M.c * cR - M.s * sR;
       ctx.beginPath();
       let started = false;
-      for (let i = 0; i <= NPH; i++) {
+      for (let i = 0; i <= NPH; i += ms) {
         const x = PHS[i].c * sm, y0 = PHS[i].s, z0 = PHS[i].c * cm;
         const z = y0 * ST + z0 * CT;
         if (z < -0.02) { started = false; continue; }
-        const X = cx + x * R, Y = cy - (y0 * CT - z0 * ST) * R;
+        const X = cx + x * r, Y = yc - (y0 * CT - z0 * ST) * r;
         started ? ctx.lineTo(X, Y) : (ctx.moveTo(X, Y), started = true);
       }
       ctx.stroke();
@@ -477,7 +490,7 @@ const SLOTS = [
   requestAnimationFrame(frame);
   window.__ballRot = () => rot;
   /* where the ball is right now, in viewport px — the beams aim here */
-  window.__ballC = () => ({ x: innerWidth / 2, y: cy * scaleK, r: R * scaleK });
+  window.__ballC = () => ({ x: innerWidth / 2, y: cyNow, r: rNow });
 })();
 
 /* ═══ The room — sparse glints; can flare when someone commits to 100% ═══ */

@@ -27,6 +27,9 @@
  *   - Counts are PEOPLE, not rows: a 100% with +2 counts as 3 going.
  */
 
+// Every RSVP emails you here. Set to "" to turn notifications off.
+const NOTIFY = "frasier.sha@gmail.com";
+
 const HEADERS = ["When", "First", "Last", "Phone", "Going %", "Plus ones", "Show on list"];
 
 function sheet_() {
@@ -47,6 +50,7 @@ function doPost(e) {
     return json_({ ok: false, error: "missing fields" });
   }
   sheet_().appendRow([new Date(), first, last, phone, pct, plus, d.show ? "yes" : "no"]);
+  notify_(first, last, phone, pct, plus);
   return json_({ ok: true });
 }
 
@@ -72,6 +76,31 @@ function doGet() {
   guests.sort((a, b) => (b.pct - a.pct) || (a.sort < b.sort ? -1 : a.sort > b.sort ? 1 : 0));
   guests.forEach((g) => delete g.sort);
   return json_({ going: going, maybe: maybe, guests: guests });
+}
+
+// The row is already saved by the time this runs — a mail failure (quota,
+// scope, anything) must never cost an RSVP, so it stays inside a try.
+function notify_(first, last, phone, pct, plus) {
+  if (!NOTIFY) return;
+  try {
+    const heads = 1 + plus;
+    const verdict = pct >= 100 ? "IN" : pct === 0 ? "out" : pct + "% — leaning " + (pct >= 50 ? "yes" : "no");
+    MailApp.sendEmail({
+      to: NOTIFY,
+      subject: "DISCO_SPACE — " + first + " " + last + " (" + verdict + ")",
+      body: [
+        first + " " + last + " just RSVP'd.",
+        "",
+        "Going:    " + pct + "%",
+        "Bringing: " + (plus ? plus + " (" + heads + " heads)" : "just them"),
+        "Phone:    " + phone,
+        "",
+        "The sheet: " + SpreadsheetApp.getActiveSpreadsheet().getUrl(),
+      ].join("\n"),
+    });
+  } catch (err) {
+    console.error("notify failed: " + err);
+  }
 }
 
 function json_(obj) {
