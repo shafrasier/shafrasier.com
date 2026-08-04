@@ -53,7 +53,7 @@ body{
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
   padding:0 1.2rem calc(4.4rem + env(safe-area-inset-bottom));
 }
-#ball{position:absolute;top:0;left:50%;transform:translateX(-50%);touch-action:none;cursor:grab;z-index:1}
+#ball{position:fixed;top:0;left:50%;transform:translateX(-50%);touch-action:none;cursor:grab;z-index:2;pointer-events:auto}
 #ball.grabbing{cursor:grabbing}
 .hero-text{position:relative;z-index:2;text-align:center;user-select:none}
 h1{
@@ -63,9 +63,8 @@ h1{
   margin:0;white-space:nowrap;
 }
 .hero-sub{
-  font-family:var(--label);font-size:clamp(.68rem,2.9vw,.8rem);letter-spacing:.22em;
-  color:var(--dim);margin:1.5rem 0 0;text-indent:.22em;text-transform:uppercase;
-  line-height:2.1;
+  font-family:var(--serif);font-size:clamp(.98rem,3.9vw,1.2rem);letter-spacing:.03em;
+  color:var(--dim);margin:1.4rem 0 0;line-height:1.9;
 }
 
 /* ── sections ── */
@@ -73,8 +72,9 @@ main{position:relative;z-index:1}
 section{max-width:560px;margin:0 auto;padding:4.8rem 1.4rem 0}
 section:last-of-type{padding-bottom:5.5rem}
 .kicker{
-  font-family:var(--label);font-size:.64rem;letter-spacing:.3em;color:var(--faint);
-  text-transform:uppercase;margin:0 0 1.3rem;display:flex;align-items:baseline;gap:.9rem;
+  font-family:var(--serif);font-weight:600;font-size:clamp(1.3rem,5vw,1.6rem);
+  letter-spacing:.01em;color:rgba(255,255,255,.92);
+  margin:0 0 1.5rem;display:flex;align-items:baseline;gap:1rem;
 }
 .kicker::after{content:"";flex:1;height:1px;background:var(--hair);transform:translateY(-.18em)}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
@@ -155,16 +155,13 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .opt input{position:absolute;opacity:0;pointer-events:none}
 .opt .box{width:14px;height:14px;border:1px solid var(--dim);flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;transition:all .25s var(--ease)}
 .opt input:checked + .box{background:var(--white);border-color:var(--white)}
-.opt input:checked + .box::after{content:"";width:4px;height:8px;border:solid var(--black);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
 .opt input:focus-visible + .box{outline:1px solid var(--white);outline-offset:2px}
 .opt .otext{font-size:.92rem;font-style:italic;color:var(--dim)}
-.submit{
-  margin-top:2rem;background:none;border:none;padding:.2rem 0;cursor:pointer;
-  font-family:var(--serif);font-size:1.3rem;font-weight:500;font-style:italic;
-  color:var(--white);letter-spacing:.01em;
-}
-.submit:disabled{color:var(--faint);cursor:default}
-.submit:disabled::after{display:none}
+.ringwrap{margin-top:2rem;display:flex;align-items:center;gap:1.3rem}
+#ring{width:128px;height:128px;touch-action:none;cursor:grab;flex:0 0 auto;outline:none}
+#ring:focus-visible{border-radius:50%;box-shadow:0 0 0 1px var(--white)}
+.ringhint{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--faint);max-width:11rem;line-height:1.5;transition:color .3s var(--ease)}
+.ringwrap.armed .ringhint{color:var(--dim)}
 .form-note{font-family:var(--label);font-size:.66rem;color:var(--faint);margin-top:1rem;min-height:1em;letter-spacing:.08em}
 .done{display:none;padding:1.2rem 0 .4rem}
 .done.show{display:block}
@@ -193,7 +190,8 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   padding:0 1.4rem calc(3rem + env(safe-area-inset-bottom));
   font-family:var(--label);font-size:.6rem;letter-spacing:.32em;color:var(--faint);
 }
-.foot a{color:inherit;text-decoration:none}
+.foot a{color:inherit;text-decoration:none;transition:color .3s var(--ease)}
+.foot a:hover,.foot a:focus-visible{color:var(--white)}
 </style>
 </head>
 <body>
@@ -204,13 +202,13 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   <canvas id="ball" aria-label="A slowly turning disco ball, drawn in line. Drag to spin it."></canvas>
   <div class="hero-text">
     <h1>DISCO_SPACE</h1>
-    <p class="hero-sub">Saturday 9.26.2026<br>7 PM until whenever</p>
+    <p class="hero-sub">Saturday, September 26th, 2026<br>7 PM until whenever</p>
   </div>
 </header>
 
 <main>
   <section class="inv reveal" id="night">
-    <p class="kicker">01 · The night</p>
+    <p class="kicker">1. The night</p>
     <p>Twenty-six years in, one thing has held: everything I love about music routes back to the dance floor. Disco is where the roads meet — the strings and the drum machines, Philadelphia and Munich, the loft and the garage.</p>
     <p>So for my birthday we walk the whole territory in one night: the seventies records that started it, and the Euro, Italo, hi-NRG and electro forms they became when the lights changed.</p>
     <p class="aside">There will be alcohol. Bring more if you like — or whatever else moves you. And bring your people: the floor is big, and the invitation travels.</p>
@@ -218,20 +216,21 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   </section>
 
   <section class="reveal" id="lineup">
-    <p class="kicker">02 · Lineup</p>
+    <p class="kicker">2. Lineup</p>
     <div id="slots"></div>
   </section>
 
   <section class="reveal" id="rsvp">
-    <p class="kicker">03 · RSVP</p>
+    <p class="kicker">3. RSVP</p>
     <form id="form" novalidate>
+      <div id="fields">
       <div class="row2">
         <div class="field">
-          <label class="lab" for="fn">First name</label>
+          <label class="lab" for="fn">First</label>
           <input type="text" id="fn" autocomplete="given-name" required>
         </div>
         <div class="field">
-          <label class="lab" for="ln">Last name</label>
+          <label class="lab" for="ln">Last</label>
           <input type="text" id="ln" autocomplete="family-name" required>
         </div>
       </div>
@@ -249,7 +248,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
             <div class="fill" id="fill"></div>
             <div class="knob" id="knob"></div>
           </div>
-          <div class="scale-ends"><span>no</span><span>definitely going</span></div>
+          <div class="scale-ends"><span>nah</span><span>oh yeah</span></div>
         </div>
       </div>
 
@@ -271,8 +270,12 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
         <span class="box" aria-hidden="true"></span>
         <span class="otext">show my name on the guest list</span>
       </label>
+      </div><!-- /fields -->
 
-      <button type="submit" class="submit ulink" id="send" disabled>Send it →</button>
+      <div class="ringwrap" id="ringwrap">
+        <canvas id="ring" role="button" tabindex="0" aria-label="Send your RSVP: drag the dot all the way around the circle"></canvas>
+        <p class="ringhint" id="ringhint">drag the dot all the way around to send it</p>
+      </div>
       <p class="form-note" id="note"></p>
     </form>
     <div class="done" id="done">
@@ -282,7 +285,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   </section>
 
   <section class="reveal" id="list">
-    <p class="kicker">04 · Guest list</p>
+    <p class="kicker">4. Guest list</p>
     <div class="counts">
       <div><span class="n" id="c-going">—</span><span class="l">going</span></div>
       <div><span class="n" id="c-maybe">—</span><span class="l">maybe</span></div>
@@ -291,7 +294,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   </section>
 
   <section class="where reveal" id="where">
-    <p class="kicker">05 · Where</p>
+    <p class="kicker">5. Where</p>
     <div class="venue-row">
       <img class="pfp" src="future-space.jpg" alt="Future Space">
       <p class="venue">FUTURE SPACE</p>
@@ -306,7 +309,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   </section>
 </main>
 
-<footer class="foot"><a href="https://shafrasier.com">SHAFRASIER.COM</a></footer>
+<footer class="foot"><a class="ulink" href="https://shafrasier.com">SHAFRASIER.COM</a></footer>
 
 <script>
 /* ═══ CONFIG ═══
@@ -374,10 +377,31 @@ const SLOTS = [
     return { x, y: y2, z: z2 };
   };
 
+  /* Denser panelling — a mirror ball is a grid of small tiles, not a globe.
+     Interior lines drop to a fainter alpha so the density stays hairline. */
+  const LATS = [];
+  for (let i = 1; i <= 12; i++) LATS.push(-Math.PI / 2 + (i / 13) * Math.PI);
+  const MERIDIANS = 24;
+
+  /* The ball rides with you: full-size over the hero, easing down to a small
+     emblem once you scroll into the page. While small it stops catching taps
+     so the content beneath stays reachable. */
+  let scaleK = 1, lastPE = "auto";
+  const ease3 = t => 1 - Math.pow(1 - t, 3);
+
   let last = performance.now();
+  let ballC = { x: innerWidth / 2, y: 0, r: 0 };
   function frame(now) {
     const dt = Math.min(48, now - last); last = now;
     if (!dragging) { vel += (BASE - vel) * Math.min(1, dt * 0.0007); rot += vel * dt; }
+
+    const k = reduced ? 0 : Math.min(1, scrollY / (innerHeight * 0.72));
+    scaleK = 1 - 0.62 * ease3(k);
+    const pe = k > 0.35 ? "none" : "auto";
+    if (pe !== lastPE) { cv.style.pointerEvents = pe; lastPE = pe; }
+
+    const r = R * scaleK, yc = r * 1.62;
+    ballC = { x: innerWidth / 2, y: yc, r };
 
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
@@ -385,38 +409,34 @@ const SLOTS = [
 
     /* cable */
     ctx.strokeStyle = "rgba(255,255,255,.4)";
-    ctx.beginPath(); ctx.moveTo(cx, -2); ctx.lineTo(cx, cy - R); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, -2); ctx.lineTo(cx, yc - r); ctx.stroke();
 
     /* outline */
     ctx.strokeStyle = "rgba(255,255,255,.85)";
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, yc, r, 0, 2 * Math.PI); ctx.stroke();
 
-    /* latitudes — fixed rings, drawn where they face us */
-    ctx.strokeStyle = "rgba(255,255,255,.5)";
-    for (const phi of [-1.05, -0.7, -0.35, 0, 0.35, 0.7, 1.05]) {
+    /* the panel grid — fainter when the ball is small so it stays a drawing */
+    const innerA = 0.42 * (0.55 + 0.45 * scaleK);
+    ctx.strokeStyle = "rgba(255,255,255," + innerA.toFixed(3) + ")";
+    for (const phi of LATS) {
       ctx.beginPath();
       let started = false;
-      for (let i = 0; i <= 72; i++) {
-        const lam = (i / 72) * 2 * Math.PI;
-        const p = P(phi, lam + rot);
+      for (let i = 0; i <= 96; i++) {
+        const p = P(phi, (i / 96) * 2 * Math.PI + rot);
         if (p.z < -0.02) { started = false; continue; }
-        const X = cx + p.x * R, Y = cy - p.y * R;
+        const X = cx + p.x * r, Y = yc - p.y * r;
         started ? ctx.lineTo(X, Y) : (ctx.moveTo(X, Y), started = true);
       }
       ctx.stroke();
     }
-
-    /* meridians — these carry the rotation */
-    ctx.strokeStyle = "rgba(255,255,255,.5)";
-    for (let m = 0; m < 12; m++) {
-      const lam0 = (m / 12) * 2 * Math.PI + rot;
+    for (let m = 0; m < MERIDIANS; m++) {
+      const lam0 = (m / MERIDIANS) * 2 * Math.PI + rot;
       ctx.beginPath();
       let started = false;
       for (let i = 0; i <= 60; i++) {
-        const phi = -Math.PI / 2 + (i / 60) * Math.PI;
-        const p = P(phi, lam0);
+        const p = P(-Math.PI / 2 + (i / 60) * Math.PI, lam0);
         if (p.z < -0.02) { started = false; continue; }
-        const X = cx + p.x * R, Y = cy - p.y * R;
+        const X = cx + p.x * r, Y = yc - p.y * r;
         started ? ctx.lineTo(X, Y) : (ctx.moveTo(X, Y), started = true);
       }
       ctx.stroke();
@@ -426,6 +446,8 @@ const SLOTS = [
   }
   requestAnimationFrame(frame);
   window.__ballRot = () => rot;
+  /* where the ball is right now, in viewport px — the beams aim here */
+  window.__ballC = () => ({ x: ballC.x, y: ballC.y, r: ballC.r });
 })();
 
 /* ═══ The room — sparse glints; can flare when someone commits to 100% ═══ */
@@ -441,19 +463,58 @@ const SLOTS = [
     cv.style.width = W + "px"; cv.style.height = H + "px";
   }
   size(); addEventListener("resize", size);
-  const dots = Array.from({ length: 34 }, () => ({
+  const dots = Array.from({ length: 56 }, () => ({
     a: Math.random() * Math.PI * 2, y: Math.random(),
     s: 1 + Math.random() * 1.4, ph: Math.random() * Math.PI * 2,
   }));
-  let flareT = -1e9;
+  let flareT = -1e9, beamT = -1e9;
   window.__flare = () => { flareT = performance.now(); };
+  window.__beam = () => { beamT = performance.now(); };
+  /* the full moment: beams find the ball, the room answers */
+  window.__discoMoment = () => { window.__beam(); window.__flare(); };
+  /* and, rarely, the room does it on its own */
+  let nextBeam = performance.now() + 16000 + Math.random() * 18000;
+
+  function beam(fromX, c, env) {
+    /* one spotlight: a soft-edged cone from above the frame to the ball */
+    const g = ctx.createLinearGradient(fromX, -60, c.x, c.y);
+    g.addColorStop(0, "rgba(255,255,255," + (0.16 * env).toFixed(3) + ")");
+    g.addColorStop(1, "rgba(255,255,255," + (0.02 * env).toFixed(3) + ")");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(fromX, -60);
+    ctx.lineTo(c.x - c.r * 0.92, c.y - c.r * 0.18);
+    ctx.lineTo(c.x + c.r * 0.92, c.y + c.r * 0.18);
+    ctx.closePath();
+    ctx.fill();
+  }
+
   function frame(now) {
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
     const rot = window.__ballRot ? window.__ballRot() : now * 0.0001;
-    /* the flare: a 1.4s envelope that lifts every glint, then lets go */
-    const k = Math.max(0, 1 - (now - flareT) / 1400);
-    const lift = k * k * 3.2;
+
+    if (!reduced && now > nextBeam) {
+      window.__beam();
+      nextBeam = now + 16000 + Math.random() * 18000;
+    }
+
+    /* envelopes: the flare snaps and decays; the beams swell and fade */
+    const fk = Math.max(0, 1 - (now - flareT) / 1400);
+    const bt = (now - beamT) / 2600;
+    const bk = bt >= 0 && bt <= 1 ? Math.sin(Math.PI * bt) : 0;
+    const lift = fk * fk * 3.2 + bk * 1.6;
+
+    if (bk > 0 && window.__ballC) {
+      const c = window.__ballC();
+      if (c.r > 4) {
+        ctx.globalCompositeOperation = "lighter";
+        beam(-W * 0.12, c, bk);
+        beam(W * 1.12, c, bk);
+        ctx.globalCompositeOperation = "source-over";
+      }
+    }
+
     for (const d of dots) {
       const a = d.a + rot * 0.5;
       const x = (Math.sin(a) * 0.5 + 0.5) * W;
@@ -461,7 +522,7 @@ const SLOTS = [
       const breathe = 0.5 + 0.5 * Math.sin(now * 0.0005 + d.ph);
       const o = Math.min(0.85, (0.03 + depth * 0.13) * (0.4 + 0.6 * breathe) * (1 + lift));
       ctx.fillStyle = "rgba(255,255,255," + o.toFixed(3) + ")";
-      const s = d.s * (0.7 + depth * 0.6) * (1 + k * 0.6);
+      const s = d.s * (0.7 + depth * 0.6) * (1 + fk * 0.6 + bk * 0.35);
       ctx.fillRect(x, d.y * H, s, s);
     }
     if (!reduced) requestAnimationFrame(frame);
@@ -486,7 +547,7 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
 /* ═══ RSVP ═══ */
 (() => {
   const $ = id => document.getElementById(id);
-  const form = $("form"), send = $("send"), note = $("note");
+  const form = $("form"), note = $("note");
   let plus = 0, pct = 0, touched = false;
 
   /* the scale: drag the dot from no to definitely going; the readout counts
@@ -526,7 +587,7 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
     knob.style.left = shown + "%";
     track.setAttribute("aria-valuenow", shown);
     pct = target;
-    if (target === 100 && shown === 100 && !fired) { fired = true; window.__flare && window.__flare(); }
+    if (target === 100 && shown === 100 && !fired) { fired = true; window.__discoMoment && window.__discoMoment(); }
     if (target < 100) fired = false;
     requestAnimationFrame(tick);
   })();
@@ -534,7 +595,11 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
   const ready = () =>
     $("fn").value.trim() && $("ln").value.trim() &&
     $("ph").value.replace(/\D/g, "").length >= 7 && touched;
-  const sync = () => { send.disabled = !ready(); };
+  const HOLD = "finish the details above first";
+  const sync = () => {
+    $("ringwrap").classList.toggle("armed", !!ready());
+    if (ready() && note.textContent === HOLD) note.textContent = "";
+  };
   ["fn", "ln", "ph"].forEach(id => $(id).addEventListener("input", sync));
 
   document.querySelectorAll(".pk").forEach(b => b.addEventListener("click", () => {
@@ -547,11 +612,69 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
     p > 0   ? ["The door stays open.", "Slide it to 100 whenever you're sure"] :
               ["You'll be missed.", "The ball keeps a light on for you"];
 
-  form.addEventListener("submit", async e => {
+  /* ═══ the ring: drag the dot all the way around to send ═══ */
+  const ring = $("ring"), TAU = Math.PI * 2, TILT = 0.32;
+  const rctx = ring.getContext("2d");
+  const rDPR = Math.min(2, devicePixelRatio || 1), RS = 128, RAD = 52, CC = RS / 2;
+  ring.width = RS * rDPR; ring.height = RS * rDPR;
+  ring.style.width = ring.style.height = RS + "px";
+  const rReduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rP = (phi, lam) => {
+    const x = Math.cos(phi) * Math.sin(lam), y = Math.sin(phi), z = Math.cos(phi) * Math.cos(lam);
+    return { x, y: y * Math.cos(TILT) - z * Math.sin(TILT), z: y * Math.sin(TILT) + z * Math.cos(TILT) };
+  };
+
+  let prog = 0, dragging = false, lastA = 0, state = "idle", morphT = 0, autoRun = false;
+  const dotXY = () => {
+    const a = -Math.PI / 2 + prog * TAU;
+    return { x: CC + Math.cos(a) * RAD, y: CC + Math.sin(a) * RAD };
+  };
+  const angOf = e => {
+    const r = ring.getBoundingClientRect();
+    return Math.atan2(e.clientY - r.top - CC, e.clientX - r.left - CC);
+  };
+
+  ring.addEventListener("pointerdown", e => {
+    if (state !== "idle") return;
+    if (!ready()) { note.textContent = HOLD; return; }
+    const r = ring.getBoundingClientRect(), d = dotXY();
+    /* the grab has to start on the dot itself — it's a thing you take around */
+    if (Math.hypot(e.clientX - r.left - d.x, e.clientY - r.top - d.y) > 26) return;
+    dragging = true; lastA = angOf(e); autoRun = false;
+    try { ring.setPointerCapture(e.pointerId); } catch {}
+  });
+  ring.addEventListener("pointermove", e => {
+    if (!dragging || state !== "idle") return;
+    const a = angOf(e);
+    let d = (a - lastA) / TAU;
+    if (d > 0.5) d -= 1; else if (d < -0.5) d += 1;
+    lastA = a;
+    prog = Math.max(0, prog + d);
+    if (prog >= 1) { prog = 1; dragging = false; complete(); }
+  });
+  const drop = () => { dragging = false; };
+  ring.addEventListener("pointerup", drop);
+  ring.addEventListener("pointercancel", drop);
+  ring.addEventListener("keydown", e => {
+    if (e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
-    if (!ready()) return;
-    if (!APPS_SCRIPT_URL) { note.textContent = "RSVPs open in a moment — text Sha."; return; }
-    send.disabled = true; note.textContent = "…";
+    if (state !== "idle") return;
+    if (!ready()) { note.textContent = HOLD; return; }
+    autoRun = true;
+  });
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    if (state !== "idle" || !ready()) { if (!ready()) note.textContent = HOLD; return; }
+    autoRun = true;
+  });
+
+  async function complete() {
+    state = "sending";
+    if (!APPS_SCRIPT_URL) {
+      note.textContent = "RSVPs open in a moment — text Sha.";
+      state = "idle"; return;
+    }
+    note.textContent = "…";
     try {
       const res = await fetch(APPS_SCRIPT_URL, {
         method: "POST",
@@ -562,16 +685,96 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
         }),
       });
       if (!res.ok) throw new Error(res.status);
-      form.style.display = "none"; note.textContent = "";
+      /* it went through: the fields fold away, the circle becomes the ball,
+         and the big one upstairs gets its moment too */
+      $("fields").style.display = "none";
+      $("ringhint").style.display = "none";
+      note.textContent = "";
+      state = "morph"; morphT = performance.now();
+      window.__discoMoment && window.__discoMoment();
       const [big, small] = LINES(pct);
       $("done-big").textContent = big; $("done-small").textContent = small;
       $("done").classList.add("show");
       loadList();
     } catch {
-      send.disabled = false;
       note.textContent = "Something slipped — try once more?";
+      state = "idle";
     }
-  });
+  }
+
+  function drawRing(now) {
+    rctx.setTransform(rDPR, 0, 0, rDPR, 0, 0);
+    rctx.clearRect(0, 0, RS, RS);
+    const m = state === "morph" ? Math.min(1, (now - morphT) / (rReduced ? 1 : 900)) : 0;
+
+    if (m < 1) {
+      const fade = 1 - m;
+      rctx.lineWidth = 1;
+      rctx.strokeStyle = "rgba(255,255,255," + (0.25 * fade).toFixed(3) + ")";
+      rctx.beginPath(); rctx.arc(CC, CC, RAD, 0, TAU); rctx.stroke();
+      if (state === "idle" || state === "sending") {
+        if (prog > 0.002) {
+          rctx.lineWidth = 2;
+          rctx.strokeStyle = "rgba(255,255,255," + (0.9 * fade).toFixed(3) + ")";
+          rctx.beginPath(); rctx.arc(CC, CC, RAD, -Math.PI / 2, -Math.PI / 2 + prog * TAU); rctx.stroke();
+        }
+        const d = dotXY(), armed = !!ready();
+        rctx.fillStyle = "rgba(255,255,255," + ((armed ? 0.95 : 0.35) * fade).toFixed(3) + ")";
+        rctx.beginPath(); rctx.arc(d.x, d.y, 5, 0, TAU); rctx.fill();
+      }
+    }
+
+    if (m > 0) {
+      /* the wireframe ball, drawn in as the circle lets go */
+      const rot = window.__ballRot ? window.__ballRot() : now * 0.00014;
+      const rr = RAD, a = m;
+      rctx.lineWidth = 1;
+      rctx.strokeStyle = "rgba(255,255,255," + (0.85 * a).toFixed(3) + ")";
+      rctx.beginPath(); rctx.arc(CC, CC, rr, 0, TAU); rctx.stroke();
+      rctx.strokeStyle = "rgba(255,255,255," + (0.4 * a).toFixed(3) + ")";
+      for (let li = 1; li <= 8; li++) {
+        const phi = -Math.PI / 2 + (li / 9) * Math.PI;
+        rctx.beginPath();
+        let started = false;
+        for (let i = 0; i <= 64; i++) {
+          const q = rP(phi, (i / 64) * TAU + rot);
+          if (q.z < -0.02) { started = false; continue; }
+          const X = CC + q.x * rr, Y = CC - q.y * rr;
+          started ? rctx.lineTo(X, Y) : (rctx.moveTo(X, Y), started = true);
+        }
+        rctx.stroke();
+      }
+      for (let mi = 0; mi < 16; mi++) {
+        const lam0 = (mi / 16) * TAU + rot;
+        rctx.beginPath();
+        let started = false;
+        for (let i = 0; i <= 48; i++) {
+          const q = rP(-Math.PI / 2 + (i / 48) * Math.PI, lam0);
+          if (q.z < -0.02) { started = false; continue; }
+          const X = CC + q.x * rr, Y = CC - q.y * rr;
+          started ? rctx.lineTo(X, Y) : (rctx.moveTo(X, Y), started = true);
+        }
+        rctx.stroke();
+      }
+    }
+  }
+
+  let rLast = performance.now();
+  (function rTick(now) {
+    now = now || performance.now();
+    const dt = Math.min(48, now - rLast); rLast = now;
+    if (state === "idle") {
+      if (autoRun) {
+        prog = Math.min(1, prog + dt * (rReduced ? 1 : 0.0022));
+        if (prog >= 1) { autoRun = false; complete(); }
+      } else if (!dragging && prog > 0) {
+        /* let go early and the dot slides back home */
+        prog = Math.max(0, prog - dt * 0.0016);
+      }
+    }
+    drawRing(now);
+    requestAnimationFrame(rTick);
+  })();
 
   window.loadList = async () => {
     if (!APPS_SCRIPT_URL) return;
@@ -580,7 +783,8 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
       $("c-going").textContent = d.going;
       $("c-maybe").textContent = d.maybe;
       $("guests").innerHTML = (d.guests || []).map(g =>
-        "<li>" + g.n + (g.p ? ' <small>+' + g.p + "</small>" : "") + "</li>").join("");
+        "<li>" + g.n + (g.p ? ' <small>+' + g.p + "</small>" : "") +
+        (g.pct != null && g.pct < 100 ? ' <small>' + g.pct + "%</small>" : "") + "</li>").join("");
     } catch {}
   };
   loadList();
