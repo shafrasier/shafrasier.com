@@ -30,6 +30,18 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["http-server", "-p", "8098", "-c-1"],
       "port": 8098
+    },
+    {
+      "name": "ce-static",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["http-server", "/Users/sha/WEBSITE/continuingeducation/public", "-p", "8099", "-c-1"],
+      "port": 8099
+    },
+    {
+      "name": "ce-dist",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["http-server", "/Users/sha/WEBSITE/continuingeducation/dist", "-p", "8100", "-c-1"],
+      "port": 8100
     }
   ]
 }
