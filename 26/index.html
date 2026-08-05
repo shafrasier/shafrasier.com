@@ -16,6 +16,12 @@
      voice, Space Mono for the labels. The hero face is under study (see type.html);
      swapping it is one --display line. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Space+Mono:wght@400;700&display=swap">
+<script>
+/* The ritual is decided here, before the first paint — deciding it in the body
+   script means the hero paints visible for a frame and then fades out. */
+try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)
+  document.documentElement.className+=" typefx";}catch(e){}
+</script>
 <style>
 :root{
   --black:#000000;
@@ -47,6 +53,30 @@ body{
   transition:transform .35s var(--ease)}
 .ulink:hover::after,.ulink:focus-visible::after{transform:scaleX(1)}
 
+/* ── the masthead: ball + wordmark, one fixed rig ──
+   Everything that moves on scroll moves by transform only, driven by a scroll
+   timeline, so the whole choreography runs on the compositor. No JS touches
+   these during a scroll — that is what makes it smooth on a phone. */
+#mast{position:fixed;top:0;left:0;right:0;height:0;z-index:5;pointer-events:none;
+  transform-origin:50% 0}
+#ballwrap{position:absolute;top:0;left:50%;transform:translateX(-50%);transform-origin:50% 0}
+#ball{display:block;touch-action:none;cursor:grab;pointer-events:auto;transform-origin:50% 0}
+#ball.grabbing{cursor:grabbing}
+#mast.past #ball{pointer-events:none}
+
+#mark{
+  position:absolute;top:0;left:50%;margin:0;
+  transform:translate(-50%,0);transform-origin:50% 0;
+  font-family:var(--display);font-size:clamp(2rem,8.6vw,4.6rem);
+  font-weight:600;letter-spacing:.01em;line-height:1.05;white-space:nowrap;
+}
+#mark .w{display:inline-block}
+#us{display:inline-block;transform-origin:50% 50%}
+
+/* the boundary: the page never reaches the ball — it is covered before it gets there */
+#band{position:fixed;top:0;left:0;right:0;height:var(--bandh,0px);z-index:3;pointer-events:none;
+  background:linear-gradient(180deg,#000 0,#000 calc(100% - 46px),rgba(0,0,0,0) 100%)}
+
 /* ── hero ── */
 .hero{
   position:relative;z-index:1;min-height:100svh;
@@ -56,28 +86,32 @@ body{
      section can never peek above the fold */
   margin-bottom:calc(100lvh - 100svh + 1.5rem);
 }
-/* Page-level, above everything: the shrink is drawn INTO the canvas (always
-   1:1 with device pixels, so it can never go soft), never a CSS scale. */
-#ball{position:fixed;top:0;left:50%;transform:translateX(-50%);transform-origin:50% 0;touch-action:none;cursor:grab;z-index:5;pointer-events:auto}
-#ball.grabbing{cursor:grabbing}
+@media (min-width:900px){.hero{padding-bottom:13vh}}
 .hero-text{position:relative;z-index:2;text-align:center;user-select:none}
-h1{
-  font-family:var(--display);
-  font-size:clamp(2rem,8.6vw,4.6rem);
-  font-weight:600;letter-spacing:.01em;line-height:1.05;
-  margin:0;white-space:nowrap;
-}
+/* the wordmark is out of flow; this holds its place */
+.markspace{height:var(--markh,0px)}
 .hero-sub{
   font-family:var(--serif);font-size:clamp(.98rem,3.9vw,1.2rem);letter-spacing:.03em;
   color:var(--dim);margin:1.4rem 0 0;line-height:1.9;
 }
+
+/* The inscription — the Clearing's recipe: the full text is laid out invisibly
+   from frame one (zero reflow, ever), then each character lands as ink. The
+   date sits in place from the start and develops; nothing slides. */
+#mark .ch{white-space:pre}
+.typefx #mark{visibility:hidden}
+.typefx #mark.on{visibility:visible}
+.typefx #mark .ch{opacity:0}
+.typefx #mark .ch.lit{opacity:1;transition:opacity .18s ease-out}
+.typefx .hero-sub{opacity:0;transition:opacity 1.5s var(--ease)}
+.typefx.developed .hero-sub{opacity:1}
 
 /* ── sections ── */
 main{position:relative;z-index:1}
 section{max-width:560px;margin:0 auto;padding:4.8rem 1.4rem 0}
 section:last-of-type{padding-bottom:5.5rem}
 .kicker{
-  font-family:var(--serif);font-weight:600;font-size:clamp(1.3rem,5vw,1.6rem);
+  font-family:var(--serif);font-weight:600;font-size:clamp(1.45rem,5.2vw,1.85rem);
   letter-spacing:.01em;color:rgba(255,255,255,.92);
   margin:0 0 1.5rem;
 }
@@ -86,8 +120,8 @@ section:last-of-type{padding-bottom:5.5rem}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
 /* the invitation */
-.inv p{font-size:1.04rem;margin:0 0 1.1rem;color:rgba(255,255,255,.88)}
-.inv .aside{font-size:.92rem;font-style:italic;color:var(--dim)}
+.inv p{font-size:clamp(1.08rem,2.5vw,1.26rem);margin:0 0 1.15rem;color:rgba(255,255,255,.88)}
+.inv .aside{font-size:clamp(1rem,2.3vw,1.14rem);font-style:italic;color:var(--dim)}
 .dress{
   font-family:var(--serif);font-style:italic;font-weight:500;
   font-size:clamp(1.5rem,6vw,2.1rem);line-height:1.3;letter-spacing:.005em;
@@ -210,11 +244,17 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 <canvas id="room" aria-hidden="true"></canvas>
 <div class="flash" id="flash" aria-hidden="true"></div>
 
-<canvas id="ball" aria-label="A slowly turning disco ball, drawn in line. Drag to spin it."></canvas>
+<div id="mast">
+  <div id="ballwrap">
+    <canvas id="ball" aria-label="A slowly turning disco ball, drawn in line. Drag to spin it."></canvas>
+  </div>
+  <h1 id="mark"><span class="w" id="w1">DISCO</span><span id="us">_</span><span class="w" id="w2">SPACE</span></h1>
+</div>
+<div id="band" aria-hidden="true"></div>
 
 <header class="hero">
   <div class="hero-text">
-    <h1>DISCO_SPACE</h1>
+    <div class="markspace" id="markspace" aria-hidden="true"></div>
     <p class="hero-sub">Saturday, September 26th, 2026.<br>7pm til whenever.</p>
   </div>
 </header>
@@ -308,7 +348,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   </section>
 
   <section class="where reveal" id="where">
-    <p class="kicker">5. Where</p>
+    <p class="kicker">5. Location</p>
     <div class="venue-row">
       <img class="pfp" src="future-space.jpg" alt="Future Space">
       <p class="venue">FUTURE SPACE</p>
@@ -338,6 +378,51 @@ const SLOTS = [
   { t: "2—3", who: "???" },
 ];
 
+/* ═══ The inscription — the Clearing's recipe, verbatim in spirit ═══ */
+(() => {
+  const root = document.documentElement, h1 = document.getElementById("mark");
+  /* the head script already decided; without it everything is simply visible */
+  if (!h1 || !root.classList.contains("typefx")) return;
+
+  /* Lay every letter out invisibly from frame one — zero reflow, ever. The
+     three parts stay their own boxes: the scroll choreography moves them. */
+  h1.setAttribute("aria-label", "DISCO_SPACE");
+  const spans = [];
+  for (const part of [h1.querySelector("#w1"), h1.querySelector("#us"), h1.querySelector("#w2")]) {
+    if (!part) continue;
+    const frag = document.createDocumentFragment();
+    for (const c of part.textContent) {
+      const span = document.createElement("span");
+      span.className = "ch"; span.textContent = c;
+      span.setAttribute("aria-hidden", "true");
+      frag.appendChild(span); spans.push(span);
+    }
+    part.textContent = ""; part.appendChild(frag);
+  }
+
+  const PER = 98;                    // per character — a hand's pace
+  function inscribe() {
+    h1.classList.add("on");
+    let i = 0, shy = 2.1;            // the first characters arrive hesitant
+    (function tick() {
+      spans[i].classList.add("lit");
+      if (++i >= spans.length) {
+        setTimeout(() => root.classList.add("developed"), 420);
+        return;
+      }
+      let d = PER + (Math.random() * 30 - 15);
+      if (spans[i - 1].textContent === "_") d += 280;
+      if (shy > 1) { d *= shy; shy = Math.max(1, shy - 0.5); }
+      setTimeout(tick, d);
+    })();
+  }
+  let started = false;
+  const begin = () => { if (!started) { started = true; inscribe(); } };
+  document.addEventListener("ball:landed", () => setTimeout(begin, 280), { once: true });
+  /* if the ball never reports in, the invitation still gets read */
+  setTimeout(begin, 5000);
+})();
+
 /* ═══ The ball — a line drawing, not an object ═══
    A tilted wireframe globe in 1px hairlines: outline, latitudes, and meridians
    whose phase drifts at house tempo (one revolution ≈ 45s). Drag to spin;
@@ -349,7 +434,7 @@ const SLOTS = [
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let W, H, R, cx, cy;
   function size() {
-    R = Math.min(innerWidth * 0.27, innerHeight * 0.2, 132);
+    R = Math.min(innerWidth * 0.27, innerHeight * 0.26, 210);
     const w = Math.ceil(R * 2.4), h = Math.ceil(R * 1.62 + R + 8);
     if (w === W && h === H) return;
     W = w; H = h;
@@ -365,7 +450,12 @@ const SLOTS = [
 
   const TILT = 0.32;                       // the classic engraved-globe lean
   const BASE = 0.00014;                    // rad/ms — one rev ≈ 45s
-  let rot = 0, vel = BASE;
+  /* The arrival: the ball comes down its own string, the room answers once,
+     and only then does it begin to turn. All of it is drawn — a CSS transform
+     would collide with the pinch-zoom pin and the scroll shrink. */
+  const DROP = reduced ? 0 : 1500;
+  let dropT0 = 0, landed = reduced;
+  let rot = 0, vel = reduced ? BASE : 0;
   let dragging = false, lastX = 0, lastT = 0, flick = 0;
 
   cv.addEventListener("pointerdown", e => {
@@ -412,39 +502,35 @@ const SLOTS = [
     PHS.push({ c: Math.cos(phi), s: Math.sin(phi) });
   }
 
-  /* The ball rides with you: full-size over the hero, easing to a small emblem
-     as you scroll. The shrink is drawn — the canvas re-projects at the smaller
-     radius each frame — so every line is always 1:1 with device pixels and can
-     never go soft the way a CSS-scaled layer does. Cost stays flat because the
-     small ball drops segments it no longer has the pixels to show. */
-  let scaleK = 1, lastPE = "auto";
-  const ease3 = t => 1 - Math.pow(1 - t, 3);
-
-  /* Pinch-zoom: a fixed element is glued to the LAYOUT viewport, so it drifts
-     around the screen as you pan while zoomed. Following the visual viewport
-     keeps the ball where it belongs — top-center of what you actually see. */
-  const vv = window.visualViewport;
-  function pin() {
-    const z = vv.scale || 1;
-    if (z === 1) { cv.style.transform = "translateX(-50%)"; return; }
-    const dx = vv.offsetLeft + vv.width / 2 - innerWidth / 2;
-    cv.style.transform =
-      "translate(calc(-50% + " + dx.toFixed(1) + "px)," + vv.offsetTop.toFixed(1) + "px)" +
-      " scale(" + (1 / z).toFixed(4) + ")";
-  }
-  if (vv) { vv.addEventListener("resize", pin); vv.addEventListener("scroll", pin); }
+  /* The radius the ball is DRAWN at. While the page is moving this stays the
+     full radius and the wrapper scales it down on the compositor — which only
+     ever downsamples, so it cannot go soft. When scrolling settles, the ball is
+     redrawn at its true on-screen radius and the wrapper's scale is undone on
+     the canvas, so the resting ball is always native resolution. */
+  let drawR = R;
+  window.__ballDraw = k => { drawR = R * k; };
 
   let last = performance.now(), cyNow = 0, rNow = 0;
   function frame(now) {
     const dt = Math.min(48, now - last); last = now;
-    if (!dragging) { vel += (BASE - vel) * Math.min(1, dt * 0.0007); rot += vel * dt; }
 
-    const k = reduced ? 0 : Math.min(1, scrollY / (innerHeight * 0.72));
-    scaleK = 1 - 0.62 * ease3(k);
-    const pe = k > 0.35 ? "none" : "auto";
-    if (pe !== lastPE) { cv.style.pointerEvents = pe; lastPE = pe; }
+    if (!dropT0) dropT0 = now;
+    const dp = DROP ? Math.min(1, (now - dropT0) / DROP) : 1;
+    const fall = 1 - Math.pow(1 - dp, 3);          // ease-out: gravity, then settle
+    if (!landed && dp >= 1) {
+      landed = true;
+      window.__flare && window.__flare();          // the room answers, once
+      document.dispatchEvent(new CustomEvent("ball:landed"));
+    }
+    /* the spin eases up from a standstill only after it has landed */
+    if (!dragging) {
+      vel += ((landed ? BASE : 0) - vel) * Math.min(1, dt * 0.0007);
+      rot += vel * dt;
+    }
 
-    const r = R * scaleK, yc = r * 1.62;
+    const r = drawR, rest = r * 1.62;
+    /* starts wholly above the frame and descends to its rest position */
+    const yc = rest - (1 - fall) * (rest + r * 1.4);
     rNow = r; cyNow = yc;
     /* fewer points when the ball is small — strides divide the tables evenly */
     const ls = r > 104 ? 1 : r > 62 ? 2 : 3;
@@ -464,7 +550,7 @@ const SLOTS = [
 
     const sR = Math.sin(rot), cR = Math.cos(rot);
     /* the panel grid — fainter when small so it stays a drawing, not a smudge */
-    ctx.strokeStyle = "rgba(255,255,255," + (0.42 * (0.62 + 0.38 * scaleK)).toFixed(3) + ")";
+    ctx.strokeStyle = "rgba(255,255,255," + (0.42 * (0.62 + 0.38 * (drawR / R))).toFixed(3) + ")";
     for (const L of LATS) {
       ctx.beginPath();
       let started = false;
@@ -493,12 +579,152 @@ const SLOTS = [
       ctx.stroke();
     }
 
-    if (!reduced) requestAnimationFrame(frame);
+    if (!reduced && !window.__frozen) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  /* draw exactly one frame on demand — used when the page settles, and to
+     resume after a scroll has frozen the loop */
+  window.__ballTick = () => { last = performance.now(); frame(performance.now()); };
   window.__ballRot = () => rot;
   /* where the ball is right now, in viewport px — the beams aim here */
-  window.__ballC = () => ({ x: innerWidth / 2, y: cyNow, r: rNow });
+  /* where the ball actually sits on screen, wrapper scale included */
+  window.__ballC = () => {
+    const k = window.__mastK ? window.__mastK() : 1, f = R ? R * k / drawR : 1;
+    return { x: innerWidth / 2, y: cyNow * f, r: rNow * f };
+  };
+})();
+
+/* ═══ The masthead choreography ═══
+   As you scroll, the ball shrinks to an emblem and the wordmark rises to meet
+   it — the two words opening around its lower corners, the underscore
+   stretching into a bar beneath it. Every one of those is a transform driven by
+   a scroll timeline, so a scroll costs the main thread nothing at all. Both
+   canvases stop drawing while the page moves and are redrawn, at their true
+   size, once it settles. That combination is what makes this smooth on a phone
+   and still native-resolution at rest. */
+(() => {
+  const $ = id => document.getElementById(id);
+  const mast = $("mast"), wrap = $("ballwrap"), mark = $("mark"),
+        w1 = $("w1"), w2 = $("w2"), us = $("us"),
+        space = $("markspace"), cv = $("ball"), root = document.documentElement;
+  if (!mast) return;
+
+  const KMIN = 0.38;      // the ball's resting fraction once you have scrolled
+  const SMIN = 0.42;      // the wordmark's
+  const NATIVE = !!(window.CSS && CSS.supports && CSS.supports("animation-timeline: scroll()"));
+  const sheet = document.createElement("style");
+  document.head.appendChild(sheet);
+
+  let M = null, RANGE = 1, curK = 1;
+  window.__mastK = () => curK;
+
+  function measure() {
+    const R = Math.min(innerWidth * 0.27, innerHeight * 0.26, 210);
+    const r1 = R * KMIN, ballBottom = r1 * 2.62;
+
+    const markH = mark.offsetHeight || 0;
+    root.style.setProperty("--markh", markH + "px");   // the hero holds its place
+
+    const usW = us.offsetWidth || 1;
+    /* the words open until they frame the ball's lower corners, and the
+       underscore stretches to bridge them — measured in the wordmark's own
+       units, since the whole thing is scaled down at the same time */
+    const gap = (2 * r1 * 1.06) / SMIN;
+    const dx = Math.max(0, (gap - usW) / 2);
+    const kx = gap / usW;
+
+    RANGE = Math.max(80, innerHeight * 0.72);
+    /* solid all the way past the wordmark, then 46px of fade below it */
+    root.style.setProperty("--bandh", Math.round(ballBottom + markH * SMIN + 20 + 46) + "px");
+
+    return {
+      y0: space.getBoundingClientRect().top + scrollY,   // where it rests in the hero
+      y1: ballBottom - markH * SMIN * 0.72,              // …and where it lands
+      dx, kx,
+    };
+  }
+
+  function write() {
+    sheet.textContent = [
+      "@keyframes mastBall{from{transform:translateX(-50%) scale(1)}" +
+        "to{transform:translateX(-50%) scale(" + KMIN + ")}}",
+      "@keyframes mastMark{from{transform:translate(-50%," + M.y0.toFixed(1) + "px) scale(1)}" +
+        "to{transform:translate(-50%," + M.y1.toFixed(1) + "px) scale(" + SMIN + ")}}",
+      "@keyframes mastW1{from{transform:translateX(0)}to{transform:translateX(" + (-M.dx).toFixed(1) + "px)}}",
+      "@keyframes mastW2{from{transform:translateX(0)}to{transform:translateX(" + M.dx.toFixed(1) + "px)}}",
+      "@keyframes mastUS{from{transform:scaleX(1)}to{transform:scaleX(" + M.kx.toFixed(3) + ")}}",
+      "#ballwrap,#mark,#w1,#w2,#us{animation-duration:auto;animation-timing-function:linear;" +
+        "animation-fill-mode:both;animation-timeline:scroll(root);animation-range:0 " +
+        Math.round(RANGE) + "px}",
+      "#ballwrap{animation-name:mastBall}",
+      "#mark{animation-name:mastMark}",
+      "#w1{animation-name:mastW1}",
+      "#w2{animation-name:mastW2}",
+      "#us{animation-name:mastUS}",
+    ].join("\n");
+  }
+
+  /* the same choreography by hand, for engines without scroll timelines */
+  function applyP(p) {
+    wrap.style.transform = "translateX(-50%) scale(" + (1 - (1 - KMIN) * p).toFixed(4) + ")";
+    mark.style.transform = "translate(-50%," + (M.y0 + (M.y1 - M.y0) * p).toFixed(1) + "px)" +
+      " scale(" + (1 - (1 - SMIN) * p).toFixed(3) + ")";
+    w1.style.transform = "translateX(" + (-M.dx * p).toFixed(1) + "px)";
+    w2.style.transform = "translateX(" + (M.dx * p).toFixed(1) + "px)";
+    us.style.transform = "scaleX(" + (1 + (M.kx - 1) * p).toFixed(3) + ")";
+  }
+
+  let idleT = 0, moving = false, raf = 0;
+  function onScroll() {
+    const p = Math.min(1, scrollY / RANGE);
+    curK = 1 - (1 - KMIN) * p;
+    mast.classList.toggle("past", p > 0.35);
+    if (!NATIVE && !raf) raf = requestAnimationFrame(() => { raf = 0; applyP(Math.min(1, scrollY / RANGE)); });
+
+    if (!moving) {
+      moving = true;
+      window.__frozen = true;                 // both canvases stand still
+      cv.style.transform = "";                // …drawn full size, scaled by the wrapper
+      window.__ballDraw && window.__ballDraw(1);
+      window.__ballTick && window.__ballTick();
+    }
+    clearTimeout(idleT);
+    idleT = setTimeout(settle, 170);
+  }
+
+  function settle() {
+    moving = false;
+    window.__frozen = false;
+    /* redraw at the size it actually occupies and undo the wrapper's scale:
+       the ball at rest is always drawn, never sampled */
+    window.__ballDraw && window.__ballDraw(curK);
+    cv.style.transform = "scale(" + (1 / curK).toFixed(4) + ")";
+    window.__ballTick && window.__ballTick();
+    window.__roomWake && window.__roomWake();
+  }
+
+  /* pinch-zoom: fixed elements are glued to the layout viewport and drift as you
+     pan, so the whole rig follows the visual viewport instead */
+  const vv = window.visualViewport;
+  function pin() {
+    const z = vv.scale || 1;
+    if (z === 1) { mast.style.transform = ""; return; }
+    mast.style.transform =
+      "translate(" + (vv.offsetLeft + vv.width / 2 - innerWidth / 2).toFixed(1) + "px," +
+      vv.offsetTop.toFixed(1) + "px) scale(" + (1 / z).toFixed(4) + ")";
+  }
+  if (vv) { vv.addEventListener("resize", pin); vv.addEventListener("scroll", pin); }
+
+  function relayout() {
+    M = measure();
+    if (NATIVE) write(); else applyP(Math.min(1, scrollY / RANGE));
+  }
+  relayout();
+  /* the webfont changes every one of those measurements */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+  addEventListener("scroll", onScroll, { passive: true });
+  let rsT; addEventListener("resize", () => { clearTimeout(rsT); rsT = setTimeout(relayout, 200); });
+  if (scrollY > 0) onScroll();
 })();
 
 /* ═══ The room — sparse glints; can flare when someone commits to 100% ═══ */
@@ -579,9 +805,10 @@ const SLOTS = [
       const s = d.s * (0.7 + depth * 0.6) * (1 + fk * 0.6 + bk * 0.35);
       ctx.fillRect(x, d.y * H, s, s);
     }
-    if (!reduced) requestAnimationFrame(frame);
+    if (!reduced && !window.__frozen) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  window.__roomWake = () => requestAnimationFrame(frame);
 })();
 
 /* ═══ Reveals ═══ */
