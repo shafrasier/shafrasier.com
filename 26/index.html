@@ -883,8 +883,8 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
 
   const LINES = p =>
     p >= 100 ? ["We look forward to seeing you.", "7 PM · 5-84 Woodward Ave"] :
-    p > 0   ? ["Got it.", "RSVP again anytime to change your answer"] :
-              ["You'll be missed.", "RSVP again anytime to change your answer"];
+    p > 0   ? ["You said " + p + "%.", "RSVP again anytime to change it"] :
+              ["You said no.", "RSVP again anytime to change it"];
 
   /* ═══ the ring: drag the dot all the way around to confirm ═══ */
   const ring = $("ring"), TAU = Math.PI * 2;
