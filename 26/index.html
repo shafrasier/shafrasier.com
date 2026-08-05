@@ -169,7 +169,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .ringhint{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--faint);max-width:11rem;line-height:1.5;transition:color .3s var(--ease)}
 .ringwrap.armed .ringhint{color:var(--dim)}
 /* the landing: everything lets go together, nothing snaps */
-#fields{overflow:hidden;transition:max-height .85s var(--ease),opacity .5s var(--ease),transform .6s var(--ease)}
+#fields{transition:max-height .85s var(--ease),opacity .5s var(--ease),transform .6s var(--ease)}
 #fields.gone{opacity:0;transform:translateY(-10px)}
 .ringwrap{transition:opacity .5s var(--ease),max-height .75s var(--ease),margin-top .75s var(--ease)}
 .ringwrap.gone{opacity:0;max-height:0;margin-top:0;overflow:hidden;pointer-events:none}
@@ -779,6 +779,7 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
 
     /* max-height from a measured value so the fold is smooth at any content height */
     const f = $("fields");
+    f.style.overflow = "hidden";   // only now — it would clip the slider knob
     f.style.maxHeight = f.scrollHeight + "px";
     requestAnimationFrame(() => {
       f.classList.add("gone");

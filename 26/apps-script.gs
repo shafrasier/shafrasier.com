@@ -30,6 +30,9 @@
 // Every RSVP emails you here. Set to "" to turn notifications off.
 const NOTIFY = "frasier.sha@gmail.com";
 
+// Bump when this file changes; visible in doGet so a deploy can be verified.
+const BUILD = 2;
+
 const HEADERS = ["When", "First", "Last", "Phone", "Going %", "Plus ones", "Show on list"];
 
 function sheet_() {
@@ -75,7 +78,7 @@ function doGet() {
   }
   guests.sort((a, b) => (b.pct - a.pct) || (a.sort < b.sort ? -1 : a.sort > b.sort ? 1 : 0));
   guests.forEach((g) => delete g.sort);
-  return json_({ going: going, maybe: maybe, guests: guests });
+  return json_({ build: BUILD, going: going, maybe: maybe, guests: guests });
 }
 
 // The row is already saved by the time this runs — a mail failure (quota,
