@@ -31,7 +31,7 @@
 const NOTIFY = "frasier.sha@gmail.com";
 
 // Bump when this file changes; visible in doGet so a deploy can be verified.
-const BUILD = 3;
+const BUILD = 4;
 
 const HEADERS = ["When", "First", "Last", "Phone", "Going %", "Plus ones", "Show on list"];
 
@@ -52,9 +52,27 @@ function doPost(e) {
   if (!first || !last) {
     return json_({ ok: false, error: "missing fields" });
   }
-  sheet_().appendRow([new Date(), first, last, phone, pct, plus, d.show ? "yes" : "no"]);
-  notify_(first, last, phone, pct, plus);
-  return json_({ ok: true });
+
+  // One row per person: an RSVP from the same phone number (or, failing that,
+  // the same name) REPLACES the earlier answer instead of stacking a duplicate.
+  // Someone who said 60% and comes back later to say 100% just moves up.
+  const sh = sheet_();
+  const rows = sh.getDataRange().getValues();
+  const keyPhone = phone.replace(/\D/g, "");
+  const keyName = (first + " " + last).toLowerCase().replace(/\s+/g, " ");
+  let found = 0;
+  for (let i = 1; i < rows.length; i++) {
+    const rPhone = String(rows[i][3] || "").replace(/\D/g, "");
+    const rName = (String(rows[i][1] || "") + " " + String(rows[i][2] || ""))
+      .toLowerCase().replace(/\s+/g, " ").trim();
+    if ((keyPhone && rPhone === keyPhone) || rName === keyName) { found = i + 1; break; }
+  }
+  const row = [new Date(), first, last, phone, pct, plus, d.show ? "yes" : "no"];
+  if (found) sh.getRange(found, 1, 1, HEADERS.length).setValues([row]);
+  else sh.appendRow(row);
+
+  notify_(first, last, phone, pct, plus, !!found);
+  return json_({ ok: true, updated: !!found });
 }
 
 function doGet() {
@@ -83,7 +101,7 @@ function doGet() {
 
 // The row is already saved by the time this runs — a mail failure (quota,
 // scope, anything) must never cost an RSVP, so it stays inside a try.
-function notify_(first, last, phone, pct, plus) {
+function notify_(first, last, phone, pct, plus, updated) {
   if (!NOTIFY) return;
   try {
     const heads = 1 + plus;
@@ -91,9 +109,9 @@ function notify_(first, last, phone, pct, plus) {
     MailApp.sendEmail({
       to: NOTIFY,
       // ASCII only: an em dash here arrives mangled in Mail on iOS
-      subject: "DISCO_SPACE: " + first + " " + last + " (" + verdict + ")",
+      subject: "DISCO_SPACE: " + first + " " + last + " (" + verdict + ")" + (updated ? " [updated]" : ""),
       body: [
-        first + " " + last + " just RSVP'd.",
+        first + " " + last + (updated ? " changed their RSVP." : " just RSVP'd."),
         "",
         "Going:    " + pct + "%",
         "Bringing: " + (plus ? plus + " (" + heads + " heads)" : "just them"),

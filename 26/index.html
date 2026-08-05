@@ -205,9 +205,9 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 /* The landing: the screen takes a flash, and the whole swap happens inside it.
    Nothing animates its own height — a layout change you cannot see cannot jitter. */
 .flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:9;
-  /* the room fills with light, then lets go quickly */
-  transition:opacity .22s ease-out}
-.flash.up{opacity:1;transition:opacity .62s cubic-bezier(.7,0,.9,.4)}
+  /* a flashbulb: it POPS, then dies away */
+  transition:opacity .5s cubic-bezier(.17,.84,.44,1)}
+.flash.up{opacity:1;transition:none}
 .form-note{font-family:var(--label);font-size:.66rem;color:var(--faint);margin-top:1rem;min-height:1em;letter-spacing:.08em}
 .done{display:none;padding:0 0 .4rem}
 .done.show{display:block}
@@ -503,13 +503,10 @@ const SLOTS = [
     PHS.push({ c: Math.cos(phi), s: Math.sin(phi) });
   }
 
-  /* The radius the ball is DRAWN at. While the page is moving this stays the
-     full radius and the wrapper scales it down on the compositor — which only
-     ever downsamples, so it cannot go soft. When scrolling settles, the ball is
-     redrawn at its true on-screen radius and the wrapper's scale is undone on
-     the canvas, so the resting ball is always native resolution. */
-  let drawR = R;
-  window.__ballDraw = k => { drawR = R * k; };
+  /* The ball is drawn at FULL SIZE, always. The masthead wrapper scales it on
+     the compositor — pure minification, which can neither pixelate nor jump.
+     The canvas itself is never resized, never redrawn at another radius, and
+     never touched during a scroll: that machinery was the jitter. */
 
   let last = performance.now(), cyNow = 0, rNow = 0;
   function frame(now) {
@@ -529,7 +526,7 @@ const SLOTS = [
       rot += vel * dt;
     }
 
-    const r = drawR, rest = r * 1.62;
+    const r = R, rest = r * 1.62;
     /* starts wholly above the frame and descends to its rest position */
     const yc = rest - (1 - fall) * (rest + r * 1.4);
     rNow = r; cyNow = yc;
@@ -539,12 +536,10 @@ const SLOTS = [
 
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    /* The ball is drawn full-size and scaled down by the compositor while the
-       page moves, then redrawn at its true size once it settles. Compensating
-       the stroke for whichever scale is pending keeps the weight — and so the
-       apparent brightness — identical either way. */
+    /* the wrapper is about to scale this frame by k — inflate the stroke so
+       the on-screen weight (and so the brightness) never changes */
     const k = window.__mastK ? window.__mastK() : 1;
-    ctx.lineWidth = Math.max(0.6, drawR / (R * k));
+    ctx.lineWidth = 1 / k;
 
     /* cable */
     ctx.strokeStyle = "rgba(255,255,255,.4)";
@@ -588,31 +583,31 @@ const SLOTS = [
     if (!reduced) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-  /* draw one frame on demand — used when a scroll settles and the ball is
-     re-rendered at its true resting size */
+  /* draw one frame on demand (headless verification when rAF is paused) */
   window.__ballTick = () => { last = performance.now(); frame(performance.now()); };
   window.__ballRot = () => rot;
   /* where the ball is right now, in viewport px — the beams aim here */
   /* where the ball actually sits on screen, wrapper scale included */
   window.__ballC = () => {
-    const k = window.__mastK ? window.__mastK() : 1, f = R ? R * k / drawR : 1;
-    return { x: innerWidth / 2, y: cyNow * f, r: rNow * f };
+    const k = window.__mastK ? window.__mastK() : 1;
+    return { x: innerWidth / 2, y: cyNow * k, r: rNow * k };
   };
 })();
 
 /* ═══ The masthead choreography ═══
    As you scroll, the ball shrinks to an emblem and the wordmark rises to meet
-   it — the two words opening around its lower corners, the underscore
-   stretching into a bar beneath it. Every one of those is a transform driven by
-   a scroll timeline, so a scroll costs the main thread nothing at all. Both
-   canvases stop drawing while the page moves and are redrawn, at their true
-   size, once it settles. That combination is what makes this smooth on a phone
-   and still native-resolution at rest. */
+   it — the words opening around its lower corners, the underscore stretching
+   into a centered bar beneath it. Every movement is a transform on a scroll
+   timeline: the compositor owns it all, and NOTHING here runs during a scroll.
+   The last version re-drew and re-scaled the canvas on scroll events; on iOS
+   those arrive in bursts, so every gap fired the "settled" path mid-flight and
+   the whole masthead visibly jumped. That machinery is gone — the canvas is
+   drawn once per frame at one size, and only transforms ever move. */
 (() => {
   const $ = id => document.getElementById(id);
   const mast = $("mast"), wrap = $("ballwrap"), mark = $("mark"),
         w1 = $("w1"), w2 = $("w2"), us = $("us"),
-        space = $("markspace"), cv = $("ball"), root = document.documentElement;
+        space = $("markspace"), root = document.documentElement;
   if (!mast) return;
 
   const KMIN = 0.38;      // the ball's resting fraction once you have scrolled
@@ -621,8 +616,10 @@ const SLOTS = [
   const sheet = document.createElement("style");
   document.head.appendChild(sheet);
 
-  let M = null, RANGE = 1, curK = 1;
-  window.__mastK = () => curK;
+  let M = null, RANGE = 1;
+  /* the single source of truth for "how far along is the ride" */
+  const prog = () => Math.min(1, Math.max(0, scrollY / RANGE));
+  window.__mastK = () => 1 - (1 - KMIN) * prog();
 
   function measure() {
     const R = Math.min(innerWidth * 0.27, innerHeight * 0.26, 210);
@@ -631,21 +628,22 @@ const SLOTS = [
     const markH = mark.offsetHeight || 0;
     root.style.setProperty("--markh", markH + "px");   // the hero holds its place
 
-    const usW = us.offsetWidth || 1;
-    /* the words open until they frame the ball's lower corners, and the
-       underscore stretches to bridge them — measured in the wordmark's own
-       units, since the whole thing is scaled down at the same time */
-    const gap = (2 * r1 * 1.04) / SMIN;
-    const dx = Math.max(0, (gap - usW) / 2);
-    const kx = gap / usW;
+    /* Word geometry, measured, so the BAR ends up dead-centered under the
+       ball: DISCO and SPACE are not the same width, so the underscore's home
+       is off the mark's center by half their difference. Every target below
+       is an absolute position around the true center. */
+    const w1w = w1.offsetWidth, usw = us.offsetWidth || 1, w2w = w2.offsetWidth;
+    const markW = w1w + usw + w2w, center = markW / 2;
+    const gap = (2 * r1 * 1.04) / SMIN;               // in the mark's own units
+    const usTo = center - (w1w + usw / 2);            // underscore → center
+    const w1To = center - gap / 2 - w1w;              // DISCO's right edge → left corner
+    const w2To = center + gap / 2 - (w1w + usw);      // SPACE's left edge → right corner
+    const kx = gap / usw;
 
-    RANGE = Math.max(80, innerHeight * 0.72);
-    /* the bar rides a clear margin below the ball rather than grazing it */
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
-    root.style.setProperty("--bandh",
-      Math.round(y1 + markH * SMIN + 18 + 46) + "px");
+    root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
-    return { y0: space.getBoundingClientRect().top + scrollY, y1, dx, kx };
+    return { y0: space.getBoundingClientRect().top + scrollY, y1, usTo, w1To, w2To, kx };
   }
 
   function write() {
@@ -654,11 +652,10 @@ const SLOTS = [
         "to{transform:translateX(-50%) scale(" + KMIN + ")}}",
       "@keyframes mastMark{from{transform:translate(-50%," + M.y0.toFixed(1) + "px) scale(1)}" +
         "to{transform:translate(-50%," + M.y1.toFixed(1) + "px) scale(" + SMIN + ")}}",
-      /* the wordmark travels first and only opens once it is nearly home —
-         opening early left the words sprawled across the date */
-      "@keyframes mastW1{0%,52%{transform:translateX(0)}100%{transform:translateX(" + (-M.dx).toFixed(1) + "px)}}",
-      "@keyframes mastW2{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.dx.toFixed(1) + "px)}}",
-      "@keyframes mastUS{0%,52%{transform:scaleX(1)}100%{transform:scaleX(" + M.kx.toFixed(3) + ")}}",
+      /* the words travel first and only open once the mark is nearly home */
+      "@keyframes mastW1{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w1To.toFixed(1) + "px)}}",
+      "@keyframes mastW2{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w2To.toFixed(1) + "px)}}",
+      "@keyframes mastUS{0%,52%{transform:translateX(0) scaleX(1)}100%{transform:translateX(" + M.usTo.toFixed(1) + "px) scaleX(" + M.kx.toFixed(3) + ")}}",
       /* the date clears out before the wordmark can reach it */
       "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
       "#ballwrap,#mark,#w1,#w2,#us,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
@@ -678,42 +675,23 @@ const SLOTS = [
     wrap.style.transform = "translateX(-50%) scale(" + (1 - (1 - KMIN) * p).toFixed(4) + ")";
     mark.style.transform = "translate(-50%," + (M.y0 + (M.y1 - M.y0) * p).toFixed(1) + "px)" +
       " scale(" + (1 - (1 - SMIN) * p).toFixed(3) + ")";
-    const q = Math.max(0, (p - 0.52) / 0.48);      // the words open late
-    w1.style.transform = "translateX(" + (-M.dx * q).toFixed(1) + "px)";
-    w2.style.transform = "translateX(" + (M.dx * q).toFixed(1) + "px)";
-    us.style.transform = "scaleX(" + (1 + (M.kx - 1) * q).toFixed(3) + ")";
+    const q = Math.max(0, (p - 0.52) / 0.48);
+    w1.style.transform = "translateX(" + (M.w1To * q).toFixed(1) + "px)";
+    w2.style.transform = "translateX(" + (M.w2To * q).toFixed(1) + "px)";
+    us.style.transform = "translateX(" + (M.usTo * q).toFixed(1) + "px) scaleX(" + (1 + (M.kx - 1) * q).toFixed(3) + ")";
     document.querySelector(".hero-text").style.opacity = Math.max(0, 1 - p / 0.34).toFixed(3);
   }
 
-  let idleT = 0, moving = false, raf = 0;
-  function onScroll() {
-    const p = Math.min(1, scrollY / RANGE);
-    curK = 1 - (1 - KMIN) * p;
-    mast.classList.toggle("past", p > 0.35);
-    if (!NATIVE && !raf) raf = requestAnimationFrame(() => { raf = 0; applyP(Math.min(1, scrollY / RANGE)); });
+  /* the scroll listener does exactly one cheap thing */
+  let past = false, raf = 0;
+  addEventListener("scroll", () => {
+    const p = prog() > 0.35;
+    if (p !== past) { past = p; mast.classList.toggle("past", p); }
+    if (!NATIVE && !raf) raf = requestAnimationFrame(() => { raf = 0; applyP(prog()); });
+  }, { passive: true });
 
-    if (!moving) {
-      moving = true;
-      /* full-size drawing while the page moves: the compositor scales it down,
-         which only ever supersamples */
-      cv.style.transform = "";
-      window.__ballDraw && window.__ballDraw(1);
-    }
-    clearTimeout(idleT);
-    idleT = setTimeout(settle, 170);
-  }
-
-  function settle() {
-    moving = false;
-    /* redraw at the size it actually occupies and undo the wrapper's scale:
-       the ball at rest is drawn at device resolution, never sampled */
-    window.__ballDraw && window.__ballDraw(curK);
-    cv.style.transform = "scale(" + (1 / curK).toFixed(4) + ")";
-    window.__ballTick && window.__ballTick();
-  }
-
-  /* pinch-zoom: fixed elements are glued to the layout viewport and drift as you
-     pan, so the whole rig follows the visual viewport instead */
+  /* pinch-zoom: fixed elements are glued to the layout viewport and drift as
+     you pan, so the whole rig follows the visual viewport instead */
   const vv = window.visualViewport;
   function pin() {
     const z = vv.scale || 1;
@@ -724,16 +702,23 @@ const SLOTS = [
   }
   if (vv) { vv.addEventListener("resize", pin); vv.addEventListener("scroll", pin); }
 
+  /* Measure once per WIDTH. iOS resizes the viewport height continuously as
+     the URL bar collapses — rewriting the keyframes on those would jump the
+     masthead mid-scroll (it did). Height changes alter nothing that matters:
+     RANGE and the geometry stay as first measured. */
+  let lastW = 0;
   function relayout() {
+    if (innerWidth === lastW && M) return;
+    lastW = innerWidth;
+    RANGE = Math.max(80, innerHeight * 0.72);
     M = measure();
-    if (NATIVE) write(); else applyP(Math.min(1, scrollY / RANGE));
+    if (NATIVE) write(); else applyP(prog());
   }
   relayout();
-  /* the webfont changes every one of those measurements */
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
-  addEventListener("scroll", onScroll, { passive: true });
-  let rsT; addEventListener("resize", () => { clearTimeout(rsT); rsT = setTimeout(relayout, 200); });
-  if (scrollY > 0) onScroll();
+  /* the webfont changes every measurement — re-run once it arrives */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { lastW = 0; relayout(); });
+  addEventListener("resize", () => setTimeout(relayout, 60));
+  if (scrollY > 0) { past = prog() > 0.35; mast.classList.toggle("past", past); if (!NATIVE) applyP(prog()); }
 })();
 
 /* ═══ The room — sparse glints; can flare when someone commits to 100% ═══ */
@@ -898,8 +883,8 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
 
   const LINES = p =>
     p >= 100 ? ["We look forward to seeing you.", "7 PM · 5-84 Woodward Ave"] :
-    p > 0   ? ["The door stays open.", "Slide it to 100 whenever you're sure"] :
-              ["You'll be missed.", "The ball keeps a light on for you"];
+    p > 0   ? ["Got it.", "RSVP again anytime to change your answer"] :
+              ["You'll be missed.", "RSVP again anytime to change your answer"];
 
   /* ═══ the ring: drag the dot all the way around to confirm ═══ */
   const ring = $("ring"), TAU = Math.PI * 2;
@@ -960,14 +945,18 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
       state = "idle"; return;
     }
     const flash = $("flash");
-    /* the light comes up gradually the moment the circle closes */
-    let lit = Promise.resolve();
-    if (!rReduced) {
-      flash.style.display = "";
-      flash.classList.add("up");
-      lit = new Promise(r => setTimeout(r, 620));
-    }
-    const guard = setTimeout(() => flash.classList.remove("up"), 3200);
+    /* the flashbulb: POPS the instant the circle closes, dies away on its own.
+       The page swap happens inside the pop, and the send runs in the
+       background — nobody waits on the network to see the light. */
+    if (!rReduced) { flash.style.display = ""; flash.classList.add("up"); }
+    setTimeout(() => {
+      land();
+      if (!rReduced) {
+        flash.classList.remove("up");
+        setTimeout(() => { flash.style.display = "none"; retint(); }, 540);
+      } else retint();
+    }, 60);
+
     try {
       const res = await fetch(APPS_SCRIPT_URL, {
         method: "POST",
@@ -978,24 +967,15 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
         }),
       });
       if (!res.ok) throw new Error(res.status);
-      await lit;                       // never cut while the light is still rising
-      clearTimeout(guard);
-      land();
-      setTimeout(() => flash.classList.remove("up"), 60);
-      /* the real list arrives quietly afterwards and reconciles */
-      loadList();
+      loadList();               // reconcile quietly with the real sheet
     } catch {
-      clearTimeout(guard);
-      flash.classList.remove("up");
-      note.textContent = "Something slipped — try once more?";
-      state = "idle";
+      unland();                 // rare: bring the form back with the note
     }
   }
 
-  /* Everything changes at once, behind the white: the form is gone, the
-     confirmation is there, and the guest list already carries the name — so
-     nothing pops in afterwards. The view is held on the section rather than
-     jumped, so the light lifts on a page that has not moved under you. */
+  /* Everything swaps at once, inside the pop: form gone, confirmation there,
+     the name already on the list, the view held so nothing shifts under you. */
+  let seated = null;
   function land() {
     state = "sent";
     const sec = document.getElementById("rsvp");
@@ -1014,16 +994,28 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
     scrollBy(0, sec.getBoundingClientRect().top - before);
     root.style.scrollBehavior = prev;
 
-    /* iOS tints the toolbar from what it samples at the top of the page, and a
-       full-screen white overlay leaves it stuck white — re-assert the colour */
-    const tc = document.querySelector('meta[name="theme-color"]');
-    setTimeout(() => {
-      $("flash").classList.remove("up");
-      $("flash").style.display = "none";
-      if (tc) { tc.setAttribute("content", "#010101"); setTimeout(() => tc.setAttribute("content", "#000000"), 50); }
-    }, 700);
-
     window.__discoMoment && window.__discoMoment();
+  }
+
+  function unland() {
+    if (seated) { seated.li.remove(); seated.bump(-1); seated = null; }
+    $("done").classList.remove("show");
+    $("fields").style.display = "";
+    $("ringwrap").style.display = "";
+    note.style.display = "";
+    note.textContent = "Something slipped — try once more?";
+    prog = 0; state = "idle";
+  }
+
+  /* iOS samples the page to tint its toolbars; a white overlay can leave them
+     stuck white. Re-assert the color and nudge the scroll so Safari resamples
+     — the chrome must read black under every circumstance. */
+  function retint() {
+    const tc = document.querySelector('meta[name="theme-color"]');
+    if (tc) { tc.setAttribute("content", "#010101"); setTimeout(() => tc.setAttribute("content", "#000000"), 40); }
+    const y = scrollY;
+    scrollBy(0, y > 4 ? -2 : 2);
+    setTimeout(() => scrollTo(0, y), 30);
   }
 
   /* put the guest on the list immediately; loadList reconciles a moment later */
@@ -1036,8 +1028,10 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
     li.innerHTML = name + (plus ? ' <small>+' + plus + "</small>" : "") +
       (pct < 100 ? ' <small>' + pct + "%</small>" : "");
     pct >= 100 ? ul.prepend(li) : ul.append(li);
-    const bump = (el, n) => { const v = parseInt(el.textContent, 10); el.textContent = isNaN(v) ? n : v + n; };
-    bump($(pct >= 100 ? "c-going" : "c-maybe"), 1 + plus);
+    const el = $(pct >= 100 ? "c-going" : "c-maybe");
+    const bump = n => { const v = parseInt(el.textContent, 10); el.textContent = isNaN(v) ? Math.max(0, n) : Math.max(0, v + n * (1 + plus)); };
+    bump(1);
+    seated = { li, bump };
   }
 
   function drawRing() {
