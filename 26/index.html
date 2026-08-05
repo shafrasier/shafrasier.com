@@ -866,9 +866,12 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
     requestAnimationFrame(tick);
   })();
 
+  /* Name and phone are the requirements. The slider's resting 0 is a valid
+     answer — circling the dot is intent enough, and "no" must be RSVPable
+     without first wiggling the scale. */
   const ready = () =>
     $("fn").value.trim() && $("ln").value.trim() &&
-    $("ph").value.replace(/\D/g, "").length >= 7 && touched;
+    $("ph").value.replace(/\D/g, "").length >= 7;
   const HOLD = "finish the details above first";
   const sync = () => {
     $("ringwrap").classList.toggle("armed", !!ready());
