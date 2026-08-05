@@ -31,7 +31,7 @@
 const NOTIFY = "frasier.sha@gmail.com";
 
 // Bump when this file changes; visible in doGet so a deploy can be verified.
-const BUILD = 2;
+const BUILD = 3;
 
 const HEADERS = ["When", "First", "Last", "Phone", "Going %", "Plus ones", "Show on list"];
 
@@ -90,7 +90,8 @@ function notify_(first, last, phone, pct, plus) {
     const verdict = pct >= 100 ? "IN" : pct === 0 ? "out" : pct + "% — leaning " + (pct >= 50 ? "yes" : "no");
     MailApp.sendEmail({
       to: NOTIFY,
-      subject: "DISCO_SPACE — " + first + " " + last + " (" + verdict + ")",
+      // ASCII only: an em dash here arrives mangled in Mail on iOS
+      subject: "DISCO_SPACE: " + first + " " + last + " (" + verdict + ")",
       body: [
         first + " " + last + " just RSVP'd.",
         "",

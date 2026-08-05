@@ -205,10 +205,11 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 /* The landing: the screen takes a flash, and the whole swap happens inside it.
    Nothing animates its own height — a layout change you cannot see cannot jitter. */
 .flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:9;
-  transition:opacity .55s var(--ease)}
-.flash.up{opacity:1;transition:opacity .09s linear}
+  /* the room fills with light, then lets go quickly */
+  transition:opacity .22s ease-out}
+.flash.up{opacity:1;transition:opacity .62s cubic-bezier(.7,0,.9,.4)}
 .form-note{font-family:var(--label);font-size:.66rem;color:var(--faint);margin-top:1rem;min-height:1em;letter-spacing:.08em}
-.done{display:none;padding:1.2rem 0 .4rem}
+.done{display:none;padding:0 0 .4rem}
 .done.show{display:block}
 .done .big{font-family:var(--serif);font-style:italic;font-size:1.6rem;font-weight:500;margin:0 0 .5rem}
 .done .small{font-family:var(--label);font-size:.68rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}
@@ -538,7 +539,12 @@ const SLOTS = [
 
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    ctx.lineWidth = 1;
+    /* The ball is drawn full-size and scaled down by the compositor while the
+       page moves, then redrawn at its true size once it settles. Compensating
+       the stroke for whichever scale is pending keeps the weight — and so the
+       apparent brightness — identical either way. */
+    const k = window.__mastK ? window.__mastK() : 1;
+    ctx.lineWidth = Math.max(0.6, drawR / (R * k));
 
     /* cable */
     ctx.strokeStyle = "rgba(255,255,255,.4)";
@@ -550,7 +556,7 @@ const SLOTS = [
 
     const sR = Math.sin(rot), cR = Math.cos(rot);
     /* the panel grid — fainter when small so it stays a drawing, not a smudge */
-    ctx.strokeStyle = "rgba(255,255,255," + (0.42 * (0.62 + 0.38 * (drawR / R))).toFixed(3) + ")";
+    ctx.strokeStyle = "rgba(255,255,255," + (0.42 * (0.62 + 0.38 * k)).toFixed(3) + ")";
     for (const L of LATS) {
       ctx.beginPath();
       let started = false;
@@ -579,11 +585,11 @@ const SLOTS = [
       ctx.stroke();
     }
 
-    if (!reduced && !window.__frozen) requestAnimationFrame(frame);
+    if (!reduced) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-  /* draw exactly one frame on demand — used when the page settles, and to
-     resume after a scroll has frozen the loop */
+  /* draw one frame on demand — used when a scroll settles and the ball is
+     re-rendered at its true resting size */
   window.__ballTick = () => { last = performance.now(); frame(performance.now()); };
   window.__ballRot = () => rot;
   /* where the ball is right now, in viewport px — the beams aim here */
@@ -610,7 +616,7 @@ const SLOTS = [
   if (!mast) return;
 
   const KMIN = 0.38;      // the ball's resting fraction once you have scrolled
-  const SMIN = 0.42;      // the wordmark's
+  const SMIN = 0.55;      // the wordmark's
   const NATIVE = !!(window.CSS && CSS.supports && CSS.supports("animation-timeline: scroll()"));
   const sheet = document.createElement("style");
   document.head.appendChild(sheet);
@@ -629,19 +635,17 @@ const SLOTS = [
     /* the words open until they frame the ball's lower corners, and the
        underscore stretches to bridge them — measured in the wordmark's own
        units, since the whole thing is scaled down at the same time */
-    const gap = (2 * r1 * 1.06) / SMIN;
+    const gap = (2 * r1 * 1.04) / SMIN;
     const dx = Math.max(0, (gap - usW) / 2);
     const kx = gap / usW;
 
     RANGE = Math.max(80, innerHeight * 0.72);
-    /* solid all the way past the wordmark, then 46px of fade below it */
-    root.style.setProperty("--bandh", Math.round(ballBottom + markH * SMIN + 20 + 46) + "px");
+    /* the bar rides a clear margin below the ball rather than grazing it */
+    const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
+    root.style.setProperty("--bandh",
+      Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
-    return {
-      y0: space.getBoundingClientRect().top + scrollY,   // where it rests in the hero
-      y1: ballBottom - markH * SMIN * 0.72,              // …and where it lands
-      dx, kx,
-    };
+    return { y0: space.getBoundingClientRect().top + scrollY, y1, dx, kx };
   }
 
   function write() {
@@ -650,12 +654,17 @@ const SLOTS = [
         "to{transform:translateX(-50%) scale(" + KMIN + ")}}",
       "@keyframes mastMark{from{transform:translate(-50%," + M.y0.toFixed(1) + "px) scale(1)}" +
         "to{transform:translate(-50%," + M.y1.toFixed(1) + "px) scale(" + SMIN + ")}}",
-      "@keyframes mastW1{from{transform:translateX(0)}to{transform:translateX(" + (-M.dx).toFixed(1) + "px)}}",
-      "@keyframes mastW2{from{transform:translateX(0)}to{transform:translateX(" + M.dx.toFixed(1) + "px)}}",
-      "@keyframes mastUS{from{transform:scaleX(1)}to{transform:scaleX(" + M.kx.toFixed(3) + ")}}",
-      "#ballwrap,#mark,#w1,#w2,#us{animation-duration:auto;animation-timing-function:linear;" +
+      /* the wordmark travels first and only opens once it is nearly home —
+         opening early left the words sprawled across the date */
+      "@keyframes mastW1{0%,52%{transform:translateX(0)}100%{transform:translateX(" + (-M.dx).toFixed(1) + "px)}}",
+      "@keyframes mastW2{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.dx.toFixed(1) + "px)}}",
+      "@keyframes mastUS{0%,52%{transform:scaleX(1)}100%{transform:scaleX(" + M.kx.toFixed(3) + ")}}",
+      /* the date clears out before the wordmark can reach it */
+      "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
+      "#ballwrap,#mark,#w1,#w2,#us,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
         "animation-fill-mode:both;animation-timeline:scroll(root);animation-range:0 " +
         Math.round(RANGE) + "px}",
+      ".hero-text{animation-name:mastDate}",
       "#ballwrap{animation-name:mastBall}",
       "#mark{animation-name:mastMark}",
       "#w1{animation-name:mastW1}",
@@ -669,9 +678,11 @@ const SLOTS = [
     wrap.style.transform = "translateX(-50%) scale(" + (1 - (1 - KMIN) * p).toFixed(4) + ")";
     mark.style.transform = "translate(-50%," + (M.y0 + (M.y1 - M.y0) * p).toFixed(1) + "px)" +
       " scale(" + (1 - (1 - SMIN) * p).toFixed(3) + ")";
-    w1.style.transform = "translateX(" + (-M.dx * p).toFixed(1) + "px)";
-    w2.style.transform = "translateX(" + (M.dx * p).toFixed(1) + "px)";
-    us.style.transform = "scaleX(" + (1 + (M.kx - 1) * p).toFixed(3) + ")";
+    const q = Math.max(0, (p - 0.52) / 0.48);      // the words open late
+    w1.style.transform = "translateX(" + (-M.dx * q).toFixed(1) + "px)";
+    w2.style.transform = "translateX(" + (M.dx * q).toFixed(1) + "px)";
+    us.style.transform = "scaleX(" + (1 + (M.kx - 1) * q).toFixed(3) + ")";
+    document.querySelector(".hero-text").style.opacity = Math.max(0, 1 - p / 0.34).toFixed(3);
   }
 
   let idleT = 0, moving = false, raf = 0;
@@ -683,10 +694,10 @@ const SLOTS = [
 
     if (!moving) {
       moving = true;
-      window.__frozen = true;                 // both canvases stand still
-      cv.style.transform = "";                // …drawn full size, scaled by the wrapper
+      /* full-size drawing while the page moves: the compositor scales it down,
+         which only ever supersamples */
+      cv.style.transform = "";
       window.__ballDraw && window.__ballDraw(1);
-      window.__ballTick && window.__ballTick();
     }
     clearTimeout(idleT);
     idleT = setTimeout(settle, 170);
@@ -694,13 +705,11 @@ const SLOTS = [
 
   function settle() {
     moving = false;
-    window.__frozen = false;
     /* redraw at the size it actually occupies and undo the wrapper's scale:
-       the ball at rest is always drawn, never sampled */
+       the ball at rest is drawn at device resolution, never sampled */
     window.__ballDraw && window.__ballDraw(curK);
     cv.style.transform = "scale(" + (1 / curK).toFixed(4) + ")";
     window.__ballTick && window.__ballTick();
-    window.__roomWake && window.__roomWake();
   }
 
   /* pinch-zoom: fixed elements are glued to the layout viewport and drift as you
@@ -805,10 +814,9 @@ const SLOTS = [
       const s = d.s * (0.7 + depth * 0.6) * (1 + fk * 0.6 + bk * 0.35);
       ctx.fillRect(x, d.y * H, s, s);
     }
-    if (!reduced && !window.__frozen) requestAnimationFrame(frame);
+    if (!reduced) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-  window.__roomWake = () => requestAnimationFrame(frame);
 })();
 
 /* ═══ Reveals ═══ */
@@ -952,10 +960,14 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
       state = "idle"; return;
     }
     const flash = $("flash");
-    /* the flash is the acknowledgement — it starts the instant the circle closes */
-    if (!rReduced) flash.classList.add("up");
-    /* never leave someone staring at a white screen if the network stalls */
-    const guard = setTimeout(() => flash.classList.remove("up"), 2600);
+    /* the light comes up gradually the moment the circle closes */
+    let lit = Promise.resolve();
+    if (!rReduced) {
+      flash.style.display = "";
+      flash.classList.add("up");
+      lit = new Promise(r => setTimeout(r, 620));
+    }
+    const guard = setTimeout(() => flash.classList.remove("up"), 3200);
     try {
       const res = await fetch(APPS_SCRIPT_URL, {
         method: "POST",
@@ -966,11 +978,12 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
         }),
       });
       if (!res.ok) throw new Error(res.status);
-      /* pull the list before the white clears, so the name is already there */
-      await Promise.race([loadList(), new Promise(r => setTimeout(r, 1500))]);
-      land();
+      await lit;                       // never cut while the light is still rising
       clearTimeout(guard);
-      requestAnimationFrame(() => flash.classList.remove("up"));
+      land();
+      setTimeout(() => flash.classList.remove("up"), 60);
+      /* the real list arrives quietly afterwards and reconciles */
+      loadList();
     } catch {
       clearTimeout(guard);
       flash.classList.remove("up");
@@ -979,25 +992,52 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
     }
   }
 
-  /* Everything changes at once, behind the white: the form is simply gone, the
-     confirmation is simply there, and the view is repositioned — no transition
-     to fight the scroll, because none of it is ever seen moving. */
+  /* Everything changes at once, behind the white: the form is gone, the
+     confirmation is there, and the guest list already carries the name — so
+     nothing pops in afterwards. The view is held on the section rather than
+     jumped, so the light lifts on a page that has not moved under you. */
   function land() {
     state = "sent";
-    note.textContent = "";
+    const sec = document.getElementById("rsvp");
+    const before = sec.getBoundingClientRect().top;
+
+    note.textContent = ""; note.style.display = "none";
     $("fields").style.display = "none";
     $("ringwrap").style.display = "none";
     const [big, small] = LINES(pct);
     $("done-big").textContent = big; $("done-small").textContent = small;
     $("done").classList.add("show");
+    addSelfToList();
 
     const root = document.documentElement, prev = root.style.scrollBehavior;
     root.style.scrollBehavior = "auto";
-    document.getElementById("rsvp").scrollIntoView({ block: "start" });
-    scrollBy(0, -28);
+    scrollBy(0, sec.getBoundingClientRect().top - before);
     root.style.scrollBehavior = prev;
 
+    /* iOS tints the toolbar from what it samples at the top of the page, and a
+       full-screen white overlay leaves it stuck white — re-assert the colour */
+    const tc = document.querySelector('meta[name="theme-color"]');
+    setTimeout(() => {
+      $("flash").classList.remove("up");
+      $("flash").style.display = "none";
+      if (tc) { tc.setAttribute("content", "#010101"); setTimeout(() => tc.setAttribute("content", "#000000"), 50); }
+    }, 700);
+
     window.__discoMoment && window.__discoMoment();
+  }
+
+  /* put the guest on the list immediately; loadList reconciles a moment later */
+  function addSelfToList() {
+    if (!$("show").checked || pct <= 0) return;
+    const name = $("ln").value.trim() + ", " + $("fn").value.trim();
+    const ul = $("guests");
+    if ([...ul.children].some(li => li.textContent.startsWith(name))) return;
+    const li = document.createElement("li");
+    li.innerHTML = name + (plus ? ' <small>+' + plus + "</small>" : "") +
+      (pct < 100 ? ' <small>' + pct + "%</small>" : "");
+    pct >= 100 ? ul.prepend(li) : ul.append(li);
+    const bump = (el, n) => { const v = parseInt(el.textContent, 10); el.textContent = isNaN(v) ? n : v + n; };
+    bump($(pct >= 100 ? "c-going" : "c-maybe"), 1 + plus);
   }
 
   function drawRing() {
