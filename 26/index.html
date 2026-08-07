@@ -405,7 +405,10 @@ const SLOTS = [
     (function tick() {
       spans[i].classList.add("lit");
       if (++i >= spans.length) {
-        setTimeout(() => root.classList.add("developed"), 420);
+        setTimeout(() => {
+          root.classList.add("developed");           // the date develops in…
+          window.__flare && window.__flare();        // …and the room answers
+        }, 420);
         return;
       }
       let d = PER + (Math.random() * 30 - 15);
@@ -514,7 +517,6 @@ const SLOTS = [
     const fall = 1 - Math.pow(1 - dp, 3);          // ease-out: gravity, then settle
     if (!landed && dp >= 1) {
       landed = true;
-      window.__flare && window.__flare();          // the room answers, once
       document.dispatchEvent(new CustomEvent("ball:landed"));
     }
     /* the spin eases up from a standstill only after it has landed */
