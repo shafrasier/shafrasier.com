@@ -14,6 +14,30 @@ const NOTE_SITES = [
     "note": "/map/MUSIC/PLACES/VENUES/CBGB"
   },
   {
+    "name": "Paradise Garage",
+    "cat": "Venues",
+    "lat": 40.72806,
+    "lng": -74.00639,
+    "from": 1977,
+    "to": 1987,
+    "addr": "84 King Street, Manhattan",
+    "hood": "West SoHo",
+    "blurb": "The parking garage Michael Brody rebuilt around Larry Levan and Richard Long's sound system: ten years of Saturday Mass, and the room that gave a genre its name.",
+    "note": "/map/MUSIC/PLACES/VENUES/Paradise-Garage"
+  },
+  {
+    "name": "Studio 54",
+    "cat": "Venues",
+    "lat": 40.764412,
+    "lng": -73.983818,
+    "from": 1977,
+    "to": 1986,
+    "addr": "254 West 54th Street, Manhattan",
+    "hood": "Midtown",
+    "blurb": "The opera house turned TV stage turned discotheque where the door was the show: thirty-three months of Rubell and Schrager, the raid, the skim, and the dance floor the cameras loved.",
+    "note": "/map/MUSIC/PLACES/VENUES/Studio-54"
+  },
+  {
     "name": "The Loft",
     "cat": "Venues",
     "lat": 40.72667,
