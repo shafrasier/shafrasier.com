@@ -199,7 +199,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .ringwrap{margin-top:2rem;display:flex;align-items:center;gap:1.3rem}
 #ring{width:128px;height:128px;touch-action:none;cursor:grab;flex:0 0 auto;outline:none}
 #ring:focus-visible{border-radius:50%;box-shadow:0 0 0 1px var(--white)}
-.ringhint{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--faint);max-width:11rem;line-height:1.5;transition:color .3s var(--ease)}
+.ringhint{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--faint);white-space:nowrap;line-height:1.5;transition:color .3s var(--ease)}
 .ringwrap.armed .ringhint{color:var(--dim)}
 /* The landing: the screen takes a flash, and the whole swap happens inside it.
    Nothing animates its own height — a layout change you cannot see cannot jitter. */
@@ -348,8 +348,8 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   <section class="where reveal" id="where">
     <p class="kicker">5. Location</p>
     <div class="venue-row">
-      <img class="pfp" src="future-space.jpg?v=2" alt="Future Space">
       <p class="venue">FUTURE SPACE</p>
+      <img class="pfp" src="future-space.jpg?v=2" alt="Future Space">
     </div>
     <p class="addr">5-84 Woodward Avenue<br>Ridgewood, New York 11385</p>
     <div class="links">
