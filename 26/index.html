@@ -177,17 +177,15 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .scale-ends{display:flex;justify-content:space-between;margin-top:.35rem}
 .scale-ends span{font-family:var(--label);font-size:.6rem;letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
 
-/* plus ones */
-.plus{display:flex;gap:.6rem;align-items:flex-start}
-.pcol{display:flex;flex-direction:column;align-items:center;gap:.4rem}
-.pk{
-  min-width:54px;height:42px;background:transparent;border:1px solid var(--hair);
-  border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;
-  justify-content:center;gap:5px;transition:border-color .3s var(--ease);
-}
-.pk i{width:6px;height:6px;border-radius:50%;background:var(--white);display:block}
-.pk .none{width:6px;height:6px;border-radius:50%;border:1px solid var(--dim);display:block}
-.pk[aria-pressed=true]{border-color:var(--white);box-shadow:0 0 0 1px var(--white) inset}
+/* plus ones: four dots. The first is your own RSVP and stays lit; tapping
+   the Nth dot lights everything up to it — a head count, drawn. */
+.pdots{display:flex;margin-left:-14px}
+.pd{width:44px;height:44px;background:none;border:0;padding:0;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center}
+.pd i{width:15px;height:15px;border-radius:50%;border:1px solid var(--dim);
+  transition:background .25s var(--ease),border-color .25s var(--ease)}
+.pd.on i{background:var(--white);border-color:var(--white)}
+.pd:focus-visible i{outline:1px solid var(--white);outline-offset:3px}
 .pcap{font-family:var(--label);font-size:.56rem;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
 
 /* the list line + submit */
@@ -303,21 +301,19 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
             <div class="fill" id="fill"></div>
             <div class="knob" id="knob"></div>
           </div>
-          <div class="scale-ends"><span>no</span><span>oh yes</span></div>
+          <div class="scale-ends"><span>no :(</span><span>oh yes</span></div>
         </div>
       </div>
 
       <div class="field">
         <span class="lab">Bringing anyone?</span>
-        <div class="plus" role="group" aria-label="Plus ones">
-          <div class="pcol">
-            <button type="button" class="pk" data-p="0" aria-pressed="true" aria-label="Just me"><span class="none"></span></button>
-            <span class="pcap">just me</span>
-          </div>
-          <div class="pcol"><button type="button" class="pk" data-p="1" aria-pressed="false" aria-label="Plus one"><i></i></button></div>
-          <div class="pcol"><button type="button" class="pk" data-p="2" aria-pressed="false" aria-label="Plus two"><i></i><i></i></button></div>
-          <div class="pcol"><button type="button" class="pk" data-p="3" aria-pressed="false" aria-label="Plus three"><i></i><i></i><i></i></button></div>
+        <div class="pdots" role="group" aria-label="Party size">
+          <button type="button" class="pd on" data-n="1" aria-pressed="true" aria-label="Just me"><i></i></button>
+          <button type="button" class="pd" data-n="2" aria-pressed="false" aria-label="Me plus one"><i></i></button>
+          <button type="button" class="pd" data-n="3" aria-pressed="false" aria-label="Me plus two"><i></i></button>
+          <button type="button" class="pd" data-n="4" aria-pressed="false" aria-label="Me plus three"><i></i></button>
         </div>
+        <span class="pcap">just me</span>
       </div>
 
       <label class="opt">
@@ -375,7 +371,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4
 /* Lineup — fill names as they confirm; null renders as a quiet redaction. */
 const SLOTS = [
   { t: "8—9", who: null }, { t: "9—10", who: null }, { t: "10—11", who: null },
-  { t: "11—12", who: "SHA FRASIER" }, { t: "12—1", who: null }, { t: "1—2", who: null },
+  { t: "11—12", who: "SHA" }, { t: "12—1", who: null }, { t: "1—2", who: null },
   { t: "2—3", who: "???" },
 ];
 
@@ -879,9 +875,14 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
   };
   ["fn", "ln", "ph"].forEach(id => $(id).addEventListener("input", sync));
 
-  document.querySelectorAll(".pk").forEach(b => b.addEventListener("click", () => {
-    plus = +b.dataset.p;
-    document.querySelectorAll(".pk").forEach(x => x.setAttribute("aria-pressed", x === b));
+  document.querySelectorAll(".pd").forEach(b => b.addEventListener("click", () => {
+    const n = +b.dataset.n;
+    plus = n - 1;
+    document.querySelectorAll(".pd").forEach(x => {
+      const on = +x.dataset.n <= n;
+      x.classList.toggle("on", on);
+      x.setAttribute("aria-pressed", on);
+    });
   }));
 
   const LINES = p =>
