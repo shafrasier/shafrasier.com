@@ -186,7 +186,8 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   transition:background .25s var(--ease),border-color .25s var(--ease)}
 .pd.on i{background:var(--white);border-color:var(--white)}
 .pd:focus-visible i{outline:1px solid var(--white);outline-offset:3px}
-.pcap{font-family:var(--label);font-size:.56rem;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+.pcap{font-family:var(--label);font-size:.56rem;letter-spacing:.2em;color:var(--faint);text-transform:uppercase;transition:opacity .4s var(--ease)}
+.pcap.away{opacity:0}
 
 /* the list line + submit */
 .opt{display:flex;align-items:center;gap:.7rem;margin:1.5rem 0 0;cursor:pointer;user-select:none}
@@ -883,6 +884,7 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
       x.classList.toggle("on", on);
       x.setAttribute("aria-pressed", on);
     });
+    document.querySelector(".pcap").classList.toggle("away", n > 1);
   }));
 
   const LINES = p =>
