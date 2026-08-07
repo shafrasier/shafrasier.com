@@ -583,7 +583,7 @@ const SLOTS = [
   /* draw one frame on demand (headless verification when rAF is paused) */
   window.__ballTick = () => { last = performance.now(); frame(performance.now()); };
   window.__ballRot = () => rot;
-  /* where the ball is right now, in viewport px — the beams aim here */
+  /* where the ball is right now, in viewport px */
   /* where the ball actually sits on screen, wrapper scale included */
   window.__ballC = () => {
     const k = window.__mastK ? window.__mastK() : 1;
@@ -738,53 +738,18 @@ const SLOTS = [
     a: Math.random() * Math.PI * 2, y: Math.random(),
     s: 1 + Math.random() * 1.4, ph: Math.random() * Math.PI * 2,
   }));
-  let flareT = -1e9, beamT = -1e9;
+  let flareT = -1e9;
   window.__flare = () => { flareT = performance.now(); };
-  window.__beam = () => { beamT = performance.now(); };
-  /* the full moment: beams find the ball, the room answers */
-  window.__discoMoment = () => { window.__beam(); window.__flare(); };
-  /* and, rarely, the room does it on its own */
-  let nextBeam = performance.now() + 16000 + Math.random() * 18000;
-
-  function beam(fromX, c, env) {
-    /* one spotlight: a soft-edged cone from above the frame to the ball */
-    const g = ctx.createLinearGradient(fromX, -60, c.x, c.y);
-    g.addColorStop(0, "rgba(255,255,255," + (0.16 * env).toFixed(3) + ")");
-    g.addColorStop(1, "rgba(255,255,255," + (0.02 * env).toFixed(3) + ")");
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.moveTo(fromX, -60);
-    ctx.lineTo(c.x - c.r * 0.92, c.y - c.r * 0.18);
-    ctx.lineTo(c.x + c.r * 0.92, c.y + c.r * 0.18);
-    ctx.closePath();
-    ctx.fill();
-  }
+  window.__discoMoment = () => { window.__flare(); };
 
   function frame(now) {
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
     const rot = window.__ballRot ? window.__ballRot() : now * 0.0001;
 
-    if (!reduced && now > nextBeam) {
-      window.__beam();
-      nextBeam = now + 16000 + Math.random() * 18000;
-    }
-
-    /* envelopes: the flare snaps and decays; the beams swell and fade */
+    /* the flare: snaps up, decays away */
     const fk = Math.max(0, 1 - (now - flareT) / 1400);
-    const bt = (now - beamT) / 2600;
-    const bk = bt >= 0 && bt <= 1 ? Math.sin(Math.PI * bt) : 0;
-    const lift = fk * fk * 3.2 + bk * 1.6;
-
-    if (bk > 0 && window.__ballC) {
-      const c = window.__ballC();
-      if (c.r > 4) {
-        ctx.globalCompositeOperation = "lighter";
-        beam(-W * 0.12, c, bk);
-        beam(W * 1.12, c, bk);
-        ctx.globalCompositeOperation = "source-over";
-      }
-    }
+    const lift = fk * fk * 3.2;
 
     for (const d of dots) {
       const a = d.a + rot * 0.5;
@@ -793,7 +758,7 @@ const SLOTS = [
       const breathe = 0.5 + 0.5 * Math.sin(now * 0.0005 + d.ph);
       const o = Math.min(0.85, (0.03 + depth * 0.13) * (0.4 + 0.6 * breathe) * (1 + lift));
       ctx.fillStyle = "rgba(255,255,255," + o.toFixed(3) + ")";
-      const s = d.s * (0.7 + depth * 0.6) * (1 + fk * 0.6 + bk * 0.35);
+      const s = d.s * (0.7 + depth * 0.6) * (1 + fk * 0.6);
       ctx.fillRect(x, d.y * H, s, s);
     }
     if (!reduced) requestAnimationFrame(frame);
@@ -884,7 +849,13 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
       x.classList.toggle("on", on);
       x.setAttribute("aria-pressed", on);
     });
-    document.querySelector(".pcap").classList.toggle("away", n > 1);
+    const cap = document.querySelector(".pcap");
+    clearTimeout(cap._t);
+    cap.classList.add("away");
+    cap._t = setTimeout(() => {
+      cap.textContent = n > 1 ? "+" + (n - 1) : "just me";
+      cap.classList.remove("away");
+    }, 220);
   }));
 
   const LINES = p =>
