@@ -227,7 +227,8 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .where .venue-row{display:flex;align-items:center;gap:1rem;margin:0 0 .6rem}
 .where .pfp{width:56px;height:56px;flex:0 0 auto;display:block}
 .where .venue{font-size:1.6rem;font-weight:600;letter-spacing:.02em;margin:0;line-height:1;position:relative;top:.09em}
-.where .addr{font-size:1rem;font-style:italic;color:var(--dim);line-height:1.7;margin:0 0 2rem}
+.where .addr{font-size:1rem;font-style:italic;color:var(--dim);line-height:1.7;margin:0 0 1rem}
+.inquiries{font-size:.95rem;font-style:italic;color:var(--dim);line-height:1.7;margin:0 0 2rem}
 .links{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;justify-items:center;column-gap:2.4rem;row-gap:1.1rem;padding-top:.4rem}
 .links .ulink{font-family:var(--label);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase}
 
@@ -262,7 +263,6 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
 <main>
   <section class="inv reveal" id="night">
-    <p class="kicker">1. The night</p>
     <p>in celebration of my 26th birthday I am organizing a night of pure revelry soundtracked by strains of disco produced between ~1973 and ~1989.</p>
     <p>[MORE TO COME]</p>
     <p class="aside">there will indeed be alcohol and other notable substances available for your indulgence, but do bring more... the more the merrier.<br>and there will indeed be people, but do bring more! The more the merrier!</p>
@@ -270,13 +270,13 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   </section>
 
   <section class="reveal" id="lineup">
-    <p class="kicker">2. Lineup</p>
-    <p class="doors">Doors open at 7.</p>
+    <p class="kicker">Lineup</p>
+    <p class="doors">Doors: 7:00 p.m.</p>
     <div id="slots"></div>
   </section>
 
   <section class="reveal" id="rsvp">
-    <p class="kicker">3. RSVP</p>
+    <p class="kicker">RSVP</p>
     <form id="form" novalidate>
       <div id="fields">
       <div class="row2">
@@ -338,7 +338,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   </section>
 
   <section class="reveal" id="list">
-    <p class="kicker">4. Guest list</p>
+    <p class="kicker">Guest list</p>
     <div class="counts">
       <div><span class="n" id="c-going">—</span><span class="l">going</span></div>
       <div><span class="n" id="c-maybe">—</span><span class="l">maybe</span></div>
@@ -347,12 +347,13 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   </section>
 
   <section class="where reveal" id="where">
-    <p class="kicker">5. Location</p>
+    <p class="kicker">Location</p>
     <div class="venue-row">
       <p class="venue">FUTURE SPACE</p>
       <img class="pfp" src="future-space.jpg?v=2" alt="Future Space">
     </div>
     <p class="addr">5-84 Woodward Avenue<br>Ridgewood, New York 11385</p>
+    <p class="inquiries">If you have any inquiries, contact Sha at <a class="ulink" href="tel:+16086300910">(608) 630-0910</a>.</p>
     <div class="links">
       <a class="ulink" href="https://maps.apple.com/?address=5-84%20Woodward%20Ave,%20Ridgewood,%20NY%2011385" target="_blank" rel="noopener">Directions</a>
       <a class="ulink" href="disco-space.ics">Calendar</a>
@@ -373,7 +374,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4
 /* Lineup — fill names as they confirm; null renders as a quiet redaction. */
 const SLOTS = [
   { t: "8—9", who: null }, { t: "9—10", who: null }, { t: "10—11", who: null },
-  { t: "11—12", who: "SHA" }, { t: "12—1", who: null }, { t: "1—2", who: null },
+  { t: "11—12", who: "SHA" }, { t: "12—1", who: "SLOWMOVINGPRINCE" }, { t: "1—2", who: null },
   { t: "2—3", who: "???" },
 ];
 
