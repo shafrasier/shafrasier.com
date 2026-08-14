@@ -4,44 +4,94 @@
     {
       "name": "dev",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", "-p", "8091", "-c-1"],
+      "runtimeArgs": [
+        "http-server",
+        "-p",
+        "8091",
+        "-c-1"
+      ],
       "port": 8091
     },
     {
       "name": "fugue",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", "-p", "8093", "-c-1"],
+      "runtimeArgs": [
+        "http-server",
+        "-p",
+        "8093",
+        "-c-1"
+      ],
       "port": 8093
     },
     {
       "name": "app-bundle",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", "/Users/sha/MAP-APP/www", "-p", "8095", "-c-1"],
+      "runtimeArgs": [
+        "http-server",
+        "/Users/sha/MAP-APP/www",
+        "-p",
+        "8095",
+        "-c-1"
+      ],
       "port": 8095
     },
     {
       "name": "site",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", "-p", "8097", "-c-1"],
+      "runtimeArgs": [
+        "http-server",
+        "-p",
+        "8097",
+        "-c-1"
+      ],
       "port": 8097
     },
     {
       "name": "site2",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", "-p", "8098", "-c-1"],
+      "runtimeArgs": [
+        "http-server",
+        "-p",
+        "8098",
+        "-c-1"
+      ],
       "port": 8098
     },
     {
       "name": "ce-static",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", "/Users/sha/WEBSITE/continuingeducation/public", "-p", "8099", "-c-1"],
+      "runtimeArgs": [
+        "http-server",
+        "/Users/sha/WEBSITE/continuingeducation/public",
+        "-p",
+        "8099",
+        "-c-1"
+      ],
       "port": 8099
     },
     {
       "name": "ce-dist",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", "/Users/sha/WEBSITE/continuingeducation/dist", "-p", "8100", "-c-1"],
+      "runtimeArgs": [
+        "http-server",
+        "/Users/sha/WEBSITE/continuingeducation/dist",
+        "-p",
+        "8100",
+        "-c-1"
+      ],
       "port": 8100
+    },
+    {
+      "name": "map-public",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "http-server",
+        "/Users/sha/MAP/public",
+        "-p",
+        "8101",
+        "-c-1"
+      ],
+      "port": 8101
     }
   ]
 }
