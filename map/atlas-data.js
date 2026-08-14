@@ -62,6 +62,18 @@ const NOTE_SITES = [
     "note": "/map/MUSIC/SCENES/CBGB-scene"
   },
   {
+    "name": "Downtown scene",
+    "cat": "Scenes",
+    "lat": 40.71766,
+    "lng": -74.00234,
+    "from": 1978,
+    "to": 1983,
+    "addr": "77 White Street, Manhattan",
+    "hood": "TriBeCa",
+    "blurb": "The five years when downtown New York's separated undergrounds — punk's children, disco's survivors, the galleries, and the arriving Bronx — stopped staying in their lanes and shared the same rooms.",
+    "note": "/map/MUSIC/SCENES/Downtown-scene"
+  },
+  {
     "name": "Greenwich Village folk scene",
     "cat": "Scenes",
     "lat": 40.73083,
