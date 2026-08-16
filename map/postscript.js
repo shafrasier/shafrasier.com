@@ -7,7 +7,7 @@
         <dt>As credited</dt><dd>${J(L.credited)}</dd>
         ${Le?`<dt>Edit of</dt><dd><b>${J(Le.title)}</b> \u2014 ${J(Le.sub)} <span class="cr-lock">\u{1F512} lineage</span></dd>`:""}
         <dt>First appearance</dt><dd>${J(L.first)}</dd>
-        <dt>Timing</dt><dd>${L.dur?`<span class="cr-num">${L.dur}</span> \u2014 ${J(L.durNote)}`:`<span class="cr-pend">pending</span> \u2014 ${J(L.durNote)}`}</dd>
+        <dt>Timing</dt><dd>${L.dur?`<span class="cr-dur">${L.dur}</span>`:'<span class="cr-pend">pending</span>'}${L.durNote?`<span class="cr-durnote">${J(L.durNote)}</span>`:""}</dd>
         <dt>Drum source</dt><dd>${L.drums?.val?`${J(L.drums.val)}<span class="cr-lock">\u{1F512} verified</span>`:'<span class="cr-pend">pending</span>'}</dd>
         ${L.bpm?.src?`<dt>BPM source</dt><dd class="cr-small">${J(L.bpm.src)}${L.drift?.val?` \xB7 drift: ${J(L.drift.val)}`:""}</dd>`:""}
         ${L.key?.src?`<dt>Key source</dt><dd class="cr-small">${J(L.key.src)}</dd>`:""}
