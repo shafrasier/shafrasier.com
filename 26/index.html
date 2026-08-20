@@ -52,6 +52,14 @@ body{
   background:currentColor;transform:scaleX(0);transform-origin:left center;
   transition:transform .35s var(--ease)}
 .ulink:hover::after,.ulink:focus-visible::after{transform:scaleX(1)}
+/* A link inside a sentence needs to look like one before you touch it — the
+   hover-drawn underline is invisible on a phone. These rest at a faint gray
+   and brighten on contact. */
+.essay a.ulink::after,.inquiries a.ulink::after{
+  transform:scaleX(1);background:rgba(255,255,255,.3);
+  transition:background .3s var(--ease)}
+.essay a.ulink:hover::after,.essay a.ulink:focus-visible::after,
+.inquiries a.ulink:hover::after,.inquiries a.ulink:focus-visible::after{background:currentColor}
 
 /* ── the masthead: ball + wordmark, one fixed rig ──
    Everything that moves on scroll moves by transform only, driven by a scroll
