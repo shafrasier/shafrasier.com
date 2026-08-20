@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" saved-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Connections</title>
+<!-- The MAP's own graph, served on its own for embedding elsewhere. Nothing here
+     reimplements anything: it loads the site's real stylesheet and scripts, puts up
+     the same .graph-container markup a note page uses, and lets Quartz mount its
+     graph into it. data-slug is what the component reads to decide what to centre
+     on, so this page IS the Disco note as far as the graph is concerned. Behaviour,
+     physics, hover, drag and colours are therefore identical to the sidebar's — and
+     it follows the MAP automatically as the MAP changes. -->
+<link rel="stylesheet" href="../index.css">
+<style>
+  html,body{margin:0;padding:0;height:100%;background:transparent;overflow:hidden}
+  .graph{margin:0;height:100%;width:100%;max-width:none}
+  /* the sidebar sizes its panel; an embed fills whatever frame it is given */
+  .graph > .graph-outer{height:100%!important;width:100%!important;max-width:none;margin:0;border:0;border-radius:0;background:transparent}
+  .graph-container{width:100%!important;height:100%!important}
+  .graph h3,.graph .graph-heading{display:none}
+  /* the sidebar's own "open the full graph" button — the host page has its own */
+  .global-graph-icon{display:none!important}
+</style>
+<script>
+  /* the theme is read from storage before paint; an embed is always dark */
+  try { localStorage.setItem("theme", "dark") } catch (e) {}
+  document.documentElement.setAttribute("saved-theme", "dark")
+</script>
+</head>
+<body data-slug="MUSIC/GENRES/DANCE/Disco">
+  <div class="graph">
+    <div class="graph-outer">
+      <div class="graph-container" data-cfg='{"drag":true,"zoom":true,"depth":1,"scale":1.1,"repelForce":0.5,"centerForce":0.3,"linkDistance":30,"fontSize":0.6,"opacityScale":1,"showTags":false,"removeTags":[],"focusOnHover":false,"enableRadial":false}'></div>
+    </div>
+  </div>
+  <!-- Quartz injects this global on every page it renders; the graph reads the
+       index through it, so an embed page has to declare it the same way. -->
+  <script>const fetchData = fetch("./graphIndex.json").then(data => data.json())</script>
+  <script src="../prescript.js"></script>
+  <script src="../postscript.js" type="module"></script>
+  <script>
+    /* The graph opens notes with spaNavigate. Inside an embed that would replace
+       the frame with a whole page, so route it to a new tab instead and leave the
+       graph itself untouched — no fork of the MAP's code. */
+    window.spaNavigate = (url) => window.open(url.toString(), "_blank", "noopener")
+  </script>
+</body>
+</html>

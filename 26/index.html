@@ -148,9 +148,8 @@ section:last-of-type{padding-bottom:5.5rem}
 .consto{margin:2.8rem 0 0}
 .constbox{position:relative;border:1px solid var(--hair);background:#000;
   width:min(340px,86vw);aspect-ratio:1;border-radius:50%;margin:0 auto;
-  overflow:hidden;touch-action:none;cursor:grab}
-.constbox.drag{cursor:grabbing}
-.constbox canvas{display:block;width:100%;height:100%}
+  overflow:hidden}
+.constbox iframe{display:block;width:100%;height:100%;border:0;background:#000}
 .constnote{font-size:.92rem;font-style:italic;color:var(--faint);line-height:1.7;margin:.9rem 0 0}
 /* the expand control: two corner brackets, drawn not written */
 .constbtn{position:absolute;left:50%;bottom:1rem;transform:translateX(-50%);z-index:2;
@@ -160,18 +159,11 @@ section:last-of-type{padding-bottom:5.5rem}
 .constbtn:hover,.constbtn:focus-visible{color:var(--white)}
 .constbtn svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;
   stroke-width:1.4;stroke-linecap:round}
-.constload{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-family:var(--label);font-size:.6rem;letter-spacing:.24em;color:var(--faint);
-  text-transform:uppercase;pointer-events:none}
 /* fullscreen — the MAP's own bloom, verbatim */
 .constbox.full{position:fixed;inset:0;z-index:14;width:auto;aspect-ratio:auto;border-radius:0;margin:0;border:0;
   animation:gg-bloom .34s cubic-bezier(.22,1,.36,1)}
 @keyframes gg-bloom{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.constbox.full{animation:none}}
-.consttip{position:absolute;z-index:3;pointer-events:none;opacity:0;
-  font-family:var(--serif);font-size:.9rem;color:var(--white);background:rgba(0,0,0,.82);
-  border:1px solid var(--hair);padding:.28rem .5rem;white-space:nowrap;
-  transform:translate(-50%,-140%);transition:opacity .18s ease}
 
 /* the name is the door — it reads as text, behaves as a link */
 /* inline, not inline-block: an inline-block box is the full line-height tall,
@@ -468,12 +460,10 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   <section class="reveal" id="constellation">
     <div class="consto">
       <div class="constbox" id="constbox">
-        <canvas id="constcv"></canvas>
+        <iframe id="constframe" src="/map/static/graph-embed.html" title="Disco's connections on the MAP" loading="lazy"></iframe>
         <button class="constbtn" id="constfull" type="button" aria-label="Expand">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>
         </button>
-        <div class="constload" id="constload">drawing…</div>
-        <div class="consttip" id="consttip"></div>
       </div>
       <p class="constnote">if you&#39;d like to learn more about the forms, artists, records, moments, and venues that defined disco, read about it on this preview of the MAP!</p>
     </div>
@@ -922,238 +912,24 @@ const SLOTS = [
 })();
 
 /* ═══ The constellation ═══
-   Disco and every note that touches it, drawn from the MAP's own graph index.
-   The feed regenerates on every MAP build, so this grows on its own as the
-   disco corner of the MAP grows — nothing here needs editing. A small force
-   layout on canvas rather than the MAP's pixi build: same look, a few KB. */
+   The MAP's own graph, embedded — not a lookalike. /map/static/graph-embed.html
+   loads the MAP's real stylesheet and scripts and mounts its local graph centred
+   on Disco, so the physics, hover, drag, labels and colours ARE the MAP's, and
+   they follow it as it changes. All this does is frame it and expand it. */
 (() => {
-  const box = document.getElementById("constbox");
-  if (!box) return;
-  const cv = document.getElementById("constcv"), ctx = cv.getContext("2d");
-  const load = document.getElementById("constload"), tip = document.getElementById("consttip");
-  const btn = document.getElementById("constfull");
-  const FEED = "/map/static/graphIndex.json", ROOT = "MUSIC/GENRES/DANCE/Disco";
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  /* the MAP's dark-mode palette, folder-prefixed, most specific first */
-  const COLORS = [
-    ["music/releases/albums/", "#c44040"], ["music/releases/singles/", "#d46070"],
-    ["music/releases/tracks/", "#e87890"], ["music/artists/songwriters/", "#c4a545"],
-    ["music/artists/producers/", "#c4a545"], ["music/artists/session-musicians/", "#c4a545"],
-    ["music/artists/", "#d4952a"], ["music/places/", "#b3714f"],
-    ["music/genres/", "#3a9c40"], ["music/scenes/", "#6ab86a"],
-    ["music/eras/", "#2a8880"], ["music/moments/", "#2cbdb2"],
-    ["music/ideas/", "#52a8d7"], ["music/x-library/", "#4070c0"],
-    ["music/techniques/production/", "#9858c8"], ["music/techniques/theory/", "#6a4cb8"],
-    ["music/techniques/", "#9858c8"], ["music/industry/", "#5a7a9a"],
-  ];
-  const colorOf = slug => {
-    const id = slug.toLowerCase();
-    for (const [pre, hex] of COLORS) if (id.startsWith(pre)) return hex;
-    return "#8a8a8a";
-  };
-
-  let full = false;
-  let N = [], L = [], DPR = 1, W = 0, H = 0;
-  let tx = 0, ty = 0, hover = null, alpha = 1;
-
-  /* The MAP's own force settings (Graph.tsx localGraph + graph.inline.ts):
-     repelForce .5 → charge -50, centerForce .3, linkDistance 30, collide r+8
-     at 3 iterations, and d3's default velocityDecay .4 / alphaDecay .0228. */
-  const CHARGE = -50, CENTER = 0.3, LINKD = 30, DECAY = 0.0228, VD = 0.6;
-
-  function size() {
-    const r = box.getBoundingClientRect();
-    DPR = Math.min(devicePixelRatio || 1, 2);
-    W = r.width; H = r.height;
-    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
-  }
-
-  fetch(FEED).then(r => r.json()).then(idx => {
-    if (!idx[ROOT]) throw new Error("no root");
-    const out = new Set(idx[ROOT].l || []);
-    const inc = Object.keys(idx).filter(k => (idx[k].l || []).includes(ROOT));
-    const near = [...new Set([...out, ...inc])].filter(k => idx[k] && k !== ROOT);
-
-    N = [{ id: ROOT, t: idx[ROOT].t, root: true }].concat(
-      near.map(k => ({ id: k, t: idx[k].t })));
-    const at = new Map(N.map((n, i) => [n.id, i]));
-    /* one edge per pair, both directions collapsed — the MAP counts a mutual
-       A→B / B→A as a single connection, and node size reads that count */
-    const seen = new Set();
-    for (const n of N) for (const l of idx[n.id].l || []) {
-      if (!at.has(l) || l === n.id) continue;
-      const a = at.get(n.id), b = at.get(l), key = a < b ? a + ":" + b : b + ":" + a;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      L.push([a, b]);
-    }
-    /* distinct neighbours within this view — exactly what nodeRadius reads */
-    const deg = N.map(() => 0);
-    for (const [a, b] of L) { deg[a]++; deg[b]++; }
-    N.forEach((n, i) => {
-      n.deg = deg[i];
-      n.r = 1 + Math.sqrt(deg[i]) * 1.7;          // the MAP's nodeRadius, verbatim
-      n.c = colorOf(n.id);
-      const a = (i / N.length) * Math.PI * 2, rad = n.root ? 0 : 60 + (i % 5) * 6;
-      n.x = Math.cos(a) * rad; n.y = Math.sin(a) * rad;
-      n.vx = n.vy = 0;
-    });
-    load.remove();
-    size();
-    for (let i = 0; i < 400; i++) tick();        // settle before first paint
-    draw();
-    if (!reduced) requestAnimationFrame(step);
-  }).catch(() => { load.textContent = "the map is resting"; });
-
-  /* d3-force, in miniature: many-body, link, center, collide */
-  function tick() {
-    alpha += (0 - alpha) * DECAY;
-    const a2 = alpha;
-    for (let i = 0; i < N.length; i++) {
-      const a = N[i];
-      for (let j = i + 1; j < N.length; j++) {
-        const b = N[j];
-        let dx = b.x - a.x, dy = b.y - a.y, l = dx * dx + dy * dy;
-        if (l < 0.01) { dx = 0.5; dy = 0.5; l = 0.5; }
-        const w = CHARGE * a2 / l;
-        a.vx += dx * w; a.vy += dy * w;
-        b.vx -= dx * w; b.vy -= dy * w;
-      }
-    }
-    for (const [i, j] of L) {
-      const a = N[i], b = N[j];
-      const st = 1 / Math.min(a.deg || 1, b.deg || 1);
-      const bias = (a.deg || 1) / ((a.deg || 1) + (b.deg || 1));
-      let dx = b.x + b.vx - a.x - a.vx, dy = b.y + b.vy - a.y - a.vy;
-      let d = Math.hypot(dx, dy) || 0.01;
-      const f = (d - LINKD) / d * a2 * st;
-      dx *= f; dy *= f;
-      b.vx -= dx * bias; b.vy -= dy * bias;
-      a.vx += dx * (1 - bias); a.vy += dy * (1 - bias);
-    }
-    let cx = 0, cy = 0;
-    for (const n of N) { cx += n.x; cy += n.y; }
-    cx = cx / N.length * CENTER; cy = cy / N.length * CENTER;
-    for (const n of N) { n.x -= cx; n.y -= cy; }
-    for (let it = 0; it < 3; it++) {
-      for (let i = 0; i < N.length; i++) {
-        const a = N[i];
-        for (let j = i + 1; j < N.length; j++) {
-          const b = N[j];
-          const rr = a.r + b.r + 16;
-          let dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 0.01;
-          if (d >= rr) continue;
-          const push = (rr - d) / d * 0.5;
-          dx *= push; dy *= push;
-          b.x += dx; b.y += dy; a.x -= dx; a.y -= dy;
-        }
-      }
-    }
-    for (const n of N) { n.vx *= VD; n.vy *= VD; n.x += n.vx; n.y += n.vy; }
-  }
-
-  function draw() {
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    ctx.clearRect(0, 0, W, H);
-    ctx.save();
-    /* the MAP's local graph sits at scale 1.1 */
-    const k = full ? 2.2 : 1.25;
-    ctx.translate(W / 2 + tx, H / 2 + ty);
-    ctx.scale(k, k);
-    ctx.lineWidth = 1 / k;
-    ctx.strokeStyle = "#322e27";                 // --lightgray, dark mode
-    ctx.beginPath();
-    for (const [i, j] of L) { ctx.moveTo(N[i].x, N[i].y); ctx.lineTo(N[j].x, N[j].y); }
-    ctx.stroke();
-    for (const n of N) {
-      ctx.fillStyle = n.c;
-      ctx.globalAlpha = hover && hover !== n ? 0.4 : 1;
-      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
-      if (n.root || n === hover || (full && n.deg > 2)) {
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = "#f1ede2";               // --dark, dark mode
-        ctx.font = (10 / k).toFixed(2) + 'px "Source Serif 4",Georgia,serif';
-        ctx.textAlign = "center";
-        ctx.fillText(n.t, n.x, n.y - n.r - 4 / k);
-      }
-    }
-    ctx.globalAlpha = 1;
-    ctx.restore();
-  }
-
-  function step() { tick(); draw(); requestAnimationFrame(step); }
-
-  /* pointer: drag to pan, tap a node to open its note */
-  const at = e => {
-    const r = box.getBoundingClientRect(), k = full ? 2.2 : 1.6;
-    return { x: (e.clientX - r.left - W / 2 - tx) / k, y: (e.clientY - r.top - H / 2 - ty) / k };
-  };
-  const nodeAt = p => N.find(n => Math.hypot(n.x - p.x, n.y - p.y) < n.r + 8);
-  let down = null, moved = 0;
-  box.addEventListener("pointerdown", e => {
-    if (e.target.closest && e.target.closest(".constbtn")) return;   // the icon is not the field
-    down = { x: e.clientX, y: e.clientY, tx, ty }; moved = 0;
-    box.classList.add("drag");
-    try { box.setPointerCapture(e.pointerId); } catch {}
-  });
-  box.addEventListener("pointermove", e => {
-    if (down) {
-      moved = Math.max(moved, Math.hypot(e.clientX - down.x, e.clientY - down.y));
-      tx = down.tx + (e.clientX - down.x); ty = down.ty + (e.clientY - down.y);
-      return;
-    }
-    const n = nodeAt(at(e));
-    if (n !== hover) {
-      hover = n;
-      box.style.cursor = n ? "pointer" : "grab";
-      if (n && !n.root) {
-        const r = box.getBoundingClientRect();
-        tip.textContent = n.t;
-        const k = full ? 2.2 : 1.25;
-        tip.style.left = (n.x * k + W / 2 + tx) + "px";
-        tip.style.top = (n.y * k + H / 2 + ty) + "px";
-        tip.style.opacity = "1";
-      } else tip.style.opacity = "0";
-    }
-  });
-  const up = e => {
-    box.classList.remove("drag");
-    if (e.target.closest && e.target.closest(".constbtn")) { down = null; return; }
-    if (down && moved < 5) {
-      const n = nodeAt(at(e));
-      if (n) window.open("/map/" + n.id, "_blank", "noopener");
-    }
-    down = null;
-  };
-  box.addEventListener("pointerup", up);
-  box.addEventListener("pointercancel", () => { down = null; box.classList.remove("drag"); });
-  box.addEventListener("pointerleave", () => { hover = null; tip.style.opacity = "0"; });
-
-  /* expand: the MAP's bloom, and every way back out */
+  const box = document.getElementById("constbox"), btn = document.getElementById("constfull");
+  if (!box || !btn) return;
   const home = box.parentNode, mark = document.createComment("constellation");
-  function toggle() {
+  let full = false;
+  btn.addEventListener("click", () => {
     full = !full;
-    if (full) {
-      /* out to the body: the section animates its own transform, and a
-         transformed ancestor makes position:fixed resolve against IT, not the
-         viewport — which left "fullscreen" a few hundred pixels tall */
-      home.insertBefore(mark, box);
-      document.body.appendChild(box);
-    } else {
-      mark.parentNode.insertBefore(box, mark);
-      mark.remove();
-    }
+    if (full) { home.insertBefore(mark, box); document.body.appendChild(box); }
+    else { mark.parentNode.insertBefore(box, mark); mark.remove(); }
     box.classList.toggle("full", full);
     btn.setAttribute("aria-label", full ? "Close" : "Expand");
     document.body.style.overflow = full ? "hidden" : "";
-    tx = ty = 0;
-    alpha = 0.9;
-    requestAnimationFrame(() => { size(); draw(); });
-  }
-  btn.addEventListener("click", e => { e.stopPropagation(); toggle(); });
-  addEventListener("keydown", e => { if (e.key === "Escape" && full) toggle(); });
-  addEventListener("resize", () => { if (N.length) { size(); draw(); } });
+  });
+  addEventListener("keydown", e => { if (e.key === "Escape" && full) btn.click(); });
 })();
 
 /* ═══ The picture ═══ */
