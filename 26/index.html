@@ -904,7 +904,9 @@ const SLOTS = [
       const o = Math.min(0.85, (0.03 + depth * 0.13) * (0.4 + 0.6 * breathe) * (1 + lift));
       ctx.fillStyle = "rgba(255,255,255," + o.toFixed(3) + ")";
       const s = d.s * (0.7 + depth * 0.6) * (1 + fk * 0.6);
-      ctx.fillRect(x, d.y * H, s, s);
+      ctx.beginPath();
+      ctx.arc(x, d.y * H, s / 2, 0, Math.PI * 2);
+      ctx.fill();
     }
     if (!reduced) requestAnimationFrame(frame);
   }
