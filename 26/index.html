@@ -135,18 +135,7 @@ section:last-of-type{padding-bottom:5.5rem}
 /* the section breaks: three quiet dots, centered */
 .dots{display:block;text-align:center;color:var(--faint);letter-spacing:.9em;
   font-size:.7rem;margin:2.4rem 0 2.4rem;text-indent:.9em;user-select:none}
-.sign{font-family:var(--label);font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;
-  margin:2.2rem 0 .2rem}
-/* LOVE ALWAYS catches the light, the way everything else here does */
-.shimmer{background:linear-gradient(100deg,
-    rgba(255,255,255,.55) 0%,rgba(255,255,255,.55) 38%,#fff 48%,
-    rgba(255,255,255,.55) 58%,rgba(255,255,255,.55) 100%);
-  background-size:280% 100%;-webkit-background-clip:text;background-clip:text;
-  color:transparent;animation:shimmer 5.5s linear infinite}
-@keyframes shimmer{from{background-position:180% 0}to{background-position:-80% 0}}
-@media (prefers-reduced-motion:reduce){.shimmer{animation:none;color:#fff;background:none;-webkit-text-fill-color:#fff}}
-.sign-name{font-family:var(--serif);font-size:1rem;letter-spacing:.02em;color:var(--dim);
-  text-transform:none;margin:.1rem 0 0}
+.signoff{margin-top:2.2rem}
 .closers{margin-top:2.4rem}
 .closers p{font-size:clamp(.94rem,2.2vw,1.05rem);font-style:italic;color:var(--dim);margin:0 0 1rem}
 .closers .dress{color:var(--white);font-weight:500;margin-top:1.4rem}
@@ -361,8 +350,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
     <p>ok ok... the invite for my birthday party has gotten a bit deeper (and longer) than I intended. Thank you all for reading! I really just mean to say: I love you all so much, and the depth of my gratitude to be turning 26 in 2026 surrounded by all of you, and to have made so many precious memories with you this past year, knows no bounds. I’m excited to dance!</p>
 
-    <p class="sign"><span class="shimmer">LOVE ALWAYS</span></p>
-    <p class="sign-name">sha</p>
+    <p class="signoff">LOVE ALWAYS<br>sha</p>
 
     <button class="qbtn" id="qbtn" type="button" aria-label="A picture">?</button>
 
