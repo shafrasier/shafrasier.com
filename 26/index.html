@@ -55,14 +55,15 @@ body{
 /* A link inside a sentence needs to look like one before you touch it — the
    hover-drawn underline is invisible on a phone. These rest at a faint gray
    and brighten on contact. */
-.essay a.ulink::after,.inquiries a.ulink::after{
+.essay a.ulink::after,.inquiries a.ulink::after,.namebtn::after{
   transform:scaleX(1);background:rgba(255,255,255,.3);transition:none}
-.essay a.ulink::before,.inquiries a.ulink::before{
+.essay a.ulink::before,.inquiries a.ulink::before,.namebtn::before{
   content:"";position:absolute;left:0;bottom:-3px;width:100%;height:1px;
   background:var(--white);transform:scaleX(0);transform-origin:left center;
   transition:transform .35s var(--ease)}
 .essay a.ulink:hover::before,.essay a.ulink:focus-visible::before,
-.inquiries a.ulink:hover::before,.inquiries a.ulink:focus-visible::before{transform:scaleX(1)}
+.inquiries a.ulink:hover::before,.inquiries a.ulink:focus-visible::before,
+.namebtn:hover::before,.namebtn:focus-visible::before{transform:scaleX(1)}
 
 /* ── the masthead: ball + wordmark, one fixed rig ──
    Everything that moves on scroll moves by transform only, driven by a scroll
@@ -144,12 +145,9 @@ section:last-of-type{padding-bottom:5.5rem}
 .closers p{font-size:clamp(.94rem,2.2vw,1.05rem);font-style:italic;color:var(--dim);margin:0 0 1rem}
 .closers .dress{color:var(--white);font-weight:500;margin-top:1.4rem}
 
-/* the question: a small round door, and what is behind it */
-.qbtn{position:relative;display:block;margin:2.4rem 0 0;width:29px;height:29px;
-  border-radius:50%;border:1px solid var(--hair);background:transparent;color:var(--dim);
-  font-family:var(--label);font-size:.85rem;line-height:1;cursor:pointer;
-  transition:border-color .3s var(--ease),color .3s var(--ease)}
-.qbtn:hover,.qbtn:focus-visible{border-color:var(--white);color:var(--white)}
+/* the name is the door — it reads as text, behaves as a link */
+.namebtn{font:inherit;color:inherit;background:none;border:0;padding:0;
+  cursor:pointer;display:inline-block}
 .peek{position:fixed;inset:0;z-index:12;display:none;align-items:center;justify-content:center;
   flex-direction:column;padding:5vh 1.2rem;background:#000;
   opacity:0;transition:opacity .62s var(--ease)}
@@ -354,9 +352,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
     <p>ok ok... the invite for my birthday party has gotten a bit deeper (and longer) than I intended. Thank you all for reading! I really just mean to say: I love you all so much, and the depth of my gratitude to be turning 26 in 2026 surrounded by all of you, and to have made so many precious memories with you this past year, knows no bounds. I’m excited to dance!</p>
 
-    <p class="signoff">LOVE ALWAYS<br>sha</p>
-
-    <button class="qbtn" id="qbtn" type="button" aria-label="A picture">?</button>
+    <p class="signoff">LOVE ALWAYS<br><button class="namebtn ulink" id="qbtn" type="button">sha</button></p>
 
     <div class="closers">
       <p>there will indeed be alcohol and other notable substances available for your indulgence, but do bring more... the more the merrier.<span class="brk"></span>and there will indeed be people, but do bring more! The more the merrier!</p>
@@ -472,8 +468,8 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4
 
 /* Lineup — fill names as they confirm; null renders as a quiet redaction. */
 const SLOTS = [
-  { t: "8—9", who: "Marty" }, { t: "9—10", who: "Garry" }, { t: "10—11", who: "otisotisotis" },
-  { t: "11—12", who: "DJ SHA" }, { t: "12—1", who: "slowmovingprince" }, { t: "1—2", who: null },
+  { t: "8—9", who: "Marty" }, { t: "9—10", who: "Garry" }, { t: "10—11", who: "DJ SHA" },
+  { t: "11—12", who: "otisotisotis" }, { t: "12—1", who: "slowmovingprince" }, { t: "1—2", who: null },
   { t: "2—3", who: "???" },
 ];
 
