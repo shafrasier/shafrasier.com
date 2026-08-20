@@ -56,10 +56,13 @@ body{
    hover-drawn underline is invisible on a phone. These rest at a faint gray
    and brighten on contact. */
 .essay a.ulink::after,.inquiries a.ulink::after{
-  transform:scaleX(1);background:rgba(255,255,255,.3);
-  transition:background .3s var(--ease)}
-.essay a.ulink:hover::after,.essay a.ulink:focus-visible::after,
-.inquiries a.ulink:hover::after,.inquiries a.ulink:focus-visible::after{background:currentColor}
+  transform:scaleX(1);background:rgba(255,255,255,.3);transition:none}
+.essay a.ulink::before,.inquiries a.ulink::before{
+  content:"";position:absolute;left:0;bottom:-3px;width:100%;height:1px;
+  background:var(--white);transform:scaleX(0);transform-origin:left center;
+  transition:transform .35s var(--ease)}
+.essay a.ulink:hover::before,.essay a.ulink:focus-visible::before,
+.inquiries a.ulink:hover::before,.inquiries a.ulink:focus-visible::before{transform:scaleX(1)}
 
 /* ── the masthead: ball + wordmark, one fixed rig ──
    Everything that moves on scroll moves by transform only, driven by a scroll
@@ -137,26 +140,33 @@ section:last-of-type{padding-bottom:5.5rem}
   font-size:.7rem;margin:2.4rem 0 2.4rem;text-indent:.9em;user-select:none}
 .signoff{margin-top:2.2rem}
 .closers{margin-top:2.4rem}
+.closers .brk{display:block;height:.75em}
 .closers p{font-size:clamp(.94rem,2.2vw,1.05rem);font-style:italic;color:var(--dim);margin:0 0 1rem}
 .closers .dress{color:var(--white);font-weight:500;margin-top:1.4rem}
 
 /* the question: a small round door, and what is behind it */
-.qbtn{position:relative;display:block;margin:2.6rem auto 0;width:34px;height:34px;
+.qbtn{position:relative;display:block;margin:2.4rem 0 0;width:29px;height:29px;
   border-radius:50%;border:1px solid var(--hair);background:transparent;color:var(--dim);
   font-family:var(--label);font-size:.85rem;line-height:1;cursor:pointer;
   transition:border-color .3s var(--ease),color .3s var(--ease)}
 .qbtn:hover,.qbtn:focus-visible{border-color:var(--white);color:var(--white)}
 .peek{position:fixed;inset:0;z-index:12;display:none;align-items:center;justify-content:center;
   flex-direction:column;padding:5vh 1.2rem;background:#000;
-  opacity:0;transition:opacity .4s var(--ease)}
+  opacity:0;transition:opacity .62s var(--ease)}
 .peek.open{display:flex}
 .peek.lit{opacity:1}
+.peek figure,.peek .x{transform:translateY(14px) scale(.985);opacity:0;
+  transition:transform .72s var(--ease),opacity .62s var(--ease)}
+.peek.lit figure,.peek.lit .x{transform:none;opacity:1}
+.peek .x{transition-delay:.08s}
 .peek img{max-width:min(560px,88vw);max-height:64vh;width:auto;height:auto;display:block;
   border:1px solid var(--hair)}
 .peek figcaption{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--dim);
   margin:1rem 0 0;text-align:center}
-.peek .x{margin-top:1.6rem;background:none;border:0;color:var(--white);cursor:pointer;
-  font-family:var(--label);font-size:1.1rem;line-height:1;padding:.5rem 1rem}
+.peek .x{margin-top:1.6rem;background:none;border:0;color:var(--dim);cursor:pointer;
+  font-family:var(--label);font-size:1.1rem;line-height:1;padding:.5rem 1rem;
+  transition:color .3s var(--ease),transform .72s var(--ease),opacity .62s var(--ease)}
+.peek .x:hover,.peek .x:focus-visible{color:var(--white)}
 .peek figure{margin:0}
 
 /* the invitation */
@@ -306,11 +316,11 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   <section class="inv essay reveal" id="night">
     <p class="kicker">The circular years</p>
 
-    <p>to coincide with my 26th birthday, I’ve organized a night of pure revelry soundtracked primarily by strains of <a class="ulink" href="https://shafrasier.com/map/MUSIC/GENRES/DANCE/Disco" target="_blank" rel="noopener">disco</a> produced between ~1973 and ~1989. Manning the decks will be a roster of some of my dearest friends, each of whom I’ve asked to bring their vision of DISCO to future space.</p>
+    <p>to coincide with my 26th birthday, I’ve organized a night of pure revelry soundtracked primarily by strains of disco produced between ~1973 and ~1989. Manning the decks will be a roster of some of my dearest friends, each of whom I’ve asked to bring their vision of DISCO to future space.</p>
 
     <p>I’ve been thinking a lot lately of everyone that I’ve met up with under the disco ball over the years, of all the glints of our sunglasses and flashes of our smiles, and of the innately innocent understanding we glean of each other&#39;s souls as we learn how we all move, together under the guidance of sound.</p>
 
-    <p>unbeknownst to no one, disco has always moved me, and the sustained sunburst of free energy that powers its ethos has also animated endless moments of connection for us all, but I’ve chosen it as the anchor of this event in tribute to its effect on the passage of time. Disco is the progenitor of all that we now know as <a class="ulink" href="https://shafrasier.com/map/MUSIC/GENRES/DANCE/Dance" target="_blank" rel="noopener">“dance”</a> music, or simply, music made for the floor, whose product is the night itself.</p>
+    <p>unbeknownst to no one, disco has always moved me, and the sustained sunburst of free energy that powers its ethos has also animated endless moments of connection for us all, but I’ve chosen it as the anchor of this event in tribute to its effect on the passage of time. Disco is the progenitor of all that we now know as “dance” music, or simply, music made for the floor, whose product is the night itself.</p>
 
     <p>and when you’re on the floor — and I mean <em>really</em> there — time loops and stretches and compresses with music’s lead, until you transcend to a state of blissful unawareness of the hour, or the season, or even the city you’re in. Moments of ecstasy arrive, they fly around the room, and they come back around again. Synchrony with each other and the music above our heads takes absolute precedence. Rarely in the &quot;real&quot; world do we get to completely release ourselves from life’s contours and exist in pure togetherness, in unencumbered vitality and collective joy. In these moments, we&#39;re all moving, but time isn&#39;t. The floor is unbounded by time.</p>
 
@@ -355,7 +365,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
     <button class="qbtn" id="qbtn" type="button" aria-label="A picture">?</button>
 
     <div class="closers">
-      <p>there will indeed be alcohol and other notable substances available for your indulgence, but do bring more... the more the merrier.<br>and there will indeed be people, but do bring more! The more the merrier!</p>
+      <p>there will indeed be alcohol and other notable substances available for your indulgence, but do bring more... the more the merrier.<span class="brk"></span>and there will indeed be people, but do bring more! The more the merrier!</p>
       <p class="dress">wear something that catches the light.</p>
     </div>
   </section>
@@ -893,7 +903,7 @@ const SLOTS = [
     if (!open) return;
     open = false;
     peek.classList.remove("lit");
-    setTimeout(() => peek.classList.remove("open"), 400);
+    setTimeout(() => peek.classList.remove("open"), 720);   // let the fade finish
     btn.focus();
   };
   btn.addEventListener("click", show);
