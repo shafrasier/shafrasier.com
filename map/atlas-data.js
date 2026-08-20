@@ -84,5 +84,17 @@ const NOTE_SITES = [
     "hood": "Greenwich Village",
     "blurb": "A few square blocks of lower Manhattan where five years of coffeehouse apprenticeship tied popular song to political consciousness.",
     "note": "/map/MUSIC/SCENES/Greenwich-Village-folk-scene"
+  },
+  {
+    "name": "No wave",
+    "cat": "Scenes",
+    "lat": 40.71921,
+    "lng": -74.00602,
+    "from": 1977,
+    "to": 1982,
+    "addr": "225 West Broadway, Manhattan",
+    "hood": "TriBeCa",
+    "blurb": "Downtown New York's refusal wing: four bands of untrained artists, a Super 8 film wing, and one contested Eno record, built against everything CBGB punk had just won.",
+    "note": "/map/MUSIC/SCENES/No-wave"
   }
 ];
