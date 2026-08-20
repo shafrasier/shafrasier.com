@@ -147,20 +147,24 @@ section:last-of-type{padding-bottom:5.5rem}
    the MAP's own index, so it grows as the MAP does ── */
 .consto{margin:2.8rem 0 0}
 .constbox{position:relative;border:1px solid var(--hair);background:#000;
-  height:300px;overflow:hidden;touch-action:none;cursor:grab}
+  width:min(340px,86vw);aspect-ratio:1;border-radius:50%;margin:0 auto;
+  overflow:hidden;touch-action:none;cursor:grab}
 .constbox.drag{cursor:grabbing}
 .constbox canvas{display:block;width:100%;height:100%}
 .constnote{font-size:.92rem;font-style:italic;color:var(--faint);line-height:1.7;margin:.9rem 0 0}
-.constbtn{position:absolute;top:.55rem;right:.55rem;z-index:2;background:rgba(0,0,0,.55);
-  border:1px solid var(--hair);color:var(--dim);font-family:var(--label);font-size:.56rem;
-  letter-spacing:.2em;text-transform:uppercase;padding:.4rem .6rem;cursor:pointer;
-  transition:color .3s var(--ease),border-color .3s var(--ease)}
-.constbtn:hover,.constbtn:focus-visible{color:var(--white);border-color:var(--white)}
+/* the expand control: two corner brackets, drawn not written */
+.constbtn{position:absolute;left:50%;bottom:1rem;transform:translateX(-50%);z-index:2;
+  width:26px;height:26px;padding:0;background:none;border:0;cursor:pointer;
+  color:var(--faint);transition:color .3s var(--ease)}
+.constbox.full .constbtn{left:auto;top:1.1rem;right:1.1rem;bottom:auto;transform:none}
+.constbtn:hover,.constbtn:focus-visible{color:var(--white)}
+.constbtn svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;
+  stroke-width:1.4;stroke-linecap:round}
 .constload{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-family:var(--label);font-size:.6rem;letter-spacing:.24em;color:var(--faint);
   text-transform:uppercase;pointer-events:none}
 /* fullscreen — the MAP's own bloom, verbatim */
-.constbox.full{position:fixed;inset:0;z-index:14;height:auto;border:0;
+.constbox.full{position:fixed;inset:0;z-index:14;width:auto;aspect-ratio:auto;border-radius:0;margin:0;border:0;
   animation:gg-bloom .34s cubic-bezier(.22,1,.36,1)}
 @keyframes gg-bloom{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.constbox.full{animation:none}}
@@ -465,11 +469,13 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
     <div class="consto">
       <div class="constbox" id="constbox">
         <canvas id="constcv"></canvas>
-        <button class="constbtn" id="constfull" type="button">Expand</button>
+        <button class="constbtn" id="constfull" type="button" aria-label="Expand">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>
+        </button>
         <div class="constload" id="constload">drawing…</div>
         <div class="consttip" id="consttip"></div>
       </div>
-      <p class="constnote">if you&#39;d like to learn more about the forms, artists, records, moments, and venues that defined disco, read about it on the MAP!</p>
+      <p class="constnote">if you&#39;d like to learn more about the forms, artists, records, moments, and venues that defined disco, read about it on this preview of the MAP!</p>
     </div>
   </section>
 
@@ -945,8 +951,14 @@ const SLOTS = [
     return "#8a8a8a";
   };
 
+  let full = false;
   let N = [], L = [], DPR = 1, W = 0, H = 0;
-  let tx = 0, ty = 0, running = false, hover = null;
+  let tx = 0, ty = 0, hover = null, alpha = 1;
+
+  /* The MAP's own force settings (Graph.tsx localGraph + graph.inline.ts):
+     repelForce .5 → charge -50, centerForce .3, linkDistance 30, collide r+8
+     at 3 iterations, and d3's default velocityDecay .4 / alphaDecay .0228. */
+  const CHARGE = -50, CENTER = 0.3, LINKD = 30, DECAY = 0.0228, VD = 0.6;
 
   function size() {
     const r = box.getBoundingClientRect();
@@ -964,98 +976,118 @@ const SLOTS = [
     N = [{ id: ROOT, t: idx[ROOT].t, root: true }].concat(
       near.map(k => ({ id: k, t: idx[k].t })));
     const at = new Map(N.map((n, i) => [n.id, i]));
-    /* every edge among the notes on screen, not just the spokes to Disco */
+    /* one edge per pair, both directions collapsed — the MAP counts a mutual
+       A→B / B→A as a single connection, and node size reads that count */
+    const seen = new Set();
     for (const n of N) for (const l of idx[n.id].l || []) {
-      if (at.has(l) && l !== n.id) L.push([at.get(n.id), at.get(l)]);
+      if (!at.has(l) || l === n.id) continue;
+      const a = at.get(n.id), b = at.get(l), key = a < b ? a + ":" + b : b + ":" + a;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      L.push([a, b]);
     }
+    /* distinct neighbours within this view — exactly what nodeRadius reads */
+    const deg = N.map(() => 0);
+    for (const [a, b] of L) { deg[a]++; deg[b]++; }
     N.forEach((n, i) => {
-      const a = (i / Math.max(1, N.length - 1)) * Math.PI * 2;
-      n.x = n.root ? 0 : Math.cos(a) * 120 + (i % 3) * 9;
-      n.y = n.root ? 0 : Math.sin(a) * 120 + (i % 4) * 7;
+      n.deg = deg[i];
+      n.r = 1 + Math.sqrt(deg[i]) * 1.7;          // the MAP's nodeRadius, verbatim
+      n.c = colorOf(n.id);
+      const a = (i / N.length) * Math.PI * 2, rad = n.root ? 0 : 60 + (i % 5) * 6;
+      n.x = Math.cos(a) * rad; n.y = Math.sin(a) * rad;
       n.vx = n.vy = 0;
-      n.r = n.root ? 9 : 4.4;
-      n.c = n.root ? "#3a9c40" : colorOf(n.id);
     });
     load.remove();
-    size(); settle(reduced ? 260 : 0);
-    if (!reduced) { running = true; requestAnimationFrame(step); } else draw();
+    size();
+    for (let i = 0; i < 400; i++) tick();        // settle before first paint
+    draw();
+    if (!reduced) requestAnimationFrame(step);
   }).catch(() => { load.textContent = "the map is resting"; });
 
-  /* a plain force layout: repulsion, spring edges, a pull toward the middle */
+  /* d3-force, in miniature: many-body, link, center, collide */
   function tick() {
+    alpha += (0 - alpha) * DECAY;
+    const a2 = alpha;
     for (let i = 0; i < N.length; i++) {
       const a = N[i];
       for (let j = i + 1; j < N.length; j++) {
         const b = N[j];
-        let dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy || 0.01;
-        if (d2 > 62500) continue;
-        const f = 900 / d2, d = Math.sqrt(d2);
-        const ux = dx / d * f, uy = dy / d * f;
-        a.vx -= ux; a.vy -= uy; b.vx += ux; b.vy += uy;
+        let dx = b.x - a.x, dy = b.y - a.y, l = dx * dx + dy * dy;
+        if (l < 0.01) { dx = 0.5; dy = 0.5; l = 0.5; }
+        const w = CHARGE * a2 / l;
+        a.vx += dx * w; a.vy += dy * w;
+        b.vx -= dx * w; b.vy -= dy * w;
       }
     }
     for (const [i, j] of L) {
       const a = N[i], b = N[j];
-      const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 0.01;
-      const f = (d - 78) * 0.0075, ux = dx / d * f, uy = dy / d * f;
-      a.vx += ux; a.vy += uy; b.vx -= ux; b.vy -= uy;
+      const st = 1 / Math.min(a.deg || 1, b.deg || 1);
+      const bias = (a.deg || 1) / ((a.deg || 1) + (b.deg || 1));
+      let dx = b.x + b.vx - a.x - a.vx, dy = b.y + b.vy - a.y - a.vy;
+      let d = Math.hypot(dx, dy) || 0.01;
+      const f = (d - LINKD) / d * a2 * st;
+      dx *= f; dy *= f;
+      b.vx -= dx * bias; b.vy -= dy * bias;
+      a.vx += dx * (1 - bias); a.vy += dy * (1 - bias);
     }
-    for (const n of N) {
-      n.vx -= n.x * 0.0026; n.vy -= n.y * 0.0026;
-      n.vx *= 0.86; n.vy *= 0.86;
-      if (n.root) { n.vx *= 0.25; n.vy *= 0.25; }
-      n.x += n.vx; n.y += n.vy;
+    let cx = 0, cy = 0;
+    for (const n of N) { cx += n.x; cy += n.y; }
+    cx = cx / N.length * CENTER; cy = cy / N.length * CENTER;
+    for (const n of N) { n.x -= cx; n.y -= cy; }
+    for (let it = 0; it < 3; it++) {
+      for (let i = 0; i < N.length; i++) {
+        const a = N[i];
+        for (let j = i + 1; j < N.length; j++) {
+          const b = N[j];
+          const rr = a.r + b.r + 16;
+          let dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 0.01;
+          if (d >= rr) continue;
+          const push = (rr - d) / d * 0.5;
+          dx *= push; dy *= push;
+          b.x += dx; b.y += dy; a.x -= dx; a.y -= dy;
+        }
+      }
     }
+    for (const n of N) { n.vx *= VD; n.vy *= VD; n.x += n.vx; n.y += n.vy; }
   }
-  const settle = n => { for (let i = 0; i < (n || 220); i++) tick(); };
 
   function draw() {
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
     ctx.save();
+    /* the MAP's local graph sits at scale 1.1 */
+    const k = full ? 2.2 : 1.25;
     ctx.translate(W / 2 + tx, H / 2 + ty);
-    ctx.lineWidth = 1;
-    /* the spokes to Disco carry the structure; the cross-links sit further back,
-       or the whole thing reads as a thicket */
-    for (const [alpha, want] of [[".07", false], [".22", true]]) {
-      ctx.strokeStyle = "rgba(255,255,255," + alpha + ")";
-      ctx.beginPath();
-      for (const [i, j] of L) {
-        if ((N[i].root || N[j].root) !== want) continue;
-        ctx.moveTo(N[i].x, N[i].y); ctx.lineTo(N[j].x, N[j].y);
-      }
-      ctx.stroke();
-    }
+    ctx.scale(k, k);
+    ctx.lineWidth = 1 / k;
+    ctx.strokeStyle = "#322e27";                 // --lightgray, dark mode
+    ctx.beginPath();
+    for (const [i, j] of L) { ctx.moveTo(N[i].x, N[i].y); ctx.lineTo(N[j].x, N[j].y); }
+    ctx.stroke();
     for (const n of N) {
       ctx.fillStyle = n.c;
-      ctx.globalAlpha = hover && hover !== n ? 0.45 : 1;
+      ctx.globalAlpha = hover && hover !== n ? 0.4 : 1;
       ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
-      if (n.root || n === hover) {
+      if (n.root || n === hover || (full && n.deg > 2)) {
         ctx.globalAlpha = 1;
-        ctx.fillStyle = "rgba(255,255,255,.92)";
-        ctx.font = (n.root ? "600 12px " : "12px ") + '"Source Serif 4",Georgia,serif';
+        ctx.fillStyle = "#f1ede2";               // --dark, dark mode
+        ctx.font = (10 / k).toFixed(2) + 'px "Source Serif 4",Georgia,serif';
         ctx.textAlign = "center";
-        ctx.fillText(n.t, n.x, n.y - n.r - 6);
+        ctx.fillText(n.t, n.x, n.y - n.r - 4 / k);
       }
     }
     ctx.globalAlpha = 1;
     ctx.restore();
   }
 
-  let frames = 0;
-  function step() {
-    if (running) { tick(); frames++; }
-    draw();
-    if (frames > 900) running = false;      // it comes to rest
-    requestAnimationFrame(step);
-  }
+  function step() { tick(); draw(); requestAnimationFrame(step); }
 
   /* pointer: drag to pan, tap a node to open its note */
   const at = e => {
-    const r = box.getBoundingClientRect();
-    return { x: e.clientX - r.left - W / 2 - tx, y: e.clientY - r.top - H / 2 - ty };
+    const r = box.getBoundingClientRect(), k = full ? 2.2 : 1.6;
+    return { x: (e.clientX - r.left - W / 2 - tx) / k, y: (e.clientY - r.top - H / 2 - ty) / k };
   };
-  const nodeAt = p => N.find(n => Math.hypot(n.x - p.x, n.y - p.y) < n.r + 7);
+  const nodeAt = p => N.find(n => Math.hypot(n.x - p.x, n.y - p.y) < n.r + 8);
   let down = null, moved = 0;
   box.addEventListener("pointerdown", e => {
     if (e.target === btn) return;
@@ -1076,8 +1108,9 @@ const SLOTS = [
       if (n && !n.root) {
         const r = box.getBoundingClientRect();
         tip.textContent = n.t;
-        tip.style.left = (n.x + W / 2 + tx) + "px";
-        tip.style.top = (n.y + H / 2 + ty) + "px";
+        const k = full ? 2.2 : 1.25;
+        tip.style.left = (n.x * k + W / 2 + tx) + "px";
+        tip.style.top = (n.y * k + H / 2 + ty) + "px";
         tip.style.opacity = "1";
       } else tip.style.opacity = "0";
     }
@@ -1095,7 +1128,6 @@ const SLOTS = [
   box.addEventListener("pointerleave", () => { hover = null; tip.style.opacity = "0"; });
 
   /* expand: the MAP's bloom, and every way back out */
-  let full = false;
   const home = box.parentNode, mark = document.createComment("constellation");
   function toggle() {
     full = !full;
@@ -1110,10 +1142,11 @@ const SLOTS = [
       mark.remove();
     }
     box.classList.toggle("full", full);
-    btn.textContent = full ? "Close" : "Expand";
+    btn.setAttribute("aria-label", full ? "Close" : "Expand");
     document.body.style.overflow = full ? "hidden" : "";
     tx = ty = 0;
-    requestAnimationFrame(() => { size(); running = true; frames = 0; draw(); });
+    alpha = 0.9;
+    requestAnimationFrame(() => { size(); draw(); });
   }
   btn.addEventListener("click", e => { e.stopPropagation(); toggle(); });
   addEventListener("keydown", e => { if (e.key === "Escape" && full) toggle(); });
