@@ -119,6 +119,49 @@ section:last-of-type{padding-bottom:5.5rem}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
+/* the essay — set wider than the rest so it does not read as a column of string */
+.essay{max-width:680px}
+.essay p{font-size:clamp(1rem,2.3vw,1.12rem);line-height:1.78;margin:0 0 1.25rem;color:rgba(255,255,255,.88)}
+.essay a{color:inherit}
+.essay em{font-style:italic}
+/* the section breaks: three quiet dots, centered */
+.dots{display:block;text-align:center;color:var(--faint);letter-spacing:.9em;
+  font-size:.7rem;margin:2.4rem 0 2.4rem;text-indent:.9em;user-select:none}
+.sign{font-family:var(--label);font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;
+  margin:2.2rem 0 .2rem}
+/* LOVE ALWAYS catches the light, the way everything else here does */
+.shimmer{background:linear-gradient(100deg,
+    rgba(255,255,255,.55) 0%,rgba(255,255,255,.55) 38%,#fff 48%,
+    rgba(255,255,255,.55) 58%,rgba(255,255,255,.55) 100%);
+  background-size:280% 100%;-webkit-background-clip:text;background-clip:text;
+  color:transparent;animation:shimmer 5.5s linear infinite}
+@keyframes shimmer{from{background-position:180% 0}to{background-position:-80% 0}}
+@media (prefers-reduced-motion:reduce){.shimmer{animation:none;color:#fff;background:none;-webkit-text-fill-color:#fff}}
+.sign-name{font-family:var(--serif);font-size:1rem;letter-spacing:.02em;color:var(--dim);
+  text-transform:none;margin:.1rem 0 0}
+.closers{margin-top:2.4rem}
+.closers p{font-size:clamp(.94rem,2.2vw,1.05rem);font-style:italic;color:var(--dim);margin:0 0 1rem}
+.closers .dress{color:var(--white);font-weight:500;margin-top:1.4rem}
+
+/* the question: a small round door, and what is behind it */
+.qbtn{position:relative;display:block;margin:2.6rem auto 0;width:34px;height:34px;
+  border-radius:50%;border:1px solid var(--hair);background:transparent;color:var(--dim);
+  font-family:var(--label);font-size:.85rem;line-height:1;cursor:pointer;
+  transition:border-color .3s var(--ease),color .3s var(--ease)}
+.qbtn:hover,.qbtn:focus-visible{border-color:var(--white);color:var(--white)}
+.peek{position:fixed;inset:0;z-index:12;display:none;align-items:center;justify-content:center;
+  flex-direction:column;padding:5vh 1.2rem;background:#000;
+  opacity:0;transition:opacity .4s var(--ease)}
+.peek.open{display:flex}
+.peek.lit{opacity:1}
+.peek img{max-width:min(560px,88vw);max-height:64vh;width:auto;height:auto;display:block;
+  border:1px solid var(--hair)}
+.peek figcaption{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--dim);
+  margin:1rem 0 0;text-align:center}
+.peek .x{margin-top:1.6rem;background:none;border:0;color:var(--white);cursor:pointer;
+  font-family:var(--label);font-size:1.1rem;line-height:1;padding:.5rem 1rem}
+.peek figure{margin:0}
+
 /* the invitation */
 .inv p{font-size:clamp(1rem,2.3vw,1.14rem);margin:0 0 1.1rem;color:rgba(255,255,255,.88)}
 .inv .kicker{font-size:clamp(1.45rem,5.2vw,1.85rem);color:rgba(255,255,255,.92);margin:0 0 1.5rem}
@@ -130,13 +173,14 @@ section:last-of-type{padding-bottom:5.5rem}
 }
 
 /* lineup */
-.slot{display:flex;align-items:baseline;gap:1.2rem;padding:.78rem 0;border-top:1px solid var(--hair)}
+.slot{display:flex;align-items:baseline;gap:.9rem;padding:.78rem 0;border-top:1px solid var(--hair)}
 .slot:last-child{border-bottom:1px solid var(--hair)}
-.slot .t{font-family:var(--label);font-size:.74rem;letter-spacing:.1em;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
+.slot .t{font-family:var(--label);font-size:.74rem;letter-spacing:.1em;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums;flex:0 0 4.6rem}
 .slot .who{font-size:1.05rem;font-weight:500}
 .slot .who.tba{color:var(--faint);letter-spacing:.45em}
 
 .doors{font-size:.95rem;font-style:italic;color:var(--dim);margin:-.4rem 0 1.6rem}
+.subject{font-size:.95rem;font-style:italic;color:var(--faint);line-height:1.7;margin:1.4rem 0 0}
 
 /* rsvp */
 .field{margin:0 0 1.25rem}
@@ -262,17 +306,69 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 </header>
 
 <main>
-  <section class="inv reveal" id="night">
-    <p>in celebration of my 26th birthday I am organizing a night of pure revelry soundtracked by strains of disco produced between ~1973 and ~1989.</p>
-    <p>[MORE TO COME]</p>
-    <p class="aside">there will indeed be alcohol and other notable substances available for your indulgence, but do bring more... the more the merrier.<br>and there will indeed be people, but do bring more! The more the merrier!</p>
-    <p class="dress">wear something that catches the light.</p>
+  <section class="inv essay reveal" id="night">
+    <p class="kicker">The circular years</p>
+
+    <p>to coincide with my 26th birthday, I’ve organized a night of pure revelry soundtracked primarily by strains of <a class="ulink" href="https://shafrasier.com/map/MUSIC/GENRES/DANCE/Disco" target="_blank" rel="noopener">disco</a> produced between ~1973 and ~1989. Manning the decks will be a roster of some of my dearest friends, each of whom I’ve asked to bring their vision of DISCO to future space.</p>
+
+    <p>I’ve been thinking a lot lately of everyone that I’ve met up with under the disco ball over the years, of all the glints of our sunglasses and flashes of our smiles, and of the innately innocent understanding we glean of each other&#39;s souls as we learn how we all move, together under the guidance of sound.</p>
+
+    <p>unbeknownst to no one, disco has always moved me, and the sustained sunburst of free energy that powers its ethos has also animated endless moments of connection for us all, but I’ve chosen it as the anchor of this event in tribute to its effect on the passage of time. Disco is the progenitor of all that we now know as <a class="ulink" href="https://shafrasier.com/map/MUSIC/GENRES/DANCE/Dance" target="_blank" rel="noopener">“dance”</a> music, or simply, music made for the floor, whose product is the night itself.</p>
+
+    <p>and when you’re on the floor — and I mean <em>really</em> there — time loops and stretches and compresses with music’s lead, until you transcend to a state of blissful unawareness of the hour, or the season, or even the city you’re in. Moments of ecstasy arrive, they fly around the room, and they come back around again. Synchrony with each other and the music above our heads takes absolute precedence. Rarely in the &quot;real&quot; world do we get to completely release ourselves from life’s contours and exist in pure togetherness, in unencumbered vitality and collective joy. In these moments, we&#39;re all moving, but time isn&#39;t. The floor is unbounded by time.</p>
+
+    <p class="dots" aria-hidden="true">•••</p>
+
+    <p>Chuquimamani-Condori is one of my favorite musicians as of late — their music at once cutting-edge and ancient, dismantling linearized notions of time and refusing the colonialist habit of filing Indigenous cultures away in the past tense. Of their Aymara heritage, they <a class="ulink" href="https://www.thevinylfactory.com/features/elysia-crampton-interview-spots-y-escupitajo" target="_blank" rel="noopener">once said</a>: &quot;the past is here, what we see. The future does not lie ahead but is behind us, something we carry. To move forward is to also return.&quot;</p>
+
+    <p>when I was younger, time used to hurtle forward and leave me in its wake. Stages of life would slip past, mere ephemera, the person I used to be now seeming like a strange character, the people I knew blowing away in the wind.</p>
+
+    <p>over the three years since the great unmooring of graduation, the shape of time has bent more and more circular. After a long winter mourning the community that the clocks took from me at college&#39;s end, I left New York, moved back to Chicago, and spent a year adrift across five continents, guided by old life’s glimmering mirage and old love’s faint beacon, trying, in futility, to return home.</p>
+
+    <p>but in all my grasping at the past, I ended up collecting enough of a sense of which parts of home I still carried with me, and they were enough to start building it anew.</p>
+
+    <p>standing in John Lennon&#39;s childhood bedroom in Liverpool, I remembered my first-grade self sitting in my own sun-streaked room with my best friend, held in complete captivation by Beatles album after Beatles album. Back in Hyde Park, I remembered how that same exact feeling lived amidst the rainbows that painted my old bedroom on Kenwood. Walking around campus again, I remembered all the sparks of delight that lit up everyone&#39;s eyes as we built Firebird from the ground up. And no matter where else the wind blew me, I carried all the other awe and joy I&#39;ve shared with someone just because we heard a song together.</p>
+
+    <p>so naturally, this past year, my first since returning to New York and settling into the shores of stability, has taken its shape from what I&#39;ve built with you all: community, around ritual, around music. Friends old and new pack my living room to travel around a record in darkness and fill a gallery to journey through pure sound in daylight — that same feeling, alive again. It is the first of the circular years.</p>
+
+    <p>and here&#39;s why: eras end, and rituals return. They are, in essence, focused moments of elected recurrence. Continuing Education comes back around every month. Faces shift, records change, the room fills all the same, we light the candles again, and there is no clock chasing us down. There will always be another record to play.</p>
+
+    <p>in the circular years, life is made less of stages that end than of gatherings that return. The same wind that once carried people off now brings them back around. We move forward, and we also return.</p>
+
+    <p class="dots" aria-hidden="true">•••</p>
+
+    <p>the New York Times <a class="ulink" href="https://www.nytimes.com/2026/06/14/opinion/trump-turns-80.html" target="_blank" rel="noopener">recently asked</a> Bob Dylan for his thoughts on the best and worst parts about being an octogenarian. To Dylan, the best part about his age is that “you’re not rushing to become anything and you’re not haunted by things that you did. You’re haunted by how little of it really mattered in the way you thought it would.”</p>
+
+    <p>once, while I was on a flight to San Francisco, I looked out of my window and saw flames erupting from one of the engines as it began to fail. In the face of oblivion, the ledger of all that I had accomplished was wiped away. In its place were the faces of everyone I love. When we landed safely, I bade a blessing to my memories.</p>
+
+    <p>Dylan ended his response here: “When you’re young you think that time moves forward. At 80 you know that it doesn’t, it stands still. We’re the ones that move.”</p>
+
+    <p>upon first read, I was a bit bemused. I&#39;d spent most of my life feeling the forward rush of time, spent the past few years feeling it bend circular, and an 85-year-old Dylan had just insisted that time doesn&#39;t move at all.</p>
+
+    <p>but after sitting with it for a while, I realized that time stands still <em>because</em> its shape is round. A circle is complete — it has already delivered everything forward and back in perfect stillness. We can only decide <em>how</em> we move. And the floor was never an escape from time, but a pure and honest way of moving right through it, together. For a few hours, the way time feels and the way time is are one and the same. In a circle, with your circle, to move forward is to also return.</p>
+
+    <p class="dots" aria-hidden="true">•••</p>
+
+    <p>so time will never move, but we do, until we don’t. And when we move no longer, I can’t imagine we’ll take much more than our memories. Long beyond the coming of that day, I will cherish all of mine made with you during these circular years. All we need is to love and be loved. We have all the time in the world for that.</p>
+
+    <p>ok ok... the invite for my birthday party has gotten a bit deeper (and longer) than I intended. Thank you all for reading! I really just mean to say: I love you all so much, and the depth of my gratitude to be turning 26 in 2026 surrounded by all of you, and to have made so many precious memories with you this past year, knows no bounds. I’m excited to dance!</p>
+
+    <p class="sign"><span class="shimmer">LOVE ALWAYS</span></p>
+    <p class="sign-name">sha</p>
+
+    <button class="qbtn" id="qbtn" type="button" aria-label="A picture">?</button>
+
+    <div class="closers">
+      <p>there will indeed be alcohol and other notable substances available for your indulgence, but do bring more... the more the merrier.<br>and there will indeed be people, but do bring more! The more the merrier!</p>
+      <p class="dress">wear something that catches the light.</p>
+    </div>
   </section>
 
   <section class="reveal" id="lineup">
     <p class="kicker">Lineup</p>
     <p class="doors">Doors: 7:00 p.m.</p>
     <div id="slots"></div>
+    <p class="subject">lineup subject to change — check back in the days before for the final roster.</p>
   </section>
 
   <section class="reveal" id="rsvp">
@@ -363,6 +459,14 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   </section>
 </main>
 
+<div class="peek" id="peek" role="dialog" aria-modal="true" aria-label="A picture">
+  <figure>
+    <img src="baby-sha.jpg" alt="A small child holding up a photograph of another small child">
+    <figcaption>baby sha holding a baby pic of his dad!</figcaption>
+  </figure>
+  <button class="x" id="peekx" type="button" aria-label="Close">✕</button>
+</div>
+
 <footer class="foot"><a class="ulink" href="https://shafrasier.com">SHAFRASIER.COM</a></footer>
 
 <script>
@@ -373,8 +477,8 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4
 
 /* Lineup — fill names as they confirm; null renders as a quiet redaction. */
 const SLOTS = [
-  { t: "8—9", who: null }, { t: "9—10", who: null }, { t: "10—11", who: null },
-  { t: "11—12", who: "SHA" }, { t: "12—1", who: "slowmovingprince" }, { t: "1—2", who: null },
+  { t: "8—9", who: "Marty" }, { t: "9—10", who: "Garry" }, { t: "10—11", who: "otisotisotis" },
+  { t: "11—12", who: "DJ SHA" }, { t: "12—1", who: "slowmovingprince" }, { t: "1—2", who: null },
   { t: "2—3", who: "???" },
 ];
 
@@ -776,6 +880,33 @@ const SLOTS = [
     for (const e of es) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
   }, { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+})();
+
+/* ═══ The picture ═══ */
+(() => {
+  const btn = document.getElementById("qbtn"), peek = document.getElementById("peek");
+  if (!btn || !peek) return;
+  let open = false;
+  const show = () => {
+    open = true;
+    peek.classList.add("open");
+    setTimeout(() => peek.classList.add("lit"), 20);   // a paused rAF must not strand it
+    document.getElementById("peekx").focus();
+  };
+  const hide = () => {
+    if (!open) return;
+    open = false;
+    peek.classList.remove("lit");
+    setTimeout(() => peek.classList.remove("open"), 400);
+    btn.focus();
+  };
+  btn.addEventListener("click", show);
+  document.getElementById("peekx").addEventListener("click", hide);
+  /* anywhere in the dark closes it; the picture itself does not */
+  peek.addEventListener("click", e => {
+    if (!e.target.closest("figure")) hide();
+  });
+  addEventListener("keydown", e => { if (e.key === "Escape") hide(); });
 })();
 
 /* ═══ Lineup ═══ */
