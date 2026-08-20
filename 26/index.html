@@ -55,14 +55,13 @@ body{
 /* A link inside a sentence needs to look like one before you touch it — the
    hover-drawn underline is invisible on a phone. These rest at a faint gray
    and brighten on contact. */
-.essay a.ulink::after,.inquiries a.ulink::after,.namebtn::after{
+.essay a.ulink::after,.namebtn::after{
   transform:scaleX(1);background:rgba(255,255,255,.3);transition:none}
-.essay a.ulink::before,.inquiries a.ulink::before,.namebtn::before{
+.essay a.ulink::before,.namebtn::before{
   content:"";position:absolute;left:0;bottom:-3px;width:100%;height:1px;
   background:var(--white);transform:scaleX(0);transform-origin:left center;
   transition:transform .35s var(--ease)}
 .essay a.ulink:hover::before,.essay a.ulink:focus-visible::before,
-.inquiries a.ulink:hover::before,.inquiries a.ulink:focus-visible::before,
 .namebtn:hover::before,.namebtn:focus-visible::before{transform:scaleX(1)}
 
 /* ── the masthead: ball + wordmark, one fixed rig ──
@@ -120,7 +119,7 @@ body{
 
 /* ── sections ── */
 main{position:relative;z-index:1}
-section{max-width:560px;margin:0 auto;padding:4.8rem 1.4rem 0}
+section{max-width:680px;margin:0 auto;padding:4.8rem 1.4rem 0}
 section:last-of-type{padding-bottom:5.5rem}
 .kicker{
   font-family:var(--serif);font-weight:600;font-size:clamp(1.45rem,5.2vw,1.85rem);
@@ -132,7 +131,6 @@ section:last-of-type{padding-bottom:5.5rem}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
 /* the essay — set wider than the rest so it does not read as a column of string */
-.essay{max-width:680px}
 .essay p{font-size:clamp(1rem,2.3vw,1.12rem);line-height:1.78;margin:0 0 1.25rem;color:rgba(255,255,255,.88)}
 .essay a{color:inherit}
 .essay em{font-style:italic}
@@ -145,9 +143,38 @@ section:last-of-type{padding-bottom:5.5rem}
 .closers p{font-size:clamp(.94rem,2.2vw,1.05rem);font-style:italic;color:var(--dim);margin:0 0 1rem}
 .closers .dress{color:var(--white);font-weight:500;margin-top:1.4rem}
 
+/* ── the constellation: Disco and everything that touches it, read live from
+   the MAP's own index, so it grows as the MAP does ── */
+.consto{margin:2.8rem 0 0}
+.constbox{position:relative;border:1px solid var(--hair);background:#000;
+  height:300px;overflow:hidden;touch-action:none;cursor:grab}
+.constbox.drag{cursor:grabbing}
+.constbox canvas{display:block;width:100%;height:100%}
+.constnote{font-size:.92rem;font-style:italic;color:var(--faint);line-height:1.7;margin:.9rem 0 0}
+.constbtn{position:absolute;top:.55rem;right:.55rem;z-index:2;background:rgba(0,0,0,.55);
+  border:1px solid var(--hair);color:var(--dim);font-family:var(--label);font-size:.56rem;
+  letter-spacing:.2em;text-transform:uppercase;padding:.4rem .6rem;cursor:pointer;
+  transition:color .3s var(--ease),border-color .3s var(--ease)}
+.constbtn:hover,.constbtn:focus-visible{color:var(--white);border-color:var(--white)}
+.constload{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--label);font-size:.6rem;letter-spacing:.24em;color:var(--faint);
+  text-transform:uppercase;pointer-events:none}
+/* fullscreen — the MAP's own bloom, verbatim */
+.constbox.full{position:fixed;inset:0;z-index:14;height:auto;border:0;
+  animation:gg-bloom .34s cubic-bezier(.22,1,.36,1)}
+@keyframes gg-bloom{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.constbox.full{animation:none}}
+.consttip{position:absolute;z-index:3;pointer-events:none;opacity:0;
+  font-family:var(--serif);font-size:.9rem;color:var(--white);background:rgba(0,0,0,.82);
+  border:1px solid var(--hair);padding:.28rem .5rem;white-space:nowrap;
+  transform:translate(-50%,-140%);transition:opacity .18s ease}
+
 /* the name is the door — it reads as text, behaves as a link */
+/* inline, not inline-block: an inline-block box is the full line-height tall,
+   which pushed its underline well below the word. Inline boxes hug the glyphs,
+   so this sits exactly where the prose links' underlines sit. */
 .namebtn{font:inherit;color:inherit;background:none;border:0;padding:0;
-  cursor:pointer;display:inline-block}
+  cursor:pointer;display:inline}
 .peek{position:fixed;inset:0;z-index:12;display:none;align-items:center;justify-content:center;
   flex-direction:column;padding:5vh 1.2rem;background:#000;
   opacity:0;transition:opacity .62s var(--ease)}
@@ -272,6 +299,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .where .venue{font-size:1.6rem;font-weight:600;letter-spacing:.02em;margin:0;line-height:1;position:relative;top:.09em}
 .where .addr{font-size:1rem;font-style:italic;color:var(--dim);line-height:1.7;margin:0 0 1rem}
 .inquiries{font-size:.95rem;font-style:italic;color:var(--dim);line-height:1.7;margin:0 0 2rem}
+.inquiries a.ulink{color:var(--white)}
 .links{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;justify-items:center;column-gap:2.4rem;row-gap:1.1rem;padding-top:.4rem}
 .links .ulink{font-family:var(--label);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase}
 
@@ -431,6 +459,18 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
       <div><span class="n" id="c-maybe">—</span><span class="l">maybe</span></div>
     </div>
     <ul class="guests" id="guests"></ul>
+  </section>
+
+  <section class="reveal" id="constellation">
+    <div class="consto">
+      <div class="constbox" id="constbox">
+        <canvas id="constcv"></canvas>
+        <button class="constbtn" id="constfull" type="button">Expand</button>
+        <div class="constload" id="constload">drawing…</div>
+        <div class="consttip" id="consttip"></div>
+      </div>
+      <p class="constnote">if you&#39;d like to learn more about the forms, artists, records, moments, and venues that defined disco, read about it on the MAP!</p>
+    </div>
   </section>
 
   <section class="where reveal" id="where">
@@ -871,6 +911,213 @@ const SLOTS = [
     for (const e of es) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
   }, { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+})();
+
+/* ═══ The constellation ═══
+   Disco and every note that touches it, drawn from the MAP's own graph index.
+   The feed regenerates on every MAP build, so this grows on its own as the
+   disco corner of the MAP grows — nothing here needs editing. A small force
+   layout on canvas rather than the MAP's pixi build: same look, a few KB. */
+(() => {
+  const box = document.getElementById("constbox");
+  if (!box) return;
+  const cv = document.getElementById("constcv"), ctx = cv.getContext("2d");
+  const load = document.getElementById("constload"), tip = document.getElementById("consttip");
+  const btn = document.getElementById("constfull");
+  const FEED = "/map/static/graphIndex.json", ROOT = "MUSIC/GENRES/DANCE/Disco";
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* the MAP's dark-mode palette, folder-prefixed, most specific first */
+  const COLORS = [
+    ["music/releases/albums/", "#c44040"], ["music/releases/singles/", "#d46070"],
+    ["music/releases/tracks/", "#e87890"], ["music/artists/songwriters/", "#c4a545"],
+    ["music/artists/producers/", "#c4a545"], ["music/artists/session-musicians/", "#c4a545"],
+    ["music/artists/", "#d4952a"], ["music/places/", "#b3714f"],
+    ["music/genres/", "#3a9c40"], ["music/scenes/", "#6ab86a"],
+    ["music/eras/", "#2a8880"], ["music/moments/", "#2cbdb2"],
+    ["music/ideas/", "#52a8d7"], ["music/x-library/", "#4070c0"],
+    ["music/techniques/production/", "#9858c8"], ["music/techniques/theory/", "#6a4cb8"],
+    ["music/techniques/", "#9858c8"], ["music/industry/", "#5a7a9a"],
+  ];
+  const colorOf = slug => {
+    const id = slug.toLowerCase();
+    for (const [pre, hex] of COLORS) if (id.startsWith(pre)) return hex;
+    return "#8a8a8a";
+  };
+
+  let N = [], L = [], DPR = 1, W = 0, H = 0;
+  let tx = 0, ty = 0, running = false, hover = null;
+
+  function size() {
+    const r = box.getBoundingClientRect();
+    DPR = Math.min(devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  }
+
+  fetch(FEED).then(r => r.json()).then(idx => {
+    if (!idx[ROOT]) throw new Error("no root");
+    const out = new Set(idx[ROOT].l || []);
+    const inc = Object.keys(idx).filter(k => (idx[k].l || []).includes(ROOT));
+    const near = [...new Set([...out, ...inc])].filter(k => idx[k] && k !== ROOT);
+
+    N = [{ id: ROOT, t: idx[ROOT].t, root: true }].concat(
+      near.map(k => ({ id: k, t: idx[k].t })));
+    const at = new Map(N.map((n, i) => [n.id, i]));
+    /* every edge among the notes on screen, not just the spokes to Disco */
+    for (const n of N) for (const l of idx[n.id].l || []) {
+      if (at.has(l) && l !== n.id) L.push([at.get(n.id), at.get(l)]);
+    }
+    N.forEach((n, i) => {
+      const a = (i / Math.max(1, N.length - 1)) * Math.PI * 2;
+      n.x = n.root ? 0 : Math.cos(a) * 120 + (i % 3) * 9;
+      n.y = n.root ? 0 : Math.sin(a) * 120 + (i % 4) * 7;
+      n.vx = n.vy = 0;
+      n.r = n.root ? 9 : 4.4;
+      n.c = n.root ? "#3a9c40" : colorOf(n.id);
+    });
+    load.remove();
+    size(); settle(reduced ? 260 : 0);
+    if (!reduced) { running = true; requestAnimationFrame(step); } else draw();
+  }).catch(() => { load.textContent = "the map is resting"; });
+
+  /* a plain force layout: repulsion, spring edges, a pull toward the middle */
+  function tick() {
+    for (let i = 0; i < N.length; i++) {
+      const a = N[i];
+      for (let j = i + 1; j < N.length; j++) {
+        const b = N[j];
+        let dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy || 0.01;
+        if (d2 > 62500) continue;
+        const f = 900 / d2, d = Math.sqrt(d2);
+        const ux = dx / d * f, uy = dy / d * f;
+        a.vx -= ux; a.vy -= uy; b.vx += ux; b.vy += uy;
+      }
+    }
+    for (const [i, j] of L) {
+      const a = N[i], b = N[j];
+      const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 0.01;
+      const f = (d - 78) * 0.0075, ux = dx / d * f, uy = dy / d * f;
+      a.vx += ux; a.vy += uy; b.vx -= ux; b.vy -= uy;
+    }
+    for (const n of N) {
+      n.vx -= n.x * 0.0026; n.vy -= n.y * 0.0026;
+      n.vx *= 0.86; n.vy *= 0.86;
+      if (n.root) { n.vx *= 0.25; n.vy *= 0.25; }
+      n.x += n.vx; n.y += n.vy;
+    }
+  }
+  const settle = n => { for (let i = 0; i < (n || 220); i++) tick(); };
+
+  function draw() {
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.translate(W / 2 + tx, H / 2 + ty);
+    ctx.lineWidth = 1;
+    /* the spokes to Disco carry the structure; the cross-links sit further back,
+       or the whole thing reads as a thicket */
+    for (const [alpha, want] of [[".07", false], [".22", true]]) {
+      ctx.strokeStyle = "rgba(255,255,255," + alpha + ")";
+      ctx.beginPath();
+      for (const [i, j] of L) {
+        if ((N[i].root || N[j].root) !== want) continue;
+        ctx.moveTo(N[i].x, N[i].y); ctx.lineTo(N[j].x, N[j].y);
+      }
+      ctx.stroke();
+    }
+    for (const n of N) {
+      ctx.fillStyle = n.c;
+      ctx.globalAlpha = hover && hover !== n ? 0.45 : 1;
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
+      if (n.root || n === hover) {
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "rgba(255,255,255,.92)";
+        ctx.font = (n.root ? "600 12px " : "12px ") + '"Source Serif 4",Georgia,serif';
+        ctx.textAlign = "center";
+        ctx.fillText(n.t, n.x, n.y - n.r - 6);
+      }
+    }
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+
+  let frames = 0;
+  function step() {
+    if (running) { tick(); frames++; }
+    draw();
+    if (frames > 900) running = false;      // it comes to rest
+    requestAnimationFrame(step);
+  }
+
+  /* pointer: drag to pan, tap a node to open its note */
+  const at = e => {
+    const r = box.getBoundingClientRect();
+    return { x: e.clientX - r.left - W / 2 - tx, y: e.clientY - r.top - H / 2 - ty };
+  };
+  const nodeAt = p => N.find(n => Math.hypot(n.x - p.x, n.y - p.y) < n.r + 7);
+  let down = null, moved = 0;
+  box.addEventListener("pointerdown", e => {
+    if (e.target === btn) return;
+    down = { x: e.clientX, y: e.clientY, tx, ty }; moved = 0;
+    box.classList.add("drag");
+    try { box.setPointerCapture(e.pointerId); } catch {}
+  });
+  box.addEventListener("pointermove", e => {
+    if (down) {
+      moved = Math.max(moved, Math.hypot(e.clientX - down.x, e.clientY - down.y));
+      tx = down.tx + (e.clientX - down.x); ty = down.ty + (e.clientY - down.y);
+      return;
+    }
+    const n = nodeAt(at(e));
+    if (n !== hover) {
+      hover = n;
+      box.style.cursor = n ? "pointer" : "grab";
+      if (n && !n.root) {
+        const r = box.getBoundingClientRect();
+        tip.textContent = n.t;
+        tip.style.left = (n.x + W / 2 + tx) + "px";
+        tip.style.top = (n.y + H / 2 + ty) + "px";
+        tip.style.opacity = "1";
+      } else tip.style.opacity = "0";
+    }
+  });
+  const up = e => {
+    box.classList.remove("drag");
+    if (down && moved < 5) {
+      const n = nodeAt(at(e));
+      if (n) window.open("/map/" + n.id, "_blank", "noopener");
+    }
+    down = null;
+  };
+  box.addEventListener("pointerup", up);
+  box.addEventListener("pointercancel", () => { down = null; box.classList.remove("drag"); });
+  box.addEventListener("pointerleave", () => { hover = null; tip.style.opacity = "0"; });
+
+  /* expand: the MAP's bloom, and every way back out */
+  let full = false;
+  const home = box.parentNode, mark = document.createComment("constellation");
+  function toggle() {
+    full = !full;
+    if (full) {
+      /* out to the body: the section animates its own transform, and a
+         transformed ancestor makes position:fixed resolve against IT, not the
+         viewport — which left "fullscreen" a few hundred pixels tall */
+      home.insertBefore(mark, box);
+      document.body.appendChild(box);
+    } else {
+      mark.parentNode.insertBefore(box, mark);
+      mark.remove();
+    }
+    box.classList.toggle("full", full);
+    btn.textContent = full ? "Close" : "Expand";
+    document.body.style.overflow = full ? "hidden" : "";
+    tx = ty = 0;
+    requestAnimationFrame(() => { size(); running = true; frames = 0; draw(); });
+  }
+  btn.addEventListener("click", e => { e.stopPropagation(); toggle(); });
+  addEventListener("keydown", e => { if (e.key === "Escape" && full) toggle(); });
+  addEventListener("resize", () => { if (N.length) { size(); draw(); } });
 })();
 
 /* ═══ The picture ═══ */
