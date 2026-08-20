@@ -1092,7 +1092,7 @@ const SLOTS = [
   const nodeAt = p => N.find(n => Math.hypot(n.x - p.x, n.y - p.y) < n.r + 8);
   let down = null, moved = 0;
   box.addEventListener("pointerdown", e => {
-    if (e.target === btn) return;
+    if (e.target.closest && e.target.closest(".constbtn")) return;   // the icon is not the field
     down = { x: e.clientX, y: e.clientY, tx, ty }; moved = 0;
     box.classList.add("drag");
     try { box.setPointerCapture(e.pointerId); } catch {}
@@ -1119,6 +1119,7 @@ const SLOTS = [
   });
   const up = e => {
     box.classList.remove("drag");
+    if (e.target.closest && e.target.closest(".constbtn")) { down = null; return; }
     if (down && moved < 5) {
       const n = nodeAt(at(e));
       if (n) window.open("/map/" + n.id, "_blank", "noopener");
