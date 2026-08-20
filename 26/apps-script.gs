@@ -31,7 +31,7 @@
 const NOTIFY = "frasier.sha@gmail.com";
 
 // Bump when this file changes; visible in doGet so a deploy can be verified.
-const BUILD = 4;
+const BUILD = 5;
 
 const HEADERS = ["When", "First", "Last", "Phone", "Going %", "Plus ones", "Show on list"];
 
@@ -87,10 +87,11 @@ function doGet() {
     // Anything in between is a maybe; 0 is a no.
     if (pct >= 100) going += heads;
     else if (pct > 0) maybe += heads;
-    // The list shows everyone opted-in who is coming at all (pct > 0),
-    // ranked: the 100%s on top, then descending percent, ties by last name.
-    // A 90% shows up under the sure things with their number beside them.
-    if (show === "yes" && pct > 0) {
+    // Everyone coming at all (pct > 0) appears, ranked: the 100%s on top, then
+    // descending percent, ties by last name. A 90% shows up under the sure
+    // things with their number beside them. There is no opting out — the
+    // "Show on list" column is kept for the record but no longer consulted.
+    if (pct > 0) {
       guests.push({ n: last + ", " + first, p: Number(plus) || 0, pct: pct, sort: (last + " " + first).toLowerCase() });
     }
   }

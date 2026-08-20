@@ -242,12 +242,6 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .pcap.away{opacity:0}
 
 /* the list line + submit */
-.opt{display:flex;align-items:center;gap:.7rem;margin:1.5rem 0 0;cursor:pointer;user-select:none}
-.opt input{position:absolute;opacity:0;pointer-events:none}
-.opt .box{width:14px;height:14px;border-radius:50%;border:1px solid var(--dim);flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;transition:all .25s var(--ease)}
-.opt input:checked + .box{background:var(--white);border-color:var(--white)}
-.opt input:focus-visible + .box{outline:1px solid var(--white);outline-offset:2px}
-.opt .otext{font-size:.92rem;font-style:italic;color:var(--dim)}
 .ringwrap{margin-top:2rem;display:flex;align-items:center;gap:1.3rem}
 #ring{width:128px;height:128px;touch-action:none;cursor:grab;flex:0 0 auto;outline:none}
 #ring:focus-visible{border-radius:50%;box-shadow:0 0 0 1px var(--white)}
@@ -420,11 +414,6 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
         <span class="pcap">just me</span>
       </div>
 
-      <label class="opt">
-        <input type="checkbox" id="show" checked>
-        <span class="box" aria-hidden="true"></span>
-        <span class="otext">show my name on the guest list</span>
-      </label>
       </div><!-- /fields -->
 
       <div class="ringwrap" id="ringwrap">
@@ -1082,7 +1071,7 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
           first: $("fn").value.trim(), last: $("ln").value.trim(),
-          phone: $("ph").value.trim(), pct, plus, show: $("show").checked,
+          phone: $("ph").value.trim(), pct, plus, show: true,
         }),
       });
       if (!res.ok) throw new Error(res.status);
@@ -1139,7 +1128,7 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
 
   /* put the guest on the list immediately; loadList reconciles a moment later */
   function addSelfToList() {
-    if (!$("show").checked || pct <= 0) return;
+    if (pct <= 0) return;
     const name = $("ln").value.trim() + ", " + $("fn").value.trim();
     const ul = $("guests");
     if ([...ul.children].some(li => li.textContent.startsWith(name))) return;
