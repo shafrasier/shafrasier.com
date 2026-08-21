@@ -296,7 +296,10 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .where .venue{font-size:1.6rem;font-weight:600;letter-spacing:.02em;margin:0;line-height:1;position:relative;top:.09em}
 .where .addr{font-size:1rem;font-style:italic;color:var(--dim);line-height:1.7;margin:0 0 1rem}
 .inquiries{font-size:.95rem;font-style:italic;color:var(--dim);line-height:1.7;margin:0 0 2rem}
-.inquiries a.ulink{color:var(--white)}
+.inquiries a.ulink{color:var(--white);white-space:nowrap}
+/* On a phone the line breaks mid-number, stranding "0910" on its own. Send the
+   whole number down together instead; desktop has the room and stays inline. */
+@media (max-width:640px){.inquiries .nb{display:block}}
 .links{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;justify-items:center;column-gap:2.4rem;row-gap:1.1rem;padding-top:.4rem}
 .links .ulink{font-family:var(--label);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase}
 
@@ -477,7 +480,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
       <img class="pfp" src="future-space.jpg?v=2" alt="Future Space">
     </div>
     <p class="addr">5-84 Woodward Avenue<br>Ridgewood, New York 11385</p>
-    <p class="inquiries">if you have any inquiries, contact Sha at <a class="ulink" href="tel:+16086300910">(608) 630-0910</a>.</p>
+    <p class="inquiries">if you have any inquiries, contact Sha <span class="nb">at <a class="ulink" href="tel:+16086300910">(608) 630-0910</a>.</span></p>
     <div class="links">
       <a class="ulink" href="https://maps.apple.com/?address=5-84%20Woodward%20Ave,%20Ridgewood,%20NY%2011385" target="_blank" rel="noopener">Directions</a>
       <a class="ulink" href="disco-space.ics">Calendar</a>
