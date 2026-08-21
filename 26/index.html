@@ -89,7 +89,10 @@ body{
   font-weight:600;letter-spacing:.01em;line-height:1.05;white-space:nowrap;
 }
 #mark .w{display:inline-block}
-#us{display:inline-block;transform-origin:50% 50%}
+/* No letter-spacing on the bar: the wordmark's .01em rides on the END of the
+   glyph's box, so the ink sits fractionally left of box centre — and stretching
+   the box 8x multiplies that offset into a visible shift. */
+#us{display:inline-block;transform-origin:50% 50%;letter-spacing:0}
 
 /* the boundary: the page never reaches the ball — it is covered before it gets there */
 #band{position:fixed;top:0;left:0;right:0;height:var(--bandh,0px);z-index:3;pointer-events:none;
