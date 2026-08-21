@@ -56,9 +56,9 @@ body{
    hover-drawn underline is invisible on a phone. These rest at a faint gray
    and brighten on contact. */
 .essay a.ulink::after,.namebtn::after{
-  transform:scaleX(1);background:rgba(255,255,255,.3);transition:none}
+  bottom:.06em;transform:scaleX(1);background:rgba(255,255,255,.3);transition:none}
 .essay a.ulink::before,.namebtn::before{
-  content:"";position:absolute;left:0;bottom:-3px;width:100%;height:1px;
+  content:"";position:absolute;left:0;bottom:.06em;width:100%;height:1px;
   background:var(--white);transform:scaleX(0);transform-origin:left center;
   transition:transform .35s var(--ease)}
 .essay a.ulink:hover::before,.essay a.ulink:focus-visible::before,
@@ -342,7 +342,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
     <p class="dots" aria-hidden="true">•••</p>
 
-    <p>Chuquimamani-Condori is one of my favorite musicians as of late — their music at once cutting-edge and ancient, dismantling linearized notions of time and refusing the colonialist habit of filing Indigenous cultures away in the past tense. Of their Aymara heritage, they <a class="ulink" href="https://www.thevinylfactory.com/features/elysia-crampton-interview-spots-y-escupitajo" target="_blank" rel="noopener">once said</a>: &quot;the past is here, what we see. The future does not lie ahead but is behind us, something we carry. To move forward is to also return.&quot;</p>
+    <p>Chuquimamani-Condori is one of my favorite musicians as of late — their music at once cutting-edge and ancient, dismantling linearized notions of time and refusing the colonialist habit of filing Indigenous cultures away in the past tense. Of their Aymara heritage, they <a class="ulink" href="https://www.thevinylfactory.com/features/elysia-crampton-interview-spots-y-escupitajo" target="_blank" rel="noopener">once said:</a> &quot;the past is here, what we see. The future does not lie ahead but is behind us, something we carry. To move forward is to also return.&quot;</p>
 
     <p>when I was younger, time used to hurtle forward and leave me in its wake. Stages of life would slip past, mere ephemera, the person I used to be now seeming like a strange character, the people I knew blowing away in the wind.</p>
 
@@ -905,10 +905,38 @@ const SLOTS = [
 
 /* ═══ Reveals ═══ */
 (() => {
-  const io = new IntersectionObserver(es => {
-    for (const e of es) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-  }, { threshold: 0.12 });
-  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+  /* Reveal on approach. This was an IntersectionObserver at threshold .12, but
+     threshold is a fraction of the ELEMENT: the essay is several screens tall,
+     so .12 of it meant scrolling ~600px past its own heading before anything
+     appeared — the top of the essay stayed blank. A plain edge test has no such
+     dependence on element height, and cannot silently fail to fire. The check
+     unhooks itself once everything has been shown. */
+  let pending = [...document.querySelectorAll(".reveal")];
+  let last = 0;
+  const show = () => {
+    pending = pending.filter(el => {
+      if (el.getBoundingClientRect().top > innerHeight - 40) return true;
+      el.classList.add("in");
+      return false;
+    });
+    if (!pending.length) {
+      removeEventListener("scroll", onScroll);
+      removeEventListener("resize", onScroll);
+    }
+  };
+  /* Deliberately NOT rAF-throttled. A paused rAF — a background tab, a throttled
+     phone — would leave the whole invitation invisible, which is far worse than
+     measuring six rects. A timestamp guard keeps it cheap, and the listeners
+     detach the moment everything has been revealed. */
+  const onScroll = () => {
+    const now = performance.now();
+    if (now - last < 90) return;
+    last = now;
+    show();
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+  show();
 })();
 
 /* ═══ The constellation ═══
