@@ -25,7 +25,12 @@
 </style>
 <script>
   /* the theme is read from storage before paint; an embed is always dark */
-  try { localStorage.setItem("theme", "dark") } catch (e) {}
+  try {
+    localStorage.setItem("theme", "dark")
+    /* Rest the neighbours' names low so the note at the centre reads first —
+       they come up on zoom and hover exactly as they do on the MAP. */
+    localStorage.setItem("graph-label-density", "22")
+  } catch (e) {}
   document.documentElement.setAttribute("saved-theme", "dark")
 </script>
 </head>
@@ -44,29 +49,33 @@
   <script src="../prescript.js"></script>
   <script src="../postscript.js" type="module"></script>
   <script>
-    /* The graph measures its container once, when it mounts. If the frame is
-       still settling — iOS sizes iframes from their content, and a circle's box
-       resolves late — it locks in the wrong size and leaves dead space below.
-       Re-firing Quartz's own nav event rebuilds it at the size it actually has. */
-    (() => {
-      const el = document.querySelector(".graph-container")
-      if (!el || !window.ResizeObserver) return
-      let w = 0, h = 0, t = 0
-      new ResizeObserver(() => {
-        const r = el.getBoundingClientRect()
-        if (Math.abs(r.width - w) < 2 && Math.abs(r.height - h) < 2) return
-        w = r.width; h = r.height
-        clearTimeout(t)
-        t = setTimeout(() => document.dispatchEvent(new CustomEvent("nav", {
-          detail: { url: document.body.dataset.slug },
-        })), 120)
-      }).observe(el)
-    })()
+    /* Sizing and re-rendering are driven by the HOST page, which knows the real
+       box (see fit() there). This page deliberately does NOT also watch its own
+       size: two overlapping nav dispatches each append their own canvas, and you
+       end up looking at two graphs stacked on one another. One driver only. */
 
     /* The graph opens notes with spaNavigate. Inside an embed that would replace
        the frame with a whole page, so route it to a new tab instead and leave the
        graph itself untouched — no fork of the MAP's code. */
-    window.spaNavigate = (url) => window.open(url.toString(), "_blank", "noopener")
+    /* postscript.js is a module, so it runs AFTER this classic script and its
+       router assigns its own spaNavigate over ours — which is why clicks were
+       still going through Quartz's SPA and landing on a bare 404. Install ours
+       as an accessor that ignores later assignment, so load order stops
+       mattering. */
+    const openInTab = (url) => {
+      /* The graph builds note links RELATIVE to the note it is centred on — three
+         levels deep for MUSIC/GENRES/DANCE/Disco. This page sits at /map/static/,
+         only one level deep, so those "../../.." climbed past /map/ to the site
+         root and landed on a bare 404. Re-anchor the path inside the MAP. */
+      const i = url.pathname.indexOf("/MUSIC/")
+      const href = i >= 0 ? "/map" + url.pathname.slice(i) : url.toString()
+      window.open(href, "_blank", "noopener")
+    }
+    Object.defineProperty(window, "spaNavigate", {
+      configurable: false,
+      get: () => openInTab,
+      set: () => {},
+    })
   </script>
 </body>
 </html>
