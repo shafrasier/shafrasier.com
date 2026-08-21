@@ -100,7 +100,11 @@ body{
 @media (min-width:900px){.hero{padding-bottom:13vh}}
 .hero-text{position:relative;z-index:2;text-align:center;user-select:none}
 /* the wordmark is out of flow; this holds its place */
-.markspace{height:var(--markh,0px)}
+/* The wordmark is out of flow; this holds its place. The fallback is the
+   wordmark's own size expression times its line-height, so the space is correct
+   by construction even if the measurement below never runs or runs early — a
+   collapsed placeholder is what lets the date ride up into the title. */
+.markspace{height:var(--markh,calc(clamp(2rem,8.6vw,4.6rem) * 1.05))}
 .hero-sub{
   font-family:var(--serif);font-size:clamp(.98rem,3.9vw,1.2rem);letter-spacing:.03em;
   color:var(--dim);margin:1.4rem 0 0;line-height:1.9;
@@ -779,7 +783,7 @@ const SLOTS = [
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
-    return { y0: space.getBoundingClientRect().top + scrollY, y1, usTo, w1To, w2To, kx };
+    return { y0: space.getBoundingClientRect().top + scrollY, y1, usTo, w1To, w2To, kx, markH };
   }
 
   function write() {
@@ -854,6 +858,28 @@ const SLOTS = [
   /* the webfont changes every measurement — re-run once it arrives */
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { lastW = 0; relayout(); });
   addEventListener("resize", () => setTimeout(relayout, 60));
+  /* Everything above is measured once per width. If the hero shifts afterwards
+     for any other reason — a late font, a text-size setting, Safari inflating
+     small type — the wordmark would sit at a stale y while the date moved, and
+     the two would overlap. Re-check where the placeholder actually is a few
+     times after load and re-lay out if it has moved. */
+  const drift = () => {
+    if (!M) return;
+    /* Watch the WORDMARK's own height, not just where the placeholder sits: when
+       the mark grows — a late font, Safari inflating small type — the placeholder
+       does not move on its own, so comparing its position would notice nothing
+       while the date quietly slid under the title. */
+    const grew = Math.abs(mark.offsetHeight - M.markH) > 1;
+    const moved = Math.abs(space.getBoundingClientRect().top + scrollY - M.y0) > 2;
+    if (grew || moved) { lastW = 0; relayout(); }
+  };
+  addEventListener("load", () => setTimeout(drift, 60));
+  for (const ms of [400, 1200, 2500]) setTimeout(drift, ms);
+  /* and catch it whenever it happens, not only just after load */
+  if (window.ResizeObserver) {
+    let first = true;
+    new ResizeObserver(() => { if (first) { first = false; return; } drift(); }).observe(mark);
+  }
   if (scrollY > 0) { past = prog() > 0.35; mast.classList.toggle("past", past); if (!NATIVE) applyP(prog()); }
 })();
 
