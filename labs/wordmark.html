@@ -103,13 +103,39 @@
     header,.controls-inner,.grid,.stage{padding-left:1.1rem; padding-right:1.1rem}
   }
 </style>
+<style>
+  /* ── Faces that are NOT web-served ──────────────────────────────────────────
+     Snell Roundhand ships with macOS. The Tiempos cuts are Klim TEST fonts, whose
+     licence (clause 1c) forbids distributing them outside the organisation — and
+     /labs/ is a public URL, so shipping the .woff2 here would be distribution.
+     These resolve to the copies INSTALLED ON THIS MACHINE instead: nothing is
+     uploaded, and the page simply falls back for anyone else who opens it.
+     If Tiempos wins, it needs a purchased web licence before it goes near the
+     live masthead.
+     ------------------------------------------------------------------------- */
+  @font-face{font-family:"Test Tiempos Text";src:local("Test Tiempos Text"),local("TestTiemposText-Regular");font-weight:400}
+  @font-face{font-family:"Test Tiempos Text";src:local("TestTiemposText-Medium");font-weight:500}
+  @font-face{font-family:"Test Tiempos Text";src:local("TestTiemposText-Semibold");font-weight:600}
+  @font-face{font-family:"Test Tiempos Headline";src:local("Test Tiempos Headline"),local("TestTiemposHeadline-Regular");font-weight:400}
+  @font-face{font-family:"Test Tiempos Headline";src:local("TestTiemposHeadline-Medium");font-weight:500}
+  @font-face{font-family:"Test Tiempos Headline";src:local("TestTiemposHeadline-Semibold");font-weight:600}
+  @font-face{font-family:"Test Tiempos Fine";src:local("Test Tiempos Fine"),local("TestTiemposFine-Regular");font-weight:400}
+  @font-face{font-family:"Test Tiempos Fine";src:local("TestTiemposFine-Medium");font-weight:500}
+  @font-face{font-family:"Test Tiempos Fine";src:local("TestTiemposFine-Semibold");font-weight:600}
+  .local-warn{
+    grid-column:1/-1; font-size:.78rem; color:var(--gray); line-height:1.55;
+    background:var(--light); border:1px solid var(--lightgray); border-left:3px solid var(--tertiary);
+    border-radius:10px; padding:.75rem .95rem; margin:0 0 .2rem;
+  }
+  .card.local .kind::after{content:" · local"; color:var(--tertiary)}
+</style>
 </head>
 <body>
 
 <header>
   <h1>Wordmark — serif candidates</h1>
   <p class="dek">
-    The masthead rendered in eighteen serifs, each sitting above the real category rail so
+    The masthead rendered in twenty-two faces, each sitting above the real category rail so
     you judge it in place rather than as a specimen. Everything here is on Google Fonts, which
     is already how the site loads type — so whatever you pick is one line:
     <code>typography.header</code> in <code>quartz.config.ts</code>. Click a card to pin it into
@@ -182,7 +208,11 @@
     ["DM Serif Display",   "Display · clean, high contrast"],
     ["Fraunces",           "Display · soft, wonky, warm"],
     ["Young Serif",        "Display · chunky, distinctive"],
-    ["Source Serif 4",     "Current — for comparison"],
+    ["Test Tiempos Text",     "Klim · Tiempos Text", 1],
+    ["Test Tiempos Headline", "Klim · Tiempos Headline", 1],
+    ["Test Tiempos Fine",     "Klim · Tiempos Fine", 1],
+    ["Snell Roundhand",       "Script · the July brief's mark", 1],
+    ["Source Serif 4",        "Current — for comparison"],
   ];
 
   const CATS = [
@@ -205,13 +235,14 @@
   }
 
   function buildGrid(){
-    $("grid").innerHTML = FONTS.map(([font,kind]) => `
-      <div class="card${font===state.pinned?" pinned":""}" data-font="${font}">
+    $("grid").innerHTML = FONTS.map(([font,kind,isLocal]) => `
+      <div class="card${font===state.pinned?" pinned":""}${isLocal?" local":""}" data-font="${font}">
         <div class="wm" style="${wmStyle(font)}">${state.word}</div>
         <div class="rail">${railHTML()}</div>
         <div class="meta"><span class="name">${font}</span><span class="kind">${kind}</span></div>
       </div>`).join("") +
-      `<p class="note">Eighteen candidates, plus the current face. The rail under each wordmark is the real category
+      `<p class="local-warn"><b>Four of these render only on this Mac.</b> Snell Roundhand is a macOS system face, and the three Tiempos cuts are Klim <i>test</i> fonts — their licence forbids distributing them outside the organisation, and /labs/ is a public URL, so no font file is uploaded here. They are read from the copies installed on this machine; anyone else opening this page sees a fallback. If Tiempos wins, it needs a purchased web licence before it reaches the live masthead.</p>
+       <p class="note">Twenty-two candidates, plus the current face. The rail under each wordmark is the real category
        list in the real face, so you are comparing the pairing, not the letterforms alone.</p>`;
   }
 
