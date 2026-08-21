@@ -964,10 +964,12 @@ const SLOTS = [
   function fit() {
     const d = frame.contentDocument;
     if (!d || !d.body) return;
-    /* offsetWidth/Height, not getBoundingClientRect: the expand bloom is a
-       scale(.9→1) animation, and a rect measured mid-bloom bakes in 90% of the
-       real size. Layout metrics ignore transforms. */
-    const w = box.offsetWidth + "px", h = box.offsetHeight + "px";
+    /* clientWidth/Height, not getBoundingClientRect: the expand bloom is a
+       scale(.9→1) animation and a rect measured mid-bloom bakes in 90% of the
+       real size, while layout metrics ignore transforms. client* rather than
+       offset* because the circle carries a 1px border — counting it made the
+       page 2px wider than the frame and left a black crescent down one side. */
+    const w = box.clientWidth + "px", h = box.clientHeight + "px";
     /* Re-rendering tears the graph down and rebuilds it. Doing that when nothing
        actually changed is how a resize storm could leave the circle empty, so a
        no-op resize gets no further than here. */
