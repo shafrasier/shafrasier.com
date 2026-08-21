@@ -44,6 +44,25 @@
   <script src="../prescript.js"></script>
   <script src="../postscript.js" type="module"></script>
   <script>
+    /* The graph measures its container once, when it mounts. If the frame is
+       still settling — iOS sizes iframes from their content, and a circle's box
+       resolves late — it locks in the wrong size and leaves dead space below.
+       Re-firing Quartz's own nav event rebuilds it at the size it actually has. */
+    (() => {
+      const el = document.querySelector(".graph-container")
+      if (!el || !window.ResizeObserver) return
+      let w = 0, h = 0, t = 0
+      new ResizeObserver(() => {
+        const r = el.getBoundingClientRect()
+        if (Math.abs(r.width - w) < 2 && Math.abs(r.height - h) < 2) return
+        w = r.width; h = r.height
+        clearTimeout(t)
+        t = setTimeout(() => document.dispatchEvent(new CustomEvent("nav", {
+          detail: { url: document.body.dataset.slug },
+        })), 120)
+      }).observe(el)
+    })()
+
     /* The graph opens notes with spaNavigate. Inside an embed that would replace
        the frame with a whole page, so route it to a new tab instead and leave the
        graph itself untouched — no fork of the MAP's code. */
