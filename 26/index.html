@@ -466,7 +466,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>
         </button>
       </div>
-      <p class="constnote">if you&#39;d like to learn more about the forms, artists, records, moments, and venues that defined disco, read about it on this preview of the MAP!</p>
+      <p class="constnote">if you&#39;d like to learn more about the forms, artists, records, moments, and venues that defined disco, explore this preview of the MAP!</p>
     </div>
   </section>
 
@@ -1264,8 +1264,11 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
     const li = document.createElement("li");
     li.innerHTML = name + (plus ? ' <small>+' + plus + "</small>" : "") +
       (pct < 100 ? ' <small>' + pct + "%</small>" : "");
-    pct >= 50 ? ul.prepend(li) : ul.append(li);
-    const el = $(pct >= 50 ? "c-going" : "c-maybe");   // the going line, same as the sheet
+    /* the same lines the sheet draws: 75+ going, 25–74 maybe, below that listed
+       but counted in neither column */
+    pct >= 75 ? ul.prepend(li) : ul.append(li);
+    const el = pct >= 75 ? $("c-going") : pct >= 25 ? $("c-maybe") : null;
+    if (!el) { seated = { li, bump: () => {} }; return; }
     const bump = n => { const v = parseInt(el.textContent, 10); el.textContent = isNaN(v) ? Math.max(0, n) : Math.max(0, v + n * (1 + plus)); };
     bump(1);
     seated = { li, bump };

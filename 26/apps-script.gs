@@ -31,10 +31,14 @@
 const NOTIFY = "frasier.sha@gmail.com";
 
 // Bump when this file changes; visible in doGet so a deploy can be verified.
-const BUILD = 6;
+const BUILD = 7;
 
-// The percentage at which an RSVP counts as GOING rather than a maybe.
-const GOING_AT = 50;
+// Where the two counts draw their lines. 75+ means they intend to come;
+// 25–74 is genuine uncertainty, the coin flip included; below 25 is a soft no —
+// still recorded and still listed, but counted in neither column, because a 5%
+// is telling you no politely and shouldn't pad the number you plan against.
+const GOING_AT = 75;
+const MAYBE_AT = 25;
 
 const HEADERS = ["When", "First", "Last", "Phone", "Going %", "Plus ones", "Show on list"];
 
@@ -86,10 +90,9 @@ function doGet() {
     const [, first, last, , pctRaw, plus, show] = r;
     const pct = Number(pctRaw) || 0;
     const heads = 1 + (Number(plus) || 0);
-    // Half-way or better counts as going — the same line the site draws when it
-    // answers "we look forward to seeing you". Below that is a maybe; 0 is a no.
     if (pct >= GOING_AT) going += heads;
-    else if (pct > 0) maybe += heads;
+    else if (pct >= MAYBE_AT) maybe += heads;
+    // below MAYBE_AT: on the sheet and on the list, counted in neither column
     // Everyone coming at all (pct > 0) appears, ranked: the 100%s on top, then
     // descending percent, ties by last name. A 90% shows up under the sure
     // things with their number beside them. There is no opting out — the
@@ -109,7 +112,11 @@ function notify_(first, last, phone, pct, plus, updated) {
   if (!NOTIFY) return;
   try {
     const heads = 1 + plus;
-    const verdict = pct >= 100 ? "IN" : pct === 0 ? "out" : pct + (pct >= GOING_AT ? "% — in" : "% — maybe");
+    const verdict =
+      pct === 0 ? "out"
+      : pct >= GOING_AT ? pct + "% — in"
+      : pct >= MAYBE_AT ? pct + "% — maybe"
+      : pct + "% — soft no";
     MailApp.sendEmail({
       to: NOTIFY,
       // ASCII only: an em dash here arrives mangled in Mail on iOS
