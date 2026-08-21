@@ -1264,8 +1264,8 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
     const li = document.createElement("li");
     li.innerHTML = name + (plus ? ' <small>+' + plus + "</small>" : "") +
       (pct < 100 ? ' <small>' + pct + "%</small>" : "");
-    pct >= 100 ? ul.prepend(li) : ul.append(li);
-    const el = $(pct >= 100 ? "c-going" : "c-maybe");
+    pct >= 50 ? ul.prepend(li) : ul.append(li);
+    const el = $(pct >= 50 ? "c-going" : "c-maybe");   // the going line, same as the sheet
     const bump = n => { const v = parseInt(el.textContent, 10); el.textContent = isNaN(v) ? Math.max(0, n) : Math.max(0, v + n * (1 + plus)); };
     bump(1);
     seated = { li, bump };
