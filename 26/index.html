@@ -406,7 +406,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
   <section class="reveal" id="lineup">
     <p class="kicker">Lineup</p>
-    <p class="doors">Doors: 7:00 p.m.</p>
+    <p class="doors">Doors: 6:00 p.m.</p>
     <div id="slots"></div>
     <p class="subject">lineup subject to change. Check back in the days before for the final roster.</p>
   </section>
@@ -524,9 +524,9 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4
 
 /* Lineup — fill names as they confirm; null renders as a quiet redaction. */
 const SLOTS = [
-  { t: "8—9", who: "Marty" }, { t: "9—10", who: "Garry" }, { t: "10—11", who: "DJ SHA" },
-  { t: "11—12", who: "otisotisotis" }, { t: "12—1", who: "slowmovingprince" }, { t: "1—2", who: null },
-  { t: "2—3", who: "???" },
+  { t: "7—8", who: "Marty" }, { t: "8—9", who: "Garry" }, { t: "9—10", who: "DJ SHA" },
+  { t: "10—11", who: "otisotisotis" }, { t: "11—12", who: "slowmovingprince" },
+  { t: "12—1", who: "wxll" }, { t: "1—2", who: null }, { t: "2—3", who: "???" },
 ];
 
 /* ═══ The inscription — the Clearing's recipe, verbatim in spirit ═══ */
@@ -784,7 +784,12 @@ const SLOTS = [
        ball: DISCO and SPACE are not the same width, so the underscore's home
        is off the mark's center by half their difference. Every target below
        is an absolute position around the true center. */
-    const w1w = w1.offsetWidth, usw = us.offsetWidth || 1, w2w = w2.offsetWidth;
+    /* Fractional widths, not offsetWidth: that rounds to whole pixels, and three
+       roundings summed put the bar ~1.5px left of the ball — small, but against a
+       circle you can see it. */
+    const w1w = w1.getBoundingClientRect().width;
+    const usw = us.getBoundingClientRect().width || 1;
+    const w2w = w2.getBoundingClientRect().width;
     const markW = w1w + usw + w2w, center = markW / 2;
     const gap = (2 * r1 * 1.04) / SMIN;               // in the mark's own units
     const usTo = center - (w1w + usw / 2);            // underscore → center
@@ -1189,7 +1194,7 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
   }));
 
   const LINES = p =>
-    p >= 100 ? ["We look forward to seeing you.", "7 PM · 5-84 Woodward Ave"] :
+    p >= 100 ? ["We look forward to seeing you.", "6 PM · 5-84 Woodward Ave"] :
     p >= 50  ? ["We look forward to seeing you.", "RSVP again anytime to change it"] :
     p > 0    ? ["We'll see.", "RSVP again anytime to change it"] :
                ["You'll be missed.", "RSVP again anytime to change it"];
