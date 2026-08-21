@@ -246,6 +246,16 @@
     });
   }
 
+  // Deep-linkable case, so a view can be shared or captured: #caps / #lower.
+  (() => {
+    const h = (location.hash || "").replace("#", "");
+    const map = { caps: "uppercase", lower: "lowercase" };
+    if (!map[h]) return;
+    state.case = map[h];
+    [...$("case").children].forEach((x) =>
+      x.setAttribute("aria-pressed", String(x.dataset.c === state.case)));
+  })();
+
   buildGrid(); paint();
 
   $("grid").addEventListener("click", (e) => {
