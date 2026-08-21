@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Wordmark — serif candidates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Spectral:wght@400;500;600&family=Instrument+Serif&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Young+Serif&family=Libre+Baskerville:wght@400;700&family=Crimson+Pro:wght@400;500;600&family=Alegreya:wght@400;500;600&family=Vollkorn:wght@400;500;600&family=Petrona:wght@400;500;600&family=DM+Serif+Display&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=Playfair+Display:wght@400;500;600&family=Gloock&family=Faustina:wght@400;500;600&family=Source+Serif+4:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#f0efe4; --light:#fefdfb; --lightgray:#e6e3d5; --gray:#8c8880;
+    --darkgray:#232120; --dark:#111111; --tertiary:#6f6a5c;
+    --ui: ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--cream); color:var(--darkgray);
+    font-family:var(--ui); -webkit-font-smoothing:antialiased;
+  }
+  header{padding:2.4rem 2rem 1rem; max-width:1400px; margin:0 auto}
+  h1{font-family:"Source Serif 4",serif; font-size:1.5rem; font-weight:600; color:var(--dark); margin:0 0 .35rem}
+  .dek{font-size:.86rem; color:var(--gray); line-height:1.55; max-width:64ch; margin:0}
+  .dek code{background:var(--lightgray); padding:.1rem .3rem; border-radius:4px; font-size:.82em}
+
+  /* ── controls ───────────────────────────────────────────────────────────── */
+  .controls{
+    position:sticky; top:0; z-index:10; margin-top:1.4rem;
+    background:color-mix(in srgb, var(--cream) 88%, transparent);
+    -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+    border-top:1px solid var(--lightgray); border-bottom:1px solid var(--lightgray);
+  }
+  .controls-inner{
+    max-width:1400px; margin:0 auto; padding:.8rem 2rem;
+    display:flex; flex-wrap:wrap; gap:1.4rem; align-items:center;
+  }
+  .ctl{display:flex; align-items:center; gap:.5rem}
+  .ctl label{font-size:.7rem; letter-spacing:.07em; text-transform:uppercase; color:var(--gray); white-space:nowrap}
+  .ctl input[type=range]{width:120px; accent-color:var(--darkgray)}
+  .ctl output{font-size:.76rem; color:var(--darkgray); min-width:3.4ch; font-variant-numeric:tabular-nums}
+  .seg{display:flex; border:1px solid var(--lightgray); border-radius:999px; overflow:hidden; background:var(--light)}
+  .seg button{
+    font-family:var(--ui); font-size:.74rem; padding:.34rem .7rem; border:0; cursor:pointer;
+    background:transparent; color:var(--gray);
+  }
+  .seg button[aria-pressed="true"]{background:var(--darkgray); color:var(--light)}
+  .txt{
+    font-family:var(--ui); font-size:.8rem; padding:.34rem .6rem; width:9rem;
+    border:1px solid var(--lightgray); border-radius:8px; background:var(--light); color:var(--darkgray);
+  }
+
+  /* ── the grid of candidates ─────────────────────────────────────────────── */
+  .grid{
+    max-width:1400px; margin:0 auto; padding:1.6rem 2rem 4rem;
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(268px,1fr)); gap:1.4rem;
+  }
+  .card{
+    background:var(--light); border:1px solid var(--lightgray); border-radius:18px;
+    padding:1.1rem 1.1rem 1rem; cursor:pointer; position:relative;
+    box-shadow:0 12px 34px -14px rgba(17,17,17,.14);
+    transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+  .card:hover{border-color:var(--tertiary); transform:translateY(-2px)}
+  .card.pinned{border-color:var(--dark); box-shadow:0 0 0 2px var(--dark) inset, 0 12px 34px -14px rgba(17,17,17,.2)}
+  .wm{
+    color:var(--dark); text-align:center; line-height:1.05;
+    margin:.4rem 0 .9rem; word-break:break-word;
+  }
+  .rail{border-top:1px solid var(--lightgray); padding-top:.7rem}
+  .rail ul{list-style:none; margin:0; padding:0}
+  .rail li{
+    display:flex; align-items:center; gap:.5rem; padding:.11rem 0;
+    font-family:"Source Serif 4",serif; font-size:.72rem; font-weight:600;
+    letter-spacing:.055em; color:var(--darkgray);
+  }
+  .dot{width:6px; height:6px; border-radius:50%; flex:none}
+  .meta{
+    display:flex; justify-content:space-between; align-items:baseline; gap:.6rem;
+    margin-top:.85rem; padding-top:.6rem; border-top:1px solid var(--lightgray);
+  }
+  .name{font-size:.76rem; color:var(--darkgray); font-weight:600}
+  .kind{font-size:.64rem; color:var(--gray); letter-spacing:.05em; text-transform:uppercase; text-align:right}
+  .note{grid-column:1/-1; font-size:.8rem; color:var(--gray); margin:.4rem 0 0}
+
+  /* ── the in-situ panel ──────────────────────────────────────────────────── */
+  .stage{max-width:1400px; margin:0 auto; padding:0 2rem 3rem}
+  .stage h2{font-family:"Source Serif 4",serif; font-size:.78rem; letter-spacing:.09em; text-transform:uppercase; color:var(--gray); font-weight:600; margin:0 0 .9rem}
+  .panel{
+    width:268px; background:var(--light); border:1px solid var(--lightgray);
+    border-radius:18px; padding:1.7rem 1.1rem 1.1rem;
+    box-shadow:0 12px 34px -10px rgba(17,17,17,.2);
+  }
+  .panel .wm{margin:0 0 1.2rem}
+  .toolbar{display:flex; justify-content:space-between; padding:0 .5rem 1.1rem}
+  .toolbar span{width:15px; height:15px; border-radius:3px; background:var(--lightgray)}
+  .cfg{
+    margin-top:1rem; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.72rem;
+    background:var(--light); border:1px solid var(--lightgray); border-radius:10px;
+    padding:.6rem .8rem; color:var(--darkgray); display:inline-block;
+  }
+  @media (max-width:700px){
+    header,.controls-inner,.grid,.stage{padding-left:1.1rem; padding-right:1.1rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Wordmark — serif candidates</h1>
+  <p class="dek">
+    The masthead rendered in eighteen serifs, each sitting above the real category rail so
+    you judge it in place rather than as a specimen. Everything here is on Google Fonts, which
+    is already how the site loads type — so whatever you pick is one line:
+    <code>typography.header</code> in <code>quartz.config.ts</code>. Click a card to pin it into
+    the panel below.
+  </p>
+</header>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="ctl">
+      <label for="word">Word</label>
+      <input class="txt" id="word" value="Atlas" spellcheck="false" />
+    </div>
+    <div class="ctl">
+      <label>Case</label>
+      <div class="seg" id="case">
+        <button data-c="none" aria-pressed="true">Atlas</button>
+        <button data-c="uppercase" aria-pressed="false">ATLAS</button>
+        <button data-c="lowercase" aria-pressed="false">atlas</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="size">Size</label>
+      <input type="range" id="size" min="20" max="52" value="28" />
+      <output id="sizeOut">28px</output>
+    </div>
+    <div class="ctl">
+      <label for="track">Tracking</label>
+      <input type="range" id="track" min="-40" max="120" value="-1" />
+      <output id="trackOut">-.01em</output>
+    </div>
+    <div class="ctl">
+      <label for="weight">Weight</label>
+      <input type="range" id="weight" min="400" max="700" step="100" value="500" />
+      <output id="weightOut">500</output>
+    </div>
+  </div>
+</div>
+
+<div class="stage">
+  <h2>Pinned — in the rail</h2>
+  <div class="panel">
+    <div class="wm" id="stageWm">Atlas</div>
+    <div class="toolbar"><span></span><span></span><span></span><span></span></div>
+    <div class="rail" id="stageRail"></div>
+  </div>
+  <div class="cfg" id="cfg">header: "Source Serif 4"</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+  // Candidates, grouped by what they'd actually say about the project.
+  const FONTS = [
+    ["EB Garamond",        "Old-style · the book face"],
+    ["Cormorant Garamond", "Old-style · high contrast"],
+    ["Literata",           "Book · warm, made for reading"],
+    ["Newsreader",         "Editorial · literary"],
+    ["Spectral",           "Book · screen-first"],
+    ["Crimson Pro",        "Old-style · classical"],
+    ["Alegreya",           "Humanist · designed for prose"],
+    ["Vollkorn",           "Humanist · sturdy, characterful"],
+    ["Faustina",           "Humanist · compact"],
+    ["Petrona",            "Editorial · variable"],
+    ["Libre Baskerville",  "Transitional · sturdy"],
+    ["Instrument Serif",   "Display · current, high contrast"],
+    ["Playfair Display",   "Display · editorial classic"],
+    ["Bodoni Moda",        "Didone · dramatic"],
+    ["Gloock",             "Didone · modern display"],
+    ["DM Serif Display",   "Display · clean, high contrast"],
+    ["Fraunces",           "Display · soft, wonky, warm"],
+    ["Young Serif",        "Display · chunky, distinctive"],
+    ["Source Serif 4",     "Current — for comparison"],
+  ];
+
+  const CATS = [
+    ["ALBUMS","#c44040"],["SONGS","#c44040"],["ARTISTS","#c9a227"],["PLACES","#a0632c"],
+    ["GENRES","#3f9e4d"],["SCENES","#6ab86a"],["ERAS","#2f7f7f"],["MOMENTS","#49b7b7"],
+    ["INDUSTRY","#4a6f9e"],["THEORY","#5b3fa8"],["IDEAS","#52a8d7"],["LIBRARY","#3f6fd0"],
+  ];
+
+  const state = { word:"Atlas", case:"none", size:28, track:-1, weight:500, pinned:"EB Garamond" };
+  const $ = (id) => document.getElementById(id);
+
+  const railHTML = () =>
+    "<ul>" + CATS.map(([n,c]) =>
+      `<li><span class="dot" style="background:${c}"></span>${n}</li>`).join("") + "</ul>";
+
+  function wmStyle(font){
+    return `font-family:'${font}',serif; font-size:${state.size}px;` +
+           `letter-spacing:${state.track/100}em; font-weight:${state.weight};` +
+           `text-transform:${state.case};`;
+  }
+
+  function buildGrid(){
+    $("grid").innerHTML = FONTS.map(([font,kind]) => `
+      <div class="card${font===state.pinned?" pinned":""}" data-font="${font}">
+        <div class="wm" style="${wmStyle(font)}">${state.word}</div>
+        <div class="rail">${railHTML()}</div>
+        <div class="meta"><span class="name">${font}</span><span class="kind">${kind}</span></div>
+      </div>`).join("") +
+      `<p class="note">Eighteen candidates, plus the current face. The rail under each wordmark is the real category
+       list in the real face, so you are comparing the pairing, not the letterforms alone.</p>`;
+  }
+
+  function paint(){
+    $("stageWm").textContent = state.word;
+    $("stageWm").setAttribute("style", wmStyle(state.pinned));
+    $("stageRail").innerHTML = railHTML();
+    $("cfg").textContent = `header: "${state.pinned}"`;
+    document.querySelectorAll(".card").forEach(c => {
+      c.classList.toggle("pinned", c.dataset.font === state.pinned);
+      const w = c.querySelector(".wm");
+      w.textContent = state.word;
+      w.setAttribute("style", wmStyle(c.dataset.font));
+    });
+  }
+
+  buildGrid(); paint();
+
+  $("grid").addEventListener("click", (e) => {
+    const card = e.target.closest(".card");
+    if (!card) return;
+    state.pinned = card.dataset.font;
+    paint();
+    document.querySelector(".stage").scrollIntoView({behavior:"smooth", block:"center"});
+  });
+
+  $("word").addEventListener("input", (e) => { state.word = e.target.value || "Atlas"; paint(); });
+  $("case").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    state.case = b.dataset.c;
+    [...e.currentTarget.children].forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    paint();
+  });
+  const bind = (id, out, fmt, key) => $(id).addEventListener("input", (e) => {
+    state[key] = +e.target.value; $(out).textContent = fmt(e.target.value); paint();
+  });
+  bind("size","sizeOut", v => v+"px", "size");
+  bind("track","trackOut", v => (v/100)+"em", "track");
+  bind("weight","weightOut", v => v, "weight");
+</script>
+</body>
+</html>
