@@ -43,6 +43,13 @@ body{
 }
 ::selection{background:var(--white);color:var(--black)}
 
+/* The page runs under the status bar (viewport-fit=cover), so whatever happens
+   to be up there shows through behind the clock and the wifi icons — including
+   the white RSVP flash. This holds that strip black at all times, and sits above
+   everything else so nothing can paint into it. */
+.statusguard{position:fixed;top:0;left:0;right:0;z-index:30;pointer-events:none;
+  height:env(safe-area-inset-top,0px);background:#000}
+
 /* the room — faint glints behind everything */
 #room{position:fixed;inset:0;z-index:0;pointer-events:none}
 
@@ -177,6 +184,7 @@ section:last-of-type{padding-bottom:5.5rem}
 .namebtn{font:inherit;color:inherit;background:none;border:0;padding:0;
   cursor:pointer;display:inline}
 .peek{position:fixed;inset:0;z-index:12;display:none;align-items:center;justify-content:center;
+  touch-action:none;overscroll-behavior:contain;
   flex-direction:column;padding:5vh 1.2rem;background:#000;
   opacity:0;transition:opacity .62s var(--ease)}
 .peek.open{display:flex}
@@ -318,6 +326,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 </head>
 <body>
 
+<div class="statusguard" aria-hidden="true"></div>
 <canvas id="room" aria-hidden="true"></canvas>
 <div class="flash" id="flash" aria-hidden="true"></div>
 
@@ -1057,8 +1066,16 @@ const SLOTS = [
   const btn = document.getElementById("qbtn"), peek = document.getElementById("peek");
   if (!btn || !peek) return;
   let open = false;
+  let held = 0;
   const show = () => {
     open = true;
+    /* hold the page still underneath — on iOS overflow alone is not enough, so
+       the body is pinned at its current offset and released on close */
+    held = scrollY;
+    document.body.style.position = "fixed";
+    document.body.style.top = -held + "px";
+    document.body.style.left = "0";
+    document.body.style.right = "0";
     peek.classList.add("open");
     setTimeout(() => peek.classList.add("lit"), 20);   // a paused rAF must not strand it
     document.getElementById("peekx").focus();
@@ -1068,6 +1085,11 @@ const SLOTS = [
     open = false;
     peek.classList.remove("lit");
     setTimeout(() => peek.classList.remove("open"), 720);   // let the fade finish
+    const root = document.documentElement, prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    for (const k of ["position", "top", "left", "right"]) document.body.style[k] = "";
+    scrollTo(0, held);
+    root.style.scrollBehavior = prev;
     btn.focus();
   };
   btn.addEventListener("click", show);
