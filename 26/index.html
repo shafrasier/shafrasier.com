@@ -89,10 +89,19 @@ body{
   font-weight:600;letter-spacing:.01em;line-height:1.05;white-space:nowrap;
 }
 #mark .w{display:inline-block}
-/* No letter-spacing on the bar: the wordmark's .01em rides on the END of the
-   glyph's box, so the ink sits fractionally left of box centre — and stretching
-   the box 8x multiplies that offset into a visible shift. */
-#us{display:inline-block;transform-origin:50% 50%;letter-spacing:0}
+/* The bar is DRAWN, not a stretched glyph. An underscore's ink sits inside its
+   advance width by whatever side bearings the font and the text engine give it,
+   and stretching that box eight times multiplies any asymmetry — which is how
+   the bar kept landing a pixel or two left of the ball on iOS while measuring
+   dead centre elsewhere. This keeps the glyph purely for its width (so the
+   wordmark's spacing is untouched) and paints the rule as a box inset equally
+   from both ends: symmetric by construction, at any scale, on any engine. */
+#us{display:inline-block;transform-origin:50% 50%;letter-spacing:0;position:relative;
+  color:transparent}
+#us::after{content:"";position:absolute;left:7.5%;right:7.5%;bottom:.145em;height:.052em;
+  background:var(--white)}
+.typefx #us::after{opacity:0;transition:opacity .18s ease-out}
+.typefx #us:has(.ch.lit)::after{opacity:1}
 
 /* the boundary: the page never reaches the ball — it is covered before it gets there */
 #band{position:fixed;top:0;left:0;right:0;height:var(--bandh,0px);z-index:3;pointer-events:none;
@@ -787,14 +796,22 @@ const SLOTS = [
     /* Fractional widths, not offsetWidth: that rounds to whole pixels, and three
        roundings summed put the bar ~1.5px left of the ball — small, but against a
        circle you can see it. */
-    const w1w = w1.getBoundingClientRect().width;
-    const usw = us.getBoundingClientRect().width || 1;
-    const w2w = w2.getBoundingClientRect().width;
-    const markW = w1w + usw + w2w, center = markW / 2;
+    /* Measure where the pieces actually ARE rather than rebuilding the wordmark
+       from summed widths. Every reconstruction — offsetWidth rounding, kerning
+       between the parts, the trailing side-bearing of a glyph — pushed the bar a
+       pixel or so off the ball. Reading the rendered boxes has no such error:
+       whatever the type does, this is where the underscore sits. Measured with
+       the mark at rest, so its scale is 1 and these are true CSS pixels. */
+    const mr = mark.getBoundingClientRect();
+    const ur = us.getBoundingClientRect();
+    const w1r = w1.getBoundingClientRect();
+    const w2r = w2.getBoundingClientRect();
+    const centre = mr.left + mr.width / 2;            // = the viewport centre = the ball's
+    const usw = ur.width || 1;
     const gap = (2 * r1 * 1.04) / SMIN;               // in the mark's own units
-    const usTo = center - (w1w + usw / 2);            // underscore → center
-    const w1To = center - gap / 2 - w1w;              // DISCO's right edge → left corner
-    const w2To = center + gap / 2 - (w1w + usw);      // SPACE's left edge → right corner
+    const usTo = centre - (ur.left + ur.width / 2);   // the bar's own centre → the ball's
+    const w1To = centre - gap / 2 - w1r.right;        // DISCO's right edge → the left corner
+    const w2To = centre + gap / 2 - w2r.left;         // SPACE's left edge → the right corner
     const kx = gap / usw;
 
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
