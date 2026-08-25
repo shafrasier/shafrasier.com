@@ -810,6 +810,24 @@ const SLOTS = [
     const usw = ur.width || 1;
     const gap = (2 * r1 * 1.04) / SMIN;               // in the mark's own units
     const usTo = centre - (ur.left + ur.width / 2);   // the bar's own centre → the ball's
+
+    /* At rest the eye judges the bar against the O's and the S's INK, not their
+       layout boxes, and those letters carry different side bearings — by
+       different amounts in different text engines. Measure them here, on the
+       device actually drawing the page, and nudge the resting bar to the middle
+       of the gap it is really sitting in. The expanded position above is
+       untouched. */
+    let usRest = 0;
+    try {
+      const cs = getComputedStyle(mark);
+      const cx2 = document.createElement("canvas").getContext("2d");
+      cx2.font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+      const dm = cx2.measureText(w1.textContent), sm = cx2.measureText(w2.textContent);
+      const inkRightOfDisco = w1r.right - (dm.width - dm.actualBoundingBoxRight);
+      const inkLeftOfSpace = w2r.left + -sm.actualBoundingBoxLeft;
+      usRest = (inkRightOfDisco + inkLeftOfSpace) / 2 - (ur.left + ur.width / 2);
+      if (!isFinite(usRest) || Math.abs(usRest) > usw) usRest = 0;
+    } catch (e) {}
     const w1To = centre - gap / 2 - w1r.right;        // DISCO's right edge → the left corner
     const w2To = centre + gap / 2 - w2r.left;         // SPACE's left edge → the right corner
     const kx = gap / usw;
@@ -817,7 +835,7 @@ const SLOTS = [
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
-    return { y0: space.getBoundingClientRect().top + scrollY, y1, usTo, w1To, w2To, kx, markH };
+    return { y0: space.getBoundingClientRect().top + scrollY, y1, usTo, usRest, w1To, w2To, kx, markH };
   }
 
   function write() {
@@ -829,7 +847,8 @@ const SLOTS = [
       /* the words travel first and only open once the mark is nearly home */
       "@keyframes mastW1{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w1To.toFixed(1) + "px)}}",
       "@keyframes mastW2{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w2To.toFixed(1) + "px)}}",
-      "@keyframes mastUS{0%,52%{transform:translateX(0) scaleX(1)}100%{transform:translateX(" + M.usTo.toFixed(1) + "px) scaleX(" + M.kx.toFixed(3) + ")}}",
+      "@keyframes mastUS{0%,52%{transform:translateX(" + M.usRest.toFixed(2) + "px) scaleX(1)}" +
+        "100%{transform:translateX(" + M.usTo.toFixed(1) + "px) scaleX(" + M.kx.toFixed(3) + ")}}",
       /* the date clears out before the wordmark can reach it */
       "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
       "#ballwrap,#mark,#w1,#w2,#us,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
@@ -852,7 +871,8 @@ const SLOTS = [
     const q = Math.max(0, (p - 0.52) / 0.48);
     w1.style.transform = "translateX(" + (M.w1To * q).toFixed(1) + "px)";
     w2.style.transform = "translateX(" + (M.w2To * q).toFixed(1) + "px)";
-    us.style.transform = "translateX(" + (M.usTo * q).toFixed(1) + "px) scaleX(" + (1 + (M.kx - 1) * q).toFixed(3) + ")";
+    us.style.transform = "translateX(" + (M.usRest + (M.usTo - M.usRest) * q).toFixed(2) + "px)" +
+      " scaleX(" + (1 + (M.kx - 1) * q).toFixed(3) + ")";
     document.querySelector(".hero-text").style.opacity = Math.max(0, 1 - p / 0.34).toFixed(3);
   }
 
