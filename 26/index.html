@@ -884,6 +884,30 @@ const SLOTS = [
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
+    /* A readout of what THIS device actually measured, for when a phone and a
+       desktop disagree about the type. Add ?probe to the URL to see it. */
+    if (location.search.indexOf("probe") > -1) {
+      const box = document.getElementById("probe") || (() => {
+        const d = document.createElement("pre");
+        d.id = "probe";
+        d.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:99;margin:0;" +
+          "background:#111;color:#0f0;font:11px/1.45 ui-monospace,monospace;padding:8px;" +
+          "white-space:pre-wrap;pointer-events:none";
+        document.body.appendChild(d);
+        return d;
+      })();
+      const gapO = ur.left - discoInkRight, gapS = spaceInkLeft - ur.right;
+      box.textContent =
+        "font " + cs.fontSize + "  ls " + ls.toFixed(2) + "  opsz " + cs.fontOpticalSizing +
+        "\nbearing O.right " + dB.right.toFixed(2) + " x" + dS.toFixed(3) +
+        "   S.left " + sB.left.toFixed(2) + " x" + sS.toFixed(3) +
+        "\nbar box " + ur.width.toFixed(2) + "   usRest " + usRest.toFixed(2) +
+        "\ngap after O " + gapO.toFixed(2) + "   before S " + gapS.toFixed(2) +
+        "   diff " + (gapO - gapS).toFixed(2) +
+        "\ncentre " + centre.toFixed(1) + "  innerW " + innerWidth + "  layoutW " +
+        document.documentElement.clientWidth;
+    }
+
     return { y0: space.getBoundingClientRect().top + scrollY, y1, usTo, usRest, w1To, w2To, kx, markH };
   }
 
