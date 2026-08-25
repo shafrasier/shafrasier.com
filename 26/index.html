@@ -782,6 +782,31 @@ const SLOTS = [
   const prog = () => Math.min(1, Math.max(0, scrollY / RANGE));
   window.__mastK = () => 1 - (1 - KMIN) * prog();
 
+  /* Where a word's INK begins and ends inside its layout box. Side bearings
+     differ per font AND per text engine, which is why box-aligned type looked
+     lopsided on a phone while measuring square here. Drawing the text and
+     scanning its pixels is ground truth on whatever device is running — two
+     small canvases, once per layout. */
+  function bearings(text, font) {
+    try {
+      const W = 512, H = 128, pad = 24;
+      const cv2 = document.createElement("canvas");
+      cv2.width = W; cv2.height = H;
+      const c2 = cv2.getContext("2d", { willReadFrequently: true });
+      c2.font = font; c2.textBaseline = "alphabetic"; c2.fillStyle = "#fff";
+      c2.fillText(text, pad, H * 0.75);
+      const d = c2.getImageData(0, 0, W, H).data;
+      let L = -1, R = -1;
+      for (let x = 0; x < W; x++) {
+        for (let y = 0; y < H; y++) {
+          if (d[(y * W + x) * 4 + 3] > 12) { if (L < 0) L = x; R = x; break; }
+        }
+      }
+      if (L < 0) return { left: 0, right: 0 };
+      return { left: L - pad, right: pad + c2.measureText(text).width - (R + 1) };
+    } catch (e) { return { left: 0, right: 0 }; }
+  }
+
   function measure() {
     const R = Math.min(innerWidth * 0.27, innerHeight * 0.26, 210);
     const r1 = R * KMIN, ballBottom = r1 * 2.62;
@@ -806,30 +831,30 @@ const SLOTS = [
     const ur = us.getBoundingClientRect();
     const w1r = w1.getBoundingClientRect();
     const w2r = w2.getBoundingClientRect();
-    const centre = mr.left + mr.width / 2;            // = the viewport centre = the ball's
+    /* The ball hangs at left:50%, so its centre is the viewport's — take that
+       directly rather than the wordmark's own box, whose width rounds. */
+    const centre = innerWidth / 2;
     const usw = ur.width || 1;
     const gap = (2 * r1 * 1.04) / SMIN;               // in the mark's own units
-    const usTo = centre - (ur.left + ur.width / 2);   // the bar's own centre → the ball's
 
-    /* At rest the eye judges the bar against the O's and the S's INK, not their
-       layout boxes, and those letters carry different side bearings — by
-       different amounts in different text engines. Measure them here, on the
-       device actually drawing the page, and nudge the resting bar to the middle
-       of the gap it is really sitting in. The expanded position above is
-       untouched. */
-    let usRest = 0;
-    try {
-      const cs = getComputedStyle(mark);
-      const cx2 = document.createElement("canvas").getContext("2d");
-      cx2.font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
-      const dm = cx2.measureText(w1.textContent), sm = cx2.measureText(w2.textContent);
-      const inkRightOfDisco = w1r.right - (dm.width - dm.actualBoundingBoxRight);
-      const inkLeftOfSpace = w2r.left + -sm.actualBoundingBoxLeft;
-      usRest = (inkRightOfDisco + inkLeftOfSpace) / 2 - (ur.left + ur.width / 2);
-      if (!isFinite(usRest) || Math.abs(usRest) > usw) usRest = 0;
-    } catch (e) {}
-    const w1To = centre - gap / 2 - w1r.right;        // DISCO's right edge → the left corner
-    const w2To = centre + gap / 2 - w2r.left;         // SPACE's left edge → the right corner
+    /* Position by INK, not by layout boxes. A letter sits inside its box behind
+       side bearings that differ per font and per text engine, so aligning boxes
+       left the O nearer the bar than the S — visibly lopsided on a phone while
+       measuring square here. These bearings are read off the device drawing the
+       page, so whatever it does to the type, the gaps come out even. */
+    const cs = getComputedStyle(mark);
+    const font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+    const ls = parseFloat(cs.letterSpacing) || 0;     // trails the last letter of a word
+    const dB = bearings(w1.textContent, font);
+    const sB = bearings(w2.textContent, font);
+    const discoInkRight = w1r.right - ls - dB.right;
+    const spaceInkLeft = w2r.left + sB.left;
+
+    const usTo = centre - (ur.left + ur.width / 2);   // the bar's centre → the ball's
+    const w1To = centre - gap / 2 - discoInkRight;    // DISCO's INK → the left corner
+    const w2To = centre + gap / 2 - spaceInkLeft;     // SPACE's INK → the right corner
+    let usRest = (discoInkRight + spaceInkLeft) / 2 - (ur.left + ur.width / 2);
+    if (!isFinite(usRest) || Math.abs(usRest) > usw) usRest = 0;
     const kx = gap / usw;
 
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
