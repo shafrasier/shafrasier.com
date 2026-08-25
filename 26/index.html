@@ -843,9 +843,10 @@ const SLOTS = [
     const ur = us.getBoundingClientRect();
     const w1r = w1.getBoundingClientRect();
     const w2r = w2.getBoundingClientRect();
-    /* The ball hangs at left:50%, so its centre is the viewport's — take that
-       directly rather than the wordmark's own box, whose width rounds. */
-    const centre = innerWidth / 2;
+    /* The ball hangs at left:50%, so its centre is the viewport's. Use the
+       LAYOUT viewport: innerWidth counts the scrollbar, which on desktop put
+       this half a scrollbar to the right of where the ball actually hangs. */
+    const centre = document.documentElement.clientWidth / 2;
     const usw = ur.width || 1;
     const gap = (2 * r1 * 1.04) / SMIN;               // in the mark's own units
 
