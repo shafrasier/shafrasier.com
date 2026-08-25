@@ -83,6 +83,12 @@ body{
 #mast.past #ball{pointer-events:none}
 
 #mark{
+  /* Optical sizing off: with it on, the variable font picks a display instance
+     for the DOM while a canvas measuring the same string gets a different one,
+     so the side bearings I measure to centre the bar did not match the bearings
+     actually drawn — by about a pixel on iOS. Pinning one instance makes the
+     measurement describe the type on screen. */
+  font-optical-sizing:none;
   position:absolute;top:0;left:50%;margin:0;
   transform:translate(-50%,0);transform-origin:50% 0;
   font-family:var(--display);font-size:clamp(2rem,8.6vw,4.6rem);
