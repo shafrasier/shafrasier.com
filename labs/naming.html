@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Naming — roots, coinages, eponyms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#f0efe4; --light:#fefdfb; --lightgray:#e6e3d5; --gray:#8c8880;
+    --darkgray:#232120; --dark:#111111; --tertiary:#6f6a5c;
+    --ui: ui-sans-serif,-apple-system,"Segoe UI",system-ui,sans-serif;
+    --serif:"Source Serif 4",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--darkgray);font-family:var(--serif);
+       -webkit-font-smoothing:antialiased;line-height:1.6}
+  .wrap{max-width:1180px;margin:0 auto;padding:2.6rem 2rem 5rem}
+  h1{font-family:"Petrona",serif;font-style:italic;font-weight:500;letter-spacing:-.03em;
+     font-size:2.6rem;color:var(--dark);margin:0 0 .5rem}
+  .dek{font-size:.95rem;color:var(--gray);max-width:70ch;margin:0 0 .4rem}
+  .dek b{color:var(--darkgray);font-weight:600}
+  h2{font-family:var(--ui);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;
+     color:var(--gray);font-weight:700;margin:3.2rem 0 .3rem;padding-bottom:.5rem;
+     border-bottom:1px solid var(--lightgray)}
+  h2 span{text-transform:none;letter-spacing:0;font-weight:400;color:var(--gray);font-size:.78rem;
+          font-family:var(--serif);float:right;padding-top:.05rem}
+  .lede{font-size:.9rem;color:var(--darkgray);max-width:74ch;margin:1rem 0 1.6rem}
+
+  /* ── root bank ─────────────────────────────────────────────────────────── */
+  .fam{margin:0 0 2rem}
+  .fam-h{font-family:var(--ui);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+         color:var(--tertiary);font-weight:700;margin:0 0 .7rem}
+  .roots{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.7rem}
+  .root{background:var(--light);border:1px solid var(--lightgray);border-radius:12px;padding:.8rem .95rem;
+        cursor:pointer;transition:border-color .15s ease,transform .15s ease}
+  .root:hover{border-color:var(--tertiary);transform:translateY(-1px)}
+  .root.on{border-color:var(--dark);box-shadow:0 0 0 1px var(--dark) inset}
+  .root b{font-family:"Petrona",serif;font-style:italic;font-size:1.12rem;color:var(--dark);
+          font-weight:500;letter-spacing:-.01em}
+  .root .src{font-family:var(--ui);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;
+             color:var(--gray);margin-left:.45rem}
+  .root .lit{display:block;font-size:.84rem;color:var(--darkgray);margin:.25rem 0 .2rem}
+  .root .gave{display:block;font-size:.76rem;color:var(--gray)}
+  .root .why{display:block;font-size:.79rem;color:var(--tertiary);margin-top:.35rem;font-style:italic}
+
+  /* ── bench ─────────────────────────────────────────────────────────────── */
+  .bench{background:var(--light);border:1px solid var(--lightgray);border-radius:16px;
+         padding:1.3rem 1.4rem;margin:1.4rem 0 0}
+  .bench-out{font-family:"Petrona",serif;font-style:italic;font-weight:500;letter-spacing:-.03em;
+             font-size:2.5rem;color:var(--dark);min-height:3.2rem;line-height:1.15;word-break:break-word}
+  .bench-note{font-size:.8rem;color:var(--gray);margin:.2rem 0 1rem}
+  .picks{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.9rem}
+  .pick{font-family:var(--ui);font-size:.72rem;padding:.28rem .6rem;border-radius:999px;
+        border:1px solid var(--lightgray);background:var(--cream);color:var(--darkgray)}
+  .suffixes{display:flex;flex-wrap:wrap;gap:.35rem}
+  .suffixes button{font-family:var(--ui);font-size:.72rem;padding:.3rem .65rem;border-radius:999px;
+        border:1px solid var(--lightgray);background:var(--light);color:var(--gray);cursor:pointer}
+  .suffixes button[aria-pressed="true"]{background:var(--darkgray);color:var(--light);border-color:var(--darkgray)}
+  .clear{font-family:var(--ui);font-size:.72rem;color:var(--gray);background:none;border:0;
+         cursor:pointer;text-decoration:underline;padding:0;margin-left:.5rem}
+
+  /* ── candidates + eponyms ──────────────────────────────────────────────── */
+  .cands{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:.9rem}
+  .cand{background:var(--light);border:1px solid var(--lightgray);border-radius:14px;padding:1rem 1.1rem}
+  .cand h3{font-family:"Petrona",serif;font-style:italic;font-weight:500;letter-spacing:-.02em;
+           font-size:1.5rem;color:var(--dark);margin:0 0 .1rem}
+  .cand .pron{font-family:var(--ui);font-size:.66rem;letter-spacing:.06em;color:var(--gray);
+              text-transform:uppercase;margin-bottom:.5rem}
+  .cand p{font-size:.85rem;margin:0 0 .5rem;color:var(--darkgray)}
+  .cand .risk{font-size:.78rem;color:var(--gray);margin:0;padding-top:.5rem;border-top:1px solid var(--lightgray)}
+  .cand .risk b{color:var(--tertiary)}
+  .real{display:inline-block;font-family:var(--ui);font-size:.58rem;letter-spacing:.07em;
+        text-transform:uppercase;color:var(--tertiary);border:1px solid var(--lightgray);
+        border-radius:999px;padding:.1rem .45rem;margin-left:.5rem;vertical-align:middle}
+  .note{font-size:.84rem;color:var(--gray);border-left:3px solid var(--tertiary);
+        background:var(--light);border-radius:0 10px 10px 0;padding:.8rem 1rem;margin:1.6rem 0 0}
+  @media (max-width:700px){.wrap{padding:1.6rem 1.1rem 3rem}h1{font-size:2rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Naming</h1>
+<p class="dek">Roots to build a word from, and people to name it after. The July brief tested
+<b>existing</b> words — Chart, Almanac, Compass, Meridian — and landed on Atlas. This one goes the
+other way: the raw material for a coinage, and the case for an eponym.</p>
+<p class="dek">Every etymology below is the standard one. Where a word already exists in English
+it says so, because a real word you can look up behaves very differently from an invention.</p>
+
+<h2>The root bank <span>click any root to load it into the bench</span></h2>
+<p class="lede">Grouped by what the project actually is. The <i>weaving</i> family is the one worth
+looking at hardest — it is the only group whose literal sense is already the thesis of the project,
+rather than a metaphor for it.</p>
+
+<div id="bank"></div>
+
+<h2>The bench <span>build something and say it out loud</span></h2>
+<div class="bench">
+  <div class="bench-out" id="out">—</div>
+  <p class="bench-note" id="outNote">Pick roots above, then a suffix.</p>
+  <div class="picks" id="picks"></div>
+  <div class="suffixes" id="sfx"></div>
+</div>
+
+<h2>Coinages worth saying out loud</h2>
+<p class="lede">Constructions, not recommendations — react to them. Three are real English words
+already, which is a different and usually stronger proposition: it can be looked up, it has a
+history, and nobody has to be taught how to say it.</p>
+<div class="cands" id="cands"></div>
+
+<h2>Named after someone</h2>
+<p class="lede">The Claude model: name the thing after the person whose work is its conceptual
+foundation. For this project the candidates cluster into three kinds — the people who made music
+<i>transmissible</i>, the people who tried to <i>map</i> culture, and the people who built
+<i>connection machines</i> before the technology existed.</p>
+<div class="cands" id="epo"></div>
+
+<p class="note"><b>One practical filter before you fall in love with any of them.</b> A coined word
+buys ownership — a clean domain, no collision, nothing to disambiguate — and costs recognition:
+every visitor has to be taught what it means, and you will spend the rest of the project's life
+explaining it. An eponym splits the difference: unfamiliar at first glance but instantly meaningful
+once explained, and the explanation <i>is</i> the pitch. "Atlas" was the opposite trade — instantly
+legible, impossible to own.</p>
+
+</div>
+
+<script>
+const FAMILIES = [
+  ["Weaving &amp; connection — the thesis, literally", [
+    ["texere","Latin","to weave","text, texture, textile, <b>context</b>, pretext","“Context” already means <i>woven with</i>. The project's whole argument is sitting inside a word everyone uses without hearing it."],
+    ["rhaptein + ōidē","Greek","to stitch + song","<b>rhapsode</b>, rhapsody","A rhapsode was a performer who <i>stitched</i> Homeric songs into a continuous telling. That is the job description."],
+    ["nectere","Latin","to bind, tie","nexus, connect, annex","The plainest word for the relation the graph draws."],
+    ["rete","Latin","net","network, reticular, retina","Net as a structure, before the internet took the word."],
+    ["plectere","Latin","to plait, braid","plexus, complex, perplex","Braiding — several strands held as one without merging."],
+    ["harmonia","Greek","a joining, a fitting-together","harmony, harmonic","Its root sense is <i>joinery</i>, not sweetness. The musical meaning came second."],
+    ["syn-","Greek","together, with","synthesis, syntax, synapse","The workhorse prefix for putting things beside each other."],
+  ]],
+  ["Memory &amp; history", [
+    ["mnēmē","Greek","memory","mnemonic, amnesia","Gives <b>Mnemosyne</b> — memory personified, and the mother of the Muses. Warburg named his atlas for her."],
+    ["historia","Greek","inquiry; knowledge got by inquiry","history, story","Originally the <i>act of finding out</i>, not the record of the past."],
+    ["arkhē","Greek","beginning, origin, first principle","archive, archaic, archaeology","Origins and the place origins are kept, from one root."],
+    ["thēsauros","Greek","storehouse, treasury","thesaurus, treasure","A thesaurus is a storehouse of words — the sense is <i>kept and arranged</i>."],
+    ["khronos","Greek","time","chronicle, chronology, anachronism","The timeline axis the genre staff already draws."],
+  ]],
+  ["Kind, genre, lineage", [
+    ["genus, generis","Latin","birth, stock, kind","genre, genus, generic, generation","Your “generia” instinct comes from here. Note it means <i>descent</i> before it means category."],
+    ["eidos","Greek","form, shape, kind","idea, kaleidoscope","Form as the thing that makes a kind a kind."],
+    ["stirps","Latin","stem, stock, lineage","extirpate","Family-tree language — the trunk a line descends from."],
+  ]],
+  ["Music", [
+    ["mousikē","Greek","the art of the Muses","music","Covered poetry, dance and learning — not only sound. Closer to this project than the modern word."],
+    ["mouseion","Greek","seat of the Muses","museum","A <b>museum</b> is literally a place where the Muses live."],
+    ["melos","Greek","song, tune, limb","melody, melisma","Both a song and a <i>member</i> — a part belonging to a body."],
+    ["kanōn","Greek","measuring rod, rule","canon","The canon was a <i>measuring stick</i> before it was a list."],
+    ["ōidē","Greek","song","ode, prosody, rhapsody","The song half of rhapsode."],
+  ]],
+  ["Teaching &amp; culture", [
+    ["paideia","Greek","education as the forming of a person","(pedagogy, encyclopaedia)","Not schooling — <i>formation</i>. The nearest ancient word for what Continuing Education means."],
+    ["colere","Latin","to tend, cultivate, inhabit","culture, cultivate, colony","Culture as <i>tending</i> — something kept alive by care."],
+    ["tradere","Latin","to hand over, deliver","tradition, betray","A tradition is literally a <i>handing across</i> generations."],
+    ["skholē","Greek","leisure; then, a place of learning","school, scholar","Learning as what free time is <i>for</i>."],
+  ]],
+  ["Map &amp; place", [
+    ["khartēs","Greek","sheet of papyrus","chart, card, carte, cartography","Marty's “carte” lives here."],
+    ["topos","Greek","place","topography, topology, utopia","Topology is the maths of connection — what joins what, regardless of distance."],
+    ["graphein","Greek","to scratch, draw, write","-graphy, graph, grammar","Drawing and writing were one act."],
+  ]],
+];
+
+const SUFFIXES = [
+  ["-ium","a place where it happens (museum, atrium)"],
+  ["-arium","a place that holds a collection (herbarium)"],
+  ["-a","a bare noun; softest ending"],
+  ["-ia","a domain or condition (academia, utopia)"],
+  ["-is","Greek noun ending (genesis, praxis)"],
+  ["-us","Latin noun ending (nexus, cantus)"],
+  ["-ure","the act, and its result (texture, culture)"],
+  ["-ica","the body of work about it (musica, rubrica)"],
+  ["-on","Greek neuter (lexicon, canon)"],
+];
+
+const CANDIDATES = [
+  ["Contexture","kuhn-TEKS-cher",1,"The act of weaving things together, and the structure that results. It is an <b>existing English word</b>, rare enough to feel found rather than borrowed.","<b>Risk:</b> reads as a near-miss for “context” at a glance, and gets autocorrected."],
+  ["Rhapsode","RAP-sohd",1,"The Greek performer who stitched separate songs into one continuous telling. Music and connection in a single word, and the metaphor is exactly right.","<b>Risk:</b> people will read “rhapsody” and expect something florid."],
+  ["Concordance","kun-KOR-dunss",1,"A book that shows every place a thing appears across a body of texts — the pre-digital cross-reference engine. Also, literally, <i>agreement of hearts</i>.","<b>Risk:</b> long, and heavily associated with biblical scholarship."],
+  ["Mnemosia","nee-MOH-see-uh",0,"From <i>mnēmē</i>. Keeps Mnemosyne's ring without the mouthful, and inherits Warburg's atlas by association.","<b>Risk:</b> nobody can spell it from hearing it — the silent M is fatal for a domain."],
+  ["Texis","TEK-sis",0,"<i>texere</i> + <i>-is</i>. Weaving as an ongoing act. Short, hard, ownable.","<b>Risk:</b> Nexis/LexisNexis sit close, and it looks like a typo for Texas."],
+  ["Generia","jeh-NEER-ee-uh",0,"Your own coinage: <i>genus</i> + <i>-ia</i>, the domain of kinds. Reads as a place made of genres.","<b>Risk:</b> very close to “generic”, which is the last thing this should sound like."],
+  ["Melonia","meh-LOH-nee-uh",0,"<i>melos</i> + <i>-ia</i>: the domain of song, where <i>melos</i> also means a limb — a part belonging to a body.","<b>Risk:</b> the first four letters are a melon. Say it in a room before believing in it."],
+  ["Musaion","myoo-SYE-on",0,"The older spelling of <i>mouseion</i> — seat of the Muses, root of “museum”. A museum that never stopped being about music.","<b>Risk:</b> constantly re-spelled as Mus<i>e</i>um by everyone typing it."],
+  ["Paideia","py-DAY-uh",1,"Existing Greek word: education as the shaping of a whole person. The most precise word available for what Continuing Education claims to be.","<b>Risk:</b> academic, and pronounced four different ways by four different people."],
+];
+
+const EPONYMS = [
+  ["Lomax","for Alan Lomax","Spent a life recording the world's music and trying to <b>systematise</b> it — his cantometrics project attempted to map song style against culture worldwide. The nearest thing to a direct ancestor this project has.","<b>Note:</b> his methods and his handling of credit are genuinely contested — naming after him inherits that argument."],
+  ["Otlet","for Paul Otlet","Built the Mundaneum: an attempt to index all the world's knowledge on cards and link it, decades before hypertext. He imagined the network and lacked only the machine.","<b>Note:</b> unknown to nearly everyone; you'd be teaching the name every time."],
+  ["Guido","for Guido of Arezzo","Devised staff notation and the solfège syllables — the man who made music <b>writable</b>, and therefore transmissible across time. Everything this project documents survives because of that.","<b>Note:</b> reads as an Italian first name, and in American English carries a slur."],
+  ["Warburg","for Aby Warburg","The Mnemosyne Atlas — images arranged so that connection itself is the argument. Already named as this project's founding permission on the lineage page.","<b>Note:</b> shares its name with the banking family, which dominates search results."],
+  ["Mnemosyne","the Titaness of memory","Mother of the Muses: memory is literally the <b>parent</b> of the arts. Warburg's choice too, which puts you in good company rather than in his shadow.","<b>Note:</b> four syllables and a silent M. Beautiful on a page, punishing in speech."],
+  ["Boulanger","for Nadia Boulanger","Taught a staggering share of the twentieth century's composers. If the project is fundamentally <b>pedagogy</b> — Continuing Education — the teacher is the right patron, not the archivist.","<b>Note:</b> means “baker” in French, and that is what it will look like on a sign."],
+  ["Clio","the Muse of history","The Muse whose domain is history — and one of Mnemosyne's daughters, so the memory lineage is intact. Four letters, one clean idea, trivially sayable.","<b>Note:</b> a Renault model, and a large PR-awards brand."],
+];
+
+const $ = (i) => document.getElementById(i);
+const state = { roots: [], sfx: null };
+
+$("bank").innerHTML = FAMILIES.map(([name, rows]) => `
+  <div class="fam">
+    <div class="fam-h">${name}</div>
+    <div class="roots">${rows.map(([r,lang,lit,gave,why]) => `
+      <div class="root" data-root="${r.split(" ")[0].replace(/[^A-Za-zāēīōūēĪ-]/g,"")}">
+        <b>${r}</b><span class="src">${lang}</span>
+        <span class="lit">${lit}</span>
+        <span class="gave">gave English: ${gave}</span>
+        <span class="why">${why}</span>
+      </div>`).join("")}</div>
+  </div>`).join("");
+
+$("sfx").innerHTML = SUFFIXES.map(([s,g]) =>
+  `<button data-s="${s}" aria-pressed="false" title="${g}">${s}</button>`).join("");
+
+$("cands").innerHTML = CANDIDATES.map(([w,p,real,body,risk]) => `
+  <div class="cand"><h3>${w}${real?'<span class="real">real word</span>':''}</h3>
+  <div class="pron">${p}</div><p>${body}</p><p class="risk">${risk}</p></div>`).join("");
+
+$("epo").innerHTML = EPONYMS.map(([w,f,body,note]) => `
+  <div class="cand"><h3>${w}</h3><div class="pron">${f}</div>
+  <p>${body}</p><p class="risk">${note}</p></div>`).join("");
+
+function render(){
+  const stem = state.roots.join("");
+  const word = stem + (state.sfx ? state.sfx.slice(1) : "");
+  $("out").textContent = word || "—";
+  $("picks").innerHTML = state.roots.map((r,i) =>
+    `<span class="pick">${r}<button class="clear" data-i="${i}">drop</button></span>`).join("");
+  $("outNote").textContent = state.roots.length
+    ? "Say it out loud, then try to spell it from hearing it. That is the whole test."
+    : "Pick roots above, then a suffix.";
+}
+$("bank").addEventListener("click", (e) => {
+  const el = e.target.closest(".root"); if (!el) return;
+  el.classList.toggle("on");
+  const r = el.dataset.root;
+  const i = state.roots.indexOf(r);
+  i === -1 ? state.roots.push(r) : state.roots.splice(i,1);
+  render();
+});
+$("picks").addEventListener("click", (e) => {
+  const b = e.target.closest(".clear"); if (!b) return;
+  const r = state.roots[+b.dataset.i];
+  state.roots.splice(+b.dataset.i,1);
+  document.querySelectorAll(`.root[data-root="${r}"]`).forEach(x => x.classList.remove("on"));
+  render();
+});
+$("sfx").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  const on = b.getAttribute("aria-pressed") === "true";
+  [...e.currentTarget.children].forEach(x => x.setAttribute("aria-pressed","false"));
+  state.sfx = on ? null : b.dataset.s;
+  if (!on) b.setAttribute("aria-pressed","true");
+  render();
+});
+render();
+</script>
+</body>
+</html>
