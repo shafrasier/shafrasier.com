@@ -96,9 +96,14 @@ body{
    dead centre elsewhere. This keeps the glyph purely for its width (so the
    wordmark's spacing is untouched) and paints the rule as a box inset equally
    from both ends: symmetric by construction, at any scale, on any engine. */
+/* The box is sized in em, not left to the underscore's advance: that advance
+   turned out to differ substantially between devices (the gaps around the bar
+   summed to 6.7px on an iPhone against 4.4px here), which made every correction
+   land differently. An em width is the same everywhere, and the rule fills it
+   exactly, so the bar's length and its centre are both deterministic. */
 #us{display:inline-block;transform-origin:50% 50%;letter-spacing:0;position:relative;
-  color:transparent}
-#us::after{content:"";position:absolute;left:7.5%;right:7.5%;bottom:.145em;height:.052em;
+  color:transparent;width:.46em}
+#us::after{content:"";position:absolute;left:0;right:0;bottom:.145em;height:.052em;
   background:var(--white)}
 .typefx #us::after{opacity:0;transition:opacity .18s ease-out}
 .typefx #us:has(.ch.lit)::after{opacity:1}
@@ -802,9 +807,10 @@ const SLOTS = [
           if (d[(y * W + x) * 4 + 3] > 12) { if (L < 0) L = x; R = x; break; }
         }
       }
-      if (L < 0) return { left: 0, right: 0 };
-      return { left: L - pad, right: pad + c2.measureText(text).width - (R + 1) };
-    } catch (e) { return { left: 0, right: 0 }; }
+      if (L < 0) return { left: 0, right: 0, adv: 0 };
+      const adv = c2.measureText(text).width;
+      return { left: L - pad, right: pad + adv - (R + 1), adv };
+    } catch (e) { return { left: 0, right: 0, adv: 0 }; }
   }
 
   function measure() {
@@ -847,8 +853,19 @@ const SLOTS = [
     const ls = parseFloat(cs.letterSpacing) || 0;     // trails the last letter of a word
     const dB = bearings(w1.textContent, font);
     const sB = bearings(w2.textContent, font);
-    const discoInkRight = w1r.right - ls - dB.right;
-    const spaceInkLeft = w2r.left + sB.left;
+    /* A canvas and the layout engine do not always agree on advance widths —
+       on iOS they differ enough that bearings taken from the canvas came out
+       short, and the correction landed at roughly half of what the rendered
+       type needed. Scaling each word's bearings by how much its real box
+       differs from the canvas's idea of it removes that mismatch. */
+    const scaleOf = (rect, b, n) => {
+      const domAdv = rect.width - ls * n;             // the box, less its trailing spacing
+      return b.adv > 1 && domAdv > 1 ? domAdv / b.adv : 1;
+    };
+    const dS = scaleOf(w1r, dB, w1.textContent.length);
+    const sS = scaleOf(w2r, sB, w2.textContent.length);
+    const discoInkRight = w1r.right - ls - dB.right * dS;
+    const spaceInkLeft = w2r.left + sB.left * sS;
 
     const usTo = centre - (ur.left + ur.width / 2);   // the bar's centre → the ball's
     const w1To = centre - gap / 2 - discoInkRight;    // DISCO's INK → the left corner
