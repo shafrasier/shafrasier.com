@@ -879,7 +879,11 @@ const SLOTS = [
     const w2To = centre + gap / 2 - spaceInkLeft;     // SPACE's INK → the right corner
     let usRest = (discoInkRight + spaceInkLeft) / 2 - (ur.left + ur.width / 2);
     if (!isFinite(usRest) || Math.abs(usRest) > usw) usRest = 0;
-    const kx = gap / usw;
+    /* The bar spans a little less than the gap between the words, so there is
+       visible air at both ends. Filling the gap exactly meant the rule ran from
+       one letter's ink to the other's, and then any half-pixel error in either
+       word's placement read as a gap on one side and a collision on the other. */
+    const kx = (gap * 0.88) / usw;
 
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
