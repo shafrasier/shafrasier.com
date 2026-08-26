@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Rhapsode — a naming study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#f0efe4; --light:#fefdfb; --lightgray:#e6e3d5; --gray:#8c8880;
+    --darkgray:#232120; --dark:#111111; --tertiary:#6f6a5c;
+    --ui:ui-sans-serif,-apple-system,"Segoe UI",system-ui,sans-serif;
+    --serif:"Source Serif 4",Georgia,serif;
+    --good:#3f7a4d; --bad:#a34a3f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--darkgray);font-family:var(--serif);
+       line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:2.8rem 2rem 5rem}
+  h1{font-family:"Petrona",serif;font-style:italic;font-weight:500;letter-spacing:-.03em;
+     font-size:3rem;color:var(--dark);margin:0 0 .1rem;line-height:1}
+  .sub{font-family:var(--ui);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+       color:var(--gray);margin:0 0 1.4rem}
+  .dek{font-size:1rem;color:var(--darkgray);max-width:72ch;margin:0 0 .7rem}
+  .dek b{font-weight:600}
+  h2{font-family:var(--ui);font-size:.71rem;letter-spacing:.13em;text-transform:uppercase;
+     color:var(--gray);font-weight:700;margin:3.4rem 0 1.1rem;padding-bottom:.5rem;
+     border-bottom:1px solid var(--lightgray)}
+  h3{font-family:"Petrona",serif;font-style:italic;font-weight:500;font-size:1.35rem;
+     color:var(--dark);margin:1.8rem 0 .3rem;letter-spacing:-.02em}
+  p{max-width:74ch}
+  .gk{font-family:"Petrona",serif;font-style:italic;color:var(--dark)}
+  blockquote{margin:1.2rem 0;padding:.9rem 1.2rem;border-left:3px solid var(--tertiary);
+    background:var(--light);border-radius:0 10px 10px 0;font-size:.94rem;color:var(--darkgray)}
+  blockquote cite{display:block;font-family:var(--ui);font-size:.68rem;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--gray);font-style:normal;margin-top:.5rem}
+
+  /* wordmark mockups */
+  .marks{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin:1.2rem 0}
+  .mk{background:var(--light);border:1px solid var(--lightgray);border-radius:16px;padding:1.4rem 1rem 1rem;text-align:center}
+  .mk .m{color:var(--dark);font-family:"Petrona",serif;letter-spacing:-.03em;line-height:1.1;font-size:2rem;font-weight:500}
+  .mk .lbl{font-family:var(--ui);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+           color:var(--gray);margin-top:1rem;padding-top:.7rem;border-top:1px solid var(--lightgray)}
+  .rail{display:flex;gap:1rem;flex-wrap:wrap;margin:1.2rem 0}
+  .panel{width:262px;background:var(--light);border:1px solid var(--lightgray);border-radius:18px;
+         padding:1.6rem 1.1rem 1rem;box-shadow:0 12px 30px -12px rgba(17,17,17,.18)}
+  .panel .m{text-align:center;color:var(--dark);font-family:"Petrona",serif;font-weight:500;
+            letter-spacing:-.03em;font-size:1.85rem;line-height:1.05;margin-bottom:1.1rem}
+  .panel ul{list-style:none;margin:0;padding:.7rem 0 0;border-top:1px solid var(--lightgray)}
+  .panel li{display:flex;align-items:center;gap:.5rem;padding:.1rem 0;font-size:.72rem;
+            font-weight:600;letter-spacing:.055em;color:var(--darkgray)}
+  .dot{width:6px;height:6px;border-radius:50%;flex:none}
+
+  /* ledger */
+  .ledger{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.2rem 0}
+  .col{background:var(--light);border:1px solid var(--lightgray);border-radius:14px;padding:1rem 1.2rem}
+  .col h4{font-family:var(--ui);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+          margin:0 0 .7rem;font-weight:700}
+  .col.pro h4{color:var(--good)} .col.con h4{color:var(--bad)}
+  .col ul{margin:0;padding-left:1.1rem}
+  .col li{font-size:.88rem;margin-bottom:.6rem}
+  .col li b{font-weight:600}
+  .verdict{background:var(--light);border:1px solid var(--lightgray);border-left:4px solid var(--dark);
+           border-radius:0 14px 14px 0;padding:1.2rem 1.4rem;margin:1.4rem 0 0}
+  .verdict p{margin:0 0 .7rem}
+  .verdict p:last-child{margin:0}
+  table{border-collapse:collapse;width:100%;font-size:.88rem;margin:1rem 0}
+  th,td{text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--lightgray);vertical-align:top}
+  th{font-family:var(--ui);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);font-weight:700}
+  td b{font-weight:600}
+  @media(max-width:760px){.ledger{grid-template-columns:1fr}.wrap{padding:1.6rem 1.1rem 3rem}h1{font-size:2.1rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Rhapsode</h1>
+<p class="sub">ῥαψῳδός · RAP-sohd · a naming study</p>
+
+<p class="dek">Your hunch is right, and the reason is better than the one you probably had.
+This is the case for it, the case against, and the one argument that would settle it either way.</p>
+
+<h2>What the word actually means</h2>
+
+<p>From <span class="gk">rhapsōidein</span> — <b>to stitch songs together</b>. The parts are
+<span class="gk">rhaptein</span>, to stitch or sew, and <span class="gk">ōidē</span>, song. A rhapsode
+was a professional performer of Homeric epic in ancient Greece, and the name describes the method:
+he <b>stitched pre-existing material</b> into one continuous telling.</p>
+
+<p>There is a second ancient reading, and it is worth knowing because it is nearly as good. Pindar,
+writing in the fifth century BC, implies two explanations — "singer of stitched verse" and "singer
+with the staff," from <span class="gk">rhabdos</span>, the staff a rhapsode held while performing
+instead of a lyre. Modern scholars prefer the stitching etymology; the staff is real but is thought
+to be a symbol of the right to be heard rather than the source of the name.</p>
+
+<p>The crucial part for you: <b>the rhapsode did not compose.</b> He inherited the material and made
+it continuous. He chose which episodes to perform, in what order, and how to join them. That is a
+curatorial act, not an authorial one.</p>
+
+<h2>Plato put a rhapsode on trial — and the charge is your thesis</h2>
+
+<p>Plato's dialogue <i>Ion</i> is a conversation between Socrates and a rhapsode named Ion, who is
+celebrated for performing Homer. Socrates spends the dialogue asking a single question: <b>do you
+actually understand what you recite, or do you merely channel it?</b></p>
+
+<p>Ion cannot answer. He performs Homer magnificently and cannot explain him.</p>
+
+<p>That is, almost word for word, the problem this project exists to solve. Your own About page says
+we got the access and lost the context. <i>Ion</i> is the oldest statement of that complaint in
+Western writing: a man with total access to the material and no account of it.</p>
+
+<p>Then Socrates offers the image that should decide this for you. He explains transmission as a
+chain of magnetised rings:</p>
+
+<blockquote>
+The magnet is the Muse, and the ring which immediately follows is the poet himself; from him are
+suspended other poets; there is also a chain of rhapsodes and actors… and the last ring of all is
+the spectator.
+<cite>Plato, Ion (Jowett translation)</cite>
+</blockquote>
+
+<p><b>That is an influence graph.</b> Written in the fourth century BC. Nodes, directed edges, force
+weakening with distance from the source — the exact structure the site draws on its home page. The
+rhapsode is the intermediate ring: the one who carries the charge from the maker to the listener,
+which is precisely the position this project occupies between the records and the reader.</p>
+
+<h2>How it fits the MAP — and where it doesn't</h2>
+
+<table>
+  <tr><th style="width:34%">The claim</th><th>Holds up?</th></tr>
+  <tr><td><b>Stitcher of songs</b></td><td><b>Exactly.</b> The project's unit of work is the join between two records. Not the record, the join.</td></tr>
+  <tr><td><b>Works with inherited material</b></td><td><b>Exactly.</b> A curated canon, not criticism and not composition — same posture as the rhapsode.</td></tr>
+  <tr><td><b>The magnet chain</b></td><td><b>Exactly.</b> An ancient description of the influence graph, from a source that predates every other name on your list.</td></tr>
+  <tr><td><b>Oral transmission</b></td><td><b>Yes.</b> Culture surviving because someone carried it forward is the Continuing Education thesis in one word.</td></tr>
+  <tr><td><b>A map is a picture; a rhapsode is a person</b></td><td><b>This is the real tension.</b> Atlas names the artifact. Rhapsode names a role — so the site stops being a thing you consult and becomes someone doing something. You have to decide who the rhapsode is: the site, you, or the reader.</td></tr>
+  <tr><td><b>A performance is linear; the MAP is a network</b></td><td><b>Genuine friction.</b> A rhapsode delivers one sequence to a seated audience. Your reader wanders and picks their own path. Though read generously, that makes <i>the reader</i> the rhapsode — stitching their own telling out of what you laid down. Which is a lovely thing for the name to mean.</td></tr>
+  <tr><td><b>It says "Greek epic," not "music"</b></td><td><b>Cost.</b> Nothing in the word says music to a modern ear. It has to be explained before it means anything.</td></tr>
+</table>
+
+<h2>The mark</h2>
+<p class="dek">Set in Petrona, the face you chose — roman and italic, across cases.</p>
+<div class="marks" id="marks"></div>
+
+<h3>In the rail</h3>
+<div class="rail" id="rail"></div>
+
+<h2>Benefits and risks, straight</h2>
+<div class="ledger">
+  <div class="col pro"><h4>For</h4><ul>
+    <li><b>The meaning is the product.</b> Almost no name does this. "Stitcher of songs" is not a metaphor for what you built — it is a description of it.</li>
+    <li><b>It is ownable.</b> Rare, uncontested, and the domain space is nothing like Atlas's.</li>
+    <li><b>It has a scholarly spine.</b> Pindar, Hesiod, Plato. When someone asks why, the answer is a 2,500-year-old argument about exactly your subject, not a vibe.</li>
+    <li><b>The Rhapsody brand is vacant.</b> The streaming service retired the name in July 2016 when it rebranded to Napster — so the nearest commercial collision is dormant, not live.</li>
+    <li><b>It is a role, like the rest of your world.</b> The Listener, the Clearing — you already name things by what they do.</li>
+    <li><b>It sounds good.</b> Two syllables, hard consonant, ends clean. It survives being said out loud, which most coinages don't.</li>
+  </ul></div>
+  <div class="col con"><h4>Against</h4><ul>
+    <li><b>"Rhapsodic" means gushing.</b> The live English descendant of this word means uncritical enthusiasm — the exact opposite of the standard you hold prose to. This is the strongest argument against, and it is not small.</li>
+    <li><b>The silent h.</b> Nobody spells it right from hearing it. Expect rapsode.com typos forever; you would need to own them.</li>
+    <li><b>It starts with "rap."</b> In a music project this is either a small gift or a persistent misdirection, and you don't control which.</li>
+    <li><b>Bohemian Rhapsody, Rhapsody in Blue.</b> The adjacent word is deafeningly loud, so most people will hear it as a near-miss for something familiar rather than as its own word.</li>
+    <li><b>It needs teaching.</b> Every visitor has to be told what it means. The compensation is that the explanation is genuinely great — but you will give it ten thousand times.</li>
+    <li><b>It names a person, not a place.</b> "Go look it up on the Rhapsode" is a slightly odd sentence in a way "on the Atlas" is not.</li>
+  </ul></div>
+</div>
+
+<h2>Does it live in the Continuing Education universe?</h2>
+
+<p>Yes, and more comfortably than Atlas does. Look at what you have already named: <b>Continuing
+Education</b>, <b>the Clearing</b>, <b>the Listener</b>. Not one of those is a product name. They are
+a practice, a place, and a role — plain words used slightly formally, human-scaled, faintly archaic.
+Atlas is the outlier in that set: it is a grand object, and it is the only one of your names that
+sounds like a piece of software.</p>
+
+<p><b>Rhapsode is the same kind of word as the Listener.</b> Both name a person by what they do with
+culture — one receives, one stitches. Put them in a sentence together and they belong to the same
+world: <i>the Listener will be in touch</i>, <i>the Rhapsode stitches the record to what made it</i>.
+That is a coherent vocabulary, not a set of brands.</p>
+
+<p>The one place it strains: Continuing Education is plain modern English, and Rhapsode is a Greek
+technical term. The Clearing sits comfortably between them. Whether that reads as range or as
+inconsistency depends on how much Greek the rest of the world acquires.</p>
+
+<h2>The verdict</h2>
+<div class="verdict">
+  <p><b>It is the best name anyone has proposed for this project, and I include Atlas.</b> Atlas
+  describes the shape of the thing. Rhapsode describes the work — and it comes with a 2,500-year-old
+  argument about whether access without understanding is worth anything, which is the argument your
+  project exists to have.</p>
+  <p><b>The one thing that could kill it is "rhapsodic."</b> If the word's living descendant means
+  gushing and uncritical, and your entire prose standard is anti-gush, that is a real contradiction
+  sitting inside your own name. You should decide whether it bothers you before anything else.
+  Nobody outside this conversation will make the connection consciously — but you will know.</p>
+  <p><b>The test I would run:</b> say "it's on the Rhapsode" out loud to three people who don't know
+  the project, and see whether the next question is "what's that?" (fine — that is the pitch) or
+  "how do you spell it?" (a tax you pay forever). Then read the first page of Plato's <i>Ion</i>. If
+  it reads like it was written about your project, you have your answer.</p>
+</div>
+
+</div>
+<script>
+  const CATS=[["ALBUMS","#c44040"],["SONGS","#c44040"],["ARTISTS","#c9a227"],["PLACES","#a0632c"],
+    ["GENRES","#3f9e4d"],["SCENES","#6ab86a"],["ERAS","#2f7f7f"],["MOMENTS","#49b7b7"],
+    ["INDUSTRY","#4a6f9e"],["THEORY","#5b3fa8"],["IDEAS","#52a8d7"],["LIBRARY","#3f6fd0"]];
+  const MARKS=[["Rhapsode","normal","none","Sentence case · roman"],
+               ["Rhapsode","italic","none","Sentence case · italic"],
+               ["rhapsode","normal","none","lowercase · roman"],
+               ["rhapsode","italic","none","lowercase · italic"],
+               ["RHAPSODE","normal","uppercase","Caps · roman"],
+               ["RHAPSODE","italic","uppercase","Caps · italic"]];
+  document.getElementById("marks").innerHTML = MARKS.map(([w,st,tt,lbl])=>
+    `<div class="mk"><div class="m" style="font-style:${st};text-transform:${tt}">${w}</div>
+     <div class="lbl">${lbl}</div></div>`).join("");
+  const rail = (w,st) => `<div class="panel"><div class="m" style="font-style:${st}">${w}</div>
+    <ul>${CATS.map(([n,c])=>`<li><span class="dot" style="background:${c}"></span>${n}</li>`).join("")}</ul></div>`;
+  document.getElementById("rail").innerHTML =
+    rail("Rhapsode","italic") + rail("rhapsode","italic") + rail("rhapsode","normal");
+</script>
+</body>
+</html>
