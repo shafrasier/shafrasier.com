@@ -11,7 +11,7 @@ const NOTE_SITES = [
     "addr": "315 Bowery, Manhattan",
     "hood": "East Village",
     "blurb": "The Bowery bar with the two rules — original music only, haul your own gear — whose door-deal economics and stolen-then-replaced sound system built punk's founding room.",
-    "note": "/map/MUSIC/PLACES/VENUES/CBGB"
+    "note": "MUSIC/PLACES/VENUES/CBGB"
   },
   {
     "name": "Paradise Garage",
@@ -23,7 +23,7 @@ const NOTE_SITES = [
     "addr": "84 King Street, Manhattan",
     "hood": "West SoHo",
     "blurb": "The parking garage Michael Brody rebuilt around Larry Levan and Richard Long's sound system: ten years of Saturday Mass, and the room that gave a genre its name.",
-    "note": "/map/MUSIC/PLACES/VENUES/Paradise-Garage"
+    "note": "MUSIC/PLACES/VENUES/Paradise-Garage"
   },
   {
     "name": "Studio 54",
@@ -35,7 +35,7 @@ const NOTE_SITES = [
     "addr": "254 West 54th Street, Manhattan",
     "hood": "Midtown",
     "blurb": "The opera house turned TV stage turned discotheque where the door was the show: thirty-three months of Rubell and Schrager, the raid, the skim, and the dance floor the cameras loved.",
-    "note": "/map/MUSIC/PLACES/VENUES/Studio-54"
+    "note": "MUSIC/PLACES/VENUES/Studio-54"
   },
   {
     "name": "The Loft",
@@ -47,7 +47,7 @@ const NOTE_SITES = [
     "addr": "647 Broadway, Manhattan (1970–74); thereafter wherever the party moved",
     "hood": "NoHo",
     "blurb": "David Mancuso's invitation-only rent party: no bar, no license, no closing time — the audiophile room dance music still copies.",
-    "note": "/map/MUSIC/PLACES/VENUES/The-Loft"
+    "note": "MUSIC/PLACES/VENUES/The-Loft"
   },
   {
     "name": "CBGB scene",
@@ -59,7 +59,7 @@ const NOTE_SITES = [
     "addr": "315 Bowery, Manhattan",
     "hood": "East Village",
     "blurb": "The Bowery bar whose original-music-only rule selected for writers rather than for a sound — so punk, art rock and new wave all hatched on one foot-high stage.",
-    "note": "/map/MUSIC/SCENES/CBGB-scene"
+    "note": "MUSIC/SCENES/CBGB-scene"
   },
   {
     "name": "Downtown scene",
@@ -71,7 +71,7 @@ const NOTE_SITES = [
     "addr": "77 White Street, Manhattan",
     "hood": "TriBeCa",
     "blurb": "The five years when downtown New York's separated undergrounds — punk's children, disco's survivors, the galleries, and the arriving Bronx — stopped staying in their lanes and shared the same rooms.",
-    "note": "/map/MUSIC/SCENES/Downtown-scene"
+    "note": "MUSIC/SCENES/Downtown-scene"
   },
   {
     "name": "Greenwich Village folk scene",
@@ -83,7 +83,7 @@ const NOTE_SITES = [
     "addr": "Washington Square Park, Greenwich Village, Manhattan",
     "hood": "Greenwich Village",
     "blurb": "A few square blocks of lower Manhattan where five years of coffeehouse apprenticeship tied popular song to political consciousness.",
-    "note": "/map/MUSIC/SCENES/Greenwich-Village-folk-scene"
+    "note": "MUSIC/SCENES/Greenwich-Village-folk-scene"
   },
   {
     "name": "No wave",
@@ -95,6 +95,6 @@ const NOTE_SITES = [
     "addr": "225 West Broadway, Manhattan",
     "hood": "TriBeCa",
     "blurb": "Downtown New York's refusal wing: four bands of untrained artists, a Super 8 film wing, and one contested Eno record, built against everything CBGB punk had just won.",
-    "note": "/map/MUSIC/SCENES/No-wave"
+    "note": "MUSIC/SCENES/No-wave"
   }
 ];
