@@ -853,6 +853,15 @@ const SLOTS = [
 
     /* Sit the rule exactly where the underscore's stroke sits, so the swap from
        one to the other does not move the line. */
+    /* The rule begins life exactly on top of the underscore's own stroke — same
+       length, same place, same thickness — so the moment it takes over there is
+       nothing to see. Both are never visible at once. */
+    const uB = bearings("_", cs0.fontStyle + " " + cs0.fontWeight + " " + cs0.fontSize + " " + cs0.fontFamily);
+    const inkW = Math.max(1, usw - uB.left - uB.right);
+    const inkMid = ur.left + uB.left + inkW / 2;
+    const startScale = inkW / ruleW;
+    const startShift = inkMid - (mr.left + mr.width / 2);
+
     const h = Math.max(1, Math.round(em * 0.052));
     rule.style.width = ruleW.toFixed(2) + "px";
     rule.style.height = h + "px";
@@ -872,7 +881,7 @@ const SLOTS = [
 
     const w1To = centre - gap / 2 - discoInkRight;
     const w2To = centre + gap / 2 - spaceInkLeft;
-    const kx = usw / ruleW;                           // the rule starts glyph-sized
+    const kx = startScale;                            // the rule starts glyph-sized
 
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
@@ -896,7 +905,7 @@ const SLOTS = [
         "  layoutW " + document.documentElement.clientWidth;
     }
 
-    return { y0: space.getBoundingClientRect().top + scrollY, y1, w1To, w2To, kx, markH };
+    return { y0: space.getBoundingClientRect().top + scrollY, y1, w1To, w2To, kx, startShift, markH };
   }
 
   function write() {
@@ -908,9 +917,14 @@ const SLOTS = [
       /* the words travel first and only open once the mark is nearly home */
       "@keyframes mastW1{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w1To.toFixed(1) + "px)}}",
       "@keyframes mastW2{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w2To.toFixed(1) + "px)}}",
-      /* the underscore hands over to the rule: it never moves, it just fades */
-      "@keyframes mastUS{0%,52%{opacity:1}100%{opacity:0}}",
-      "@keyframes mastRule{0%,52%{transform:translateX(-50%) scaleX(" + M.kx.toFixed(4) + ");opacity:0}" +
+      /* One line, always. The glyph holds until 52%, at which instant the rule —
+         sitting exactly on it — takes over and begins to grow. A crossfade here
+         showed both at once, which read as two underscores. */
+      "@keyframes mastUS{0%,51.9%{opacity:1}52%,100%{opacity:0}}",
+      "@keyframes mastRule{0%,51.9%{transform:translateX(calc(-50% + " + M.startShift.toFixed(2) +
+        "px)) scaleX(" + M.kx.toFixed(4) + ");opacity:0}" +
+        "52%{transform:translateX(calc(-50% + " + M.startShift.toFixed(2) + "px)) scaleX(" +
+        M.kx.toFixed(4) + ");opacity:1}" +
         "100%{transform:translateX(-50%) scaleX(1);opacity:1}}",
       /* the date clears out before the wordmark can reach it */
       "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
@@ -935,9 +949,11 @@ const SLOTS = [
     const q = Math.max(0, (p - 0.52) / 0.48);
     w1.style.transform = "translateX(" + (M.w1To * q).toFixed(1) + "px)";
     w2.style.transform = "translateX(" + (M.w2To * q).toFixed(1) + "px)";
-    us.style.opacity = (1 - q).toFixed(3);
-    rule.style.opacity = q.toFixed(3);
-    rule.style.transform = "translateX(-50%) scaleX(" + (M.kx + (1 - M.kx) * q).toFixed(4) + ")";
+    const swapped = q > 0;
+    us.style.opacity = swapped ? "0" : "1";
+    rule.style.opacity = swapped ? "1" : "0";
+    rule.style.transform = "translateX(calc(-50% + " + (M.startShift * (1 - q)).toFixed(2) + "px))" +
+      " scaleX(" + (M.kx + (1 - M.kx) * q).toFixed(4) + ")";
     document.querySelector(".hero-text").style.opacity = Math.max(0, 1 - p / 0.34).toFixed(3);
   }
 
