@@ -102,17 +102,15 @@ body{
    dead centre elsewhere. This keeps the glyph purely for its width (so the
    wordmark's spacing is untouched) and paints the rule as a box inset equally
    from both ends: symmetric by construction, at any scale, on any engine. */
-/* The box is sized in em, not left to the underscore's advance: that advance
-   turned out to differ substantially between devices (the gaps around the bar
-   summed to 6.7px on an iPhone against 4.4px here), which made every correction
-   land differently. An em width is the same everywhere, and the rule fills it
-   exactly, so the bar's length and its centre are both deterministic. */
-#us{display:inline-block;transform-origin:50% 50%;letter-spacing:0;position:relative;
-  color:transparent;width:.46em}
-#us::after{content:"";position:absolute;left:0;right:0;bottom:.145em;height:.052em;
-  background:var(--white)}
-.typefx #us::after{opacity:0;transition:opacity .18s ease-out}
-.typefx #us:has(.ch.lit)::after{opacity:1}
+/* The underscore is the font's own underscore — nothing overrides its width,
+   its position or its ink. At rest this is simply what DISCO_SPACE looks like
+   when you type it. The long rule that replaces it on scroll is a separate
+   element (#rule) which is centred on the ball by construction, so neither
+   state depends on measuring a glyph's side bearings. */
+#us{display:inline-block;transform-origin:50% 50%}
+/* the rule: centred inside the mark, which is itself centred on the ball */
+#rule{position:absolute;left:50%;top:0;height:0;background:var(--white);opacity:0;
+  transform:translateX(-50%) scaleX(1);transform-origin:50% 50%;pointer-events:none}
 
 /* the boundary: the page never reaches the ball — it is covered before it gets there */
 #band{position:fixed;top:0;left:0;right:0;height:var(--bandh,0px);z-index:3;pointer-events:none;
@@ -357,7 +355,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   <div id="ballwrap">
     <canvas id="ball" aria-label="A slowly turning disco ball, drawn in line. Drag to spin it."></canvas>
   </div>
-  <h1 id="mark"><span class="w" id="w1">DISCO</span><span id="us">_</span><span class="w" id="w2">SPACE</span></h1>
+  <h1 id="mark"><span class="w" id="w1">DISCO</span><span id="us">_</span><span class="w" id="w2">SPACE</span><span id="rule" aria-hidden="true"></span></h1>
 </div>
 <div id="band" aria-hidden="true"></div>
 
@@ -505,7 +503,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>
         </button>
       </div>
-      <p class="constnote">if you&#39;d like to learn more about the forms, artists, records, moments, and venues that defined disco, explore this preview of the MAP!</p>
+      <p class="constnote">if you&#39;d like to learn more about the forms, artists, records, moments, and venues that defined disco, explore this preview of Rhapsode!</p>
     </div>
   </section>
 
@@ -779,7 +777,7 @@ const SLOTS = [
   const $ = id => document.getElementById(id);
   const mast = $("mast"), wrap = $("ballwrap"), mark = $("mark"),
         w1 = $("w1"), w2 = $("w2"), us = $("us"),
-        space = $("markspace"), root = document.documentElement;
+        rule = $("rule"), space = $("markspace"), root = document.documentElement;
   if (!mast) return;
 
   const KMIN = 0.38;      // the ball's resting fraction once you have scrolled
@@ -839,51 +837,42 @@ const SLOTS = [
        pixel or so off the ball. Reading the rendered boxes has no such error:
        whatever the type does, this is where the underscore sits. Measured with
        the mark at rest, so its scale is 1 and these are true CSS pixels. */
+    const cs0 = getComputedStyle(mark);
     const mr = mark.getBoundingClientRect();
     const ur = us.getBoundingClientRect();
     const w1r = w1.getBoundingClientRect();
     const w2r = w2.getBoundingClientRect();
-    /* The ball hangs at left:50%, so its centre is the viewport's. Use the
-       LAYOUT viewport: innerWidth counts the scrollbar, which on desktop put
-       this half a scrollbar to the right of where the ball actually hangs. */
+    /* The mark is centred on the ball, and the rule is centred inside the mark,
+       so the rule needs no measurement to land on the ball. All that is computed
+       here is how long it becomes and where the underscore's line sits. */
     const centre = document.documentElement.clientWidth / 2;
     const usw = ur.width || 1;
-    const gap = (2 * r1 * 1.04) / SMIN;               // in the mark's own units
+    const gap = (2 * r1 * 1.04) / SMIN;               // inner gap, in mark units
+    const ruleW = gap * 0.88;                         // a little air at both ends
+    const em = parseFloat(cs0.fontSize) || 16;
 
-    /* Position by INK, not by layout boxes. A letter sits inside its box behind
-       side bearings that differ per font and per text engine, so aligning boxes
-       left the O nearer the bar than the S — visibly lopsided on a phone while
-       measuring square here. These bearings are read off the device drawing the
-       page, so whatever it does to the type, the gaps come out even. */
-    const cs = getComputedStyle(mark);
-    const font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
-    const ls = parseFloat(cs.letterSpacing) || 0;     // trails the last letter of a word
+    /* Sit the rule exactly where the underscore's stroke sits, so the swap from
+       one to the other does not move the line. */
+    const h = Math.max(1, Math.round(em * 0.052));
+    rule.style.width = ruleW.toFixed(2) + "px";
+    rule.style.height = h + "px";
+    rule.style.top = (ur.bottom - mr.top - em * 0.145 - h).toFixed(2) + "px";
+
+    /* Position the words by INK so the air either side of the rule is even. */
+    const font = cs0.fontStyle + " " + cs0.fontWeight + " " + cs0.fontSize + " " + cs0.fontFamily;
+    const ls = parseFloat(cs0.letterSpacing) || 0;
     const dB = bearings(w1.textContent, font);
     const sB = bearings(w2.textContent, font);
-    /* A canvas and the layout engine do not always agree on advance widths —
-       on iOS they differ enough that bearings taken from the canvas came out
-       short, and the correction landed at roughly half of what the rendered
-       type needed. Scaling each word's bearings by how much its real box
-       differs from the canvas's idea of it removes that mismatch. */
     const scaleOf = (rect, b, n) => {
-      const domAdv = rect.width - ls * n;             // the box, less its trailing spacing
+      const domAdv = rect.width - ls * n;
       return b.adv > 1 && domAdv > 1 ? domAdv / b.adv : 1;
     };
-    const dS = scaleOf(w1r, dB, w1.textContent.length);
-    const sS = scaleOf(w2r, sB, w2.textContent.length);
-    const discoInkRight = w1r.right - ls - dB.right * dS;
-    const spaceInkLeft = w2r.left + sB.left * sS;
+    const discoInkRight = w1r.right - ls - dB.right * scaleOf(w1r, dB, w1.textContent.length);
+    const spaceInkLeft = w2r.left + sB.left * scaleOf(w2r, sB, w2.textContent.length);
 
-    const usTo = centre - (ur.left + ur.width / 2);   // the bar's centre → the ball's
-    const w1To = centre - gap / 2 - discoInkRight;    // DISCO's INK → the left corner
-    const w2To = centre + gap / 2 - spaceInkLeft;     // SPACE's INK → the right corner
-    let usRest = (discoInkRight + spaceInkLeft) / 2 - (ur.left + ur.width / 2);
-    if (!isFinite(usRest) || Math.abs(usRest) > usw) usRest = 0;
-    /* The bar spans a little less than the gap between the words, so there is
-       visible air at both ends. Filling the gap exactly meant the rule ran from
-       one letter's ink to the other's, and then any half-pixel error in either
-       word's placement read as a gap on one side and a collision on the other. */
-    const kx = (gap * 0.88) / usw;
+    const w1To = centre - gap / 2 - discoInkRight;
+    const w2To = centre + gap / 2 - spaceInkLeft;
+    const kx = usw / ruleW;                           // the rule starts glyph-sized
 
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
@@ -900,19 +889,14 @@ const SLOTS = [
         document.body.appendChild(d);
         return d;
       })();
-      const gapO = ur.left - discoInkRight, gapS = spaceInkLeft - ur.right;
       box.textContent =
-        "font " + cs.fontSize + "  ls " + ls.toFixed(2) + "  opsz " + cs.fontOpticalSizing +
-        "\nbearing O.right " + dB.right.toFixed(2) + " x" + dS.toFixed(3) +
-        "   S.left " + sB.left.toFixed(2) + " x" + sS.toFixed(3) +
-        "\nbar box " + ur.width.toFixed(2) + "   usRest " + usRest.toFixed(2) +
-        "\ngap after O " + gapO.toFixed(2) + "   before S " + gapS.toFixed(2) +
-        "   diff " + (gapO - gapS).toFixed(2) +
-        "\ncentre " + centre.toFixed(1) + "  innerW " + innerWidth + "  layoutW " +
-        document.documentElement.clientWidth;
+        "font " + cs0.fontSize + "  glyph " + usw.toFixed(2) +
+        "\nrule " + ruleW.toFixed(1) + "  gap " + gap.toFixed(1) + "  startScale " + kx.toFixed(3) +
+        "\ncentre " + centre.toFixed(1) + "  innerW " + innerWidth +
+        "  layoutW " + document.documentElement.clientWidth;
     }
 
-    return { y0: space.getBoundingClientRect().top + scrollY, y1, usTo, usRest, w1To, w2To, kx, markH };
+    return { y0: space.getBoundingClientRect().top + scrollY, y1, w1To, w2To, kx, markH };
   }
 
   function write() {
@@ -924,11 +908,13 @@ const SLOTS = [
       /* the words travel first and only open once the mark is nearly home */
       "@keyframes mastW1{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w1To.toFixed(1) + "px)}}",
       "@keyframes mastW2{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w2To.toFixed(1) + "px)}}",
-      "@keyframes mastUS{0%,52%{transform:translateX(" + M.usRest.toFixed(2) + "px) scaleX(1)}" +
-        "100%{transform:translateX(" + M.usTo.toFixed(1) + "px) scaleX(" + M.kx.toFixed(3) + ")}}",
+      /* the underscore hands over to the rule: it never moves, it just fades */
+      "@keyframes mastUS{0%,52%{opacity:1}100%{opacity:0}}",
+      "@keyframes mastRule{0%,52%{transform:translateX(-50%) scaleX(" + M.kx.toFixed(4) + ");opacity:0}" +
+        "100%{transform:translateX(-50%) scaleX(1);opacity:1}}",
       /* the date clears out before the wordmark can reach it */
       "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
-      "#ballwrap,#mark,#w1,#w2,#us,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
+      "#ballwrap,#mark,#w1,#w2,#us,#rule,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
         "animation-fill-mode:both;animation-timeline:scroll(root);animation-range:0 " +
         Math.round(RANGE) + "px}",
       ".hero-text{animation-name:mastDate}",
@@ -937,6 +923,7 @@ const SLOTS = [
       "#w1{animation-name:mastW1}",
       "#w2{animation-name:mastW2}",
       "#us{animation-name:mastUS}",
+      "#rule{animation-name:mastRule}",
     ].join("\n");
   }
 
@@ -948,8 +935,9 @@ const SLOTS = [
     const q = Math.max(0, (p - 0.52) / 0.48);
     w1.style.transform = "translateX(" + (M.w1To * q).toFixed(1) + "px)";
     w2.style.transform = "translateX(" + (M.w2To * q).toFixed(1) + "px)";
-    us.style.transform = "translateX(" + (M.usRest + (M.usTo - M.usRest) * q).toFixed(2) + "px)" +
-      " scaleX(" + (1 + (M.kx - 1) * q).toFixed(3) + ")";
+    us.style.opacity = (1 - q).toFixed(3);
+    rule.style.opacity = q.toFixed(3);
+    rule.style.transform = "translateX(-50%) scaleX(" + (M.kx + (1 - M.kx) * q).toFixed(4) + ")";
     document.querySelector(".hero-text").style.opacity = Math.max(0, 1 - p / 0.34).toFixed(3);
   }
 
