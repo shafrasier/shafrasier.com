@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
     <channel>
-      <title>atlas</title>
+      <title>rhapsode</title>
       <link>https://shafrasier.com/map</link>
-      <description>Last 10 notes on atlas</description>
+      <description>Last 10 notes on rhapsode</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>About Rhapsode</title>
+    <link>https://shafrasier.com/map/</link>
+    <guid>https://shafrasier.com/map/</guid>
+    <description><![CDATA[ you can know a song your whole life and still only hear half of it. ]]></description>
+    <pubDate>Thu, 27 Aug 2026 07:56:30 GMT</pubDate>
+  </item><item>
     <title>(1990) &quot;Vogue&quot;</title>
     <link>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1990)-Vogue</link>
     <guid>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1990)-Vogue</guid>
@@ -58,12 +64,6 @@
     <link>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1977)-I-Feel-Love</link>
     <guid>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1977)-I-Feel-Love</guid>
     <description><![CDATA[  The Crate6 versions — one entry per unique mixMix Mixed by Year Length BPM Key Availability Mine I Feel Love album cutGiorgio Moroder &amp; Pete Bellotte19775:53pendingpendingstreamingI Feel Love Special Disco VersionGiorgio Moroder &amp; Pete Bellotte19778:15pendingpendingstreamingI Feel Love (Pat... ]]></description>
-    <pubDate>Tue, 25 Aug 2026 22:31:27 GMT</pubDate>
-  </item><item>
-    <title>(1982) &quot;Go Bang! #5&quot;</title>
-    <link>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1982)-Go-Bang!</link>
-    <guid>https://shafrasier.com/map/MUSIC/RELEASES/SINGLES/(1982)-Go-Bang!</guid>
-    <description><![CDATA[  The Crate7 versions — one entry per unique mixMix Mixed by Year Length BPM Key Availability Mine #5 (Go Bang!) album versionArthur Russell19817:54130estdrift?6BB♭ majoreststreamingGo Bang! #5 François K. ]]></description>
     <pubDate>Tue, 25 Aug 2026 22:31:27 GMT</pubDate>
   </item>
     </channel>

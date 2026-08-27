@@ -24,13 +24,13 @@
   .global-graph-icon{display:none!important}
 </style>
 <script>
-  /* the theme is read from storage before paint; an embed is always dark */
-  try {
-    localStorage.setItem("theme", "dark")
-    /* Rest the neighbours' names low so the note at the centre reads first —
-       they come up on zoom and hover exactly as they do on the MAP. */
-    localStorage.setItem("graph-label-density", "22")
-  } catch (e) {}
+  /* An embed is always dark and rests its neighbours' names low so the note at the
+     centre reads first. It declares BOTH on window, never in localStorage: this page
+     is framed by other pages on the SAME ORIGIN, and a setItem here rewrote the real
+     site's saved theme for that visitor — which is what turned the site dark for
+     anyone who had loaded /26, and kept it that way. The scripts read this global
+     first (darkmode.inline.ts, graph.inline.ts). */
+  window.__mapEmbed = { theme: "dark", labelDensity: "22" }
   document.documentElement.setAttribute("saved-theme", "dark")
 </script>
 </head>

@@ -257,17 +257,17 @@
     <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Disco</loc>
     <lastmod>2026-08-20T18:38:52.000Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Electro-disco</loc>
+    <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/EDM/Electro-disco</loc>
     <lastmod>2026-08-19T04:00:00.000Z</lastmod>
   </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Electronic-Dance-Music</loc>
+    <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/EDM/Electronic-Dance-Music</loc>
     <lastmod>2026-08-20T04:00:00.000Z</lastmod>
+  </url><url>
+    <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/EDM/Hi-NRG</loc>
+    <lastmod>2026-08-19T04:00:00.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Euro-disco</loc>
     <lastmod>2026-08-20T04:00:00.000Z</lastmod>
-  </url><url>
-    <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Hi-NRG</loc>
-    <lastmod>2026-08-19T04:00:00.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Italo-disco</loc>
     <lastmod>2026-08-20T04:00:00.000Z</lastmod>
@@ -876,5 +876,5 @@
     <lastmod>2026-06-23T03:22:55.000Z</lastmod>
   </url><url>
     <loc>https://shafrasier.com/map/</loc>
-    <lastmod>2026-07-13T05:04:49.000Z</lastmod>
+    <lastmod>2026-08-27T07:56:30.000Z</lastmod>
   </url></urlset>
