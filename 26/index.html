@@ -499,7 +499,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   <section class="reveal" id="constellation">
     <div class="consto">
       <div class="constbox" id="constbox">
-        <iframe id="constframe" src="/map/static/graph-embed.html" title="Disco's connections on the MAP" scrolling="no"></iframe>
+        <iframe id="constframe" src="https://rhapsode.art/static/graph-embed.html" title="Disco's connections on rhapsode" scrolling="no"></iframe>
         <button class="constbtn" id="constfull" type="button" aria-label="Expand">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>
         </button>
@@ -1081,7 +1081,13 @@ const SLOTS = [
 })();
 
 /* ═══ The constellation ═══
-   The MAP's own graph, embedded — not a lookalike. /map/static/graph-embed.html
+   rhapsode's own graph, embedded — not a lookalike.
+   https://rhapsode.art/static/graph-embed.html
+   CROSS-ORIGIN ON PURPOSE. It used to be /map/static/graph-embed.html, same origin
+   as this page — and the embed wrote its dark theme into localStorage, so loading
+   this page turned the whole site dark for that visitor and kept it that way. The
+   embed no longer writes storage at all, and pointing it at rhapsode.art also
+   follows the site to its own domain.
    loads the MAP's real stylesheet and scripts and mounts its local graph centred
    on Disco, so the physics, hover, drag, labels and colours ARE the MAP's, and
    they follow it as it changes. All this does is frame it and expand it. */
