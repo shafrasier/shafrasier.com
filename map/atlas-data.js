@@ -50,6 +50,18 @@ const NOTE_SITES = [
     "note": "MUSIC/PLACES/VENUES/The-Loft"
   },
   {
+    "name": "The Warehouse",
+    "cat": "Venues",
+    "lat": 41.87898,
+    "lng": -87.64289,
+    "from": 1977,
+    "to": 1983,
+    "addr": "206 South Jefferson Street, Chicago",
+    "hood": "West Loop",
+    "blurb": "The members-only juice bar whose nickname became the name of house music — a three-story loft the city landmarked four decades after the last party.",
+    "note": "MUSIC/PLACES/VENUES/The-Warehouse"
+  },
+  {
     "name": "CBGB scene",
     "cat": "Scenes",
     "lat": 40.72528,
