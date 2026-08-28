@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>About — the hub, to play with — rhapsode labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --cream:#f0efe4; --light:#fefdfb; --lightgray:#e6e3d5; --gray:#8c8880;
+  --darkgray:#232120; --dark:#111111; --tertiary:#6f6a5c;
+  --album:#c44040; --songs:#d46070; --artist:#d4952a; --places:#b3714f;
+  --genre:#3a9c40; --scene:#6ab86a; --era:#2a8880; --moments:#2cbdb2;
+  --industry:#5a7a9a; --theory:#7040c0; --production:#9858c8;
+  --idea:#52a8d7; --library:#4070c0;
+  --serif:"Source Serif 4", Georgia, serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  /* the knobs the panel drives */
+  --title-size:.94rem; --note-size:.8rem; --row-pad:.72rem; --row-gap:3px;
+  --radius:9px; --blur:5px; --veil-op:.5;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--darkgray);font-family:var(--serif);
+     -webkit-font-smoothing:antialiased;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding:2.2rem 1.2rem 4rem}
+a{color:inherit}
+.labhead{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.6rem}
+.wordmark{font-weight:600;color:var(--dark);text-decoration:none;font-size:1.02rem}
+.back{font-size:.85rem;color:rgba(17,17,17,.55);text-decoration:none;border-bottom:1px solid rgba(110,105,95,.4)}
+.back:hover{color:var(--dark)}
+.lede{max-width:64ch;color:var(--tertiary);font-size:.95rem;margin:0 0 2rem}
+.lede code{font-family:var(--mono);font-size:.85em;background:var(--lightgray);padding:.1em .35em;border-radius:4px}
+
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:2rem;align-items:start}
+@media (max-width:900px){.stage{grid-template-columns:1fr}}
+
+/* ── the card, mirroring the live one ── */
+.card{
+  width:min(620px,100%);max-height:78vh;display:flex;flex-direction:column;
+  border-radius:18px;overflow:hidden;background:color-mix(in srgb,var(--light) 64%,transparent);
+  -webkit-backdrop-filter:blur(22px) saturate(1.35);backdrop-filter:blur(22px) saturate(1.35);
+  border:1px solid color-mix(in srgb,var(--gray) 28%,transparent);
+  box-shadow:0 18px 60px rgba(17,17,17,.18);
+}
+.card-head{flex:none;padding:1.5rem 2.2rem 1rem;border-bottom:1px solid color-mix(in srgb,var(--gray) 20%,transparent)}
+.card-head .wm{font-size:1.6rem;font-weight:600;letter-spacing:-.015em;color:var(--dark)}
+.body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:1.6rem 2.2rem 1.9rem;position:relative}
+.body p,.body li{font-size:.92rem;line-height:1.62}
+.foot{flex:none;display:flex;align-items:center;gap:1.1rem;padding:.8rem 2.2rem;
+      border-top:1px solid color-mix(in srgb,var(--gray) 20%,transparent);
+      background:color-mix(in srgb,var(--light) 40%,transparent);font-size:.86rem;color:var(--gray)}
+.foot .mark{display:inline-flex;align-items:center;opacity:.7;margin-right:.9rem}
+.foot .mark svg{width:20px;height:20px}
+.foot .mark line{stroke:var(--gray);stroke-width:1.3;stroke-linecap:round}
+.foot .mark circle{fill:var(--dark)}
+
+.hub-lede{margin-bottom:1.1rem}
+.hub-lede p{margin:0}
+.hub-list{display:flex;flex-direction:column;padding-top:1px;border-top:1px solid color-mix(in srgb,var(--gray) 18%,transparent)}
+.item{display:grid;grid-template-columns:1fr auto;grid-template-areas:"label chev" "note chev";
+      align-items:center;gap:0 .8rem;width:calc(100% + 1.7rem);margin:var(--row-gap) -.85rem;
+      padding:var(--row-pad) .85rem;box-sizing:border-box;border-radius:var(--radius);
+      text-align:left;background:transparent;border:none;cursor:pointer;color:inherit;
+      position:relative;transition:background .18s ease;font-family:inherit}
+.item::after{content:"";position:absolute;left:.85rem;right:.85rem;bottom:calc(-1 * var(--row-gap));
+             border-bottom:1px solid color-mix(in srgb,var(--gray) 18%,transparent)}
+.item:last-child::after{border-bottom:none}
+.item:hover{background:color-mix(in srgb,var(--light) 62%,transparent)}
+.item .label{grid-area:label;font-size:var(--title-size);font-weight:600;color:var(--dark)}
+.item .note{grid-area:note;font-size:var(--note-size);line-height:1.4;color:var(--gray);font-style:italic}
+.item .chev{grid-area:chev;justify-self:end;width:7px;height:7px;
+            border-top:1.6px solid color-mix(in srgb,var(--gray) 70%,transparent);
+            border-right:1.6px solid color-mix(in srgb,var(--gray) 70%,transparent);
+            transform:rotate(45deg);transition:transform .18s ease}
+.item:hover .chev{transform:rotate(45deg) translate(2px,-2px)}
+.item.soon{cursor:default;opacity:.55}
+.item.soon:hover{background:transparent}
+.item.soon .chev{width:auto;height:auto;border:none;transform:none;font-size:.62rem;
+                 font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray)}
+.item em{font-style:italic}
+
+.back-btn{display:inline-flex;align-items:center;gap:.45rem;margin:0 0 .9rem;padding:.2rem .1rem;
+          background:transparent;border:none;cursor:pointer;font-family:inherit;font-size:.82rem;
+          font-weight:600;color:var(--gray)}
+.back-btn:hover{color:var(--dark)}
+.back-btn i{width:7px;height:7px;border-left:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg)}
+.panel[hidden],.menu[hidden]{display:none}
+.panel>:first-child{margin-top:0}
+
+/* ── taxonomy rows ── */
+.fam{border-bottom:1px solid color-mix(in srgb,var(--gray) 16%,transparent)}
+.fam-head{display:flex;align-items:center;gap:.6rem;width:100%;padding:.62rem .1rem;
+          background:transparent;border:none;cursor:pointer;text-align:left;font-family:inherit}
+.fam-dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--c,var(--gray))}
+.fam-name{flex:1 1 auto;font-size:.82rem;font-weight:600;letter-spacing:.06em;color:var(--dark)}
+.fam-chev{flex:none;width:7px;height:7px;border-right:1.6px solid color-mix(in srgb,var(--gray) 70%,transparent);
+          border-bottom:1.6px solid color-mix(in srgb,var(--gray) 70%,transparent);
+          transform:rotate(45deg) translate(-1px,-1px);transition:transform .22s cubic-bezier(.3,.7,.2,1)}
+.fam.open .fam-chev{transform:rotate(-135deg) translate(-2px,-2px)}
+.fam-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s cubic-bezier(.3,.7,.2,1)}
+.fam.open .fam-body{grid-template-rows:1fr}
+.fam-body>p{overflow:hidden;margin:0;padding:0 0 0 1.6rem;font-size:.86rem;line-height:1.55;
+            color:var(--darkgray);transition:padding .28s cubic-bezier(.3,.7,.2,1)}
+.fam.open .fam-body>p{padding:.1rem 0 .7rem 1.6rem}
+
+/* ── the veil ── */
+.body.veiled{overflow:hidden}
+.body.veiled>*{filter:blur(var(--blur));opacity:var(--veil-op);pointer-events:none;user-select:none}
+.body.veiled::after{content:"coming soon";position:absolute;inset:0;display:grid;place-items:center;
+  font-style:italic;font-weight:300;font-size:1.15rem;letter-spacing:.04em;
+  color:color-mix(in srgb,var(--gray) 88%,transparent)}
+
+/* ── control panel ── */
+.panelbox{background:var(--light);border:1px solid var(--lightgray);border-radius:14px;padding:1.1rem 1.2rem;position:sticky;top:1rem}
+.panelbox h2{margin:0 0 .8rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.ctl{margin-bottom:.85rem}
+.ctl label{display:flex;justify-content:space-between;font-size:.78rem;color:var(--tertiary);margin-bottom:.25rem}
+.ctl label b{font-family:var(--mono);font-weight:500;color:var(--dark);font-size:.74rem}
+.ctl input[type=range]{width:100%}
+.row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem}
+.chip{font:inherit;font-size:.74rem;padding:.3rem .7rem;border-radius:999px;cursor:pointer;
+      border:1px solid color-mix(in srgb,var(--gray) 38%,transparent);background:transparent;color:var(--tertiary)}
+.chip[aria-pressed=true]{background:var(--dark);color:var(--light);border-color:var(--dark)}
+.out{font-family:var(--mono);font-size:.68rem;white-space:pre-wrap;background:var(--cream);
+     border:1px solid var(--lightgray);border-radius:8px;padding:.6rem;color:var(--tertiary);margin-top:.6rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="labhead">
+    <a class="wordmark" href="/">rhapsode</a>
+    <a class="back" href="index.html">← labs</a>
+  </div>
+
+  <p class="lede">
+    The About hub, lifted out of the site so it can be pushed around without a deploy.
+    Same structure as the live card — a lede, a list of topics, each opening in place,
+    and the note families as expandable colour-coded rows. The live card is currently
+    <b>veiled</b> behind a “coming soon”; the toggle here shows what is underneath.
+    Knobs on the right write to CSS variables, and the block at the bottom is the
+    paste-ready values for <code>maphome.scss</code>.
+  </p>
+
+  <div class="stage">
+    <div>
+      <div class="card">
+        <div class="card-head"><span class="wm">about rhapsode</span></div>
+        <div class="body veiled" id="body">
+          <div class="menu" id="menu">
+            <div class="hub-lede"><p>you can know a song your whole life and still only hear half of it.</p></div>
+            <nav class="hub-list" id="list"></nav>
+          </div>
+          <div class="panel" id="stage2" hidden>
+            <button class="back-btn" id="backBtn"><i></i><span></span></button>
+            <div id="panelBody"></div>
+          </div>
+        </div>
+        <div class="foot">
+          <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24">
+            <line x1="7.5" y1="13" x2="4" y2="6.5"/><line x1="7.5" y1="13" x2="16.5" y2="9"/>
+            <line x1="7.5" y1="13" x2="11" y2="20"/><circle cx="7.5" cy="13" r="2.6"/>
+            <circle cx="4" cy="6.5" r="1.5"/><circle cx="16.5" cy="9" r="1.7"/><circle cx="11" cy="20" r="1.4"/>
+          </svg></span>
+          <span>Contact</span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="panelbox">
+      <h2>Playground</h2>
+      <div class="row">
+        <button class="chip" id="veilBtn" aria-pressed="true">veiled</button>
+        <button class="chip" id="italBtn" aria-pressed="true">italic subtitles</button>
+      </div>
+      <div class="ctl"><label>title size <b id="v1">.94</b></label>
+        <input type="range" id="s1" min="70" max="130" value="94"></div>
+      <div class="ctl"><label>subtitle size <b id="v2">.80</b></label>
+        <input type="range" id="s2" min="60" max="110" value="80"></div>
+      <div class="ctl"><label>row padding <b id="v3">.72</b></label>
+        <input type="range" id="s3" min="40" max="120" value="72"></div>
+      <div class="ctl"><label>gap between rows <b id="v4">3</b></label>
+        <input type="range" id="s4" min="0" max="14" value="3"></div>
+      <div class="ctl"><label>highlight radius <b id="v5">9</b></label>
+        <input type="range" id="s5" min="0" max="20" value="9"></div>
+      <div class="ctl"><label>veil blur <b id="v6">5</b></label>
+        <input type="range" id="s6" min="0" max="14" value="5"></div>
+      <div class="out" id="out"></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+const FAMILIES = [
+  ["RELEASES","--album","The music itself — <b>Albums</b>, <b>Singles</b> (vital for the pre-album era, when the single was the artistic unit), and <b>Tracks</b> (album cuts whose influence earns them a standalone note)."],
+  ["TAXONOMY","--genre","How the music is classified and periodized — <b>Eras</b> (the broadest orientation), <b>Genres</b> (following RYM’s taxonomy, but explaining <i>why</i> a genre emerged and what it displaced), and <b>Scenes</b> (geographic, temporal clusters where concentration produced something new)."],
+  ["MOMENTS","--moments","Discrete events — hours or days, not years — that bent the trajectory of music. The inflection points between eras."],
+  ["ARTISTS","--artist","Maps of influence in both directions — not biographies. Includes <b>Songwriters</b>, <b>Producers</b>, and <b>Session Musicians</b>."],
+  ["INDUSTRY","--industry","The business and physical infrastructure — <b>Labels</b>, <b>Studios</b>, <b>Executives</b> — whose decisions and rooms shaped the sound."],
+  ["TECHNIQUES","--production","The craft layer — <b>Production</b> (sonic innovations and instruments) and <b>Theory</b> (concepts that recur as connective tissue between genres and records)."],
+  ["IDEAS","--idea","The analytical core — essays that cut across the vault, making arguments about influence, commerce, race, craft, and authenticity by engaging named scholars and critics."],
+  ["LIBRARY","--library","The scholarly backbone — each note maps a book or essay’s actual argument, so you can follow a claim from the music all the way to the work it’s built on."],
+];
+
+const TOPICS = [
+  ["what rhapsode is","the idea, and the record that started it",
+   "<p>put on “Be My Baby”, and in four seconds, the enormous drum figure cracks open the mix right in front of you — that mono mélange of pianos and guitars, strings and saxophones, a snap of castanets, and Ronnie’s voice cresting above it all.</p><p><em>rhapsode</em> is built so that the part you don’t always hear is just a click away.</p>"],
+  ["how it’s organized","every kind of note, and what earns one","FAMILIES"],
+  ["what it isn’t","the lines this project does not cross",
+   "<p><em>rhapsode</em> is not a ratings database or a complete catalog. It’s not an encyclopedia trying to cover everything — only what’s foundational to a genre, scene, or era earns an entry. And it’s not a neutral reference: <em>rhapsode</em> argues, and it wants to be argued with.</p>"],
+  ["how it’s made","tools, and what they do not decide",
+   "<p><em>rhapsode</em> is constructed with frontier artificial intelligence models as a tool for coding, deep research, writing, holding thousands of connections together, and keeping them fresh. These tools do not inform the taste or the direction of the project.</p>"],
+  ["thanks","the people who shaped it",
+   "<p>thank you for exploring. If you’d like to contribute to this project, please don’t hesitate to reach out.</p>"],
+  ["the name","where rhapsode comes from",null],
+  ["the Constitution","what this project promises",null],
+  ["standards","how notes get written, and the AI policy",null],
+  ["about Sha","who made it",null],
+  ["legal & contributing","terms, privacy, contributor agreement",null],
+  ["changelog","what has changed, dated","LINK"],
+];
+
+const list = document.getElementById("list");
+const menu = document.getElementById("menu");
+const stage2 = document.getElementById("stage2");
+const panelBody = document.getElementById("panelBody");
+const backBtn = document.getElementById("backBtn");
+
+// the name is italic wherever it is USED
+const setText = (el, t) => {
+  el.textContent = "";
+  t.split(/(rhapsode)/i).forEach(part => {
+    if (!part) return;
+    if (part.toLowerCase() === "rhapsode") { const em = document.createElement("em"); em.textContent = part.toLowerCase(); el.appendChild(em); }
+    else el.appendChild(document.createTextNode(part));
+  });
+};
+
+function famMarkup(){
+  return '<div>' + FAMILIES.map(([name, v, desc]) =>
+    `<div class="fam" style="--c:var(${v})">
+       <button class="fam-head"><span class="fam-dot"></span><span class="fam-name">${name}</span><span class="fam-chev"></span></button>
+       <div class="fam-body"><p>${desc}</p></div>
+     </div>`).join("") + '</div>';
+}
+
+TOPICS.forEach(([label, note, content]) => {
+  const el = document.createElement("button");
+  el.className = "item" + (content === null ? " soon" : "");
+  el.innerHTML = '<span class="label"></span><span class="note"></span><span class="chev"></span>';
+  setText(el.querySelector(".label"), label);
+  setText(el.querySelector(".note"), note);
+  if (content === null) el.querySelector(".chev").textContent = "soon";
+  else el.addEventListener("click", () => {
+    backBtn.querySelector("span").textContent = label;
+    panelBody.innerHTML = content === "FAMILIES" ? famMarkup()
+      : content === "LINK" ? "<p>The dated record of substantive changes. On the live site this is a real page.</p>"
+      : content;
+    panelBody.querySelectorAll(".fam-head").forEach(h =>
+      h.addEventListener("click", () => h.parentElement.classList.toggle("open")));
+    menu.hidden = true; stage2.hidden = false;
+  });
+  list.appendChild(el);
+});
+backBtn.addEventListener("click", () => { stage2.hidden = true; menu.hidden = false; });
+
+// ── knobs ──
+const body = document.getElementById("body"), out = document.getElementById("out"), R = document.documentElement;
+const knobs = [
+  ["s1","v1","--title-size",100,"rem",2],
+  ["s2","v2","--note-size",100,"rem",2],
+  ["s3","v3","--row-pad",100,"rem",2],
+  ["s4","v4","--row-gap",1,"px",0],
+  ["s5","v5","--radius",1,"px",0],
+  ["s6","v6","--blur",1,"px",0],
+];
+function sync(){
+  knobs.forEach(([sid,vid,varName,div,unit,dp]) => {
+    const n = +document.getElementById(sid).value / div;
+    R.style.setProperty(varName, n.toFixed(dp) + unit);
+    document.getElementById(vid).textContent = dp ? n.toFixed(dp) : n;
+  });
+  out.textContent =
+    ".about-hub-item{\n  padding:" + R.style.getPropertyValue("--row-pad").trim() + " .85rem;\n" +
+    "  margin:" + R.style.getPropertyValue("--row-gap").trim() + " -.85rem;\n" +
+    "  border-radius:" + R.style.getPropertyValue("--radius").trim() + ";\n}\n" +
+    ".about-hub-item-label{font-size:" + R.style.getPropertyValue("--title-size").trim() + "}\n" +
+    ".about-hub-item-note{font-size:" + R.style.getPropertyValue("--note-size").trim() + "}\n" +
+    ".map-home-about-body.veiled>*{filter:blur(" + R.style.getPropertyValue("--blur").trim() + ")}";
+}
+knobs.forEach(([sid]) => document.getElementById(sid).addEventListener("input", sync));
+sync();
+
+const veilBtn = document.getElementById("veilBtn");
+veilBtn.addEventListener("click", () => {
+  const on = veilBtn.getAttribute("aria-pressed") === "true";
+  veilBtn.setAttribute("aria-pressed", String(!on));
+  veilBtn.textContent = on ? "unveiled" : "veiled";
+  body.classList.toggle("veiled", !on);
+});
+const italBtn = document.getElementById("italBtn");
+italBtn.addEventListener("click", () => {
+  const on = italBtn.getAttribute("aria-pressed") === "true";
+  italBtn.setAttribute("aria-pressed", String(!on));
+  document.querySelectorAll(".item .note").forEach(n => n.style.fontStyle = on ? "normal" : "italic");
+});
+</script>
+</body>
+</html>
