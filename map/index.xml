@@ -6,10 +6,22 @@
       <description>Last 10 notes on rhapsode</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Pop</title>
+    <link>https://shafrasier.com/map/MUSIC/GENRES/POP/Pop</link>
+    <guid>https://shafrasier.com/map/MUSIC/GENRES/POP/Pop</guid>
+    <description><![CDATA[  In 1892 a Milwaukee song broker named Charles K. ]]></description>
+    <pubDate>Mon, 31 Aug 2026 08:21:26 GMT</pubDate>
+  </item><item>
     <title>(1984) Like a Virgin</title>
     <link>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1984)-Like-a-Virgin</link>
     <guid>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1984)-Like-a-Virgin</guid>
     <description><![CDATA[  The title song of Madonna’s second album was written by a man driving through his father’s vineyards. ]]></description>
+    <pubDate>Mon, 31 Aug 2026 04:00:00 GMT</pubDate>
+  </item><item>
+    <title>(1986) True Blue</title>
+    <link>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1986)-True-Blue</link>
+    <guid>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1986)-True-Blue</guid>
+    <description><![CDATA[  The voice on “Live to Tell” is a demo. ]]></description>
     <pubDate>Mon, 31 Aug 2026 04:00:00 GMT</pubDate>
   </item><item>
     <title>(1983) Madonna</title>
@@ -53,18 +65,6 @@
     <guid>https://shafrasier.com/map/MUSIC/RELEASES/ALBUMS/(1983)-Apollo:-Atmospheres-and-Soundtracks</guid>
     <description><![CDATA[  Somewhere in the 1983 sessions for a moon-landing documentary score, watching NASA footage in a Hamilton, Ontario studio, Daniel Lanois turned to Brian Eno with an offer: “I’ve got my steel guitar in the closet, you want me to fish it out to see if we can make a connection here?” The connection was... ]]></description>
     <pubDate>Thu, 27 Aug 2026 20:46:55 GMT</pubDate>
-  </item><item>
-    <title>Dance</title>
-    <link>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Dance</link>
-    <guid>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Dance</guid>
-    <description><![CDATA[  RYM On Valentine’s Day 1970, David Mancuso needed rent money and threw a party at his loft on 647 Broadway: about a hundred guests, two dollars and fifty cents at the door with food and punch included, a sound system assembled like a hi-fi obsessive’s living room (because it was one), no liquor lic... ]]></description>
-    <pubDate>Thu, 27 Aug 2026 20:46:10 GMT</pubDate>
-  </item><item>
-    <title>Disco</title>
-    <link>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Disco</link>
-    <guid>https://shafrasier.com/map/MUSIC/GENRES/DANCE/Disco</guid>
-    <description><![CDATA[  Disco begins with a drummer who wanted to dance. ]]></description>
-    <pubDate>Thu, 27 Aug 2026 20:46:10 GMT</pubDate>
   </item>
     </channel>
   </rss>
