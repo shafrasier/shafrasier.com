@@ -47,7 +47,7 @@ body{
    to be up there shows through behind the clock and the wifi icons — including
    the white RSVP flash. This holds that strip black at all times, and sits above
    everything else so nothing can paint into it. */
-.statusguard{position:fixed;top:0;left:0;right:0;z-index:30;pointer-events:none;
+.statusguard{position:fixed;top:0;left:0;right:0;z-index:60;pointer-events:none;
   height:env(safe-area-inset-top,0px);background:#000}
 
 /* the room — faint glints behind everything */
@@ -349,6 +349,22 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 <body>
 
 <div class="statusguard" aria-hidden="true"></div>
+<script>
+/* The band above is sized by env(safe-area-inset-top), which iOS Safari reports
+   inconsistently between chrome states — when it comes back low, page text
+   shows through behind the clock. iPhones get a hard floor from the device's
+   own status-bar height, so the strip is solid no matter what env() says.
+   iPhone only: iPads and desktops keep the pure env() (0 there), and nothing
+   is ever painted at the BOTTOM — Safari's own toolbar stays as it is. */
+(() => {
+  if (!/iPhone/.test(navigator.userAgent)) return;
+  const g = document.querySelector(".statusguard");
+  if (!g) return;
+  const h = Math.max(screen.width, screen.height);   // portrait points
+  const floor = h >= 874 ? 62 : h >= 852 ? 59 : h >= 812 ? 50 : 20;
+  g.style.height = "max(env(safe-area-inset-top, 0px), " + floor + "px)";
+})();
+</script>
 <canvas id="room" aria-hidden="true"></canvas>
 <div class="flash" id="flash" aria-hidden="true"></div>
 
