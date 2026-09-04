@@ -119,10 +119,33 @@ body:not(.light-mode) .canvas-wrapper {
   left: 40%;
 }
 
-/* MAP — sits at the horizon where SHEETS used to be, links to the MAP */
+/* rhapsode — sits at the horizon where SHEETS used to be, links to rhapsode.art.
+   Set in the wordmark's own serif (EB Garamond, the pinned pick from
+   labs/wordmark.html) with the node-mark riding to the right of the word. */
 #map-btn {
   top: 30%;
   left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 23px;               /* optically matches the 20px caps beside it */
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+#map-btn svg {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 auto;
+  display: block;
+}
+#map-btn svg line {
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+#map-btn svg circle {
+  fill: currentColor;
 }
 
 /* Hover State - smooth scale up with gradual shadow */
