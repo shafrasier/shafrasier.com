@@ -120,20 +120,39 @@ body:not(.light-mode) .canvas-wrapper {
 }
 
 /* rhapsode — sits at the horizon where SHEETS used to be, links to rhapsode.art.
-   Set in the wordmark's own serif (EB Garamond, the pinned pick from
-   labs/wordmark.html) with the node-mark riding to the right of the word. */
+   Set in Source Serif 4, the wordmark's face on the site itself, with the
+   node-mark riding to the right of the word. */
 #map-btn {
   top: 30%;
   left: 50%;
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-family: "EB Garamond", Georgia, serif;
-  font-size: 23px;               /* optically matches the 20px caps beside it */
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 22px;               /* optically matches the 20px caps beside it */
   font-weight: 500;
   letter-spacing: -0.01em;
   text-transform: none;
 }
+
+/* Continuing Education — the same island as the words, twice their height so
+   the script logo breathes with the same margin the words get. The logo is
+   white via inversion in dark mode, native black in light. */
+#ce-btn {
+  top: 57%;
+  left: 62%;
+  padding: 20px 34px;
+}
+#ce-btn img {
+  height: 88px;
+  width: auto;
+  display: block;
+  filter: invert(1);
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+#ce-btn:hover img { opacity: 1; }
+body.light-mode #ce-btn img { filter: none; }
 #map-btn svg {
   width: 21px;
   height: 21px;
@@ -439,38 +458,7 @@ body:not(.light-mode) .canvas-wrapper {
 }
 
 /* CE Button - Just the vector, no background */
-.ce-button {
-  width: 180px; /* Slightly wider to accommodate script flourishes */
-  height: auto;
-  padding: 10px 0;
-  margin-left: -20px; /* Shift left so "Education" (right portion of script) centers over social icons */
-  border: none;
-  background: transparent;
-  font-family: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  pointer-events: auto;
-  cursor: none;
-  text-decoration: none;
-}
 
-.ce-button img {
-  height: auto;
-  width: 100%;
-  filter: invert(1); /* White in dark mode */
-  opacity: 0.6; /* Slightly dimmed */
-  transition: opacity 0.3s ease;
-}
-
-.ce-button:hover img {
-  opacity: 1; /* Full brightness on hover */
-}
-
-.ce-button:active img {
-  opacity: 0.4; /* Dimmer on click */
-}
 
 
 /* Dark Mode Button Overrides (when toggled from light default) */
@@ -565,19 +553,6 @@ body.light-mode .social-icon:active {
 
 /* Light mode social icon filters handled in global.css to avoid duplication */
 
-/* Light mode - CE Button */
-body.light-mode .ce-button img {
-  filter: none; /* No inversion - SVG is already black */
-  opacity: 0.6;
-}
-
-body.light-mode .ce-button:hover img {
-  opacity: 1;
-}
-
-body.light-mode .ce-button:active img {
-  opacity: 0.4;
-}
 
 
 /* Light mode - transparent glass with smooth shadow transition */
@@ -770,9 +745,17 @@ body.light-mode .section-inner {
     padding: 6px;
   }
 
-  .ce-button {
-    width: 160px; /* Slightly wider to show full script */
-    margin-left: -25px; /* Shift left so "Education" centers over icon grid */
+  #ce-btn {
+    top: 74%;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 14px 24px;
+  }
+  #ce-btn img {
+    height: 62px;
   }
 
   /* Keep theme toggle in bottom-right corner, vertically centered between icon rows */

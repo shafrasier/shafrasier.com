@@ -316,6 +316,13 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
 
+      // CE is a plain external link — the island treatment, none of the section
+      // machinery. window.open preserves the new-tab behavior preventDefault ate.
+      if (button.id === 'ce-btn') {
+        window.open(button.getAttribute('href'), '_blank', 'noopener');
+        return;
+      }
+
       // MAP button → animated colour-fill transition into the MAP (see above).
       if (button.id === 'map-btn') {
         playMapTransition(button);
