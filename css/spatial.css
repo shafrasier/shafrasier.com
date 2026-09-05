@@ -105,17 +105,17 @@ body:not(.light-mode) .canvas-wrapper {
 
 /* Individual button positions (will be animated) */
 #sheets-btn {
-  top: 40%;
+  top: 46%;
   left: 35%;
 }
 
 #playlists-btn {
-  top: 48%;
+  top: 54%;
   left: 50%;
 }
 
 #writing-btn {
-  top: 60%;
+  top: 66%;
   left: 40%;
 }
 
@@ -123,7 +123,7 @@ body:not(.light-mode) .canvas-wrapper {
    Set in Source Serif 4, the wordmark's face on the site itself, with the
    node-mark riding to the right of the word. */
 #map-btn {
-  top: 30%;
+  top: 36%;
   left: 50%;
   display: inline-flex;
   align-items: center;
@@ -139,19 +139,18 @@ body:not(.light-mode) .canvas-wrapper {
    the script logo breathes with the same margin the words get. The logo is
    white via inversion in dark mode, native black in light. */
 #ce-btn {
-  top: 57%;
-  left: 62%;
+  top: 13%;
+  left: 44%;
   padding: 20px 34px;
 }
 #ce-btn img {
   height: 88px;
   width: auto;
   display: block;
+  /* white in dark mode, and in light mode fully black like the words beside it —
+     the old corner mark's dimming has no place on a button */
   filter: invert(1);
-  opacity: 0.75;
-  transition: opacity 0.3s ease;
 }
-#ce-btn:hover img { opacity: 1; }
 body.light-mode #ce-btn img { filter: none; }
 #map-btn svg {
   width: 21px;
@@ -657,7 +656,7 @@ body.light-mode .section-inner {
 
   /* Stack buttons vertically on mobile — MAP centered on top, tighter gaps */
   #map-btn {
-    top: 17%;
+    top: 22%;
     /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
        transform (scale on click, x/y on return) and would clobber a CSS transform,
        which made the buttons jump to the right. Auto-margins don't conflict. */
@@ -669,7 +668,7 @@ body.light-mode .section-inner {
   }
 
   #sheets-btn {
-    top: 32%;
+    top: 40%;
     /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
        transform (scale on click, x/y on return) and would clobber a CSS transform,
        which made the buttons jump to the right. Auto-margins don't conflict. */
@@ -681,7 +680,7 @@ body.light-mode .section-inner {
   }
 
   #playlists-btn {
-    top: 47%;
+    top: 53%;
     /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
        transform (scale on click, x/y on return) and would clobber a CSS transform,
        which made the buttons jump to the right. Auto-margins don't conflict. */
@@ -693,7 +692,7 @@ body.light-mode .section-inner {
   }
 
   #writing-btn {
-    top: 62%;
+    top: 66%;
     /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
        transform (scale on click, x/y on return) and would clobber a CSS transform,
        which made the buttons jump to the right. Auto-margins don't conflict. */
@@ -746,7 +745,7 @@ body.light-mode .section-inner {
   }
 
   #ce-btn {
-    top: 74%;
+    top: 8%;
     left: 0;
     right: 0;
     width: fit-content;
