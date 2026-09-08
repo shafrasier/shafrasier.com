@@ -43,12 +43,15 @@ body{
 }
 ::selection{background:var(--white);color:var(--black)}
 
-/* The page runs under the status bar (viewport-fit=cover), so whatever happens
-   to be up there shows through behind the clock and the wifi icons — including
-   the white RSVP flash. This holds that strip black at all times, and sits above
-   everything else so nothing can paint into it. */
+/* The page runs under the status bar (viewport-fit=cover). --sat is that strip's
+   height (iPhones get a hard floor from the script below), and it governs three
+   things together: the black guard that keeps the clock legible, where the
+   masthead rig hangs from, and how far the boundary band extends. Hanging the
+   rig from the strip's bottom edge is what keeps the ball out from under the
+   guard once it has shrunk — with the rig at top:0, the guard hid its top half. */
+:root{--sat:env(safe-area-inset-top,0px)}
 .statusguard{position:fixed;top:0;left:0;right:0;z-index:60;pointer-events:none;
-  height:env(safe-area-inset-top,0px);background:#000}
+  height:var(--sat);background:#000}
 
 /* the room — faint glints behind everything */
 #room{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -75,7 +78,7 @@ body{
    Everything that moves on scroll moves by transform only, driven by a scroll
    timeline, so the whole choreography runs on the compositor. No JS touches
    these during a scroll — that is what makes it smooth on a phone. */
-#mast{position:fixed;top:0;left:0;right:0;height:0;z-index:5;pointer-events:none;
+#mast{position:fixed;top:var(--sat);left:0;right:0;height:0;z-index:5;pointer-events:none;
   transform-origin:50% 0}
 #ballwrap{position:absolute;top:0;left:50%;transform:translateX(-50%);transform-origin:50% 0}
 #ball{display:block;touch-action:none;cursor:grab;pointer-events:auto;transform-origin:50% 0}
@@ -109,7 +112,7 @@ body{
 #us{display:inline-block;transform-origin:50% 50%;letter-spacing:0}
 
 /* the boundary: the page never reaches the ball — it is covered before it gets there */
-#band{position:fixed;top:0;left:0;right:0;height:var(--bandh,0px);z-index:3;pointer-events:none;
+#band{position:fixed;top:0;left:0;right:0;height:calc(var(--bandh,0px) + var(--sat));z-index:3;pointer-events:none;
   background:linear-gradient(180deg,#000 0,#000 calc(100% - 46px),rgba(0,0,0,0) 100%)}
 
 /* ── hero ── */
@@ -350,19 +353,18 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
 <div class="statusguard" aria-hidden="true"></div>
 <script>
-/* The band above is sized by env(safe-area-inset-top), which iOS Safari reports
-   inconsistently between chrome states — when it comes back low, page text
-   shows through behind the clock. iPhones get a hard floor from the device's
-   own status-bar height, so the strip is solid no matter what env() says.
-   iPhone only: iPads and desktops keep the pure env() (0 there), and nothing
-   is ever painted at the BOTTOM — Safari's own toolbar stays as it is. */
+/* env(safe-area-inset-top) comes back low in some iOS Safari chrome states, and
+   then page text showed through behind the clock. iPhones get a hard floor from
+   the device's own status-bar height, written into --sat so the guard, the rig
+   and the band all move together. iPhone only: iPads and desktops keep the pure
+   env() (0 there), and nothing is ever painted at the BOTTOM — Safari's own
+   toolbar stays as it is. */
 (() => {
   if (!/iPhone/.test(navigator.userAgent)) return;
-  const g = document.querySelector(".statusguard");
-  if (!g) return;
   const h = Math.max(screen.width, screen.height);   // portrait points
   const floor = h >= 874 ? 62 : h >= 852 ? 59 : h >= 812 ? 50 : 20;
-  g.style.height = "max(env(safe-area-inset-top, 0px), " + floor + "px)";
+  document.documentElement.style.setProperty("--sat",
+    "max(env(safe-area-inset-top, 0px), " + floor + "px)");
 })();
 </script>
 <canvas id="room" aria-hidden="true"></canvas>
@@ -777,7 +779,9 @@ const SLOTS = [
   /* where the ball actually sits on screen, wrapper scale included */
   window.__ballC = () => {
     const k = window.__mastK ? window.__mastK() : 1;
-    return { x: innerWidth / 2, y: cyNow * k, r: rNow * k };
+    const m = document.getElementById("mast");
+    const rigTop = m ? m.getBoundingClientRect().top : 0;   // the rig hangs from --sat
+    return { x: innerWidth / 2, y: rigTop + cyNow * k, r: rNow * k };
   };
 })();
 
@@ -897,9 +901,12 @@ const SLOTS = [
     const usTo = centre - (boxC + (inkC - boxC) * kx);
 
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
+    /* the rig hangs from the status strip's bottom edge, so the mark's resting
+       translate is the placeholder's document y less that offset */
+    const sat = parseFloat(getComputedStyle(mast).top) || 0;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
-    return { y0: docY(space), y1, w1To, w2To, usTo, kx, markH };
+    return { y0: docY(space) - sat, docY: docY(space), sat, y1, w1To, w2To, usTo, kx, markH };
   }
 
   function write() {
@@ -998,7 +1005,8 @@ const SLOTS = [
   const drift = () => {
     if (!M) return;
     const grew = Math.abs(mark.offsetHeight - M.markH) > 1;
-    const moved = Math.abs(docY(space) - M.y0) > 2;
+    const moved = Math.abs(docY(space) - M.docY) > 2 ||
+      Math.abs((parseFloat(getComputedStyle(mast).top) || 0) - M.sat) > 0.5;
     if (grew || moved) relayout(true);
   };
   addEventListener("load", () => setTimeout(drift, 60));
