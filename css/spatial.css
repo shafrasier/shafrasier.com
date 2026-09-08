@@ -105,32 +105,26 @@ body:not(.light-mode) .canvas-wrapper {
 
 /* Individual button positions (will be animated) */
 #sheets-btn {
-  top: 46.3%;
+  top: 44.6%;
   left: 35%;
 }
 
 #playlists-btn {
-  top: 59.2%;
+  top: 57.4%;
   left: 50%;
 }
 
 #writing-btn {
-  top: 72.1%;
+  top: 70.3%;
   left: 40%;
 }
 
 /* rhapsode — sits at the horizon where SHEETS used to be, links to rhapsode.art.
-   Set in Source Serif 4, the wordmark's face on the site itself, with the
-   node-mark centred beneath the word so the pill reads as one balanced lockup. */
+   Set in Source Serif 4, the wordmark's face on the site itself. Just the word. */
 #map-btn {
   top: 31.7%;
   left: 50%;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 50px;            /* a touch tighter than the words' 20px — two rows already read tall */
-  line-height: 1;
+  padding: 18px 50px;            /* the 22px serif runs taller than the caps; this lands the pill at their 69px */
   font-family: "Source Serif 4", Georgia, serif;
   font-size: 22px;               /* optically matches the 20px caps beside it */
   font-weight: 500;
@@ -155,19 +149,6 @@ body:not(.light-mode) .canvas-wrapper {
   filter: invert(1);
 }
 body.light-mode #ce-btn img { filter: none; }
-#map-btn svg {
-  width: 21px;
-  height: 21px;
-  flex: 0 0 auto;
-  display: block;
-}
-#map-btn svg line {
-  stroke: currentColor;
-  stroke-width: 1.6;
-}
-#map-btn svg circle {
-  fill: currentColor;
-}
 
 /* Hover State - smooth scale up with gradual shadow */
 .floating-button:hover {
@@ -660,7 +641,7 @@ body.light-mode .section-inner {
   /* Stack buttons vertically on mobile — MAP centered on top, tighter gaps */
   #map-btn {
     top: 24%;
-    padding: 12px 30px;
+    padding: 11.5px 30px;        /* same idea at the mobile size: matches the words' 56px */
     /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
        transform (scale on click, x/y on return) and would clobber a CSS transform,
        which made the buttons jump to the right. Auto-margins don't conflict. */
@@ -672,7 +653,7 @@ body.light-mode .section-inner {
   }
 
   #sheets-btn {
-    top: 38.3%;
+    top: 35.9%;
     /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
        transform (scale on click, x/y on return) and would clobber a CSS transform,
        which made the buttons jump to the right. Auto-margins don't conflict. */
@@ -684,7 +665,7 @@ body.light-mode .section-inner {
   }
 
   #playlists-btn {
-    top: 50.2%;
+    top: 47.8%;
     /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
        transform (scale on click, x/y on return) and would clobber a CSS transform,
        which made the buttons jump to the right. Auto-margins don't conflict. */
@@ -696,7 +677,7 @@ body.light-mode .section-inner {
   }
 
   #writing-btn {
-    top: 62.1%;
+    top: 59.7%;
     /* Centre with auto-margins, NOT translateX(-50%): GSAP owns the buttons'
        transform (scale on click, x/y on return) and would clobber a CSS transform,
        which made the buttons jump to the right. Auto-margins don't conflict. */
