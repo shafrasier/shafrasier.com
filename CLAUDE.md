@@ -18,11 +18,11 @@ contents back into this file.**
 
 | Working on | Read |
 | --- | --- |
-| Writing/revising MAP notes | `Using the MAP.md` — templates, conventions, the close-read checklist |
+| Writing/revising notes | `rhapsode conventions.md` — templates, conventions, the close-read checklist; `rhapsode principles.md` — prose style, the reader's pass |
 | Site build, components, rendering | `Site build.md` — Quartz architecture, deploy checklist, rendering lessons |
 | Any visitor-facing words | `Copy standards.md` — register, the de-corny rules |
 | The iOS app | `App build.md` — Capacitor shell, TestFlight |
-| What to work on next | `x. META/PLANS/MAPmaking.md` — the task queue |
+| What to work on next | `x. META/PLANS/rhapsode queue.md` — the task queue |
 
 ## Layout
 
