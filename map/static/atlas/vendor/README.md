@@ -39,7 +39,7 @@ first-load-only).
 ## What is still remote
 
 The UI serif (`Source Serif 4`) still comes from Google Fonts, matching the rest
-of the site — the MAP's own pages load it the same way, so self-hosting it here
+of the site — the site's own pages load it the same way, so self-hosting it here
 alone would make the atlas's typography drift from everything around it. It is a
 `font-display: swap` stylesheet, so a failure degrades to a fallback serif rather
 than breaking the page. The map's own label glyphs (Libre Baskerville) are already

@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Connections</title>
-<!-- The MAP's own graph, served on its own for embedding elsewhere. Nothing here
+<!-- The site's own graph, served on its own for embedding elsewhere. Nothing here
      reimplements anything: it loads the site's real stylesheet and scripts, puts up
      the same .graph-container markup a note page uses, and lets Quartz mount its
      graph into it. data-slug is what the component reads to decide what to centre
      on, so this page IS the Disco note as far as the graph is concerned. Behaviour,
      physics, hover, drag and colours are therefore identical to the sidebar's — and
-     it follows the MAP automatically as the MAP changes. -->
+     it follows rhapsode automatically as rhapsode changes. -->
 <link rel="stylesheet" href="../index.css">
 <style>
   html,body{margin:0;padding:0;height:100%;background:transparent;overflow:hidden}
@@ -37,7 +37,7 @@
 <body data-slug="MUSIC/GENRES/DANCE/Disco">
   <div class="graph">
     <div class="graph-outer">
-      <!-- The MAP's own knobs, opened up: a sidebar panel is read at arm's length,
+      <!-- The site's own knobs, opened up: a sidebar panel is read at arm's length,
            this circle is read at a glance, so the nodes need more air between them
            than the default 30 gives. Nothing else differs from the sidebar graph. -->
       <div class="graph-container" data-fill="true" data-cfg='{"drag":true,"zoom":true,"depth":1,"scale":0.5,"repelForce":1.05,"centerForce":0.34,"linkDistance":52,"fontSize":0.26,"opacityScale":1,"showTags":false,"removeTags":[],"focusOnHover":false,"enableRadial":false}'></div>
@@ -56,7 +56,7 @@
 
     /* The graph opens notes with spaNavigate. Inside an embed that would replace
        the frame with a whole page, so route it to a new tab instead and leave the
-       graph itself untouched — no fork of the MAP's code. */
+       graph itself untouched — no fork of the site's code. */
     /* postscript.js is a module, so it runs AFTER this classic script and its
        router assigns its own spaNavigate over ours — which is why clicks were
        still going through Quartz's SPA and landing on a bare 404. Install ours
@@ -66,7 +66,7 @@
       /* The graph builds note links RELATIVE to the note it is centred on — three
          levels deep for MUSIC/GENRES/DANCE/Disco. This page sits at /map/static/,
          only one level deep, so those "../../.." climbed past /map/ to the site
-         root and landed on a bare 404. Re-anchor the path inside the MAP. */
+         root and landed on a bare 404. Re-anchor the path inside rhapsode. */
       const i = url.pathname.indexOf("/MUSIC/")
       const href = i >= 0 ? "/map" + url.pathname.slice(i) : url.toString()
       window.open(href, "_blank", "noopener")

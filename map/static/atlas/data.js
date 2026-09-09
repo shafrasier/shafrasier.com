@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────
-// MAP / NYC — curated dataset (lab prototype, v2).
-// Categories are one-word, matching the MAP's house style, and their colors are
-// the PROPOSED "places" family — chosen to avoid every existing MAP category
+// rhapsode / NYC — curated dataset (lab prototype, v2).
+// Categories are one-word, matching the site's house style, and their colors are
+// the PROPOSED "places" family — chosen to avoid every existing rhapsode category
 // color (greens, teal, reds, golds, burgundy, purples, blues). Studios keep the
 // INDUSTRY slate they already wear in the graph.
 // ─────────────────────────────────────────────────────────────────────────
@@ -14,7 +14,7 @@ const CATEGORIES = {
   Landmarks: { color: "#75685a" }, // stone — proposed PLACES/LANDMARKS
   // Scenes aren't buildings — they're a stretch of blocks pinned at their centre
   // (the CBGB scene, the Greenwich Village folk scene). Green to match the SCENES
-  // category colour the rest of the MAP already uses. The chip row and the legend
+  // category colour the rest of rhapsode already uses. The chip row and the legend
   // are both built from this object, so a category with no chip never renders —
   // which is why the scene pins were in the data but invisible (Sha, July 20).
   Scenes:    { color: "#6ab86a" }, // scene green — TAXONOMY/SCENES
@@ -198,7 +198,7 @@ const NEIGHBORHOOD_STORIES = {
     note: null },
 };
 
-// Era chips for the time scrubber. `note` links to the closest MAP note where one
+// Era chips for the time scrubber. `note` links to the closest note where one
 // exists; null reads as "note coming".
 const ERAS = [
   { name: "Tin Pan Alley",      from: 1885, to: 1929, note: "/map/MUSIC/GENRES/POP/Tin-Pan-Alley" },
