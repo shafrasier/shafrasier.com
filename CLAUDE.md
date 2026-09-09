@@ -22,7 +22,7 @@ contents back into this file.**
 | Site build, components, rendering | `Site build.md` — Quartz architecture, deploy checklist, rendering lessons |
 | Any visitor-facing words | `Copy standards.md` — register, the de-corny rules |
 | The iOS app | `App build.md` — Capacitor shell, TestFlight |
-| What to work on next | the **rhapsode board** artifact (`Artifact list` → "rhapsode board"; read its `tasks` db at session start and add a card for every change) — `x. META/PLANS/rhapsode queue.md` is the long-form source its cards cite |
+| What to work on next | **The rhapsode board** — `claude.ai/code/artifact/9adad55b-21ba-46e5-858d-b5ecf6f6237b`, a db-backed artifact: read its `tasks` store (`read_db`) before claiming any task's state, write to it (`write_db`) when work lands or Sha adds something. Every task has a stable ID (`W2`, `L6`, `F1`, `X4`…) and Sha refers to work by ID; "clear" = done, never delete. `x. META/PLANS/rhapsode queue.md` keeps only the long-form specs the cards point to |
 
 ## Layout
 
