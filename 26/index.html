@@ -44,14 +44,17 @@ body{
 ::selection{background:var(--white);color:var(--black)}
 
 /* The page runs under the status bar (viewport-fit=cover). --sat is that strip's
-   height (iPhones get a hard floor from the script below), and it governs three
-   things together: the black guard that keeps the clock legible, where the
-   masthead rig hangs from, and how far the boundary band extends. Hanging the
-   rig from the strip's bottom edge is what keeps the ball out from under the
-   guard once it has shrunk — with the rig at top:0, the guard hid its top half. */
+   height (iPhones get a hard floor from the script below). The guard holds the
+   strip black so nothing — essay text, the RSVP flash, the photo — can clash
+   with the clock. It leaves a one-pixel seam open at the centre column: that is
+   where the ball's cable runs, so the ball reads as hanging from the top of the
+   screen (on notch and island phones, from the island itself). Nothing else
+   ever occupies that column up there — the boundary band is black behind it. */
 :root{--sat:env(safe-area-inset-top,0px)}
 .statusguard{position:fixed;top:0;left:0;right:0;z-index:60;pointer-events:none;
-  height:var(--sat);background:#000}
+  height:var(--sat);
+  background:linear-gradient(90deg,#000 0,#000 calc(50% - .5px),transparent calc(50% - .5px),
+    transparent calc(50% + .5px),#000 calc(50% + .5px),#000 100%)}
 
 /* the room — faint glints behind everything */
 #room{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -78,7 +81,7 @@ body{
    Everything that moves on scroll moves by transform only, driven by a scroll
    timeline, so the whole choreography runs on the compositor. No JS touches
    these during a scroll — that is what makes it smooth on a phone. */
-#mast{position:fixed;top:var(--sat);left:0;right:0;height:0;z-index:5;pointer-events:none;
+#mast{position:fixed;top:0;left:0;right:0;height:0;z-index:5;pointer-events:none;
   transform-origin:50% 0}
 #ballwrap{position:absolute;top:0;left:50%;transform:translateX(-50%);transform-origin:50% 0}
 #ball{display:block;touch-action:none;cursor:grab;pointer-events:auto;transform-origin:50% 0}
@@ -112,7 +115,7 @@ body{
 #us{display:inline-block;transform-origin:50% 50%;letter-spacing:0}
 
 /* the boundary: the page never reaches the ball — it is covered before it gets there */
-#band{position:fixed;top:0;left:0;right:0;height:calc(var(--bandh,0px) + var(--sat));z-index:3;pointer-events:none;
+#band{position:fixed;top:0;left:0;right:0;height:var(--bandh,0px);z-index:3;pointer-events:none;
   background:linear-gradient(180deg,#000 0,#000 calc(100% - 46px),rgba(0,0,0,0) 100%)}
 
 /* ── hero ── */
@@ -779,9 +782,9 @@ const SLOTS = [
   /* where the ball actually sits on screen, wrapper scale included */
   window.__ballC = () => {
     const k = window.__mastK ? window.__mastK() : 1;
-    const m = document.getElementById("mast");
-    const rigTop = m ? m.getBoundingClientRect().top : 0;   // the rig hangs from --sat
-    return { x: innerWidth / 2, y: rigTop + cyNow * k, r: rNow * k };
+    const w = document.getElementById("ballwrap");
+    const top = w ? w.getBoundingClientRect().top : 0;     // includes the scroll-state shift
+    return { x: innerWidth / 2, y: top + cyNow * k, r: rNow * k };
   };
 })();
 
@@ -844,6 +847,9 @@ const SLOTS = [
     } catch (e) { return { left: 0, right: 0, adv: 0 }; }
   }
 
+  const guard = document.querySelector(".statusguard");
+  const satNow = () => (guard ? guard.offsetHeight : 0);
+
   /* Document y from the offset chain — pure layout integers, identical at any
      scroll position. rect.top + scrollY is NOT: iOS lets them disagree
      transiently while the URL bar moves, which is what made the old drift
@@ -900,19 +906,21 @@ const SLOTS = [
     const inkC = ur.left + inkL + inkW / 2;
     const usTo = centre - (boxC + (inkC - boxC) * kx);
 
-    const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
-    /* the rig hangs from the status strip's bottom edge, so the mark's resting
-       translate is the placeholder's document y less that offset */
-    const sat = parseFloat(getComputedStyle(mast).top) || 0;
+    /* The cable hangs from the very top of the screen in both states. As the
+       ball shrinks it also slides down by the status strip's height, so the
+       emblem settles just under the strip instead of behind the clock — and
+       the wordmark and the band settle with it. */
+    const sat = satNow();
+    const y1 = sat + ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
-    return { y0: docY(space) - sat, docY: docY(space), sat, y1, w1To, w2To, usTo, kx, markH };
+    return { y0: docY(space), docY: docY(space), sat, y1, w1To, w2To, usTo, kx, markH };
   }
 
   function write() {
     const css = [
-      "@keyframes mastBall{from{transform:translateX(-50%) scale(1)}" +
-        "to{transform:translateX(-50%) scale(" + KMIN + ")}}",
+      "@keyframes mastBall{from{transform:translate(-50%,0) scale(1)}" +
+        "to{transform:translate(-50%," + M.sat.toFixed(1) + "px) scale(" + KMIN + ")}}",
       "@keyframes mastMark{from{transform:translate(-50%," + M.y0.toFixed(1) + "px) scale(1)}" +
         "to{transform:translate(-50%," + M.y1.toFixed(1) + "px) scale(" + SMIN + ")}}",
       /* the words travel first and only open once the mark is nearly home */
@@ -939,7 +947,8 @@ const SLOTS = [
 
   /* the same choreography by hand, for engines without scroll timelines */
   function applyP(p) {
-    wrap.style.transform = "translateX(-50%) scale(" + (1 - (1 - KMIN) * p).toFixed(4) + ")";
+    wrap.style.transform = "translate(-50%," + (M.sat * p).toFixed(1) + "px) scale(" +
+      (1 - (1 - KMIN) * p).toFixed(4) + ")";
     mark.style.transform = "translate(-50%," + (M.y0 + (M.y1 - M.y0) * p).toFixed(1) + "px)" +
       " scale(" + (1 - (1 - SMIN) * p).toFixed(3) + ")";
     const q = Math.max(0, (p - 0.52) / 0.48);
@@ -1006,7 +1015,7 @@ const SLOTS = [
     if (!M) return;
     const grew = Math.abs(mark.offsetHeight - M.markH) > 1;
     const moved = Math.abs(docY(space) - M.docY) > 2 ||
-      Math.abs((parseFloat(getComputedStyle(mast).top) || 0) - M.sat) > 0.5;
+      Math.abs(satNow() - M.sat) > 0.5;
     if (grew || moved) relayout(true);
   };
   addEventListener("load", () => setTimeout(drift, 60));
