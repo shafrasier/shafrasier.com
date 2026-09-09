@@ -43,13 +43,15 @@ body{
 }
 ::selection{background:var(--white);color:var(--black)}
 
-/* The page runs under the status bar (viewport-fit=cover). --sat is that strip's
-   height (iPhones get a hard floor from the script below). The guard holds the
-   strip black so nothing — essay text, the RSVP flash, the photo — can clash
-   with the clock. It leaves a one-pixel seam open at the centre column: that is
-   where the ball's cable runs, so the ball reads as hanging from the top of the
-   screen (on notch and island phones, from the island itself). Nothing else
-   ever occupies that column up there — the boundary band is black behind it. */
+/* --sat is how far the page runs under the status bar RIGHT NOW. iOS Safari
+   changes that as you scroll: with the toolbar expanded the page starts below
+   the clock and the inset is 0; once the bars minimise the page extends under
+   it and the inset becomes the strip's height. The guard is sized by that live
+   value and nothing else — a fixed floor here rendered a 62px black block
+   inside the page whenever the inset was legitimately 0, straight across the
+   ball. It leaves a one-pixel seam at the centre column, where the cable runs,
+   so the ball reads as hanging from the top of the screen (from the island on
+   island phones). The boundary band is black behind that column. */
 :root{--sat:env(safe-area-inset-top,0px)}
 .statusguard{position:fixed;top:0;left:0;right:0;z-index:60;pointer-events:none;
   height:var(--sat);
@@ -356,18 +358,15 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
 <div class="statusguard" aria-hidden="true"></div>
 <script>
-/* env(safe-area-inset-top) comes back low in some iOS Safari chrome states, and
-   then page text showed through behind the clock. iPhones get a hard floor from
-   the device's own status-bar height, written into --sat so the guard, the rig
-   and the band all move together. iPhone only: iPads and desktops keep the pure
-   env() (0 there), and nothing is ever painted at the BOTTOM — Safari's own
-   toolbar stays as it is. */
+/* The device's status-strip height, for the scrolled-state GEOMETRY only: the
+   shrunk ball has to settle below the clock in the state where the page runs
+   under it, and that state is measured at load time, when it may not be in
+   effect yet (inset 0). This never touches the guard's height — see the note
+   on --sat above for what forcing it did. iPhone only; 0 elsewhere. */
 (() => {
   if (!/iPhone/.test(navigator.userAgent)) return;
   const h = Math.max(screen.width, screen.height);   // portrait points
-  const floor = h >= 874 ? 62 : h >= 852 ? 59 : h >= 812 ? 50 : 20;
-  document.documentElement.style.setProperty("--sat",
-    "max(env(safe-area-inset-top, 0px), " + floor + "px)");
+  document.documentElement.dataset.satFloor = h >= 874 ? 62 : h >= 852 ? 59 : h >= 812 ? 50 : 20;
 })();
 </script>
 <canvas id="room" aria-hidden="true"></canvas>
@@ -847,8 +846,11 @@ const SLOTS = [
     } catch (e) { return { left: 0, right: 0, adv: 0 }; }
   }
 
+  /* the strip height to design the scrolled state for: the live inset if the
+     page is already under the clock, else the device's known strip height */
   const guard = document.querySelector(".statusguard");
-  const satNow = () => (guard ? guard.offsetHeight : 0);
+  const satNow = () => Math.max(guard ? guard.offsetHeight : 0,
+    parseFloat(document.documentElement.dataset.satFloor) || 0);
 
   /* Document y from the offset chain — pure layout integers, identical at any
      scroll position. rect.top + scrollY is NOT: iOS lets them disagree
