@@ -116,9 +116,14 @@ body{
    the glyph's box so the stretch is symmetric about its centre. */
 #us{display:inline-block;transform-origin:50% 50%;letter-spacing:0}
 
-/* the boundary: the page never reaches the ball — it is covered before it gets there */
+/* The boundary: the page never reaches the ball — it is covered before it gets
+   there. It is an opaque black slab a third of a phone screen tall, so at the
+   top of the page, where there is nothing yet to cover, it reads as a black bar
+   across the sky and wipes out the room's glints. It therefore starts invisible
+   and fades in over the first fifth of the scroll — long before any text can
+   climb this far. */
 #band{position:fixed;top:0;left:0;right:0;height:var(--bandh,0px);z-index:3;pointer-events:none;
-  background:linear-gradient(180deg,#000 0,#000 calc(100% - 46px),rgba(0,0,0,0) 100%)}
+  opacity:0;background:linear-gradient(180deg,#000 0,#000 calc(100% - 46px),rgba(0,0,0,0) 100%)}
 
 /* ── hero ── */
 .hero{
@@ -808,7 +813,7 @@ const SLOTS = [
   const $ = id => document.getElementById(id);
   const mast = $("mast"), wrap = $("ballwrap"), mark = $("mark"),
         w1 = $("w1"), w2 = $("w2"), us = $("us"),
-        space = $("markspace"), root = document.documentElement;
+        band = $("band"), space = $("markspace"), root = document.documentElement;
   const heroText = document.querySelector(".hero-text");
   if (!mast) return;
 
@@ -933,10 +938,13 @@ const SLOTS = [
         "100%{transform:translateX(" + M.usTo.toFixed(2) + "px) scaleX(" + M.kx.toFixed(4) + ")}}",
       /* the date clears out before the wordmark can reach it */
       "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
-      "#ballwrap,#mark,#w1,#w2,#us,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
+      /* the boundary arrives as soon as you move, not before */
+      "@keyframes mastBand{0%{opacity:0}20%,100%{opacity:1}}",
+      "#ballwrap,#mark,#w1,#w2,#us,#band,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
         "animation-fill-mode:both;animation-timeline:scroll(root);animation-range:0 " +
         Math.round(RANGE) + "px}",
       ".hero-text{animation-name:mastDate}",
+      "#band{animation-name:mastBand}",
       "#ballwrap{animation-name:mastBall}",
       "#mark{animation-name:mastMark}",
       "#w1{animation-name:mastW1}",
@@ -958,6 +966,7 @@ const SLOTS = [
     w2.style.transform = "translateX(" + (M.w2To * q).toFixed(1) + "px)";
     us.style.transform = "translateX(" + (M.usTo * q).toFixed(2) + "px) scaleX(" + (1 + (M.kx - 1) * q).toFixed(4) + ")";
     if (heroText) heroText.style.opacity = Math.max(0, 1 - p / 0.34).toFixed(3);
+    if (band) band.style.opacity = Math.min(1, p / 0.2).toFixed(3);
   }
 
   /* Measure with every masthead animation suspended — inline and !important, so
@@ -970,7 +979,7 @@ const SLOTS = [
     if (widthChanged) { lastW = innerWidth; baseH = innerHeight; }
     RANGE = Math.max(80, baseH * 0.72);
 
-    const parts = [wrap, mark, w1, w2, us, heroText].filter(Boolean);
+    const parts = [wrap, mark, w1, w2, us, band, heroText].filter(Boolean);
     const saved = parts.map(el => [el, el.style.cssText]);
     for (const el of parts) {
       el.style.setProperty("animation", "none", "important");
