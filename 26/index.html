@@ -54,6 +54,12 @@ body{
    island phones). The boundary band is black behind that column. */
 :root{--sat:env(safe-area-inset-top,0px)}
 .statusguard{position:fixed;top:0;left:0;right:0;z-index:60;pointer-events:none;
+  /* Like the band, it starts invisible: at the top of the page there is no text
+     up here to keep off the clock, and any black it paints there is just more
+     black bar. It fades in with the first fifth of the scroll — the white RSVP
+     flash and the photo overlay both live far down the page, so it is always
+     fully on by the time either can fire. */
+  opacity:0;
   height:var(--sat);
   background:linear-gradient(90deg,#000 0,#000 calc(50% - .5px),transparent calc(50% - .5px),
     transparent calc(50% + .5px),#000 calc(50% + .5px),#000 100%)}
@@ -373,6 +379,30 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   const h = Math.max(screen.width, screen.height);   // portrait points
   document.documentElement.dataset.satFloor = h >= 874 ? 62 : h >= 852 ? 59 : h >= 812 ? 50 : 20;
 })();
+</script>
+<script>
+/* ?debug — tints each layer that can paint at the top and prints the numbers,
+   so one screenshot says what is actually up there instead of me inferring it. */
+if (location.search.indexOf("debug") > -1) addEventListener("load", () => {
+  const g = document.querySelector(".statusguard"), b = document.getElementById("band");
+  const satPx = g.offsetHeight;
+  g.style.cssText += ";background:rgba(255,0,0,.55)!important;opacity:1!important";
+  b.style.cssText += ";background:rgba(0,190,255,.35)!important;opacity:1!important";
+  const pre = document.createElement("pre");
+  pre.style.cssText = "position:fixed;left:8px;right:8px;top:45%;z-index:99;margin:0;" +
+    "background:#111;color:#0f0;font:12px/1.5 ui-monospace,monospace;padding:10px;" +
+    "white-space:pre-wrap;pointer-events:none;border:1px solid #0f0";
+  const r = document.getElementById("ball").getBoundingClientRect();
+  pre.textContent =
+    "RED = status guard (" + satPx + "px)   BLUE = boundary band\n" +
+    "safe-area-inset-top: " + satPx + "\n" +
+    "innerHeight " + innerHeight + "   screen " + screen.width + "x" + screen.height + "\n" +
+    "visualViewport top " + (visualViewport ? visualViewport.offsetTop : "-") +
+      "  h " + (visualViewport ? Math.round(visualViewport.height) : "-") + "\n" +
+    "ball canvas top " + r.top.toFixed(1) + "  height " + r.height.toFixed(1) + "\n" +
+    "scrollY " + scrollY;
+  document.body.appendChild(pre);
+});
 </script>
 <canvas id="room" aria-hidden="true"></canvas>
 <div class="flash" id="flash" aria-hidden="true"></div>
@@ -938,13 +968,13 @@ const SLOTS = [
         "100%{transform:translateX(" + M.usTo.toFixed(2) + "px) scaleX(" + M.kx.toFixed(4) + ")}}",
       /* the date clears out before the wordmark can reach it */
       "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
-      /* the boundary arrives as soon as you move, not before */
+      /* the boundary and the status guard arrive as soon as you move, not before */
       "@keyframes mastBand{0%{opacity:0}20%,100%{opacity:1}}",
-      "#ballwrap,#mark,#w1,#w2,#us,#band,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
+      "#ballwrap,#mark,#w1,#w2,#us,#band,.statusguard,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
         "animation-fill-mode:both;animation-timeline:scroll(root);animation-range:0 " +
         Math.round(RANGE) + "px}",
       ".hero-text{animation-name:mastDate}",
-      "#band{animation-name:mastBand}",
+      "#band,.statusguard{animation-name:mastBand}",
       "#ballwrap{animation-name:mastBall}",
       "#mark{animation-name:mastMark}",
       "#w1{animation-name:mastW1}",
@@ -966,7 +996,9 @@ const SLOTS = [
     w2.style.transform = "translateX(" + (M.w2To * q).toFixed(1) + "px)";
     us.style.transform = "translateX(" + (M.usTo * q).toFixed(2) + "px) scaleX(" + (1 + (M.kx - 1) * q).toFixed(4) + ")";
     if (heroText) heroText.style.opacity = Math.max(0, 1 - p / 0.34).toFixed(3);
-    if (band) band.style.opacity = Math.min(1, p / 0.2).toFixed(3);
+    const bo = Math.min(1, p / 0.2).toFixed(3);
+    if (band) band.style.opacity = bo;
+    if (guard) guard.style.opacity = bo;
   }
 
   /* Measure with every masthead animation suspended — inline and !important, so
@@ -979,7 +1011,7 @@ const SLOTS = [
     if (widthChanged) { lastW = innerWidth; baseH = innerHeight; }
     RANGE = Math.max(80, baseH * 0.72);
 
-    const parts = [wrap, mark, w1, w2, us, band, heroText].filter(Boolean);
+    const parts = [wrap, mark, w1, w2, us, band, guard, heroText].filter(Boolean);
     const saved = parts.map(el => [el, el.style.cssText]);
     for (const el of parts) {
       el.style.setProperty("animation", "none", "important");
