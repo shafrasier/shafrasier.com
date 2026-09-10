@@ -102,12 +102,6 @@ body{
 #us{display:inline-block;transform-origin:50% 50%;letter-spacing:0}
 
 /* The boundary: the page never reaches the ball — it is covered before it gets
-   there. It is an opaque black slab a third of a phone screen tall, so at the
-   top of the page, where there is nothing yet to cover, it reads as a black bar
-   across the sky and wipes out the room's glints. It therefore starts invisible
-   and fades in over the first fifth of the scroll — long before any text can
-   climb this far. */
-/* The boundary: the page never reaches the ball — it is covered before it gets
    there, and the same black keeps the essay off the clock. It begins 600px ABOVE
    the viewport, because iOS anchors position:fixed to the layout viewport, which
    sits some 60pt below the top of the screen once Safari's toolbar collapses: a
@@ -892,7 +886,8 @@ const SLOTS = [
     const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
-    return { y0: docY(space), docY: docY(space), y1, w1To, w2To, usTo, kx, markH };
+    const y0 = docY(space);
+    return { y0, docY: y0, y1, w1To, w2To, usTo, kx, markH };
   }
 
   function write() {
@@ -995,8 +990,7 @@ const SLOTS = [
   const drift = () => {
     if (!M) return;
     const grew = Math.abs(mark.offsetHeight - M.markH) > 1;
-    const moved = Math.abs(docY(space) - M.docY) > 2 ||
-      false;
+    const moved = Math.abs(docY(space) - M.docY) > 2;
     if (grew || moved) relayout(true);
   };
   addEventListener("load", () => setTimeout(drift, 60));
