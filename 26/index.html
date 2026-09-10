@@ -43,37 +43,8 @@ body{
 }
 ::selection{background:var(--white);color:var(--black)}
 
-/* --sat is how far the page runs under the status bar RIGHT NOW. iOS Safari
-   changes that as you scroll: with the toolbar expanded the page starts below
-   the clock and the inset is 0; once the bars minimise the page extends under
-   it and the inset becomes the strip's height. The guard is sized by that live
-   value and nothing else — a fixed floor here rendered a 62px black block
-   inside the page whenever the inset was legitimately 0, straight across the
-   ball. It leaves a one-pixel seam at the centre column, where the cable runs,
-   so the ball reads as hanging from the top of the screen (from the island on
-   island phones). The boundary band is black behind that column. */
-/* --vvtop lifts every fixed layer back to the top of the SCREEN. iOS anchors
-   position:fixed to the layout viewport, and once Safari's toolbar collapses the
-   document scrolls up under the status bar while the layout viewport stays about
-   60pt lower. Everything fixed therefore lands 60pt down: the guard missed the
-   clock entirely (essay text ran behind it), the boundary band began below the
-   status bar instead of at the screen edge — that was the black bar — and the
-   ball's cable started halfway down the screen instead of at the top. The
-   choreography measures the gap and writes it here. */
-:root{--sat:env(safe-area-inset-top,0px);--vvtop:0px}
-.statusguard{position:fixed;top:var(--vvtop);left:0;right:0;z-index:60;pointer-events:none;
-  /* Like the band, it starts invisible: at the top of the page there is no text
-     up here to keep off the clock, and any black it paints there is just more
-     black bar. It fades in with the first fifth of the scroll — the white RSVP
-     flash and the photo overlay both live far down the page, so it is always
-     fully on by the time either can fire. */
-  opacity:0;
-  height:var(--sat);
-  background:linear-gradient(90deg,#000 0,#000 calc(50% - .5px),transparent calc(50% - .5px),
-    transparent calc(50% + .5px),#000 calc(50% + .5px),#000 100%)}
-
 /* the room — faint glints behind everything */
-#room{position:fixed;top:var(--vvtop);left:0;right:0;bottom:0;z-index:0;pointer-events:none}
+#room{position:fixed;inset:0;z-index:0;pointer-events:none}
 
 /* underline drawn from the left on hover — the Clearing's link, verbatim */
 .ulink{position:relative;text-decoration:none;color:var(--white)}
@@ -97,7 +68,7 @@ body{
    Everything that moves on scroll moves by transform only, driven by a scroll
    timeline, so the whole choreography runs on the compositor. No JS touches
    these during a scroll — that is what makes it smooth on a phone. */
-#mast{position:fixed;top:var(--vvtop);left:0;right:0;height:0;z-index:5;pointer-events:none;
+#mast{position:fixed;top:0;left:0;right:0;height:0;z-index:5;pointer-events:none;
   transform-origin:50% 0}
 #ballwrap{position:absolute;top:0;left:50%;transform:translateX(-50%);transform-origin:50% 0}
 #ball{display:block;touch-action:none;cursor:grab;pointer-events:auto;transform-origin:50% 0}
@@ -136,8 +107,18 @@ body{
    across the sky and wipes out the room's glints. It therefore starts invisible
    and fades in over the first fifth of the scroll — long before any text can
    climb this far. */
-#band{position:fixed;top:var(--vvtop);left:0;right:0;height:calc(var(--bandh,0px) - var(--vvtop));z-index:3;pointer-events:none;
-  opacity:0;background:linear-gradient(180deg,#000 0,#000 calc(100% - 46px),rgba(0,0,0,0) 100%)}
+/* The boundary: the page never reaches the ball — it is covered before it gets
+   there, and the same black keeps the essay off the clock. It begins 600px ABOVE
+   the viewport, because iOS anchors position:fixed to the layout viewport, which
+   sits some 60pt below the top of the screen once Safari's toolbar collapses: a
+   slab starting at top:0 left that strip uncovered — text ran behind the clock —
+   and put its own top edge across the screen, which was the black bar. With the
+   overhang there is no top edge to see and no gap to leak through, whatever that
+   offset turns out to be. It fades in over the first fifth of the scroll, having
+   nothing to cover at the top of the page. */
+#band{position:fixed;top:-600px;left:0;right:0;height:calc(var(--bandh,0px) + 600px);
+  z-index:3;pointer-events:none;opacity:0;
+  background:linear-gradient(180deg,#000 0,#000 calc(100% - 46px),rgba(0,0,0,0) 100%)}
 
 /* ── hero ── */
 .hero{
@@ -375,43 +356,6 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 </head>
 <body>
 
-<div class="statusguard" aria-hidden="true"></div>
-<script>
-/* The device's status-strip height, for the scrolled-state GEOMETRY only: the
-   shrunk ball has to settle below the clock in the state where the page runs
-   under it, and that state is measured at load time, when it may not be in
-   effect yet (inset 0). This never touches the guard's height — see the note
-   on --sat above for what forcing it did. iPhone only; 0 elsewhere. */
-(() => {
-  if (!/iPhone/.test(navigator.userAgent)) return;
-  const h = Math.max(screen.width, screen.height);   // portrait points
-  document.documentElement.dataset.satFloor = h >= 874 ? 62 : h >= 852 ? 59 : h >= 812 ? 50 : 20;
-})();
-</script>
-<script>
-/* ?debug — tints each layer that can paint at the top and prints the numbers,
-   so one screenshot says what is actually up there instead of me inferring it. */
-if (location.search.indexOf("debug") > -1) addEventListener("load", () => {
-  const g = document.querySelector(".statusguard"), b = document.getElementById("band");
-  const satPx = g.offsetHeight;
-  g.style.cssText += ";background:rgba(255,0,0,.55)!important;opacity:1!important";
-  b.style.cssText += ";background:rgba(0,190,255,.35)!important;opacity:1!important";
-  const pre = document.createElement("pre");
-  pre.style.cssText = "position:fixed;left:8px;right:8px;top:45%;z-index:99;margin:0;" +
-    "background:#111;color:#0f0;font:12px/1.5 ui-monospace,monospace;padding:10px;" +
-    "white-space:pre-wrap;pointer-events:none;border:1px solid #0f0";
-  const r = document.getElementById("ball").getBoundingClientRect();
-  pre.textContent =
-    "RED = status guard (" + satPx + "px)   BLUE = boundary band\n" +
-    "safe-area-inset-top: " + satPx + "\n" +
-    "innerHeight " + innerHeight + "   screen " + screen.width + "x" + screen.height + "\n" +
-    "visualViewport top " + (visualViewport ? visualViewport.offsetTop : "-") +
-      "  h " + (visualViewport ? Math.round(visualViewport.height) : "-") + "\n" +
-    "ball canvas top " + r.top.toFixed(1) + "  height " + r.height.toFixed(1) + "\n" +
-    "scrollY " + scrollY;
-  document.body.appendChild(pre);
-});
-</script>
 <canvas id="room" aria-hidden="true"></canvas>
 <div class="flash" id="flash" aria-hidden="true"></div>
 
@@ -889,12 +833,6 @@ const SLOTS = [
     } catch (e) { return { left: 0, right: 0, adv: 0 }; }
   }
 
-  /* the strip height to design the scrolled state for: the live inset if the
-     page is already under the clock, else the device's known strip height */
-  const guard = document.querySelector(".statusguard");
-  const satNow = () => Math.max(guard ? guard.offsetHeight : 0,
-    parseFloat(document.documentElement.dataset.satFloor) || 0);
-
   /* Document y from the offset chain — pure layout integers, identical at any
      scroll position. rect.top + scrollY is NOT: iOS lets them disagree
      transiently while the URL bar moves, which is what made the old drift
@@ -951,21 +889,16 @@ const SLOTS = [
     const inkC = ur.left + inkL + inkW / 2;
     const usTo = centre - (boxC + (inkC - boxC) * kx);
 
-    /* The cable hangs from the very top of the screen in both states. As the
-       ball shrinks it also slides down by the status strip's height, so the
-       emblem settles just under the strip instead of behind the clock — and
-       the wordmark and the band settle with it. */
-    const sat = satNow();
-    const y1 = sat + ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
+    const y1 = ballBottom + Math.max(12, r1 * 0.3) - markH * SMIN * 0.72;
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
-    return { y0: docY(space), docY: docY(space), sat, y1, w1To, w2To, usTo, kx, markH };
+    return { y0: docY(space), docY: docY(space), y1, w1To, w2To, usTo, kx, markH };
   }
 
   function write() {
     const css = [
-      "@keyframes mastBall{from{transform:translate(-50%,0) scale(1)}" +
-        "to{transform:translate(-50%," + M.sat.toFixed(1) + "px) scale(" + KMIN + ")}}",
+      "@keyframes mastBall{from{transform:translateX(-50%) scale(1)}" +
+        "to{transform:translateX(-50%) scale(" + KMIN + ")}}",
       "@keyframes mastMark{from{transform:translate(-50%," + M.y0.toFixed(1) + "px) scale(1)}" +
         "to{transform:translate(-50%," + M.y1.toFixed(1) + "px) scale(" + SMIN + ")}}",
       /* the words travel first and only open once the mark is nearly home */
@@ -976,13 +909,13 @@ const SLOTS = [
         "100%{transform:translateX(" + M.usTo.toFixed(2) + "px) scaleX(" + M.kx.toFixed(4) + ")}}",
       /* the date clears out before the wordmark can reach it */
       "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
-      /* the boundary and the status guard arrive as soon as you move, not before */
+      /* the boundary arrives as soon as you move, not before */
       "@keyframes mastBand{0%{opacity:0}20%,100%{opacity:1}}",
-      "#ballwrap,#mark,#w1,#w2,#us,#band,.statusguard,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
+      "#ballwrap,#mark,#w1,#w2,#us,#band,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
         "animation-fill-mode:both;animation-timeline:scroll(root);animation-range:0 " +
         Math.round(RANGE) + "px}",
       ".hero-text{animation-name:mastDate}",
-      "#band,.statusguard{animation-name:mastBand}",
+      "#band{animation-name:mastBand}",
       "#ballwrap{animation-name:mastBall}",
       "#mark{animation-name:mastMark}",
       "#w1{animation-name:mastW1}",
@@ -995,8 +928,7 @@ const SLOTS = [
 
   /* the same choreography by hand, for engines without scroll timelines */
   function applyP(p) {
-    wrap.style.transform = "translate(-50%," + (M.sat * p).toFixed(1) + "px) scale(" +
-      (1 - (1 - KMIN) * p).toFixed(4) + ")";
+    wrap.style.transform = "translateX(-50%) scale(" + (1 - (1 - KMIN) * p).toFixed(4) + ")";
     mark.style.transform = "translate(-50%," + (M.y0 + (M.y1 - M.y0) * p).toFixed(1) + "px)" +
       " scale(" + (1 - (1 - SMIN) * p).toFixed(3) + ")";
     const q = Math.max(0, (p - 0.52) / 0.48);
@@ -1004,9 +936,7 @@ const SLOTS = [
     w2.style.transform = "translateX(" + (M.w2To * q).toFixed(1) + "px)";
     us.style.transform = "translateX(" + (M.usTo * q).toFixed(2) + "px) scaleX(" + (1 + (M.kx - 1) * q).toFixed(4) + ")";
     if (heroText) heroText.style.opacity = Math.max(0, 1 - p / 0.34).toFixed(3);
-    const bo = Math.min(1, p / 0.2).toFixed(3);
-    if (band) band.style.opacity = bo;
-    if (guard) guard.style.opacity = bo;
+    if (band) band.style.opacity = Math.min(1, p / 0.2).toFixed(3);
   }
 
   /* Measure with every masthead animation suspended — inline and !important, so
@@ -1019,7 +949,7 @@ const SLOTS = [
     if (widthChanged) { lastW = innerWidth; baseH = innerHeight; }
     RANGE = Math.max(80, baseH * 0.72);
 
-    const parts = [wrap, mark, w1, w2, us, band, guard, heroText].filter(Boolean);
+    const parts = [wrap, mark, w1, w2, us, band, heroText].filter(Boolean);
     const saved = parts.map(el => [el, el.style.cssText]);
     for (const el of parts) {
       el.style.setProperty("animation", "none", "important");
@@ -1036,7 +966,6 @@ const SLOTS = [
   /* the scroll listener does exactly one cheap thing */
   let past = false, raf = 0;
   addEventListener("scroll", () => {
-    lift();                                     // returns immediately unless it moved
     const p = prog() > 0.35;
     if (p !== past) { past = p; mast.classList.toggle("past", p); }
     if (!NATIVE && !raf) raf = requestAnimationFrame(() => { raf = 0; applyP(prog()); });
@@ -1045,21 +974,6 @@ const SLOTS = [
   /* pinch-zoom: fixed elements are glued to the layout viewport and drift as
      you pan, so the whole rig follows the visual viewport instead */
   const vv = window.visualViewport;
-  /* How far the layout viewport (which position:fixed follows) sits below the
-     top of what is actually on screen. Zero everywhere except iOS with the
-     toolbar collapsed — see the note on --vvtop in the stylesheet. */
-  let lastOff = -1;
-  function lift() {
-    if (!vv) return;
-    let off = 0;
-    if (typeof vv.pageTop === "number") off = scrollY - vv.pageTop;
-    if (typeof vv.offsetTop === "number" && -vv.offsetTop > off) off = -vv.offsetTop;
-    off = Math.max(0, Math.min(200, Math.round(off)));
-    if (off === lastOff) return;                 // idempotent: no style churn
-    lastOff = off;
-    root.style.setProperty("--vvtop", -off + "px");
-  }
-
   function pin() {
     const z = vv.scale || 1;
     if (z === 1) { mast.style.transform = ""; return; }
@@ -1067,12 +981,7 @@ const SLOTS = [
       "translate(" + (vv.offsetLeft + vv.width / 2 - innerWidth / 2).toFixed(1) + "px," +
       vv.offsetTop.toFixed(1) + "px) scale(" + (1 / z).toFixed(4) + ")";
   }
-  if (vv) {
-    const onvv = () => { lift(); pin(); };
-    vv.addEventListener("resize", onvv);
-    vv.addEventListener("scroll", onvv);
-    lift();
-  }
+  if (vv) { vv.addEventListener("resize", pin); vv.addEventListener("scroll", pin); }
 
   relayout();
   /* the webfont changes every measurement — re-run once it arrives */
@@ -1087,7 +996,7 @@ const SLOTS = [
     if (!M) return;
     const grew = Math.abs(mark.offsetHeight - M.markH) > 1;
     const moved = Math.abs(docY(space) - M.docY) > 2 ||
-      Math.abs(satNow() - M.sat) > 0.5;
+      false;
     if (grew || moved) relayout(true);
   };
   addEventListener("load", () => setTimeout(drift, 60));
