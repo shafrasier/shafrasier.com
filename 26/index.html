@@ -52,8 +52,16 @@ body{
    ball. It leaves a one-pixel seam at the centre column, where the cable runs,
    so the ball reads as hanging from the top of the screen (from the island on
    island phones). The boundary band is black behind that column. */
-:root{--sat:env(safe-area-inset-top,0px)}
-.statusguard{position:fixed;top:0;left:0;right:0;z-index:60;pointer-events:none;
+/* --vvtop lifts every fixed layer back to the top of the SCREEN. iOS anchors
+   position:fixed to the layout viewport, and once Safari's toolbar collapses the
+   document scrolls up under the status bar while the layout viewport stays about
+   60pt lower. Everything fixed therefore lands 60pt down: the guard missed the
+   clock entirely (essay text ran behind it), the boundary band began below the
+   status bar instead of at the screen edge — that was the black bar — and the
+   ball's cable started halfway down the screen instead of at the top. The
+   choreography measures the gap and writes it here. */
+:root{--sat:env(safe-area-inset-top,0px);--vvtop:0px}
+.statusguard{position:fixed;top:var(--vvtop);left:0;right:0;z-index:60;pointer-events:none;
   /* Like the band, it starts invisible: at the top of the page there is no text
      up here to keep off the clock, and any black it paints there is just more
      black bar. It fades in with the first fifth of the scroll — the white RSVP
@@ -65,7 +73,7 @@ body{
     transparent calc(50% + .5px),#000 calc(50% + .5px),#000 100%)}
 
 /* the room — faint glints behind everything */
-#room{position:fixed;inset:0;z-index:0;pointer-events:none}
+#room{position:fixed;top:var(--vvtop);left:0;right:0;bottom:0;z-index:0;pointer-events:none}
 
 /* underline drawn from the left on hover — the Clearing's link, verbatim */
 .ulink{position:relative;text-decoration:none;color:var(--white)}
@@ -89,7 +97,7 @@ body{
    Everything that moves on scroll moves by transform only, driven by a scroll
    timeline, so the whole choreography runs on the compositor. No JS touches
    these during a scroll — that is what makes it smooth on a phone. */
-#mast{position:fixed;top:0;left:0;right:0;height:0;z-index:5;pointer-events:none;
+#mast{position:fixed;top:var(--vvtop);left:0;right:0;height:0;z-index:5;pointer-events:none;
   transform-origin:50% 0}
 #ballwrap{position:absolute;top:0;left:50%;transform:translateX(-50%);transform-origin:50% 0}
 #ball{display:block;touch-action:none;cursor:grab;pointer-events:auto;transform-origin:50% 0}
@@ -128,7 +136,7 @@ body{
    across the sky and wipes out the room's glints. It therefore starts invisible
    and fades in over the first fifth of the scroll — long before any text can
    climb this far. */
-#band{position:fixed;top:0;left:0;right:0;height:var(--bandh,0px);z-index:3;pointer-events:none;
+#band{position:fixed;top:var(--vvtop);left:0;right:0;height:calc(var(--bandh,0px) - var(--vvtop));z-index:3;pointer-events:none;
   opacity:0;background:linear-gradient(180deg,#000 0,#000 calc(100% - 46px),rgba(0,0,0,0) 100%)}
 
 /* ── hero ── */
@@ -1028,6 +1036,7 @@ const SLOTS = [
   /* the scroll listener does exactly one cheap thing */
   let past = false, raf = 0;
   addEventListener("scroll", () => {
+    lift();                                     // returns immediately unless it moved
     const p = prog() > 0.35;
     if (p !== past) { past = p; mast.classList.toggle("past", p); }
     if (!NATIVE && !raf) raf = requestAnimationFrame(() => { raf = 0; applyP(prog()); });
@@ -1036,6 +1045,21 @@ const SLOTS = [
   /* pinch-zoom: fixed elements are glued to the layout viewport and drift as
      you pan, so the whole rig follows the visual viewport instead */
   const vv = window.visualViewport;
+  /* How far the layout viewport (which position:fixed follows) sits below the
+     top of what is actually on screen. Zero everywhere except iOS with the
+     toolbar collapsed — see the note on --vvtop in the stylesheet. */
+  let lastOff = -1;
+  function lift() {
+    if (!vv) return;
+    let off = 0;
+    if (typeof vv.pageTop === "number") off = scrollY - vv.pageTop;
+    if (typeof vv.offsetTop === "number" && -vv.offsetTop > off) off = -vv.offsetTop;
+    off = Math.max(0, Math.min(200, Math.round(off)));
+    if (off === lastOff) return;                 // idempotent: no style churn
+    lastOff = off;
+    root.style.setProperty("--vvtop", -off + "px");
+  }
+
   function pin() {
     const z = vv.scale || 1;
     if (z === 1) { mast.style.transform = ""; return; }
@@ -1043,7 +1067,12 @@ const SLOTS = [
       "translate(" + (vv.offsetLeft + vv.width / 2 - innerWidth / 2).toFixed(1) + "px," +
       vv.offsetTop.toFixed(1) + "px) scale(" + (1 / z).toFixed(4) + ")";
   }
-  if (vv) { vv.addEventListener("resize", pin); vv.addEventListener("scroll", pin); }
+  if (vv) {
+    const onvv = () => { lift(); pin(); };
+    vv.addEventListener("resize", onvv);
+    vv.addEventListener("scroll", onvv);
+    lift();
+  }
 
   relayout();
   /* the webfont changes every measurement — re-run once it arrives */
