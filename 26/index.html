@@ -243,9 +243,11 @@ section:last-of-type{padding-bottom:5.5rem}
 .slot .t{font-family:var(--label);font-size:.74rem;letter-spacing:.1em;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums;flex:0 0 4.6rem}
 .slot .who{font-size:1.05rem;font-weight:500}
 .slot .who.tba{color:var(--faint);letter-spacing:.45em}
+/* the mark sits a shade back from the name so it reads as annotation, not spelling */
+.slot .who .star{color:var(--dim)}
 
 .doors{font-size:.95rem;font-style:italic;color:var(--dim);margin:-.4rem 0 1.6rem}
-.subject{font-size:.95rem;font-style:italic;color:var(--faint);line-height:1.7;margin:1.4rem 0 0}
+.vinyl{font-size:.95rem;font-style:italic;color:var(--faint);line-height:1.7;margin:1.4rem 0 0}
 
 /* rsvp */
 .field{margin:0 0 1.25rem}
@@ -428,7 +430,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
     <p class="kicker">Lineup</p>
     <p class="doors">Doors: 6:00 p.m.</p>
     <div id="slots"></div>
-    <p class="subject">lineup subject to change. Check back in the days before for the final roster.</p>
+    <p class="vinyl">* special all-vinyl sets</p>
   </section>
 
   <section class="reveal" id="rsvp">
@@ -542,11 +544,14 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
    beside this file: code + 2-minute deploy steps). Paste the /exec URL here. */
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4o-56-h4aAQf780cXw9iTNsXeE_9JLBRk-V_EmNmiZybUsn1jHoHQ/exec";
 
-/* Lineup — fill names as they confirm; null renders as a quiet redaction. */
+/* Lineup — final. `vinyl` earns the asterisk, footnoted under the table.
+   A null still renders as a quiet redaction, should a name ever come back out. */
 const SLOTS = [
-  { t: "7—8", who: "Marty" }, { t: "8—9", who: "Garry" }, { t: "9—10", who: "DJ SHA" },
-  { t: "10—11", who: "otisotisotis" }, { t: "11—12", who: null },
-  { t: "12—1", who: "wxll" }, { t: "1—2", who: "slowmovingprince" }, { t: "2—3", who: "???" },
+  { t: "6—7", who: "Marty" }, { t: "7—8", who: "Garry" }, { t: "8—9", who: "DJ SHA" },
+  { t: "9—10", who: "wxll" }, { t: "10—11", who: "otisotisotis" },
+  { t: "11—12", who: "DJ Durtystuf" },
+  { t: "12—1", who: "Dean Raymond", vinyl: true }, { t: "1—2", who: "ian francis", vinyl: true },
+  { t: "2—3", who: "slowmovingprince" }, { t: "3—4", who: "oragami" },
 ];
 
 /* ═══ The inscription — the Clearing's recipe, verbatim in spirit ═══ */
@@ -1222,7 +1227,9 @@ const SLOTS = [
 /* ═══ Lineup ═══ */
 document.getElementById("slots").innerHTML = SLOTS.map(s =>
   '<div class="slot"><span class="t">' + s.t + "</span>" +
-  (s.who ? '<span class="who">' + s.who + "</span>" : '<span class="who tba">···</span>') +
+  (s.who
+    ? '<span class="who">' + s.who + (s.vinyl ? '<span class="star">*</span>' : "") + "</span>"
+    : '<span class="who tba">···</span>') +
   "</div>").join("");
 
 /* ═══ RSVP ═══ */
