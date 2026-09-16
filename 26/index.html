@@ -433,7 +433,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
     <div id="slots"></div>
     <div class="notes">
       <p>* the very first Sha + Marty b2b</p>
-      <p>** all-vinyl sets</p>
+      <p>§ all-vinyl sets</p>
     </div>
   </section>
 
@@ -549,13 +549,13 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4o-56-h4aAQf780cXw9iTNsXeE_9JLBRk-V_EmNmiZybUsn1jHoHQ/exec";
 
 /* Lineup — final. `mark` is the footnote reference a slot carries, printed
-   as written: * is the b2b, ** the all-vinyl sets, both noted under the table.
+   as written: * is the b2b, § the all-vinyl sets, both noted under the table.
    A null still renders as a quiet redaction, should a name ever come back out. */
 const SLOTS = [
   { t: "6—8", who: "SHARTY", mark: "*" }, { t: "8—9", who: "Garry" },
   { t: "9—10", who: "wxll" }, { t: "10—11", who: "otisotisotis" },
   { t: "11—12", who: "DJ Durtystuf" },
-  { t: "12—1", who: "Dean Raymond", mark: "**" }, { t: "1—2", who: "ian francis", mark: "**" },
+  { t: "12—1", who: "Dean Raymond", mark: "§" }, { t: "1—2", who: "ian francis", mark: "§" },
   { t: "2—3", who: "slowmovingprince" }, { t: "3—4", who: "oragami" },
 ];
 
@@ -897,38 +897,59 @@ const SLOTS = [
     root.style.setProperty("--bandh", Math.round(y1 + markH * SMIN + 18 + 46) + "px");
 
     const y0 = docY(space);
-    return { y0, docY: y0, y1, w1To, w2To, usTo, kx, markH };
+    return { y0, docY: y0, y1, w1To, w2To, usTo, kx, markH, markW: mark.offsetWidth || 0 };
   }
 
+  /* The measured numbers live in custom properties and the stylesheet that
+     reads them is written ONCE. Replacing a <style> element's text tears its
+     rules down and builds them again, which restarts every animation hanging
+     off them; on a scroll timeline the restart shows the un-animated base
+     state — full-size ball, wordmark back at the top of the fixed rig, the two
+     laid across each other. That is the first-load glitch: the webfont lands
+     after the first measurement, so the corrected numbers have to be published
+     while you are already scrolling. Second visit the font is cached, the
+     numbers never change, and the old code left the sheet alone — which is
+     exactly why it only ever misbehaved the first time.
+
+     Updating a variable that a live keyframe reads re-resolves that keyframe
+     in place, with no restart, so a correction can now land at any moment and
+     cost nothing. KMIN and SMIN are constants and stay baked in. */
+  const KEYFRAMES = [
+    "@keyframes mastBall{from{transform:translateX(-50%) scale(1)}" +
+      "to{transform:translateX(-50%) scale(" + KMIN + ")}}",
+    "@keyframes mastMark{from{transform:translate(-50%,var(--m-y0,0px)) scale(1)}" +
+      "to{transform:translate(-50%,var(--m-y1,0px)) scale(" + SMIN + ")}}",
+    /* the words travel first and only open once the mark is nearly home */
+    "@keyframes mastW1{0%,52%{transform:translateX(0)}100%{transform:translateX(var(--m-w1,0px))}}",
+    "@keyframes mastW2{0%,52%{transform:translateX(0)}100%{transform:translateX(var(--m-w2,0px))}}",
+    /* one glyph, held, then stretched — never two things on screen */
+    "@keyframes mastUS{0%,52%{transform:translateX(0) scaleX(1)}" +
+      "100%{transform:translateX(var(--m-us,0px)) scaleX(var(--m-kx,1))}}",
+    /* the date clears out before the wordmark can reach it */
+    "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
+    /* the boundary arrives as soon as you move, not before */
+    "@keyframes mastBand{0%{opacity:0}20%,100%{opacity:1}}",
+    "#ballwrap,#mark,#w1,#w2,#us,#band,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
+      "animation-fill-mode:both;animation-timeline:scroll(root);animation-range:0 var(--m-range,100px)}",
+    ".hero-text{animation-name:mastDate}",
+    "#band{animation-name:mastBand}",
+    "#ballwrap{animation-name:mastBall}",
+    "#mark{animation-name:mastMark}",
+    "#w1{animation-name:mastW1}",
+    "#w2{animation-name:mastW2}",
+    "#us{animation-name:mastUS}",
+  ].join("\n");
+
   function write() {
-    const css = [
-      "@keyframes mastBall{from{transform:translateX(-50%) scale(1)}" +
-        "to{transform:translateX(-50%) scale(" + KMIN + ")}}",
-      "@keyframes mastMark{from{transform:translate(-50%," + M.y0.toFixed(1) + "px) scale(1)}" +
-        "to{transform:translate(-50%," + M.y1.toFixed(1) + "px) scale(" + SMIN + ")}}",
-      /* the words travel first and only open once the mark is nearly home */
-      "@keyframes mastW1{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w1To.toFixed(1) + "px)}}",
-      "@keyframes mastW2{0%,52%{transform:translateX(0)}100%{transform:translateX(" + M.w2To.toFixed(1) + "px)}}",
-      /* one glyph, held, then stretched — never two things on screen */
-      "@keyframes mastUS{0%,52%{transform:translateX(0) scaleX(1)}" +
-        "100%{transform:translateX(" + M.usTo.toFixed(2) + "px) scaleX(" + M.kx.toFixed(4) + ")}}",
-      /* the date clears out before the wordmark can reach it */
-      "@keyframes mastDate{0%{opacity:1}34%,100%{opacity:0}}",
-      /* the boundary arrives as soon as you move, not before */
-      "@keyframes mastBand{0%{opacity:0}20%,100%{opacity:1}}",
-      "#ballwrap,#mark,#w1,#w2,#us,#band,.hero-text{animation-duration:auto;animation-timing-function:linear;" +
-        "animation-fill-mode:both;animation-timeline:scroll(root);animation-range:0 " +
-        Math.round(RANGE) + "px}",
-      ".hero-text{animation-name:mastDate}",
-      "#band{animation-name:mastBand}",
-      "#ballwrap{animation-name:mastBall}",
-      "#mark{animation-name:mastMark}",
-      "#w1{animation-name:mastW1}",
-      "#w2{animation-name:mastW2}",
-      "#us{animation-name:mastUS}",
-    ].join("\n");
-    /* identical numbers → untouched stylesheet → nothing restarts */
-    if (sheet.textContent !== css) sheet.textContent = css;
+    /* the variables first, so the rules never resolve against a missing one */
+    root.style.setProperty("--m-y0", M.y0.toFixed(1) + "px");
+    root.style.setProperty("--m-y1", M.y1.toFixed(1) + "px");
+    root.style.setProperty("--m-w1", M.w1To.toFixed(1) + "px");
+    root.style.setProperty("--m-w2", M.w2To.toFixed(1) + "px");
+    root.style.setProperty("--m-us", M.usTo.toFixed(2) + "px");
+    root.style.setProperty("--m-kx", M.kx.toFixed(4));
+    root.style.setProperty("--m-range", Math.round(RANGE) + "px");
+    if (sheet.textContent !== KEYFRAMES) sheet.textContent = KEYFRAMES;
   }
 
   /* the same choreography by hand, for engines without scroll timelines */
@@ -989,8 +1010,19 @@ const SLOTS = [
   if (vv) { vv.addEventListener("resize", pin); vv.addEventListener("scroll", pin); }
 
   relayout();
-  /* the webfont changes every measurement — re-run once it arrives */
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => relayout(true));
+  /* The webfont changes every measurement. document.fonts.ready is not enough
+     on its own: it can resolve before the font stylesheet has even registered
+     its @font-face rules, leaving the first measurement on fallback metrics
+     with no second pass coming. Ask for the face the wordmark is actually set
+     in, and re-measure when that one is in; keep ready as a second chance. */
+  if (document.fonts) {
+    try {
+      const cs = getComputedStyle(mark);
+      document.fonts.load(cs.fontWeight + " 1em " + cs.fontFamily)
+        .then(() => relayout(true), () => {});
+    } catch (e) {}
+    if (document.fonts.ready) document.fonts.ready.then(() => relayout(true));
+  }
   addEventListener("resize", () => setTimeout(() => relayout(), 60));
 
   /* If the hero's layout genuinely shifts after load — a late font, a text-size
@@ -999,7 +1031,12 @@ const SLOTS = [
      spuriously mid-gesture; and even if it runs, relayout is idempotent. */
   const drift = () => {
     if (!M) return;
-    const grew = Math.abs(mark.offsetHeight - M.markH) > 1;
+    /* width, not just height: a webfont swap leaves the line box exactly as
+       tall and only changes how wide the wordmark sets, so height alone is
+       blind to the one change that matters most here. Both are layout values,
+       untouched by the transforms the choreography is running. */
+    const grew = Math.abs(mark.offsetHeight - M.markH) > 1 ||
+                 Math.abs(mark.offsetWidth - M.markW) > 1;
     const moved = Math.abs(docY(space) - M.docY) > 2;
     if (grew || moved) relayout(true);
   };
