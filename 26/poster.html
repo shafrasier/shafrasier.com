@@ -85,7 +85,18 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
 /* The vinyl mark is DRAWN, not typed — no serif carries a four-pointed star,
    and a borrowed glyph would bake into this PNG from whatever font the
    renderer happened to have. A path owes nothing to a font. */
-.sparkle{width:.62em;height:.62em;display:inline-block;vertical-align:-.01em;fill:currentColor}
+.sparkle{
+  /* A reference mark is a superscript, not an ornament set beside the word.
+     Measured off this font's own asterisk at the name size: its ink runs from
+     .389em to .75em above the baseline and stands .361em tall — clear above
+     cap height (.667em), riding at the word's top right. The drawn star is
+     given exactly that band, so it sits where the * on SHARTY sits and reads
+     as the same kind of mark rather than a second piece of artwork.
+     vertical-align takes a length here: an inline-block's baseline is its
+     bottom edge, so .389em lifts the whole glyph into place. */
+  width:.361em;height:.361em;display:inline-block;
+  vertical-align:.389em;margin-left:.06em;fill:currentColor;
+}
 .notes{margin:16px 0 0}
 .notes p{margin:0;font-size:20px;font-style:italic;color:var(--faint);line-height:1.5}
 
