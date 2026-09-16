@@ -247,7 +247,8 @@ section:last-of-type{padding-bottom:5.5rem}
 .slot .who .star{color:var(--dim)}
 
 .doors{font-size:.95rem;font-style:italic;color:var(--dim);margin:-.4rem 0 1.6rem}
-.vinyl{font-size:.95rem;font-style:italic;color:var(--faint);line-height:1.7;margin:1.4rem 0 0}
+.notes{margin:1.4rem 0 0}
+.notes p{font-size:.95rem;font-style:italic;color:var(--faint);line-height:1.7;margin:0}
 
 /* rsvp */
 .field{margin:0 0 1.25rem}
@@ -430,7 +431,10 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
     <p class="kicker">Lineup</p>
     <p class="doors">Doors: 6:00 p.m.</p>
     <div id="slots"></div>
-    <p class="vinyl">* all-vinyl sets</p>
+    <div class="notes">
+      <p>* the very first Sha + Marty b2b</p>
+      <p>* all-vinyl sets</p>
+    </div>
   </section>
 
   <section class="reveal" id="rsvp">
@@ -544,13 +548,14 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
    beside this file: code + 2-minute deploy steps). Paste the /exec URL here. */
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4o-56-h4aAQf780cXw9iTNsXeE_9JLBRk-V_EmNmiZybUsn1jHoHQ/exec";
 
-/* Lineup — final. `vinyl` earns the asterisk, footnoted under the table.
+/* Lineup — final. `star` earns the asterisk; both footnotes under the table
+   carry the same mark, and each reads unambiguously against its own rows.
    A null still renders as a quiet redaction, should a name ever come back out. */
 const SLOTS = [
-  { t: "6—7", who: "Marty" }, { t: "7—8", who: "Garry" }, { t: "8—9", who: "DJ SHA" },
+  { t: "6—8", who: "SHARTY", star: true }, { t: "8—9", who: "Garry" },
   { t: "9—10", who: "wxll" }, { t: "10—11", who: "otisotisotis" },
   { t: "11—12", who: "DJ Durtystuf" },
-  { t: "12—1", who: "Dean Raymond", vinyl: true }, { t: "1—2", who: "ian francis", vinyl: true },
+  { t: "12—1", who: "Dean Raymond", star: true }, { t: "1—2", who: "ian francis", star: true },
   { t: "2—3", who: "slowmovingprince" }, { t: "3—4", who: "oragami" },
 ];
 
@@ -1228,7 +1233,7 @@ const SLOTS = [
 document.getElementById("slots").innerHTML = SLOTS.map(s =>
   '<div class="slot"><span class="t">' + s.t + "</span>" +
   (s.who
-    ? '<span class="who">' + s.who + (s.vinyl ? '<span class="star">*</span>' : "") + "</span>"
+    ? '<span class="who">' + s.who + (s.star ? '<span class="star">*</span>' : "") + "</span>"
     : '<span class="who tba">···</span>') +
   "</div>").join("");
 
