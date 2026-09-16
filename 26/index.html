@@ -433,7 +433,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
     <div id="slots"></div>
     <div class="notes">
       <p>* the very first Sha + Marty b2b</p>
-      <p>* all-vinyl sets</p>
+      <p>** all-vinyl sets</p>
     </div>
   </section>
 
@@ -548,14 +548,14 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
    beside this file: code + 2-minute deploy steps). Paste the /exec URL here. */
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4o-56-h4aAQf780cXw9iTNsXeE_9JLBRk-V_EmNmiZybUsn1jHoHQ/exec";
 
-/* Lineup — final. `star` earns the asterisk; both footnotes under the table
-   carry the same mark, and each reads unambiguously against its own rows.
+/* Lineup — final. `mark` is the footnote reference a slot carries, printed
+   as written: * is the b2b, ** the all-vinyl sets, both noted under the table.
    A null still renders as a quiet redaction, should a name ever come back out. */
 const SLOTS = [
-  { t: "6—8", who: "SHARTY", star: true }, { t: "8—9", who: "Garry" },
+  { t: "6—8", who: "SHARTY", mark: "*" }, { t: "8—9", who: "Garry" },
   { t: "9—10", who: "wxll" }, { t: "10—11", who: "otisotisotis" },
   { t: "11—12", who: "DJ Durtystuf" },
-  { t: "12—1", who: "Dean Raymond", star: true }, { t: "1—2", who: "ian francis", star: true },
+  { t: "12—1", who: "Dean Raymond", mark: "**" }, { t: "1—2", who: "ian francis", mark: "**" },
   { t: "2—3", who: "slowmovingprince" }, { t: "3—4", who: "oragami" },
 ];
 
@@ -1233,7 +1233,7 @@ const SLOTS = [
 document.getElementById("slots").innerHTML = SLOTS.map(s =>
   '<div class="slot"><span class="t">' + s.t + "</span>" +
   (s.who
-    ? '<span class="who">' + s.who + (s.star ? '<span class="star">*</span>' : "") + "</span>"
+    ? '<span class="who">' + s.who + (s.mark ? '<span class="star">' + s.mark + "</span>" : "") + "</span>"
     : '<span class="who tba">···</span>') +
   "</div>").join("");
 
