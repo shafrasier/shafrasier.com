@@ -245,6 +245,12 @@ section:last-of-type{padding-bottom:5.5rem}
 .slot .who.tba{color:var(--faint);letter-spacing:.45em}
 /* the mark sits a shade back from the name so it reads as annotation, not spelling */
 .slot .who .star{color:var(--dim)}
+/* The vinyl mark is DRAWN, not typed. No serif carries a four-pointed star —
+   Source Serif has no dagger either — so a character would be borrowed from
+   whatever font the reader happens to have, and on the poster baked into the
+   PNG from whatever the renderer had. A path owes nothing to a font. It takes
+   its size from the type around it and its colour from whatever it sits in. */
+.sparkle{width:.62em;height:.62em;display:inline-block;vertical-align:-.01em;fill:currentColor}
 
 .doors{font-size:.95rem;font-style:italic;color:var(--dim);margin:-.4rem 0 1.6rem}
 .notes{margin:1.4rem 0 0}
@@ -433,7 +439,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
     <div id="slots"></div>
     <div class="notes">
       <p>* the very first Sha + Marty b2b</p>
-      <p>§ all-vinyl sets</p>
+      <p><svg class="sparkle" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c0 6.6 5.4 12 12 12-6.6 0-12 5.4-12 12 0-6.6-5.4-12-12-12 6.6 0 12-5.4 12-12z"/></svg> all-vinyl sets</p>
     </div>
   </section>
 
@@ -548,14 +554,18 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
    beside this file: code + 2-minute deploy steps). Paste the /exec URL here. */
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4o-56-h4aAQf780cXw9iTNsXeE_9JLBRk-V_EmNmiZybUsn1jHoHQ/exec";
 
-/* Lineup — final. `mark` is the footnote reference a slot carries, printed
-   as written: * is the b2b, § the all-vinyl sets, both noted under the table.
+/* Lineup — final. `mark` is the footnote reference a slot carries, emitted as
+   written: * is the b2b, the drawn star the all-vinyl sets, both noted below.
+   STAR is markup, so a mark can be a glyph or a drawing without the renderer
+   below caring which.
    A null still renders as a quiet redaction, should a name ever come back out. */
+const STAR =
+  '<svg class="sparkle" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c0 6.6 5.4 12 12 12-6.6 0-12 5.4-12 12 0-6.6-5.4-12-12-12 6.6 0 12-5.4 12-12z"/></svg>';
 const SLOTS = [
   { t: "6—8", who: "SHARTY", mark: "*" }, { t: "8—9", who: "Garry" },
   { t: "9—10", who: "wxll" }, { t: "10—11", who: "otisotisotis" },
   { t: "11—12", who: "DJ Durtystuf" },
-  { t: "12—1", who: "Dean Raymond", mark: "§" }, { t: "1—2", who: "ian francis", mark: "§" },
+  { t: "12—1", who: "Dean Raymond", mark: STAR }, { t: "1—2", who: "ian francis", mark: STAR },
   { t: "2—3", who: "slowmovingprince" }, { t: "3—4", who: "oragami" },
 ];
 

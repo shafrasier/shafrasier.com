@@ -72,9 +72,9 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
    The block is centred on the page but set flush inside it: width:max-content
    makes it hug its own widest row, so the auto margins centre the whole table
    while every time and every name stays left-aligned to its own column. */
-.lineup{margin:26px auto 0;width:max-content;max-width:calc(100% - 140px);text-align:left}
+.lineup{margin:22px auto 0;width:max-content;max-width:calc(100% - 140px);text-align:left}
 /* labels the table, flush with its left edge — the page's own kicker, scaled */
-.kicker{margin:0 0 10px;font-size:30px;font-weight:600;letter-spacing:.01em;color:rgba(255,255,255,.92)}
+.kicker{margin:0 0 8px;font-size:40px;font-weight:600;letter-spacing:.01em;color:rgba(255,255,255,.92)}
 .slot{display:flex;align-items:baseline;gap:24px;padding:6px 0;border-top:1px solid var(--hair)}
 .slot:last-of-type{border-bottom:1px solid var(--hair)}
 .slot .t{flex:0 0 92px;font-family:var(--label);font-size:21px;letter-spacing:.06em;
@@ -82,13 +82,17 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
 .slot .who{font-size:36px;font-weight:500;line-height:1.2}
 /* the mark sits a shade back from the name so it reads as annotation */
 .slot .who .star{color:var(--dim)}
+/* The vinyl mark is DRAWN, not typed — no serif carries a four-pointed star,
+   and a borrowed glyph would bake into this PNG from whatever font the
+   renderer happened to have. A path owes nothing to a font. */
+.sparkle{width:.62em;height:.62em;display:inline-block;vertical-align:-.01em;fill:currentColor}
 .notes{margin:16px 0 0}
 .notes p{margin:0;font-size:20px;font-style:italic;color:var(--faint);line-height:1.5}
 
 /* ── the foot: where, and how to get in ── */
 .foot{margin:auto 112px 0;padding-top:20px;text-align:center}
 /* the page's own closing line, in the page's own words and weight */
-.dress{margin:0 0 18px;font-size:21px;font-style:italic;font-weight:500;color:var(--white)}
+.dress{margin:0 0 15px;font-size:21px;font-style:italic;font-weight:500;color:var(--white)}
 .venue{margin:0 0 9px;font-size:26px;font-weight:600;letter-spacing:.02em;line-height:1}
 .addr{margin:0;font-size:18px;font-style:italic;color:var(--dim);line-height:1.55}
 .rsvp{margin:22px 0 0;font-family:var(--label);font-size:13px;letter-spacing:.2em;
@@ -121,18 +125,18 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
     <div class="slot"><span class="t">9—10</span><span class="who">wxll</span></div>
     <div class="slot"><span class="t">10—11</span><span class="who">otisotisotis</span></div>
     <div class="slot"><span class="t">11—12</span><span class="who">DJ Durtystuf</span></div>
-    <div class="slot"><span class="t">12—1</span><span class="who">Dean Raymond<span class="star">§</span></span></div>
-    <div class="slot"><span class="t">1—2</span><span class="who">ian francis<span class="star">§</span></span></div>
+    <div class="slot"><span class="t">12—1</span><span class="who">Dean Raymond<span class="star"><svg class="sparkle" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c0 6.6 5.4 12 12 12-6.6 0-12 5.4-12 12 0-6.6-5.4-12-12-12 6.6 0 12-5.4 12-12z"/></svg></span></span></div>
+    <div class="slot"><span class="t">1—2</span><span class="who">ian francis<span class="star"><svg class="sparkle" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c0 6.6 5.4 12 12 12-6.6 0-12 5.4-12 12 0-6.6-5.4-12-12-12 6.6 0 12-5.4 12-12z"/></svg></span></span></div>
     <div class="slot"><span class="t">2—3</span><span class="who">slowmovingprince</span></div>
     <div class="slot"><span class="t">3—4</span><span class="who">oragami</span></div>
     <div class="notes">
       <p>* the very first Sha + Marty b2b</p>
-      <p>§ all-vinyl sets</p>
+      <p><svg class="sparkle" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c0 6.6 5.4 12 12 12-6.6 0-12 5.4-12 12 0-6.6-5.4-12-12-12 6.6 0 12-5.4 12-12z"/></svg> all-vinyl sets</p>
     </div>
   </div>
 
   <div class="foot">
-    <p class="dress">wear something that catches the light</p>
+    <p class="dress">wear something that catches the light.</p>
     <p class="venue">FUTURE SPACE</p>
     <p class="addr">5-84 Woodward Avenue<br>Ridgewood, New York 11385</p>
     <p class="rsvp">RSVP at <b>shafrasier.com/26</b></p>
