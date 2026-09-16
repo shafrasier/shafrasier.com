@@ -63,7 +63,7 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
 .ball{width:100%;height:auto;display:block;flex:0 0 auto}
 
 /* ── the head: one title line, then date, then doors ── */
-.head{margin:18px 90px 0;text-align:center}
+.head{margin:14px 90px 0;text-align:center}
 .mark{margin:0;font-size:56px;font-weight:600;letter-spacing:.01em;line-height:1.1}
 .date{margin:14px 0 0;font-size:22px;font-style:italic;letter-spacing:.03em;color:var(--dim)}
 .doors{margin:7px 0 0;font-size:20px;font-style:italic;color:var(--dim)}
@@ -72,10 +72,10 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
    The block is centred on the page but set flush inside it: width:max-content
    makes it hug its own widest row, so the auto margins centre the whole table
    while every time and every name stays left-aligned to its own column. */
-.lineup{margin:30px auto 0;width:max-content;max-width:calc(100% - 140px);text-align:left}
+.lineup{margin:26px auto 0;width:max-content;max-width:calc(100% - 140px);text-align:left}
 /* labels the table, flush with its left edge — the page's own kicker, scaled */
 .kicker{margin:0 0 10px;font-size:30px;font-weight:600;letter-spacing:.01em;color:rgba(255,255,255,.92)}
-.slot{display:flex;align-items:baseline;gap:24px;padding:7px 0;border-top:1px solid var(--hair)}
+.slot{display:flex;align-items:baseline;gap:24px;padding:6px 0;border-top:1px solid var(--hair)}
 .slot:last-of-type{border-bottom:1px solid var(--hair)}
 .slot .t{flex:0 0 92px;font-family:var(--label);font-size:21px;letter-spacing:.06em;
   color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -86,7 +86,9 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
 .notes p{margin:0;font-size:20px;font-style:italic;color:var(--faint);line-height:1.5}
 
 /* ── the foot: where, and how to get in ── */
-.foot{margin:auto 112px 0;padding-top:26px;text-align:center}
+.foot{margin:auto 112px 0;padding-top:20px;text-align:center}
+/* the page's own closing line, in the page's own words and weight */
+.dress{margin:0 0 18px;font-size:21px;font-style:italic;font-weight:500;color:var(--white)}
 .venue{margin:0 0 9px;font-size:26px;font-weight:600;letter-spacing:.02em;line-height:1}
 .addr{margin:0;font-size:18px;font-style:italic;color:var(--dim);line-height:1.55}
 .rsvp{margin:22px 0 0;font-family:var(--label);font-size:13px;letter-spacing:.2em;
@@ -130,6 +132,7 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
   </div>
 
   <div class="foot">
+    <p class="dress">wear something that catches the light</p>
     <p class="venue">FUTURE SPACE</p>
     <p class="addr">5-84 Woodward Avenue<br>Ridgewood, New York 11385</p>
     <p class="rsvp">RSVP at <b>shafrasier.com/26</b></p>
