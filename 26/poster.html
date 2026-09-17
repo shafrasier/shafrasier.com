@@ -41,13 +41,14 @@
   --label:"Space Mono",ui-monospace,"SF Mono",Menlo,monospace;
 }
 *{box-sizing:border-box}
-/* Optical sizing ON, unlike the site's wordmark. The site pins one instance
-   because it measures the wordmark in a canvas to centre a drawn bar, and the
-   instance it measured had to match the one drawn. Nothing here is measured,
-   and with opsz free the large type gets Source Serif's display cut — finer
-   strokes, more contrast — instead of a 14pt text cut blown up thick. */
+/* Optical sizing OFF, the same instance the site's wordmark is pinned to.
+   Source Serif's opsz axis is the whole difference here: left free, type this
+   large resolves to the display cut — hairline serifs, high contrast — which
+   is a different-looking typeface from the one the page draws. The poster is
+   the page folded flat, so it takes the page's letterforms; pinned, the
+   wordmark at 56px is the site's wordmark exactly, scaled. */
 body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
-  font-optical-sizing:auto;-webkit-font-smoothing:antialiased;
+  font-optical-sizing:none;-webkit-font-smoothing:antialiased;
   display:flex;align-items:center;justify-content:center;min-height:100vh}
 
 .sheet{
