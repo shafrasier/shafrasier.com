@@ -245,6 +245,13 @@ section:last-of-type{padding-bottom:5.5rem}
 .slot .who.tba{color:var(--faint);letter-spacing:.45em}
 /* the mark sits a shade back from the name so it reads as annotation, not spelling */
 .slot .who .star{color:var(--dim)}
+/* The drawn star carries its own .06em of air; the asterisk is a glyph, and
+   its side bearing alone left it 0.021em off SHARTY against the stars' 0.107em
+   — near enough touching. This puts the difference back so both marks stand
+   off their name by the same amount. :not(:has()) rather than a class so the
+   data stays plain text; where :has is unsupported the rule drops out and the
+   mark simply sits where it used to. */
+.slot .who .star:not(:has(svg)){margin-left:.086em}
 /* The vinyl mark is DRAWN, not typed. No serif carries a four-pointed star —
    Source Serif has no dagger either — so a character would be borrowed from
    whatever font the reader happens to have, and on the poster baked into the
