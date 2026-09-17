@@ -262,6 +262,14 @@ section:last-of-type{padding-bottom:5.5rem}
   width:.361em;height:.361em;display:inline-block;
   vertical-align:.389em;margin-left:.06em;fill:currentColor;
 }
+/* In the footnotes the star is not a superscript reference but the note's own
+   label, and a four-pointed star carries far less ink than an asterisk of the
+   same measure — most of its box is the empty space between the points — so at
+   the asterisk's size it went faint. Bigger, and centred on the same optical
+   line the * above it sits on ((.389 + .75) / 2 = .57em), so the two marks
+   still line up. No left margin here: it leads the line, and .06em of air
+   would set it in from the asterisk it has to align with. */
+.notes .sparkle{width:.52em;height:.52em;vertical-align:.31em;margin-left:0;margin-right:.02em}
 
 .doors{font-size:.95rem;font-style:italic;color:var(--dim);margin:-.4rem 0 1.6rem}
 .notes{margin:1.4rem 0 0}
