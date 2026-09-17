@@ -74,8 +74,8 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
    makes it hug its own widest row, so the auto margins centre the whole table
    while every time and every name stays left-aligned to its own column. */
 .lineup{margin:34px auto 0;width:max-content;max-width:calc(100% - 140px);text-align:left}
-.slot{display:flex;align-items:center;gap:24px;padding:6px 0;border-top:1px solid var(--hair)}
-.slot:last-of-type{border-bottom:1px solid var(--hair)}
+.slot{display:flex;align-items:center;gap:24px;padding:6px 0}
+.slot + .slot{border-top:1px solid var(--hair)}
 .slot .t{flex:0 0 92px;font-family:var(--label);font-size:21px;letter-spacing:.06em;line-height:1;
   color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
 .slot .who{font-size:36px;font-weight:500;line-height:1.2}
