@@ -3,3 +3,7 @@
 .agents/
 .claude/skills/
 skills-lock.json
+
+# macOS Finder droppings. map/.DS_Store was tracked, so every Finder visit to the
+# built site showed up as a repo change and once blocked a push outright.
+.DS_Store
