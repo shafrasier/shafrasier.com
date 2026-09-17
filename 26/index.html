@@ -270,6 +270,11 @@ section:last-of-type{padding-bottom:5.5rem}
    still line up. No left margin here: it leads the line, and .06em of air
    would set it in from the asterisk it has to align with. */
 .notes .sparkle{width:.52em;height:.52em;vertical-align:.31em;margin-left:0;margin-right:.02em}
+/* The notes are italic, so the * came out of the italic face and leaned —
+   beside a drawn star that cannot lean, which is what made the pair look
+   wrong. The reference marks are set upright: they label the note, they are
+   not part of its voice. */
+.notes .ref{font-style:normal}
 
 .doors{font-size:.95rem;font-style:italic;color:var(--dim);margin:-.4rem 0 1.6rem}
 .notes{margin:1.4rem 0 0}
@@ -457,7 +462,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
     <p class="doors">Doors: 6:00 p.m.</p>
     <div id="slots"></div>
     <div class="notes">
-      <p>* the very first Sha + Marty b2b</p>
+      <p><span class="ref">*</span> the very first Sha + Marty b2b</p>
       <p><svg class="sparkle" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c0 6.6 5.4 12 12 12-6.6 0-12 5.4-12 12 0-6.6-5.4-12-12-12 6.6 0 12-5.4 12-12z"/></svg> all-vinyl sets</p>
     </div>
   </section>
