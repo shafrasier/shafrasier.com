@@ -12,6 +12,8 @@
 <meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
 <!-- The Clearing's recipe, taken literally: Source Serif 4 for everything with a
      voice, Space Mono for the labels. The hero face is under study (see type.html);
      swapping it is one --display line. -->
@@ -21,6 +23,21 @@
    script means the hero paints visible for a frame and then fades out. */
 try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)
   document.documentElement.className+=" typefx";}catch(e){}
+
+/* The guest list is served by an Apps Script web app, and Apps Script is slow
+   to wake: the identical request, timed four times over, answered in 2.4s,
+   2.7s, 10.7s and 41.5s. Nothing on this page can make it faster, so the
+   request is started HERE — before the stylesheet, the markup and 1000 lines
+   of script below have been parsed — and the wait runs underneath the ball's
+   arrival instead of beginning after it.
+
+   This is also the one place the /exec URL is written; the body script reads
+   it back off this line. (See apps-script.gs beside this file for the code
+   and its deploy steps.) */
+window.RSVP_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4o-56-h4aAQf780cXw9iTNsXeE_9JLBRk-V_EmNmiZybUsn1jHoHQ/exec";
+try { window.RSVP_FIRST = fetch(window.RSVP_URL).then(function(r){ return r.json(); });
+      window.RSVP_FIRST.catch(function(){});   /* loadList handles it; never unhandled */
+} catch(e) { window.RSVP_FIRST = null; }
 </script>
 <style>
 :root{
@@ -361,6 +378,10 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .counts{display:flex;gap:2.6rem;margin:0 0 1.5rem}
 .counts .n{font-family:var(--label);font-size:2rem;color:var(--white);display:block;font-variant-numeric:tabular-nums;line-height:1.15}
 .counts .l{font-family:var(--label);font-size:.6rem;letter-spacing:.28em;color:var(--faint);text-transform:uppercase}
+/* while the sheet is waking, the dashes breathe rather than sit there dead */
+.counts.wait .n{animation:countwait 1.7s ease-in-out infinite}
+@keyframes countwait{0%,100%{opacity:.3}50%{opacity:.75}}
+@media (prefers-reduced-motion:reduce){.counts.wait .n{animation:none}}
 .guests{columns:2;column-gap:2rem;font-size:.98rem;line-height:2.05;margin:0;padding:0;list-style:none}
 .guests li{break-inside:avoid}
 .guests li small{font-family:var(--label);font-size:.62rem;color:var(--faint);letter-spacing:.12em;margin-left:.45rem}
@@ -533,7 +554,7 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
   <section class="reveal" id="list">
     <p class="kicker">Guest list</p>
-    <div class="counts">
+    <div class="counts wait">
       <div><span class="n" id="c-going">—</span><span class="l">going</span></div>
       <div><span class="n" id="c-maybe">—</span><span class="l">maybe</span></div>
     </div>
@@ -581,9 +602,10 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 
 <script>
 /* ═══ CONFIG ═══
-   RSVP backend = Google Apps Script bound to Sha's sheet (see apps-script.gs
-   beside this file: code + 2-minute deploy steps). Paste the /exec URL here. */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyReQmyfvuJOzD4o-56-h4aAQf780cXw9iTNsXeE_9JLBRk-V_EmNmiZybUsn1jHoHQ/exec";
+   RSVP backend = Google Apps Script bound to Sha's sheet. The /exec URL lives
+   in the head script, which starts the guest-list request before this one has
+   parsed — so it is read back from there rather than written twice. */
+const APPS_SCRIPT_URL = window.RSVP_URL;
 
 /* Lineup — final. `mark` is the footnote reference a slot carries, emitted as
    written: * is the b2b, the drawn star the all-vinyl sets, both noted below.
@@ -1584,16 +1606,51 @@ document.getElementById("slots").innerHTML = SLOTS.map(s =>
     requestAnimationFrame(rTick);
   })();
 
+  /* The list is painted from three places, in this order: last visit's answer
+     out of localStorage — instant, possibly a few names stale — then the
+     request the head put in flight, then retries if that one failed. What was
+     here before did none of it: a single fetch and a bare `catch {}`, so a
+     slow or dropped request left two em dashes on the page permanently, with
+     nothing to reveal that anything had gone wrong. */
+  const LIST_KEY = "disco26.guestlist";
+  const counts = document.querySelector(".counts");
+
+  const paint = d => {
+    if (!d || d.going == null) return false;
+    $("c-going").textContent = d.going;
+    $("c-maybe").textContent = d.maybe;
+    $("guests").innerHTML = (d.guests || []).map(g =>
+      "<li>" + g.n + (g.p ? ' <small>+' + g.p + "</small>" : "") +
+      (g.pct != null && g.pct < 100 ? ' <small>' + g.pct + "%</small>" : "") + "</li>").join("");
+    if (counts) counts.classList.remove("wait");
+    return true;
+  };
+
+  let firstRun = true;
   window.loadList = async () => {
     if (!APPS_SCRIPT_URL) return;
-    try {
-      const d = await (await fetch(APPS_SCRIPT_URL)).json();
-      $("c-going").textContent = d.going;
-      $("c-maybe").textContent = d.maybe;
-      $("guests").innerHTML = (d.guests || []).map(g =>
-        "<li>" + g.n + (g.p ? ' <small>+' + g.p + "</small>" : "") +
-        (g.pct != null && g.pct < 100 ? ' <small>' + g.pct + "%</small>" : "") + "</li>").join("");
-    } catch {}
+    /* only on the first call: a later one is reconciling a just-sent RSVP, and
+       repainting the cache would drop the guest who has only just been added */
+    if (firstRun) {
+      firstRun = false;
+      try { paint(JSON.parse(localStorage.getItem(LIST_KEY) || "null")); } catch {}
+    }
+    /* the head's request is worth exactly one use — a second loadList wants
+       fresh numbers, not the answer that arrived before the RSVP was sent */
+    let inflight = window.RSVP_FIRST;
+    window.RSVP_FIRST = null;
+    for (let attempt = 0, wait = 2000; attempt < 5; attempt++, wait = Math.min(wait * 2, 16000)) {
+      try {
+        const d = inflight ? await inflight
+                           : await (await fetch(APPS_SCRIPT_URL)).json();
+        if (paint(d)) {
+          try { localStorage.setItem(LIST_KEY, JSON.stringify(d)); } catch {}
+          return;
+        }
+      } catch {}
+      inflight = null;
+      if (attempt < 4) await new Promise(r => setTimeout(r, wait));
+    }
   };
   loadList();
 })();
