@@ -112,13 +112,26 @@ body{margin:0;background:#000;color:var(--white);font-family:var(--serif);
 .notes{margin:16px 0 0}
 .notes p{margin:0;font-size:20px;font-style:italic;color:var(--faint);line-height:1.5}
 
-/* ── the foot: where, and how to get in ── */
-.foot{margin:auto 112px 0;padding-top:20px;text-align:center}
+/* ── the foot: where, and how to get in ──
+   Three things live here, not four lines: the closing line to the reader, the
+   venue with its address, and the way in. So there are two spacings and the
+   eye can tell the groups apart — between groups, and inside one, at half.
+   These are the gaps between INK, which is what is actually seen; the margins
+   below are set to land on them, since each line is a different size and a
+   shared margin would produce four different-looking gaps (it did: the space
+   under the closing line and the space under FUTURE SPACE were both 19.5px,
+   so the venue read as loose as the break above it). */
+.foot{margin:auto 112px 0;padding-top:20px;text-align:center;
+  --gap-between:28px;   /* closing line │ venue │ RSVP */
+  --gap-within:14px;    /* FUTURE SPACE │ address, and between address lines */
+}
 /* the page's own closing line, in the page's own words and weight */
-.dress{margin:0 0 13px;font-size:21px;font-style:italic;font-weight:500;color:var(--white)}
-.venue{margin:0 0 9px;font-size:26px;font-weight:600;letter-spacing:.02em;line-height:1}
-.addr{margin:0;font-size:18px;font-style:italic;color:var(--dim);line-height:1.55}
-.rsvp{margin:22px 0 0;font-family:var(--label);font-size:13px;letter-spacing:.2em;
+.dress{margin:0 0 22px;font-size:21px;font-style:italic;font-weight:500;color:var(--white)}
+.venue{margin:0 0 4px;font-size:26px;font-weight:600;letter-spacing:.02em;line-height:1}
+/* line-height, not a margin, sets the gap between the two address lines: ink
+   is 13px tall, so 13 + the within-group gap puts them on the same rhythm */
+.addr{margin:0;font-size:18px;font-style:italic;color:var(--dim);line-height:27px}
+.rsvp{margin:20px 0 0;font-family:var(--label);font-size:13px;letter-spacing:.2em;
   text-transform:uppercase;color:var(--faint)}
 .rsvp b{font-weight:400;color:var(--white)}
 </style>
