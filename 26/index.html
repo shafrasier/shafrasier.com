@@ -63,7 +63,7 @@ body{
 /* the room — faint glints behind everything */
 #room{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-/* underline drawn from the left on hover — the Clearing's link, verbatim */
+/* underline drawn from the left on hover — The Clearing's link, verbatim */
 .ulink{position:relative;text-decoration:none;color:var(--white)}
 .ulink::after{content:"";position:absolute;left:0;bottom:-3px;width:100%;height:1px;
   background:currentColor;transform:scaleX(0);transform-origin:left center;
@@ -153,7 +153,7 @@ body{
   color:var(--dim);margin:1.4rem 0 0;line-height:1.9;
 }
 
-/* The inscription — the Clearing's recipe: the full text is laid out invisibly
+/* The inscription — The Clearing's recipe: the full text is laid out invisibly
    from frame one (zero reflow, ever), then each character lands as ink. The
    date sits in place from the start and develops; nothing slides. */
 #mark .ch{white-space:pre}
@@ -622,7 +622,7 @@ const SLOTS = [
   { t: "2—3", who: "slowmovingprince" }, { t: "3—4", who: "oragami" },
 ];
 
-/* ═══ The inscription — the Clearing's recipe, verbatim in spirit ═══ */
+/* ═══ The inscription — The Clearing's recipe, verbatim in spirit ═══ */
 (() => {
   const root = document.documentElement, h1 = document.getElementById("mark");
   /* the head script already decided; without it everything is simply visible */

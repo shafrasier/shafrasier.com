@@ -1,4 +1,4 @@
--- Newsletter subscribers for the Clearing @ Fugue Gallery / Continuing Education.
+-- Newsletter subscribers for The Clearing @ Fugue Gallery / Continuing Education.
 -- Apply with:  wrangler d1 execute fugue-newsletter --file=./schema.sql --remote
 CREATE TABLE IF NOT EXISTS subscribers (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,

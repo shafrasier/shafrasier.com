@@ -11,8 +11,8 @@ database_name = "fugue-newsletter"
 database_id = "PASTE_YOUR_D1_DATABASE_ID"
 
 [vars]
-SITE_NAME   = "the Clearing — Fugue Gallery"
-FROM_NAME   = "the Clearing"
+SITE_NAME   = "The Clearing — Fugue Gallery"
+FROM_NAME   = "The Clearing"
 # Must be an address on a domain you've verified in Resend (e.g. on bringrecords.com):
 FROM_EMAIL  = "newsletter@bringrecords.com"
 # Public URL of THIS Worker — used to build confirm/unsubscribe links inside emails.

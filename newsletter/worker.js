@@ -1,5 +1,5 @@
 /**
- * Newsletter Worker — the Clearing @ Fugue Gallery / Continuing Education.
+ * Newsletter Worker — The Clearing @ Fugue Gallery / Continuing Education.
  *
  * Routes:
  *   POST /subscribe            { email, firstName?, lastName?, source?, page? }  -> creates a pending
@@ -120,7 +120,7 @@ async function handleConfirm(request, env) {
     await env.DB.prepare("UPDATE subscribers SET status = 'confirmed', confirmed_at = ? WHERE id = ?")
       .bind(new Date().toISOString(), sub.id).run();
   }
-  return page(env, "You're in", "Your subscription is confirmed. Thank you — see you in the Clearing.", env.SITE_URL);
+  return page(env, "You're in", "Your subscription is confirmed. Thank you — see you in The Clearing.", env.SITE_URL);
 }
 
 async function handleUnsubscribe(request, env) {

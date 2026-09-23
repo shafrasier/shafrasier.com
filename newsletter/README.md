@@ -106,12 +106,12 @@ Re-run `wrangler deploy` after any `wrangler.toml` change.
   # preview to yourself
   curl -u ":$ADMIN_PASSWORD" https://<your-worker>/admin/broadcast \
     -H 'Content-Type: application/json' \
-    -d '{"subject":"This month at the Clearing","html":"<p>Hello…</p>","testTo":"you@example.com"}'
+    -d '{"subject":"This month at The Clearing","html":"<p>Hello…</p>","testTo":"you@example.com"}'
 
   # send to everyone confirmed (omit testTo)
   curl -u ":$ADMIN_PASSWORD" https://<your-worker>/admin/broadcast \
     -H 'Content-Type: application/json' \
-    -d '{"subject":"This month at the Clearing","html":"<p>Hello…</p>"}'
+    -d '{"subject":"This month at The Clearing","html":"<p>Hello…</p>"}'
   ```
   Returns `{ ok, sent, failed, total }`. (Resend's free tier caps daily volume — check your plan
   before a large send.)
