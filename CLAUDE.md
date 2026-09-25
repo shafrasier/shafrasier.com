@@ -20,7 +20,8 @@ contents back into this file.**
 | --- | --- |
 | Writing/revising notes | `rhapsode conventions.md` — templates, conventions, the close-read checklist; `rhapsode principles.md` — prose style, the reader's pass |
 | Site build, components, rendering | `Site build.md` — Quartz architecture, deploy checklist, rendering lessons |
-| Any visitor-facing words | `Copy standards.md` — register, the de-corny rules |
+| Visitor-facing words on *rhapsode* | `Copy standards.md` — register, the de-corny rules. *rhapsode* only |
+| The Continuing Education Project's words (bringrecords.com, The Clearing, its Notion) | `x. META/a. The Continuing Education Project/The Continuing Education Project.md` → the "How the Project's words sound" note. Sha's own register; *rhapsode*'s Copy standards never apply |
 | The iOS app | `App build.md` — Capacitor shell, TestFlight |
 | What to work on next | **Notion** (connector: Notion MCP). *rhapsode*: the private **rhapsode tasks** database — `https://app.notion.com/p/abab25a0e8c5423f902e02ccc1afa0ae`, data source `collection://e3a185c8-1193-4c1b-811c-100e1ff429bb`. Query it before claiming any task's state; update it when work lands or Sha adds something (new task = next number in its lane). Every task has a stable ID (`W2`, `L6`, `F1`, `X4`…) and Sha refers to work by ID; done = Status `done` + Done date, never delete. The Gate view is the go-public gate. `x. META/PLANS/rhapsode queue.md` keeps only the long-form specs. Continuing Education's tasks are a separate, shared database (`https://app.notion.com/p/bcee79827a6e421ab0e022da05bf0d37`, IDs `CE-n`). The old board artifact `9adad55b…` is a read-only archive — never write to it |
 
